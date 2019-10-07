@@ -27,6 +27,6 @@ deploy:
   - provider: pages
     skip_cleanup: true
     github_token: $GT_Token
-    local_dir: public
+    local_dir: public 
     name: $GT_USER
     email: $GT_EMAIL
