@@ -28,7 +28,7 @@ after_script:
   - git config user.email "${GT_EMAIL}"
   - git add .
   - git commit -m ":construction_worker:- Build & Deploy by Travis CI"
-  - git push --force --quiet {website} master
+  - git push --force --quiet "https://${GT_Token}@${website}" master
 # E: Build LifeCycle
 
 # 只有指定的分支提交时才会运行脚本
