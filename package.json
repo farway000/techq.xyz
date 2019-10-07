@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+	"start": "hexo server -d -p 5000"
     "build": "hexo generate"
+	"depoly": "hexo depoly"
   },
   "hexo": {
     "version": "3.9.0"
