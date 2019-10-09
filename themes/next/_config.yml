@@ -163,7 +163,7 @@ menu:
   读书: /categories/读书/ || th 
   管理: /categories/管理/ || th 
   #about: /about/ || user
-  归档: /tags/ || tags
+  归档: /archives/ || archives
   #categories: /categories/ || th
   #Docs:
   #archives: /archives/ || archive
