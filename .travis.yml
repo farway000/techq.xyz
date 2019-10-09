@@ -30,4 +30,4 @@ deploy:
     local_dir: public 
     name: $GT_USER
     email: $GT_EMAIL
-    fqdn: $CUSTOM_DOMAIN
+    fqdn: $Domain
