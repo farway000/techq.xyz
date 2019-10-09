@@ -203,8 +203,7 @@ site_state: true
 # Value after `||` delimiter is the name of FontAwesome icon. If icon (with or without delimiter) is not specified, globe icon will be loaded.
 social:
   博客园: https://cnblogs/xiyuanmore || 博客园
-  CSDN: https://csdn.com/farway000 || CSDN
-  微信公众号: https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2OTY3MTYzOA==&subscene=0#wechat_redirect || 【DotNET技术圈】
+  CSDN: https://blog.csdn.net/farway000 || CSDN 
   #GitHub: https://github.com/yourname || github
   #E-Mail: mailto:yourname@gmail.com || envelope
   #Weibo: https://weibo.com/yourname || weibo
