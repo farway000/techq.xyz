@@ -161,8 +161,7 @@ menu:
   技术: /categories/技术/ || th 
   随笔: /categories/随笔/ || th 
   读书: /categories/读书/ || th 
-  管理: /categories/管理/ || th 
-  #about: /about/ || user
+  管理: /categories/管理/ || th  
   归档: /archives/ || archives
   #categories: /categories/ || th
   #Docs:
@@ -182,9 +181,9 @@ menu_settings:
 # ---------------------------------------------------------------
 
 # Schemes
-scheme: Muse
+#scheme: Muse
 #scheme: Mist
-#scheme: Pisces
+scheme: Pisces
 #scheme: Gemini
 
 
