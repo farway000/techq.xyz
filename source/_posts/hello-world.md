@@ -1,10 +1,10 @@
 ---
 title:  Welcome My Friends，溪源的个人博客正式开业喽！
 date: 2019-10-09 16:28
-tags: 技术
+tags: 随笔
 author: 邹溪源
 categories:
-  - 个人随想
+  - 随笔
 ---
 
 
