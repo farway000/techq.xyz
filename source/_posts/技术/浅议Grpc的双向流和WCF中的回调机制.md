@@ -1,5 +1,5 @@
 ---
-title:  将基于wcf的祖传代码迁移到gRPC（一）
+title:  浅议Grpc的双向流和WCF中的回调机制
 date: 2019-12-1 17:28
 tags: 随笔
 author: 邹溪源
@@ -7,7 +7,7 @@ categories:
   - 随笔
 ---
 
-# 将基于wcf的祖传代码迁移到gRPC（一）
+# 浅议Grpc的双向流和WCF中的回调机制
 
 ## 一、引子
 
