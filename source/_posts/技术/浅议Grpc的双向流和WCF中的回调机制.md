@@ -1,10 +1,10 @@
 ---
 title:  浅议Grpc的双向流和WCF中的回调机制
-date: 2019-12-1 17:28
+date: 2019-12-1 18:28
 tags: 随笔
-author: 邹溪源
+author: 邹溪源  
 categories:
-  - 随笔
+  - 随笔 
 ---
 
 # 浅议Grpc的双向流和WCF中的回调机制
