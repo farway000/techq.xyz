@@ -1,5 +1,5 @@
 ---
-title:  浅议Grpc的双向流和WCF中的回调机制
+title:  浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC
 date: 2019-12-1 18:28
 tags: 随笔
 author: 邹溪源  
