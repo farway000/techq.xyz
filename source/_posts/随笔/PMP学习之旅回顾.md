@@ -4,7 +4,7 @@ date: 2019-12-09 22:28
 tags: 随笔
 author: 邹溪源
 categories:
-  - 读书
+  - 随笔
 ---
 # 话说我前几天考完了PMP
 
