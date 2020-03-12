@@ -1,3 +1,11 @@
+---
+title:  .NET Core的HttpClient连接池管理
+date: 2020-3-12 8:28
+tags: 技术
+author: 邹溪源
+categories:
+  - 技术
+---
 [本文来源](https://www.stevejgordon.co.uk/httpclient-connection-pooling-in-dotnet-core)*于史蒂夫·戈登（Steve Gordon）是Microsoft MVP，Pluralsight的作者，布莱顿（英国西南部城市）的高级开发人员和社区负责人。他的个人博客为：*[www.stevejgordon.co.uk](http://www.stevejgordon.co.uk)。
 
 ***导读：***
