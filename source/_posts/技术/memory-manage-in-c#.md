@@ -1,3 +1,11 @@
+---
+title: .NET中的内存管理
+date: 2020-4-6 16:28
+tags: 技术
+author: 邹溪源
+categories:
+  - 技术
+---
 #  .NET中的内存管理
 
 
