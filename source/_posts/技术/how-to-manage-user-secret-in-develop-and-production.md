@@ -1,7 +1,4 @@
 ---
-typora-root-url: how-to-manage-user-secret-in-develop-and-production
----
----
 title:  在Asp.NET Core中如何优雅的管理用户机密数据
 date: 2020-6-9 20:05
 tags: 技术
@@ -84,7 +81,7 @@ Secret Manager工具允许开发人员在开发ASP.NET Core应用程序期间存
 
 在windows下，如果使用Visual Studio2019作为主力开发环境，只需在项目右键单击，选择菜单【管理用户机密】，即可添加用户机密数据。 
 
-![](/image-20200608205613844.png)
+![](/how-to-manage-user-secret-in-develop-and-production/image-20200608205613844.png)
 
 在管理用户机密数据中，添加的配置信息和传统的配置信息没有任何区别。
 
