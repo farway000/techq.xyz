@@ -100,13 +100,13 @@ Secret Manager工具允许开发人员在开发ASP.NET Core应用程序期间存
 
 完成安装dotnet-cli后，在控制台输入 
 
-```.NET Core CLI
+```dotnet-cli
 dotnet user-secrets init 
 ```
 
  前面的命令将在`UserSecretsId` .csproj 文件的`PropertyGroup`中添加 *.csproj*一个元素。 `UserSecretsId`是对项目是唯一的Guid值。 
 
-```
+```xml
  <PropertyGroup>  
  	<TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>79a3edd0-2092-40a2-a04d-dcb46d5ca9ed</UserSecretsId> 
@@ -115,25 +115,25 @@ dotnet user-secrets init
 
 设置机密
 
-```.NET Core CLI
+```dotnet-cli
  dotnet user-secrets set "Movies:ServiceApiKey" "12345" 
 ```
 
 列出机密
 
-```
+```dotnet-cli
  dotnet user-secrets list 
 ```
 
 删除机密
 
-```
+```dotnet-cli
  dotnet user-secrets remove "Movies:ConnectionString" 
 ```
 
 清除所有机密
 
-```
+```dotnet-cli
  dotnet user-secrets clear 
 ```
 
@@ -167,7 +167,7 @@ dotnet user-secrets init
 
 首先，注入配置项
 
-```
+```C#
  public static IServiceCollection AddProtectedConfiguration(this IServiceCollection services, string directory)
         {
             services
@@ -187,7 +187,7 @@ dotnet user-secrets init
 
 其次，实现对配置节的加/解密。（使用AES算法的数据保护机制）
 
-```
+```c#
 
 public class ProtectedConfigurationSection : IConfigurationSection
     {
@@ -248,7 +248,7 @@ public class ProtectedConfigurationSection : IConfigurationSection
 
 再次，在使用前，使用前，先将待加密的字符串转换成纯文本，然后再使用数据保护API对数据进行处理，得到处理后的字符串。
 
-```
+```c#
 private readonly IDataProtectionProvider _dataProtectorTokenProvider;
 public TokenAuthController( IDataProtectionProvider dataProtectorTokenProvider)
 {
@@ -263,7 +263,7 @@ public string Encrypt(string section, string value)
 
 再替换配置文件中的对应内容。
 
-```
+```json
 {
   "ConnectionStrings": {
     "Default": "此处是加密后的字符串"
@@ -279,7 +279,7 @@ public string Encrypt(string section, string value)
 
 **1、在生产环境下，使用AES加密，其实依然是一种不够安全的行为，充其量也就能忽悠下产品经理，毕竟几条简单的语句，就能把机密数据dump出来。**
 
- 也许在这种情况下，我们应该优先考虑accessKeyId/accessSecret，尽量通过设置多级子账号，通过授权Api的机制来管理机密数据，而不是直接暴露类似于数据库连接字符串这样的关键配置信息。另外，应该定期更换数据库的密码，尽量将类似的问题可能造成的风险降到最低。或制作成SecureString的形式。
+ 也许在这种情况下，我们应该优先考虑accessKeyId/accessSecret，尽量通过设置多级子账号，通过授权Api的机制来管理机密数据，而不是直接暴露类似于数据库连接字符串这样的关键配置信息。另外，应该定期更换数据库的密码，尽量将类似的问题可能造成的风险降到最低。数据保护api也提供的类似的机制，使得开发者能够轻松的管理机密数据的时效性问题。
 
 **2、配置文件放到CI/CD中，发布的时候在CI/CD中进行组装，然后运维只是负责管理CI/CD的账户信息，而最高机密数据，则由其他人负责配置。**
 
