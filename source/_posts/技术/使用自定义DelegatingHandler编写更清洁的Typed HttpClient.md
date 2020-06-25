@@ -1,5 +1,5 @@
 ---
-title:  .TDD学习笔记（一）单元测试
+title:  使用自定义DelegatingHandler编写更整洁的Typed HttpClient
 date: 2020-4-30 19:07
 tags: 技术
 author: 邹溪源
