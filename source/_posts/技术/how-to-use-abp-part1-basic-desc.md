@@ -14,7 +14,7 @@ categories:
 
 在该框架的赋能之下，开发者可根据需求通过官方网站【[https://aspnetboilerplate.com/Templates](https://aspnetboilerplate.com/Templates)】选择下载例如Vue/AngluarJS/MVC等不同类型的模板项目，轻松加入ABP开发者的队伍中，尽享基于ABP开发带来的乐趣。
 
-![图片](https://uploader.shimo.im/f/0I5mbgL5X2KWe3Ec.png!thumbnail)
+![图片](/images/abp-1-1.png)
 
 ABP开发框架也提供了丰富的文档，能够为开发者带来许多便捷。目前ABP的文档网站为：
 
@@ -44,7 +44,7 @@ ABP开发框架也提供了丰富的文档，能够为开发者带来许多便�
 
 当我们通过ABP模板项目的官方网站下载一个项目后，我们所获得的代码包的结构如下图所示，其中：
 
-![图片](https://uploader.shimo.im/f/Ju6P1J8FRkBtAhwt.png!thumbnail)![图片](https://uploader.shimo.im/f/52c6ytXJo2RPq4U4.png!thumbnail)
+![图片](/images/abp-1-2.png)![图片](/images/abp-1-3.png)
 
 * vue为使用iview框架构建的管理系统基本模板，该脚手架使用了yarn作为包管理器，并集成了vuex/axios等常用框架，并提供了用户，租户，权限三个基本功能的示例代码，开发者只需发挥聪明才智就能快速的通过该框架入手前端项目。
 * （当然，该项目广泛使用了typescript+面向对象的设计，似乎前端开发者。。普遍不擅长面向对象开发？）
@@ -53,7 +53,7 @@ ABP开发框架也提供了丰富的文档，能够为开发者带来许多便�
 
 打开vue文件夹之后，该项目的基本目录如下图所示。（src文件夹）
 
-![图片](https://uploader.shimo.im/f/hjXiUSLWHrkFiSoI.png!thumbnail)
+![图片](/images/abp-1-4.png)
 
 ### lib文件夹
 
@@ -84,13 +84,13 @@ ABP开发框架也提供了丰富的文档，能够为开发者带来许多便�
 
 # 后端项目
 
-![图片](https://uploader.shimo.im/f/sMZQOoDFjlQgIJrW.png!thumbnail)
+![图片](/images/abp-1-5.png)
 
 ## 简介
 
 后端项目是一个遵循了领域驱动设计的分层，同时又符合Robert Martin在《代码整洁之道》提出的【整洁架构】。
 
-![图片](https://uploader.shimo.im/f/zYQDS5X0g86PUuIh.png!thumbnail)
+![图片](/images/abp-1-6.png)
 
 ## 领域驱动设计简介 
 
@@ -110,7 +110,7 @@ ABP开发框架也提供了丰富的文档，能够为开发者带来许多便�
 
 整洁架构是由Bob大叔提出的一种架构模型，来源于《整洁架构》这本书，顾名思义，其目的并不是为了介绍这一种优秀的架构本身，而是介绍如何设计一种整洁的架构，使得代码结构易于维护。
 
-![图片](https://uploader.shimo.im/f/C41YQfT1LaZ2qeLF.png!thumbnail)
+![图片](/images/abp-1-7.png)
 
 （整洁架构就是这样一个洋葱，所以也有人称它为“洋葱”架构）
 
@@ -158,7 +158,7 @@ Mechanism means the domain primitives.
 
 在领域驱动设计的分层式架构中，应用层作为应用系统的北向网关，对外提供业务外观的功能。在Abp模板项目中,Application项目也是编写主要用例代码的位置，开发者们在此定义与界面有关的数据行为，实现面向接口的开发实践。
 
-![图片](https://uploader.shimo.im/f/0nBaITGior4zlqO1.png!thumbnail)
+![图片](/images/abp-1-8.png)
 
 应用服务层包含应用服务，数据传输单元，工作单元等对象。
 
@@ -251,7 +251,7 @@ public string BindPhone(string phone)
 
 EntityFrameworkCore负责定义数据库上下文和对EFCore操作的一系列规则、例如种子数据的初始化等。
 
-![图片](https://uploader.shimo.im/f/D51RK39ZSnDFxvcz.png!thumbnail)
+![图片](/images/abp-1-9.png)
 
 Web.Core：定义了应用程序的外观和接口。虽然从表面上看，Web.Core定义了作为Web访问入口的控制器方法和登录验证的逻辑，看起来像是用户表现层的东西，但是仔细想想，这些东西，何尝不是一种基础设施？
 
