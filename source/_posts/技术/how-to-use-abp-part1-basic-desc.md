@@ -154,7 +154,7 @@ Mechanism means the domain primitives.
 
 在ABP项目中，层次划分如下。
 
-1. 应用层（Application项目）
+### 1. 应用层（Application项目）
 
 在领域驱动设计的分层式架构中，应用层作为应用系统的北向网关，对外提供业务外观的功能。在Abp模板项目中,Application项目也是编写主要用例代码的位置，开发者们在此定义与界面有关的数据行为，实现面向接口的开发实践。
 
@@ -178,7 +178,7 @@ Mechanism means the domain primitives.
 
 工作单元。工作单元与事务类似，封装了一系列原子级的数据库操作。  
 
-2. 核心层（Core项目）
+### 2. 核心层（Core项目）
 
 核心层包含领域实体、值对象、聚合根，以及领域上下文实现。
 
@@ -247,7 +247,7 @@ public string BindPhone(string phone)
 
 实际上，它主要用于为实体或其他业务对象定义可重用的过滤器。
 
-3. 其他基础设施（EntityFrameworkCore，Web.Core,Web.Host项目)
+### 3. 其他基础设施（EntityFrameworkCore，Web.Core,Web.Host项目)
 
 EntityFrameworkCore负责定义数据库上下文和对EFCore操作的一系列规则、例如种子数据的初始化等。
 
