@@ -1,6 +1,6 @@
 ---
-title:  如何使用ABP进行软件开发（2）基础概览
-date: 2020-7-7 21:35
+title:  如何使用ABP进行软件开发（2）三层架构与领域驱动设计的对比
+date: 2020-7-19 19:14
 tags: 技术
 author: 邹溪源
 categories:
@@ -32,25 +32,32 @@ UI层：用户界面层，实现与UI交互有关的逻辑。用于输入用户�
 
 数据访问层：实现数据的存储（持久化）操作，包括集成存储过程，集成SQL语句，或集成现代ORM组件的形式，实现实现数据的存储。  
 
-![图片](https://uploader.shimo.im/f/6J4vUgMZ1T8BvhSF.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_1.png)
+
 
 ## 三层架构的应用
 
 遇到项目，先从实体关系建模开始，使用PowerDesign或其他数据库设计软件分析业务与业务之间的关系，是一对多，还是一对一，还是多对多，绘制实体关系图。
 
-![图片](https://uploader.shimo.im/f/XcWg36URN8u9swFi.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_2.png)
+
 
 在进行软件开发时，根据数据需求，定制想要的数据接口，从而实现以数据为核心的业务功能开发。
 
 于是，在业务层次上，这种三层架构，进一步可以表示为如下分层结构：
 
-![图片](https://uploader.shimo.im/f/mQXxSnwF2UYev8fT.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_3.png)
+
 
 在三层架构中，实体是业务的核心，所有的业务代码，都是围绕实体展开，而左侧三个功能层，其主要目的都是为了实现对实体的“增删改查”操作。
 
 以下代码简述了一个订单对象提交的全过程。（模型和代码仅供参考，不能直接运行）
 
-![图片](https://uploader.shimo.im/f/KYBDBV3sYQFwoscd.png!thumbnail)
+![图片](/images/compare-with_three-layers_4.png)
+
 
 ```c#
 /// <summary>
@@ -190,7 +197,8 @@ public void AddOrder(int orderId, int addCount)
 
 在上一篇博客中，我们也介绍了领域驱动设计思想分层逻辑结构，共划分为如下四个层次：
 
-![图片](https://uploader.shimo.im/f/MvFZ7RdoHuzyB5o4.png!thumbnail)
+![图片](/images/compare-with_three-layers_5.png)
+
 
 * 用户界面层（或者表示层）：负责向用户显示信息和解释用户指令。这里的用户，既可以是使用用户界面的人，也可以是另外一个计算机系统。
 * 应用层：定义软件要完成的任务，并且只会表达领域概念的对象来解决问题。这一层实际上负责的是系统与应用层进行交互的必要渠道。
@@ -231,19 +239,25 @@ public void AddOrder(int orderId, int addCount)
 
 * 产品架构图：列出产品功能，表现出产品模块间的相关性。
 
-![图片](https://uploader.shimo.im/f/cgPXlNojcXUjifDA.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_6.png)
+
 
 图来自[http://www.woshipm.com/pmd/1065960.html](http://www.woshipm.com/pmd/1065960.html)
 
 * 系统架构图：从技术层面列出系统模块组成关系。
 
-![图片](https://uploader.shimo.im/f/jq0L1Ukk68gw8PuH.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_7.png)
+
 
 原图来自互联网
 
 * 领域模型关系图：反映出各领域模型间的相关性，限界上下文，聚合，和聚合根。
 
-![图片](https://uploader.shimo.im/f/7okL3aEpRznm9y7S.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_8.png)
+
 
 来自[https://102.alibaba.com/detail?id=174](https://102.alibaba.com/detail?id=174)
 
@@ -263,7 +277,8 @@ public void AddOrder(int orderId, int addCount)
 
 当然，对于领域专家而言，不同类型的模型也许无法理解，例如类图可能过于复杂，可以使用画图的形式，通过解释性的图形，甚至纸面上的图，更能直观的表现出领域的逻辑层次。
 
-![图片](https://uploader.shimo.im/f/6FguSRNf353OrNWy.png!thumbnail)
+![图片](/images/compare-with_three-layers_9.png)
+
 
 这张来自TW分享的一张图，就是一个基于.NET MVC的产品设计UML设计图。
 
@@ -273,7 +288,9 @@ public void AddOrder(int orderId, int addCount)
 
 回到最开始的那个三层架构下的代码示例，如果采用领域驱动设计，大概如下图所示：
 
-# ![图片](https://uploader.shimo.im/f/Wj3fmmFuREdF29uZ.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_10.png)
+
 
 回到开始那个示例代码，如果采用DDD的代码实现，大概是这样的：
 
@@ -405,7 +422,9 @@ public class OrderAppService
 这段代码，最主要的变化是如下几点：
 1. 引入领域模型，在三层架构的示例代码中，我们建立了如下模型：
 
-![图片](https://uploader.shimo.im/f/NuDIoVfptngGcZcf.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_11.png)
+
 
 这个模型是当我们Entity Framework脚本时生成的实体模型，在业内通常称其为“贫血模型”。对人类来说，红细胞负责把氧气输送到组织细胞，然后新陈代谢，产生ATP，产生动力。
 
@@ -518,16 +537,20 @@ public void Minus(int count)
 
 表现了随着软件复杂度的逐渐提升，数据驱动设计和领域驱动设计模式两种不同类型的设计模式的开发效率（时间）对比曲线。
 
-![图片](https://uploader.shimo.im/f/06wlyhAKuoHh8JbJ.png!thumbnail)
+
+![图片](/images/compare-with_three-layers_12.png)
+
 
 * 数据驱动设计建立了一个比较平滑的发展轨迹，但是随着拐点的到来，将变得越来越为难以维护，最终造出一个难以维护的“意大利面”。
 
-![图片](https://uploader.shimo.im/f/7wZlq6CXgdjXacCH.png!thumbnail)
+![图片](/images/compare-with_three-layers_13.png)
+
 
 * 领域驱动设计，前期的起点确实比数据驱动设计要高很多，而且甚至在刚刚使用一段时间后，由于业务复杂度的提升，会迎来一个拐点。这个拐点有点像“邓宁·克鲁格效应”中遇到的“绝望之谷”，让开发者和管理层感觉有点力不从心，不少企业最终又拆掉了他们的领域驱动设计搭建的软件；
 * 使用领域驱动设计，随着复杂度的逐渐推移，软件开发人员的信心越来越足，代码自然也能够不断演进，平滑发展，。
 
-![图片](https://uploader.shimo.im/f/2sgCQ0cuflkIy50c.png!thumbnail)
+![图片](/images/compare-with_three-layers_14.png)
+
 
 * 从长期来看，领域驱动建模将给复杂系统带来更加高效的维护效能。
 # 总结
