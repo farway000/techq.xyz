@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="浅议Grpc的双向流和WCF中的回调机制一、引子如您所知，gRPC是目前比较常见的rpc框架，可以方便的作为服务与服务之间的通信基础设施，为构建微服务体系提供非常强有力的支持。 而基于.NET Core的gRPC.NET 组件截至2019年11月30日的最新版本为2.25.0，该版本基于.netstrandard2.1进行，能够在.NET Core3.0上非常方便的实现，而且还能方便的迁移到基于.">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC">
+<meta property="og:url" content="http://techq.xyz/2019/12/01/技术/浅议Grpc的双向流和WCF中的回调机制/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="浅议Grpc的双向流和WCF中的回调机制一、引子如您所知，gRPC是目前比较常见的rpc框架，可以方便的作为服务与服务之间的通信基础设施，为构建微服务体系提供非常强有力的支持。 而基于.NET Core的gRPC.NET 组件截至2019年11月30日的最新版本为2.25.0，该版本基于.netstrandard2.1进行，能够在.NET Core3.0上非常方便的实现，而且还能方便的迁移到基于.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/wcf-callback.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/result.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/grpc-callback.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC">
+<meta name="twitter:description" content="浅议Grpc的双向流和WCF中的回调机制一、引子如您所知，gRPC是目前比较常见的rpc框架，可以方便的作为服务与服务之间的通信基础设施，为构建微服务体系提供非常强有力的支持。 而基于.NET Core的gRPC.NET 组件截至2019年11月30日的最新版本为2.25.0，该版本基于.netstrandard2.1进行，能够在.NET Core3.0上非常方便的实现，而且还能方便的迁移到基于.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/wcf-callback.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/12/01/技术/浅议Grpc的双向流和WCF中的回调机制/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/12/01/技术/浅议Grpc的双向流和WCF中的回调机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-01 18:28:00" itemprop="dateCreated datePublished" datetime="2019-12-01T18:28:00+00:00">2019-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="浅议Grpc的双向流和WCF中的回调机制"><a href="#浅议Grpc的双向流和WCF中的回调机制" class="headerlink" title="浅议Grpc的双向流和WCF中的回调机制"></a>浅议Grpc的双向流和WCF中的回调机制</h1><h2 id="一、引子"><a href="#一、引子" class="headerlink" title="一、引子"></a>一、引子</h2><p>如您所知，gRPC是目前比较常见的rpc框架，可以方便的作为服务与服务之间的通信基础设施，为构建微服务体系提供非常强有力的支持。</p>
+<p>而基于.NET Core的gRPC.NET 组件截至2019年11月30日的最新版本为2.25.0，该版本基于.netstrandard2.1进行，能够在.NET Core3.0上非常方便的实现，而且还能方便的迁移到基于.NET Core的windows桌面端开发体系。</p>
+<p>在本文中参考微软官方文档的示例，实现了一个从WCF 服务回调机制迁移到gRPC的过程，由于时间仓促，如有疏漏，还望批评指正。第一篇主要从技术层面来分析迁移流程，第二篇打算从业务和代码整洁性角度来思考这个问题。</p>
+<h3 id="1-1、一些新东西："><a href="#1-1、一些新东西：" class="headerlink" title="1.1、一些新东西："></a>1.1、一些新东西：</h3><h6 id="1-、使用客户端工厂组件-Grpc-Net-ClientFactory-："><a href="#1-、使用客户端工厂组件-Grpc-Net-ClientFactory-：" class="headerlink" title="1)、使用客户端工厂组件 Grpc.Net.ClientFactory ："></a>1)、使用客户端工厂组件 Grpc.Net.ClientFactory ：</h6><p>在新版本中，可以使用  Grpc.Net.ClientFactory 支持以依赖注入的形式AddGrpcClient，将grpc客户端引入中，而无需每一次方法调用都使用 New 关键词进行创建。 这对客户端调用来说是极大的方便，毕竟随着.NET Core的普及，对于许多开发者来说，看到 New 关键词其实是很难受的啊。</p>
+<p>示例：</p>
+<p>以下代码以注册了 GreetClient ，并在发送 http 请求前，对请求头信息进行修改，添加 jwt 标识，以便发送带鉴权标识的请求。</p>
+<pre><code>serviceCollection.AddGrpcClient&lt;GreeterClient&gt;(
+    o =&gt;
+    {
+    o.Address = new Uri(configuration[&quot;address&quot;]);
+    })
+    .AddHttpMessageHandler&lt;JwtTokenHeader&gt;();</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GreetImpl</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private readonly GreetClient _greetClient;</span><br><span class="line">    public GreetImpl(GreetClient greetClient)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JwtTokenHeader中的代码段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request.Headers.Authorization = new AuthenticationHeaderValue(&quot;Bearer&quot;, &quot;&quot;);</span><br><span class="line">HttpResponseMessage response = await base.SendAsync(request, cancellationToken);</span><br></pre></td></tr></table></figure>
+
+<p>(以上示例代码仅供参考，不支持直接运行，且不支持.NET Framework。。) </p>
+<p>所以到此为止，我们在使用gRPC开发时，需要（能）使用的组件包括以下几种：</p>
+<ul>
+<li>Grpc.AspNETCore包：这个包用于在asp.net core中提供grpc服务支持，在asp.netcore的服务端项目中以nuget安装grpc组件时，需要安装这个包。<ul>
+<li>Google.Protobuf组件：Protobuf协议的实现。</li>
+<li>Grpc.AspNetCore.Server ：gRPC Asp.NET Core服务端核心库</li>
+<li>Grpc.Core.Api ：gRPC  Core API核心库</li>
+</ul>
+</li>
+<li>Grpc.Tools 包：内部封装了从proto文件生成gRPC服务端/客户端方法存根的流程。</li>
+<li>Grpc.Core：gRPC核心包。</li>
+<li>Grpc.Net.Client：gRPC 客户端实现核心库。<ul>
+<li>Grpc.Core.Api ：gRPC  Core API核心库</li>
+<li>Grpc.Net.Common：gRPC 常用方法。</li>
+</ul>
+</li>
+<li>Grpc.Net.ClientFactory： gRPC客户端工厂方法。仅用于标准库2.1。</li>
+</ul>
+<h6 id="2-、其他特性："><a href="#2-、其他特性：" class="headerlink" title="2)、其他特性："></a>2)、其他特性：</h6><ol>
+<li>支持  SerializationContext.GetBufferWriter 。</li>
+<li>性能优化。 Optimize server’s gRPC message serialization </li>
+<li>验证协议降级。 Validate gRPC response protocol is not downgraded  </li>
+<li>New Grpc.AspNetCore.Server.Reflection package </li>
+<li>Log unsupported request content-type and protocol </li>
+<li>Major client performance improvement </li>
+<li>修bug等。</li>
+</ol>
+<p>（ 当然，由于各种原因，未能亲测。）</p>
+<h3 id="1-2、存在的缺陷"><a href="#1-2、存在的缺陷" class="headerlink" title="1.2、存在的缺陷"></a>1.2、存在的缺陷</h3><ul>
+<li><p>目前的grpc的定位仅仅是一种数据传输机制，因此本身不包含负载均衡和服务管理的功能，一般会引入consul/etcd/zk等框架来实现服务治理。</p>
+</li>
+<li><p>由于最新版本基于标准库2.1进行构建，因此该最新版本无法在.net fx上使用（因为.netframework最高仅支持到标准库2.0），不过只是新版本不支持，依然可以使用2.23.2的版本来实现。当然，以后也不会支持.netfx了。。</p>
+</li>
+</ul>
+<h2 id="二、gRPC通信方式"><a href="#二、gRPC通信方式" class="headerlink" title="二、gRPC通信方式"></a>二、gRPC通信方式</h2><p>gRPC提供了以下四种传输方式：</p>
+<p>查看</p>
+<h3 id="2-1、Simple-RPC"><a href="#2-1、Simple-RPC" class="headerlink" title="2.1、Simple RPC"></a>2.1、Simple RPC</h3><p>简单RPC 传输。一般的rpc方法调用，一次请求返回一个对象。适用于类似于以前的webapi请求调用的形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc Hello (HelloRequest) returns (HelloReply);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1、Server-side-streaming-RPC"><a href="#2-1、Server-side-streaming-RPC" class="headerlink" title="2.1、Server-side streaming RPC"></a>2.1、Server-side streaming RPC</h3><p>一种单向流，服务端流式RPC，客户端向服务端请求后，由服务端以流的形式返回多个结果。例如可以用于客户端需要从服务端获取流媒体文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc Subscribe (SubscribeRequest) returns (stream StockTickerUpdate);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3、Client-Side-streaming-RPC"><a href="#2-3、Client-Side-streaming-RPC" class="headerlink" title="2.3、Client-Side streaming RPC"></a>2.3、Client-Side streaming RPC</h3><p>一种单向流，客户端单向流，客户端以流的形式传输多个请求，服务端返回一个响应结果。例如可以用于客户端需要向服务端推流的场景。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc Subscribe (stream SubscribeRequest) returns (StockTickerUpdate);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4、-Bidirectional-streaming-RPC"><a href="#2-4、-Bidirectional-streaming-RPC" class="headerlink" title="2.4、 Bidirectional streaming RPC"></a>2.4、 Bidirectional streaming RPC</h4><p> 双向流式rpc。客户端和服务端均可以传输多个请求。例如可以用于游戏中的双向传输。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc Subscribe (stream SubscribeRequest) returns (stream StockTickerUpdate);</span><br></pre></td></tr></table></figure>
+
+<p>总之，看起来gRPC能够实现目前所能设想的大部分场景，因此也被视为是古老的rpc框架 wcf ( Windows Communication Foundation )的替代者，官方专门编写了一本电子书，用来给需要从 wcf 转 gRPC的开发者提供指引。</p>
+<p>具体地址为： <a href="https://docs.microsoft.com/zh-cn/dotnet/architecture/grpc-for-wcf-developers/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/dotnet/architecture/grpc-for-wcf-developers/</a> </p>
+<p>除此之外，本人还看到了一些外网作者使用grpc 来移植 wcf的一些博客。</p>
+<p>1、 <a href="https://www.seeleycoder.com/blog/migrating-wcf-to-grpc-netcore/" target="_blank" rel="noopener">https://www.seeleycoder.com/blog/migrating-wcf-to-grpc-netcore/</a> </p>
+<p>2、<a href="https://www.seeleycoder.com/blog/using-wcf-with-dotnetcore/" target="_blank" rel="noopener">https://www.seeleycoder.com/blog/using-wcf-with-dotnetcore/</a> </p>
+<p>这两篇博客的作者在.NET Core中使用了WCF，根据作者的说法，在.NET Core2.0中还能使用，但是随着3.0的发布，他已经不再使用WCF了，而是改用了gRPC。</p>
+<h2 id="三、WCF的通信方式"><a href="#三、WCF的通信方式" class="headerlink" title="三、WCF的通信方式"></a>三、WCF的通信方式</h2><h3 id="3-1、简述"><a href="#3-1、简述" class="headerlink" title="3.1、简述"></a>3.1、简述</h3><p>WCF 是.NET框架中非常常用的一种组件，在.NET Framework 3.0时被引入，它整合了一些历史悠久的技术框架或通信机制，诸如 soap、remoting等。</p>
+<p>由于WCF技术体系庞大，学习路线也比较陡峭，能够驾驭的往往都是拥有多年工作经验的资深开发者，开发者们有时需针对各个阶段的内涵做深入的了解，才能开发对应的应用。</p>
+<p>由于本人使用WCF的经验尚浅（以前的项目用得少，充其量就用过Remoting），所以以下文字均来自网上现有资料的演绎，如有疏漏，敬请批评指正。</p>
+<p>WCF中，需要定义合约作为通信过程中的沟通方式。通信双方所遵循的通信方式，有合约绑定来制定；通信期间的安全性，有双方约定的安全性层级来定义。</p>
+<h3 id="3-2、合约-Contract"><a href="#3-2、合约-Contract" class="headerlink" title="3.2、合约(Contract)"></a>3.2、合约(Contract)</h3><p>合约（ Contract） 是WCF中最重要的基本概念，合约的使用分成两个部分，一部分是以接口形式体现的合约，一部分是基于合约派生出的实现类。</p>
+<p>合约分成四种类型：</p>
+<p>数据合约 （Data Contract） ：订定双方沟通时的数据格式。</p>
+<p>服务合约 （Service Contract） ：订定服务的定义。</p>
+<p>操作合约 （Operation Contract） ：订定服务提供的方法。在维基百科中翻译为营运合约。</p>
+<p>消息合约 （Message Contract） ：订定在通信期间改写消息内容的规范。</p>
+<p>在维基百科中，提供了一个如下的代码示例。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.ServiceModel;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Microsoft.ServiceModel.Samples</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">ServiceContract(Namespace = <span class="meta-string">"http://Microsoft.ServiceModel.Samples"</span>)</span>] <span class="comment">// 服务合约</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICalculator</span></span><br><span class="line">  &#123;</span><br><span class="line">    [<span class="meta">OperationContract</span>] <span class="comment">// 操作合约</span></span><br><span class="line">    <span class="keyword">double</span> Add（<span class="keyword">double</span> n1, <span class="keyword">double</span> n2）;</span><br><span class="line">    [<span class="meta">OperationContract</span>] <span class="comment">// 操作合约</span></span><br><span class="line">    <span class="keyword">double</span> Subtract（<span class="keyword">double</span> n1, <span class="keyword">double</span> n2）;</span><br><span class="line">    [<span class="meta">OperationContract</span>] <span class="comment">// 操作合约</span></span><br><span class="line">    <span class="keyword">double</span> Multiply（<span class="keyword">double</span> n1, <span class="keyword">double</span> n2）;</span><br><span class="line">    [<span class="meta">OperationContract</span>] <span class="comment">// 操作合约</span></span><br><span class="line">    <span class="keyword">double</span> Divide（<span class="keyword">double</span> n1, <span class="keyword">double</span> n2）;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3、协议绑定"><a href="#3-3、协议绑定" class="headerlink" title="3.3、协议绑定"></a>3.3、协议绑定</h3><p>WCF支持HTTP\TCP\命名管道（ <a href="https://zh.wikipedia.org/w/index.php?title=Named_Pipe&action=edit&redlink=1" target="_blank" rel="noopener">Named Pipe</a> ）、MSMQ（ <a href="https://zh.wikipedia.org/w/index.php?title=MSMQ&action=edit&redlink=1" target="_blank" rel="noopener">MSMQ</a> ）、点对点TCP Peer-To-Peer TCP 等协议。其中对HTTP协议的支持分为:基本HTTP支持\WS-HTTP支持；对TCP的协议也支NetTcpBinding\NetPeerTcpBinding等通信方式。</p>
+<p><del>从这里可以看出，能够驾驭WCF技术的，基本上都是.NET开发领域的大牛，涉及到如此多的技术栈，实在是令人钦佩。</del></p>
+<p>由于WCF支持的协议很多，所以在进行WCF的客户端和服务端开发时，需要使用统一通信的协议，并且在编码以及格式上也要一致。</p>
+<p>维基百科提供了一个设置通信绑定的示例配置文件，当然，有时候无需通过配置文件来配置wcf的服务信息，通过代码创建也同样可行。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">system.serviceModel</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 接口协议 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">services</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">service</span> <span class="attr">name</span>=<span class="string">" CalculatorService"</span> &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">endpoint</span> <span class="attr">address</span>=<span class="string">""</span> <span class="attr">binding</span>=<span class="string">"wsHttpBinding"</span> <span class="attr">bindingConfiguration</span>=<span class="string">"Binding1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">contract</span>=<span class="string">"ICalculator"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">services</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通信机制 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bindings</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">wsHttpBinding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">binding</span> <span class="attr">name</span>=<span class="string">"Binding1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">binding</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">wsHttpBinding</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bindings</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">system.serviceModel</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4、代码迁移"><a href="#4、代码迁移" class="headerlink" title="4、代码迁移"></a>4、代码迁移</h2><h3 id="4-1-迁移WCF的单工通信"><a href="#4-1-迁移WCF的单工通信" class="headerlink" title="4.1 迁移WCF的单工通信"></a>4.1 迁移WCF的单工通信</h3><p>在WCF中，一般默认的契约形式为点对点的请求-响应方式。即客户端发出请求后，一直阻塞方法，指导服务端响应后，才能执行后面的代码。</p>
+<p>这种模式类似于gRPC中的简单传输机制，所以如果从WCF服务迁移到gRPC服务时，比较简单纯粹，只需根据对应的数据方法来订定我们的服务协议文件 proto 文件。 </p>
+<p>例如，大概是这样的：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">ServiceContract</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ISimpleStockTickerCallback</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">OperationContract</span>]</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">HelloWorld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>迁移到 gRpc中之后，就是这样的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rpc Hello (HelloRequest) returns (google.protobuf.Empty);</span><br><span class="line">message HelloReply&#123;</span><br><span class="line">	string msg=1;</span><br><span class="line">&#125;</span><br><span class="line">message HelloRequest&#123;</span><br><span class="line">	string msg=1; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后再在两端代码中实现方法即可。（由于代码过于简单，此处省略若干字）在引文3中，提供了非常完善的Wcf迁移到gRPC的代码流程，需要请自取。</p>
+<h3 id="4-2-迁移WCF的双工通信"><a href="#4-2-迁移WCF的双工通信" class="headerlink" title="4.2 迁移WCF的双工通信"></a>4.2 迁移WCF的双工通信</h3><h4 id="1、WCF中的双工通信示例"><a href="#1、WCF中的双工通信示例" class="headerlink" title="1、WCF中的双工通信示例"></a>1、WCF中的双工通信示例</h4><p>在WCF中，双工（Duplex）通信很常用，在通信过程中，双方都可以向对方发送消息，使得很容易的就实现了服务端回调客户端。</p>
+<p>在这种模式下，客户端向服务端调用一个方法，然后在服务端回调客户端方法，可以理解为双方的位置发生了改变，此时的服务端变成了客户端，而客户端变成了服务端。</p>
+<p>如图所示。  </p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/wcf-callback.png" alt="image-20191130140814321"></li>
+</ul>
+<p>代码如下：</p>
+<ol>
+<li><p>服务端：</p>
+<ul>
+<li>订定契约HelloCallback，用于处理回调的逻辑。</li>
+<li>订定契约UserService 和 UserServiceImpl，并定义了一个 GetUser 方法。</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 用于回调的Hello方法</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[<span class="meta">ServiceContract</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">HelloCallback</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">OperationContract(IsOneWay = true)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SayHelloworld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 用户服务,并回调客户端到HelloCallback</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[<span class="meta">ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(HelloCallback))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">UserService</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">OperationContract(IsOneWay = true)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetUser</span>(<span class="params"><span class="keyword">string</span> userName</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 用户服务</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[<span class="meta">ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserServiceImpl</span> : <span class="title">UserService</span></span><br><span class="line">&#123;</span><br><span class="line">    HelloCallback callback;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetUser</span>(<span class="params"><span class="keyword">string</span> userName</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.Write(userName);</span><br><span class="line">        OperationContext context = OperationContext.Current;</span><br><span class="line">        callback = context.GetCallbackChannel&lt;HelloCallback&gt;();</span><br><span class="line">        callback.SayHelloworld(<span class="string">$"<span class="subst">&#123;userName&#125;</span>:hello"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动服务端程序时，需要创建服务端的Host主机信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> private static ServiceHost StartUserService()</span><br><span class="line"> &#123;</span><br><span class="line">     var host = new ServiceHost(typeof(UserServiceImpl));</span><br><span class="line">     var binding = new NetTcpBinding(SecurityMode.None);</span><br><span class="line">     host.AddServiceEndpoint(typeof(UserService), binding,</span><br><span class="line">     &quot;net.tcp://localhost:12384/userservice&quot;);</span><br><span class="line"></span><br><span class="line">    host.Open();</span><br><span class="line">    return host;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>客户端：</p>
+<ul>
+<li><p>订定契约HelloCallback 和客户端的契约实现 HelloCallbackImpl 。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 回调Hello方法</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[<span class="meta">ServiceContract</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">HelloCallback</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">OperationContract(IsOneWay = true)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SayHelloworld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloCallbackImpl</span> : <span class="title">HelloCallback</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SayHelloworld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">    	Console.Write(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>订定契约UserService，用以保持和服务端的契约保持一致。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 用户服务</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[<span class="meta">ServiceContract(CallbackContract = typeof(HelloCallback))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">UserService</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">OperationContract(IsOneWay = true)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetUser</span>(<span class="params"><span class="keyword">string</span> userName</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端启动时，连接到服务端。并发送GetUser方法。 </p>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetUser</span>(<span class="params">NetTcpBinding binding</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">var</span> address = <span class="keyword">new</span> EndpointAddress(<span class="string">"net.tcp://localhost:12384/userservice"</span>);</span><br><span class="line">            <span class="keyword">var</span> factory =</span><br><span class="line">                <span class="keyword">new</span> DuplexChannelFactory&lt;UserService&gt;(<span class="keyword">typeof</span>(HelloCallbackImpl), binding,</span><br><span class="line">                    address);</span><br><span class="line">            <span class="keyword">var</span> context = <span class="keyword">new</span> InstanceContext(<span class="keyword">new</span> HelloCallbackImpl());</span><br><span class="line">            <span class="keyword">var</span> server = factory.CreateChannel(context);</span><br><span class="line"></span><br><span class="line">            server.GetUser(<span class="string">"zhangssan"</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现效果如下：</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/result.png" alt="image-20191130144237825"></p>
+<p>这是一个典型的WCF双工通信的示例，在传统的.NET Framework开发中可能非常常见，但是该如何才能迁移到gRPC服务中呢？</p>
+<h4 id="2、gRPC中的代码实现"><a href="#2、gRPC中的代码实现" class="headerlink" title="2、gRPC中的代码实现"></a>2、gRPC中的代码实现</h4><ul>
+<li>流程说明</li>
+</ul>
+<p>gRPC中实现此双工通信，需要使用来自服务端的单向流来实现，但在gRPC中不能直接回调对应的方法，而是在服务端将流返回后，触发对应客户端代码中的方法来实现这个回调的流程。</p>
+<p>如图所示： </p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-mirgate-wcf-to-grpc/grpc-callback.png" alt="image-20191130214340416"></p>
+<ul>
+<li><p>代码实现流程：</p>
+<p>1、定义 proto 协议文件</p>
+<p>请求方法为getUser，并返回流。首先定义服务协议文件，命名为 userService.proto 文件。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"></span><br><span class="line">option csharp_namespace = <span class="string">"DulpexGrpcDemo"</span>; </span><br><span class="line"></span><br><span class="line">package DulpexGrpcDemo;</span><br><span class="line"></span><br><span class="line">service userService &#123;</span><br><span class="line">  <span class="function">rpc <span class="title">GetUser</span> (<span class="params">HelloRequest</span>) <span class="title">returns</span> (<span class="params">stream HelloReply</span>)</span>;  </span><br><span class="line">  <span class="function">rpc <span class="title">GetTest</span> (<span class="params">HelloRequest</span>) <span class="title">returns</span> (<span class="params">HelloReply</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line">message HelloReply&#123;</span><br><span class="line">	<span class="keyword">string</span> msg=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">message HelloRequest&#123;</span><br><span class="line">	<span class="keyword">string</span> msg=<span class="number">1</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、服务端实现</p>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl : userService.userServiceBase</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">GetUser</span>(<span class="params">HelloRequest request, IServerStreamWriter&lt;HelloReply&gt; responseStream, ServerCallContext context</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">await</span> DoSomeThing(request.Msg, (msg) =&gt; &#123; responseStream.WriteAsync(<span class="keyword">new</span> HelloReply &#123; Msg = <span class="string">$"<span class="subst">&#123;msg&#125;</span>:hello"</span> &#125;); &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//处理回调逻辑</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">DoSomeThing</span>(<span class="params"><span class="keyword">string</span> msg, Action&lt;<span class="keyword">string</span>&gt; action</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            Console.WriteLine(msg);</span><br><span class="line">            action?.Invoke(msg);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> Task&lt;HelloReply&gt; <span class="title">GetTest</span>(<span class="params">HelloRequest request, ServerCallContext context</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            Console.WriteLine(request.Msg);</span><br><span class="line">            <span class="keyword">return</span> Task.FromResult(<span class="keyword">new</span> HelloReply &#123; Msg = <span class="string">$"<span class="subst">&#123;request.Msg&#125;</span>:hello"</span> &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>3、客户端实现（需要被调用的方法）</code></pre><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">HelloCallback</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SayHelloworld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloCallbackImpl</span> : <span class="title">HelloCallback</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SayHelloworld</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span></span><br><span class="line"><span class="function"></span>   &#123;</span><br><span class="line">      Console.Write(msg);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、用户服务方法的实现</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserServiceImpl</span></span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">private</span> userService.userServiceClient userServiceClient;</span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">readonly</span> HelloCallback _helloCallback;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserServiceImpl</span>(<span class="params">userService.userServiceClient serviceClient, HelloCallback helloCallback</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        userServiceClient = serviceClient;</span><br><span class="line">        _helloCallback = helloCallback;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">GetUser</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        AsyncServerStreamingCall&lt;HelloReply&gt; stream = userServiceClient.GetUser(<span class="keyword">new</span> HelloRequest &#123; Msg = <span class="string">"张三"</span> &#125;);</span><br><span class="line">        <span class="keyword">await</span> Helloworld(stream.ResponseStream);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">async</span> Task <span class="title">Helloworld</span>(<span class="params">IAsyncStreamReader&lt;HelloReply&gt; stream</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">foreach</span> (<span class="keyword">var</span> update <span class="keyword">in</span> stream.ReadAllAsync())</span><br><span class="line">        &#123;</span><br><span class="line">            _helloCallback.SayHelloworld(update.Msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、客户端程序的入口</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">async</span> Task <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            IServiceCollection servicesCollection = <span class="keyword">new</span> ServiceCollection();</span><br><span class="line">            IConfiguration configuration = <span class="keyword">new</span> ConfigurationBuilder()</span><br><span class="line">                        .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(<span class="string">"appsettings.json"</span>, <span class="literal">true</span>, <span class="literal">false</span>).Build();</span><br><span class="line"></span><br><span class="line">        servicesCollection.AddGrpcClient&lt;userService.userServiceClient&gt;(</span><br><span class="line">           o =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                o.Address = <span class="keyword">new</span> Uri(<span class="string">"https://localhost:5001"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        servicesCollection.AddSingleton&lt;UserServiceImpl&gt;();</span><br><span class="line">        servicesCollection.AddSingleton&lt;HelloCallback, HelloCallbackImpl&gt;();</span><br><span class="line">        <span class="keyword">var</span> userServiceImpl = servicesCollection.BuildServiceProvider().GetService&lt;UserServiceImpl&gt;();</span><br><span class="line">        <span class="keyword">await</span> userServiceImpl.GetUser();</span><br><span class="line">        Console.ReadLine();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，从这个示例中，可能会觉得有点奇怪，明明可以使用请求-响应的简单RPC模式，为什么要使用服务端的单向流来实现了？</p>
+<p>这种单向流中，客户端无需等待服务端执行方法执行完，而是由服务端完成后续流程后，再回调客户端的方法，使得流程变得简单清晰。</p>
+<p>在微软的官方文档（参考文献1）更适合介绍这个迁移过程的单向流的实现，通过实现服务端向客户端推流的形式来介绍，只是方法相对而言实现的逻辑比较多，而鄙人这个示例则剥离了与让我们理解服务端单向流流程无关的部分，使得流程看起来更简单。</p>
+<p>参考文献</p>
+<p>[1] 官方文档： <a href="https://docs.microsoft.com/zh-cn/dotnet/architecture/grpc-for-wcf-developers/migrate-duplex-services" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/dotnet/architecture/grpc-for-wcf-developers/migrate-duplex-services</a> </p>
+<p>[2] Jon Seeley的官方博客，如何迁移将wcf服务迁移到grpc：<a href="https://www.seeleycoder.com/blog/migrating-wcf-to-grpc-netcore/" target="_blank" rel="noopener">https://www.seeleycoder.com/blog/migrating-wcf-to-grpc-netcore/</a> </p>
+<p>[3] Jon Seeley的官方博客，如何在.netcore中使用wcf：<a href="https://www.seeleycoder.com/blog/using-wcf-with-dotnetcore/" target="_blank" rel="noopener">https://www.seeleycoder.com/blog/using-wcf-with-dotnetcore/</a> </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/01/技术/简述介绍.NET Core中的依赖注入方法/" rel="next" title="在.NET  Core/Framework中使用依赖注入框架">
+                <i class="fa fa-chevron-left"></i> 在.NET  Core/Framework中使用依赖注入框架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/09/随笔/PMP学习之旅回顾/" rel="prev" title="复盘2019年，我花了3个月时间备考PMP">
+                复盘2019年，我花了3个月时间备考PMP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅议Grpc的双向流和WCF中的回调机制"><span class="nav-number">1.</span> <span class="nav-text">浅议Grpc的双向流和WCF中的回调机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、引子"><span class="nav-number">1.1.</span> <span class="nav-text">一、引子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1、一些新东西："><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1、一些新东西：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-、使用客户端工厂组件-Grpc-Net-ClientFactory-："><span class="nav-number">1.1.1.0.0.1.</span> <span class="nav-text">1)、使用客户端工厂组件 Grpc.Net.ClientFactory ：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-、其他特性："><span class="nav-number">1.1.1.0.0.2.</span> <span class="nav-text">2)、其他特性：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2、存在的缺陷"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2、存在的缺陷</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#二、gRPC通信方式"><span class="nav-number">1.2.</span> <span class="nav-text">二、gRPC通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1、Simple-RPC"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1、Simple RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1、Server-side-streaming-RPC"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.1、Server-side streaming RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3、Client-Side-streaming-RPC"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3、Client-Side streaming RPC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4、-Bidirectional-streaming-RPC"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.4、 Bidirectional streaming RPC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、WCF的通信方式"><span class="nav-number">1.3.</span> <span class="nav-text">三、WCF的通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1、简述"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1、简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2、合约-Contract"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2、合约(Contract)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3、协议绑定"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3、协议绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、代码迁移"><span class="nav-number">1.4.</span> <span class="nav-text">4、代码迁移</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-迁移WCF的单工通信"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 迁移WCF的单工通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-迁移WCF的双工通信"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 迁移WCF的双工通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、WCF中的双工通信示例"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">1、WCF中的双工通信示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、gRPC中的代码实现"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">2、gRPC中的代码实现</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

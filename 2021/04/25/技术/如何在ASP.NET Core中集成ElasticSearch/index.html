@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="查看原文  我敢打赌，您肯定会被要求向Web应用程序中添加高级搜索功能，而且通常是全文的类似Google的搜索。 在技​​术电子商务的开发过程中，我们被要求允许用户对产品进行高级研究，以便他们可以高效，完全地找到所需的内容。 我们基于对象的所有字段上给定字符串的搜索尝试了自定义搜索的实现。为了优化时间，我们尝试在服务和数据库级别之间添加一个缓存层，以避免对数据库造成过多压力，但是我们对结果不满意。">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在ASP.NET Core中集成ElasticSearch">
+<meta property="og:url" content="http://techq.xyz/2021/04/25/技术/如何在ASP.NET Core中集成ElasticSearch/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="查看原文  我敢打赌，您肯定会被要求向Web应用程序中添加高级搜索功能，而且通常是全文的类似Google的搜索。 在技​​术电子商务的开发过程中，我们被要求允许用户对产品进行高级研究，以便他们可以高效，完全地找到所需的内容。 我们基于对象的所有字段上给定字符串的搜索尝试了自定义搜索的实现。为了优化时间，我们尝试在服务和数据库级别之间添加一个缓存层，以避免对数据库造成过多压力，但是我们对结果不满意。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/mXys791UMG7cuOvS.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/pnS8DrzVMpeVRMZF.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/yflWUlBxnnvxdfvj.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/TlwERyJAobkhowVG.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/rkT6GBkfGNGBek4r.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/oSuUe7d2zVK7uf9J.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/FPxABNr9ykoPq9Xe.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/qUPIjUmdg2if7IaE.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在ASP.NET Core中集成ElasticSearch">
+<meta name="twitter:description" content="查看原文  我敢打赌，您肯定会被要求向Web应用程序中添加高级搜索功能，而且通常是全文的类似Google的搜索。 在技​​术电子商务的开发过程中，我们被要求允许用户对产品进行高级研究，以便他们可以高效，完全地找到所需的内容。 我们基于对象的所有字段上给定字符串的搜索尝试了自定义搜索的实现。为了优化时间，我们尝试在服务和数据库级别之间添加一个缓存层，以避免对数据库造成过多压力，但是我们对结果不满意。">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/mXys791UMG7cuOvS.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/04/25/技术/如何在ASP.NET Core中集成ElasticSearch/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何在ASP.NET Core中集成ElasticSearch | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/04/25/技术/如何在ASP.NET Core中集成ElasticSearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何在ASP.NET Core中集成ElasticSearch
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-04-25 18:56:00 / Modified: 11:04:00" itemprop="dateCreated datePublished" datetime="2021-04-25T18:56:00+00:00">2021-04-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.blexin.com/en-US/Article/Blog/How-to-integrate-ElasticSearch-in-ASPNET-Core-70" target="_blank" rel="noopener">查看原文</a></p>
+<p><img src="https://uploader.shimo.im/f/mXys791UMG7cuOvS.png!thumbnail" alt="图片"></p>
+<p>我敢打赌，您肯定会被要求向Web应用程序中添加高级搜索功能，而且通常是全文的类似Google的搜索。</p>
+<p>在技​​术电子商务的开发过程中，我们被要求允许用户对产品进行高级研究，以便他们可以高效，完全地找到所需的内容。</p>
+<p>我们基于对象的所有字段上给定字符串的搜索尝试了自定义搜索的实现。为了优化时间，我们尝试在服务和数据库级别之间添加一个缓存层，以避免对数据库造成过多压力，但是我们对结果不满意。然后，我们在市场上搜索了可以满足我们需求的第三方产品，经过深入分析，我们选择采用ElasticSearch：一个基于REST协议的，可管理研究和分析的分布式，易于适应的搜索引擎同样，也方便了数据的外推和转换。 </p>
+<p>具体来说，我们正在谈论基于Apache Lucene的开源全文搜索引擎，该引擎可用于管理文档的索引和研究。让我们尝试了解基本概念。</p>
+<p>ElasticSearch将数据存储在一个或多个索引中。ES的索引与SQL DB的索引非常相似，因为我们使用它来存储和读取文档。</p>
+<p>文档是ElasticSearch世界的主要实体。它由一组具有名称和一个或多个值的字段组成。每个文档可能具有一组字段，并且没有给出任何架构或定义的结构。这只是一个JSON对象。</p>
+<p>所有文档在存储之前都经过分析。这种分析过程（称为映射）是通过过滤数据内容（例如，删除HTML标签）并将其标记化来执行的，以便将文档拆分为标记。</p>
+<p>ElasticSearch中的每个文档都有一个类型。这样就可以将各种文档类型存储在同一索引上，并为几种类型获取几种映射。</p>
+<p>ElasticSearch服务器的单个实例称为Node。在很多情况下，单个节点就足够了，但是有时您需要管理故障，或者您有太多数据无法使用单个节点进行管理。在这种情况下，您可以使用多节点集群，这是一组协同工作的节点来管理比单个实例无法处理的更大的负载。您可以配置群集，以便即使某些节点不可用，也可以保证搜索和管理功能。</p>
+<p>为了使群集正常运行，ElasticSearch将数据分布在Apache Lucene的多个物理索引上。这些索引称为“ 碎片”，而扩展过程称为“ 碎片”。ElasticSearch自动管理分片，因此最终用户似乎只是一个大索引。</p>
+<p>副本是分片的副本，可用于以原始分片的相同模式进行查询。</p>
+<p>副本可减轻无法处理所有请求的单个节点上的负载，并提供更高的数据安全性，因为如果您丢失了原始分片中的数据，则可以在副本上对其进行恢复。</p>
+<p>ElasticSearch收集了大量有关集群状态，索引设置的信息，并将它们存储到网关中。</p>
+<p>从结构上讲，ElasticSearch基于一些简单的关键概念：</p>
+<ul>
+<li>默认设置和值使得默认配置足以立即使用ElasticSearch。</li>
+<li>它以分布式方式工作。节点自动成为集群的一部分，并且在设置过程中，节点尝试加入集群。</li>
+<li>没有SPOF的P2P体系结构（单点故障）。节点自动连接到群集的其他计算机以更改数据和相互监视；</li>
+<li>只需在集群中添加新节点，就可以轻松地进行扩展，无论是在数据量上还是在容量上。</li>
+<li>在组织索引中的数据方面没有任何限制。允许用户修改数据模型而不会对搜索产生任何影响；</li>
+<li>NRT（近实时）搜索和版本控制。由于其分布式特性，无法避免延迟和位于不同节点上的数据之间的差异。因此，它提供了版本控制机制。</li>
+</ul>
+<p>当ElasticSearch节点启动时，它使用多播（或单播，如果已配置）来查找同一集群中的其他节点并连接到它们。</p>
+<p><img src="https://uploader.shimo.im/f/pnS8DrzVMpeVRMZF.png!thumbnail" alt="图片"></p>
+<p>在群集中，选择一个节点作为主节点。该节点负责管理集群状态和将分片分配给节点的过程。主节点读取集群状态，并在需要时启动恢复模式，该模式允许知道哪些分片可用，并指定其中一个作为主分片。这样，即使群集没有可用的全部资源，它也似乎可以正常工作。然后，主节点查找重复的分片，并将其作为副本处理。</p>
+<p>在标准运行期间，主节点检查所有可用节点是否正常工作。如果其中之一在配置的时间范围内不可用，则将该节点视为已损坏，并运行容错过程。容错的主要活动是平衡已损坏节点的群集和碎片，并分配一个负责这些碎片的新节点。然后，对于每个主分片丢失，将定义一个在可用副本之间选择的新主分片。</p>
+<p><img src="https://uploader.shimo.im/f/yflWUlBxnnvxdfvj.png!thumbnail" alt="图片"></p>
+<p>如前所述，ElasticSearch提供了一些API REST，可供每个能够发送HTTP请求和接收HTTP响应的系统使用（大多数开发框架的所有浏览器和库）。</p>
+<p>ElasticSearch请求由一些包含的已定义URL发送。最终是JSON主体。响应也是JSON文档。</p>
+<p>ElasticSearch提供了四种索引数据的方式。</p>
+<ol>
+<li>索引API：它允许将文档发送到已定义的索引；</li>
+<li>批量API：它允许通过HTTP协议发送多个文档；</li>
+<li>UDP批量API：它允许通过任何协议发送多个文档（更快但更不可靠）；</li>
+<li>插件：在节点上执行，它们从外部系统获取数据。</li>
+</ol>
+<p>重要的是要记住，索引只是在主分片上而不是在其副本上，因此，如果将索引请求发送到不包含主分片或可能包含其副本的节点，则该请求将转发到主分片。</p>
+<p><img src="https://uploader.shimo.im/f/TlwERyJAobkhowVG.png!thumbnail" alt="图片"></p>
+<p>使用<strong>Query API</strong>执行搜索。使用<strong>查询DSL</strong>（基于JSON的语言来构建复杂的查询），可以：</p>
+<ul>
+<li>使用各种类型的查询，包括简单查询，短语，范围，布尔值，空间查询和其他查询；</li>
+<li>通过组合简单查询来构建复杂查询；</li>
+<li>通过排除不符合选定条件的文档而不影响其分数来过滤文档；</li>
+<li>查找与其他文件相似的文件；</li>
+<li>查找给定短语的建议或更正；</li>
+<li>查找与给定文档匹配的查询。</li>
+</ul>
+<p>搜索不是一个单阶段的简单过程，但是，通常可以将其分为两个阶段：<strong>scatter（分散）</strong>，在其中查询索引的所有相关分片；<strong>gather（收集）</strong>，在其中收集，处理和排序所有宝贵的结果。</p>
+<p><img src="https://uploader.shimo.im/f/rkT6GBkfGNGBek4r.png!thumbnail" alt="图片"></p>
+<p>弄脏你的手！</p>
+<p>ES提供了云和本地两种使用方式。如果要在Windows计算机上安装它，则需要具有Java虚拟机的更新版本（<a href="https://www.elastic.co/support/matrix#matrix_jvm" target="_blank" rel="noopener">https://www.elastic.co/support/matrix#matrix_jvm</a>），然后可以从ElasticSearch下载中下载一个zip文件。页面（<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a>）并将其提取到磁盘上的文件夹中，例如<em>C：\ Elasticsearch</em>。</p>
+<p>要执行它，您可以运行<em>C：\ Elasticsearch \ bin \ elasticsearch.bat</em>。</p>
+<p>如果要将ElasticSearch用作服务，以便可以使用Windows工具启动或停止它，则需要在文件<em>C：\ Elasticsearch \ config \ jvm.options中</em>添加一行。</p>
+<p>对于32位系统，您必须键入<em>-Xss320k*，对于64位系统</em>-Xss1m。*</p>
+<p>更改此设置后，您必须打开命令提示符或Powershell并执行<em>C：\ Elasticsearch \ bin \ elasticsearch-service.bat</em>。可用的命令包括<em>安装</em>，<em>删除</em>，<em>启动</em>，<em>停止</em>和<em>管理器</em>。</p>
+<p>要创建服务，我们必须输入：<em>C：\ Elasticsearch \ bin \ elasticsearch-service.bat install</em></p>
+<p>要管理服务，我们键入：  <em>C：\ Elasticsearch \ bin \ elasticsearch-service.bat管理</em>器，该*管理器 *打开Elastic Service Manager，这是一个GUI，可通过该GUI进行有关服务的自定义设置并管理其状态。</p>
+<p>默认cluster.name和node.name是<strong>elasticsearch</strong>分别和你的主机名。如果您打算继续使用该群集或添加更多节点，则最好通过在<em>elasticsearch.yml</em>文件中对其进行修改来将这些默认值更改为唯一名称。</p>
+<p>我们可以通过浏览http：// localhost：9200 /来验证ElasicSearch的正确执行。如果一切正常，我们将得到以下结果：</p>
+<p><img src="https://uploader.shimo.im/f/oSuUe7d2zVK7uf9J.png!thumbnail" alt="图片"></p>
+<p>为了实现基于.NET Core的解决方案，我们使用了<strong>NEST</strong>软件包，可以通过以下命令安装该软件包：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet <span class="keyword">add</span> package NEST</span><br></pre></td></tr></table></figure>
+
+<p>NEST允许我们在索引和搜索文档以及节点和分片的管理中本地使用所有ElasticSearch功能。<br>为了管理NEST插件，我们创建了ElasticsearchExtensions类： </p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ElasticsearchExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddElasticsearch</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services, IConfiguration configuration</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> url = configuration[<span class="string">"elasticsearch:url"</span>];</span><br><span class="line">        <span class="keyword">var</span> defaultIndex = configuration[<span class="string">"elasticsearch:index"</span>];</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">var</span> settings = <span class="keyword">new</span> ConnectionSettings(<span class="keyword">new</span> Uri(url))</span><br><span class="line">            .DefaultIndex(defaultIndex);</span><br><span class="line"> </span><br><span class="line">        AddDefaultMappings(settings);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">var</span> client = <span class="keyword">new</span> ElasticClient(settings);</span><br><span class="line"> </span><br><span class="line">        services.AddSingleton(client);</span><br><span class="line"> </span><br><span class="line">        CreateIndex(client, defaultIndex);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddDefaultMappings</span>(<span class="params">ConnectionSettings settings</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        settings</span><br><span class="line">            DefaultMappingFor&lt;Product&gt;(m =&gt; m</span><br><span class="line">                .Ignore(p =&gt; p.Price)</span><br><span class="line">                .Ignore(p =&gt; p.Quantity)</span><br><span class="line">                .Ignore(p =&gt; p.Rating)</span><br><span class="line">            );</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateIndex</span>(<span class="params">IElasticClient client, <span class="keyword">string</span> indexName</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> createIndexResponse = client.Indices.Create(indexName,</span><br><span class="line">            index =&gt; index.Map&lt;Product&gt;(x =&gt; x.AutoMap())</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在其中我们找到对象的配置和映射，在本例中为Product类。在此类中，我们决定忽略在索引阶段存储价格，数量和评级。<br>通过以下指令在Startup.cs中调用此类：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    services.AddElasticsearch(Configuration);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这使我们能够在启动时加载的所有设置，在修改它们<strong>elasticsearch</strong>的第<em>appsettings.json</em>文件，在其中我们插入如下一行：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"elasticsearch"</span>: &#123;</span><br><span class="line">        <span class="string">"index"</span>: <span class="string">"products"</span>,</span><br><span class="line">        <span class="string">"url"</span>: <span class="string">"http://localhost:9200/"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>索引</strong>表示选择用来存储文档的默认索引，而<strong>url</strong>是我们的ElasticSearch实例的地址。<br>我们的产品对象定义如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Ean &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Description &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Brand &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Category &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> Quantity &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">float</span> Rating &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="keyword">public</span> DateTime ReleaseDate &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如前所述，可以分别或在列表中为产品建立索引。<br>在我们的产品服务中，我们实现了两种方式：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">SaveSingleAsync</span>(<span class="params">Product product</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (_cache.Any(p =&gt; p.Id == product.Id))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">await</span> _elasticClient.UpdateAsync&lt;Product&gt;(product, u =&gt; u.Doc(product));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        _cache.Add(product);</span><br><span class="line">        <span class="keyword">await</span> _elasticClient.IndexDocumentAsync(product);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">SaveManyAsync</span>(<span class="params">Product[] products</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    _cache.AddRange(products);</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> _elasticClient.IndexManyAsync(products);</span><br><span class="line">    <span class="keyword">if</span> (result.Errors)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// the response can be inspected for errors</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> itemWithError <span class="keyword">in</span> result.ItemsWithErrors)</span><br><span class="line">        &#123;</span><br><span class="line">            _logger.LogError(<span class="string">"Failed to index document &#123;0&#125;: &#123;1&#125;"</span>,</span><br><span class="line">                itemWithError.Id, itemWithError.Error);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">SaveBulkAsync</span>(<span class="params">Product[] products</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    _cache.AddRange(products);</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> _elasticClient.BulkAsync(b =&gt; b.Index(<span class="string">"products"</span>).IndexMany(products));</span><br><span class="line">    <span class="keyword">if</span> (result.Errors)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// the response can be inspected for errors</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> itemWithError <span class="keyword">in</span> result.ItemsWithErrors)</span><br><span class="line">        &#123;</span><br><span class="line">            _logger.LogError(<span class="string">"Failed to index document &#123;0&#125;: &#123;1&#125;"</span>,</span><br><span class="line">                itemWithError.Id, itemWithError.Error);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里我们使用_cache数组来进一步缓存产品列表。<br>对于多模式，我们也实现了批量版本，这使我们能够在更短的时间内索引大量文档，并且我们已经处理了日志插入中的任何错误。</p>
+<p>请注意，SaveSingleAsync方法通过检查缓存数组来管理文档的插入和修改。</p>
+<p>对于文档删除，我们实现了DeleteAsync方法：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">DeleteAsync</span>(<span class="params">Product product</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">await</span> _elasticClient.DeleteAsync&lt;Product&gt;</span><br><span class="line">(product);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (_cache.Contains(product))</span><br><span class="line">    &#123;</span><br><span class="line">        _cache.Remove(product);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>GetSearchUrl方法允许我们获取用于管理页面调度的URL。<br>出于开发目的，我们实现了ReIndex方法，该方法允许我们删除索引上的所有文档，然后一次又一次地导入它们。这对于导入现有和未加载文档的列表很有用。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Only for development purpose</span></span><br><span class="line">[<span class="meta">HttpGet(<span class="meta-string">"/search/reindex"</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt;ReIndex()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">await</span> _elasticClient.DeleteByQueryAsync&lt;Product&gt;(q =&gt; q.MatchAll());</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">var</span> allProducts = (<span class="keyword">await</span> _productService.GetProducts(<span class="keyword">int</span>.MaxValue)).ToArray();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> product <span class="keyword">in</span> allProducts)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">await</span> _elasticClient.IndexDocumentAsync(product);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> Ok(<span class="string">$"<span class="subst">&#123;allProducts.Length&#125;</span> product(s) reindexed"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>出于示例目的，我们创建了一个界面，该界面允许我们通过<strong>Bogus</strong>插件添加N个动态生成的产品，并管理产品的CRUD。<br>运行项目后，我们将看到以下屏幕：</p>
+<p><img src="https://uploader.shimo.im/f/FPxABNr9ykoPq9Xe.png!thumbnail" alt="图片"></p>
+<p>例如，如果我们尝试将10种产品添加到索引中，在文本框中输入<strong>10</strong>，然后单击“ <strong>导入文档”</strong>按钮，则可以使用搜索框查看结果，也可以直接从浏览器中浏览到http页面： // localhost：9200 / products / _search，我们将在其中得到这样的结果：</p>
+<p><img src="https://uploader.shimo.im/f/qUPIjUmdg2if7IaE.png!thumbnail" alt="图片"></p>
+<p>本文中使用的代码可<a href="https://github.com/enricobencivenga/ElasticSearch" target="_blank" rel="noopener">在此处获得</a>。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/25/技术/如何在.NET Core中为gRPC服务设计消息/" rel="next" title=". 如何在.NET Core中为gRPC服务设计消息">
+                <i class="fa fa-chevron-left"></i> . 如何在.NET Core中为gRPC服务设计消息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能/" rel="prev" title="如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能">
+                如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

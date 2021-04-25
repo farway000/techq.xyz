@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一在博客园中使用小公司大公司进行搜索，列入的搜索记录长达50页。虽然完全命中关键词的文章也许并不多，但这或许也能体现出这个话题的热门程度。 今天我的公众号好友中也有人问了我这个问题：  在小公司里面做全栈好，还是大公司里面做专业的前端或者后台好？  对于这个问题，我大概有一点点发言权。在我过去若干年的职业生涯中，各种类型的公司也算都经历过，小一点的公司，大概有四五十人，大一点的公司有大几百人。 当">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="是小厂全栈好，还是大厂专业工程师好？">
+<meta property="og:url" content="http://techq.xyz/2020/05/17/随笔/是小厂全栈好，还是大厂专业工程师好？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一在博客园中使用小公司大公司进行搜索，列入的搜索记录长达50页。虽然完全命中关键词的文章也许并不多，但这或许也能体现出这个话题的热门程度。 今天我的公众号好友中也有人问了我这个问题：  在小公司里面做全栈好，还是大公司里面做专业的前端或者后台好？  对于这个问题，我大概有一点点发言权。在我过去若干年的职业生涯中，各种类型的公司也算都经历过，小一点的公司，大概有四五十人，大一点的公司有大几百人。 当">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/mPlz1AqvNxxvh5Pf.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/PTI6SkTmd0rOlYEC.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="是小厂全栈好，还是大厂专业工程师好？">
+<meta name="twitter:description" content="一在博客园中使用小公司大公司进行搜索，列入的搜索记录长达50页。虽然完全命中关键词的文章也许并不多，但这或许也能体现出这个话题的热门程度。 今天我的公众号好友中也有人问了我这个问题：  在小公司里面做全栈好，还是大公司里面做专业的前端或者后台好？  对于这个问题，我大概有一点点发言权。在我过去若干年的职业生涯中，各种类型的公司也算都经历过，小一点的公司，大概有四五十人，大一点的公司有大几百人。 当">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/mPlz1AqvNxxvh5Pf.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/17/随笔/是小厂全栈好，还是大厂专业工程师好？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>是小厂全栈好，还是大厂专业工程师好？ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/17/随笔/是小厂全栈好，还是大厂专业工程师好？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">是小厂全栈好，还是大厂专业工程师好？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-17 16:28:00" itemprop="dateCreated datePublished" datetime="2020-05-17T16:28:00+00:00">2020-05-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><p>在博客园中使用小公司大公司进行搜索，列入的搜索记录长达50页。虽然完全命中关键词的文章也许并不多，但这或许也能体现出这个话题的热门程度。</p>
+<p>今天我的公众号好友中也有人问了我这个问题：</p>
+<blockquote>
+<p>在小公司里面做全栈好，还是大公司里面做专业的前端或者后台好？</p>
+</blockquote>
+<p>对于这个问题，我大概有一点点发言权。在我过去若干年的职业生涯中，各种类型的公司也算都经历过，小一点的公司，大概有四五十人，大一点的公司有大几百人。</p>
+<p>当然，与读者们的大厂比起来，都是小公司，着实不算大公司。但总体来说，也算是了解“专业工程师”和“全栈工程师”这两个名词背后的水深水浅。</p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>有时，当我们去跟一些人交流，会发现一个奇怪的现象，往往小公司的更喜欢称自己为“全栈工程师”，而大厂出来的，则反而不敢自称自己为“全栈工程师”。这究竟是为何呢？</p>
+<p>我们可以继续引述经典理论“达克效应”。</p>
+<p>1、不知道自己不知道。</p>
+<p>2、知道自己不知道。</p>
+<p>3、知道自己知道。</p>
+<p>4、不知道自己知道。</p>
+<p>这四个阶段其实无论在技术层面，还是职场发展过程中，都无处不在。</p>
+<p><img src="https://uploader.shimo.im/f/mPlz1AqvNxxvh5Pf.png!thumbnail" alt="图片"></p>
+<p>在我们每个人说起漫长，说起短暂的职业生涯中，总是会历经无穷次技术的发展，甚至变革，这些技术其实在给我们创造价值的同时，也一点点在我们的灵魂深处留下投影。</p>
+<p>有的技术或理论，会对我们的职业发展产生非常深刻的影响；有的则如雨后彩虹一般，突然出现，却有遽然消失。</p>
+<p>每一种技术或理论的产生总会有一套成体系的脉络，也许入门很容易，但要成为专家其实非常困难。达克效应表现的也是这样一种效应。</p>
+<p>那些看起来很容易就学会的东西，往往要深入或许更加困难。而许多大厂开发者深刻体会其中的不容易，所以若非经过最少几百小时的学习，其实不敢自称为专家，更遑论自称“全栈工程师”了。</p>
+<p>其实，有的人自称为“全栈工程师”，倒不如说是“全能工程师”—每种技术都或多或少懂一点，能够在很短的时间内完成任务，但一旦要有所深入，就略显不足，无法再进一步了。</p>
+<h1 id="三"><a href="#三" class="headerlink" title="三"></a>三</h1><p>但，无法在技术层面有所深入，是一件难以启齿的事情么？</p>
+<p>也许并非如此。我深深的感觉，在IT行业，看起来风起云涌，浪潮迭起，但依然充满前途和光明，其主要原因在于：人们对基于互联网场景下的应用，需求从来就没有因为互联网技术的发展而有所降低，反而越来越细致，越来越具体，产生着越来越深远的影响。</p>
+<p>例如，很多年前就说美国互联网泡沫破灭，但今天互联网经济反而越来越重要了；移动互联网也有人唱衰，“说BAT才掌握船票，已经垄断中国经济，其他公司几乎毫无机会”。却莫名其妙间，又多出了头条、美团、小米、滴滴、京东、拼多多等数不尽的优秀互联网公司。</p>
+<p>再过十年IT产业会逐渐退潮么，IT人才将会毫无施展才华的土壤么。不得而知，而且也不重要。重要的是，即便在互联网技术飞速发展的今天，中国依然对优秀的IT工程师非常稀缺。</p>
+<h1 id="四"><a href="#四" class="headerlink" title="四"></a>四</h1><p><img src="https://uploader.shimo.im/f/PTI6SkTmd0rOlYEC.png!thumbnail" alt="图片"></p>
+<p>时至今日，软件实现过程并没有因为软件技术人才的增加而逐渐简化，反而依然非常复杂。我们其实都能看到，在IT行业，五年经验以下的开发者始终居于大多数，不管是十年前，还是今天，行业都几乎没有太大的变化。我们能指望现在的年轻开发者能够提前规避我们之前遇到过的那些问题么？</p>
+<p>历史告诉我们：人们走过的弯路，后人其实还是会再走一遍。看似大爆炸的互联网，知识满地都是。其实，知识过载和知识过乏没有任何区别。所以，我们写过的那些垃圾代码，我们以前遇到过的那些bug，依然有许多年轻人在沿着我们的步伐再走一遍。</p>
+<p>那些隐藏在软件界面的冰山之下，难道bug突然减少了？究竟会不会在哪天突然爆发？客户提出的需求，程序员们究竟是如何实现的？</p>
+<h1 id="五"><a href="#五" class="headerlink" title="五"></a>五</h1><p>我始终认为，专业工程师依然非常匮乏，无论过去、今天，或未来。</p>
+<p>专业工程师或许不一定是某个领域的专家，也许是某些具备优秀跨职能能力的开发者。</p>
+<p>他们首先能够基于某些行业场景出发，以独特的视角发掘问题的本质，并快速的将业务问题转换为技术实现，还能抽丝剥茧，发现不同事物之间的关联关系，从而更好的将业务问题以软件的形式进行呈现，</p>
+<p>他们也能灵活的发现不同技术之间的优缺点，并使用合适的技术问题来进行适配，使得问题能够以最快的速度进行解决。</p>
+<p>他们还能从多个角度出发，而不仅仅是从【软件代码实现】这个维度出发来解决问题，他们所具备的良好的沟通能力和专业素养，使得客户/用户能够愿意倾听提出的建议，从而以最少的代价来解决问题。</p>
+<h1 id="六"><a href="#六" class="headerlink" title="六"></a>六</h1><p>成为专业工程师，与选择“大厂”或选择“小厂”有非常明显的区别么？</p>
+<p>大公司和小公司都有不同的发展轨迹，不同的人适合不同的发展方向。无论怎么选，其实都是“小样本”。</p>
+<p>个体选择走【跨职能型人才路线】或走【专业人才】路线，对于偌大的中国来说，都其实不会对历史的车轮产生多大的影响，但我们的选择其实是在慢慢的改变我们的生活。</p>
+<p>有时，小厂在能够填补我们对于经济上的匮乏，又有时，选择了大厂会让我们以为未来的发展无忧。</p>
+<p>确实如此，有时一些小厂反而能够比大厂提供短期内更加诱人的薪资，这对一些经济条件不太好的人来说，犹如“久旱甘霖”；而大厂看似平滑的发展曲线，能够让我们只要沿着设定的方向走下去，肯定不会走错。</p>
+<p>但真的小厂就意味着“朝不保夕”，大厂就一定是“高枕无忧”么？谁也说不准。</p>
+<p>最重要的，也许依然是认清自己的定位，无论在大厂，还是小厂，使自己成为出色的“专业工程师”，更加全面的成长，或许更能让我们的职场利于不败之地。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/15/技术/那些与EF有关的错误认知/" rel="next" title="那些与EF有关的错误认知">
+                <i class="fa fa-chevron-left"></i> 那些与EF有关的错误认知
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/18/随笔/共同创业五年，技术总监却突然就这么离职了/" rel="prev" title="共同创业五年，技术总监却突然就这么离职了">
+                共同创业五年，技术总监却突然就这么离职了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一"><span class="nav-number">1.</span> <span class="nav-text">一</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二"><span class="nav-number">2.</span> <span class="nav-text">二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三"><span class="nav-number">3.</span> <span class="nav-text">三</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四"><span class="nav-number">4.</span> <span class="nav-text">四</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五"><span class="nav-number">5.</span> <span class="nav-text">五</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六"><span class="nav-number">6.</span> <span class="nav-text">六</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

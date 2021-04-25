@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="title:    如何编写高质量的C#代码（一）date: 2020-6-20 21:05tags: 技术author: 邹溪源categories:  技术   如何编写高质量的C#代码（一）从”整洁代码“谈起一千个读者，就有一千个哈姆雷特，代码质量也同样如此。 想必每一个对于代码有追求的开发者，对于“高质量”这个词，或多或少都有自己的一丝理解。当我在长沙.NET技术社区群抛出这个问题时，众">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xiyuan技术圈">
+<meta property="og:url" content="http://techq.xyz/2021/04/25/技术/如何编写高质量的C#代码？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="title:    如何编写高质量的C#代码（一）date: 2020-6-20 21:05tags: 技术author: 邹溪源categories:  技术   如何编写高质量的C#代码（一）从”整洁代码“谈起一千个读者，就有一千个哈姆雷特，代码质量也同样如此。 想必每一个对于代码有追求的开发者，对于“高质量”这个词，或多或少都有自己的一丝理解。当我在长沙.NET技术社区群抛出这个问题时，众">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://techq.xyz/image-20200827083520175.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xiyuan技术圈">
+<meta name="twitter:description" content="title:    如何编写高质量的C#代码（一）date: 2020-6-20 21:05tags: 技术author: 邹溪源categories:  技术   如何编写高质量的C#代码（一）从”整洁代码“谈起一千个读者，就有一千个哈姆雷特，代码质量也同样如此。 想必每一个对于代码有追求的开发者，对于“高质量”这个词，或多或少都有自己的一丝理解。当我在长沙.NET技术社区群抛出这个问题时，众">
+<meta name="twitter:image" content="http://techq.xyz/image-20200827083520175.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/04/25/技术/如何编写高质量的C#代码？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/04/25/技术/如何编写高质量的C#代码？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-04-25 11:04:00" itemprop="dateCreated datePublished" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title:    如何编写高质量的C#代码（一）<br>date: 2020-6-20 21:05<br>tags: 技术<br>author: 邹溪源<br>categories:</p>
+<ul>
+<li>技术</li>
+</ul>
+<hr>
+<h1 id="如何编写高质量的C-代码（一）"><a href="#如何编写高质量的C-代码（一）" class="headerlink" title="如何编写高质量的C#代码（一）"></a>如何编写高质量的C#代码（一）</h1><h3 id="从”整洁代码“谈起"><a href="#从”整洁代码“谈起" class="headerlink" title="从”整洁代码“谈起"></a>从”整洁代码“谈起</h3><p>一千个读者，就有一千个哈姆雷特，代码质量也同样如此。</p>
+<p>想必每一个对于代码有追求的开发者，对于“高质量”这个词，或多或少都有自己的一丝理解。当我在长沙.NET技术社区群抛出这个问题时，众说纷纭。有人说注释齐全、可读性高，就是高质量；有人说变量命名、代码层次清晰，就说高质量的代码；有人说那些使用了新特性的代码，很多都是高质量代码；也有人说，高质量的代码是个伪命题，因为他往往要花大量的精力才能精心打磨，有这个时间，产品早就黄了。</p>
+<p>说到”高质量“代码，就不得不提”整洁代码”。这个概念来源于畅销书《代码整洁之道》（The Clean Code）中，鲍勃大叔引入了这个整洁代码的概念，他认为</p>
+<blockquote>
+<p>写整洁代码，需要遵循大量的小技巧，贯彻艰苦习得的‘整洁感’”，这种“代码感”就说关键所在。有些人生而有之。有的人费点劲才能得到。它不仅让我们看到代码的优劣，还予我们以借戒规之力化优为列的攻略。</p>
+<p>缺乏”代码感”的程序员，看混乱是混乱，无处着手，有“代码感”的程序员，能从混乱中看出其他的可能与变化。“代码感”帮助程序员选出最好的方案，并指导程序员指定修改行动计划，按图索骥。</p>
+<p>编写整洁代码的程序员就像艺术家，他能够用一系列变化把一块白板变作由优雅代码构成的系统。</p>
+</blockquote>
+<p>这本书值得摆在每一位程序员的案头。许多热衷于英文原作的读者都会说国人翻译的许多作品都失去了原作的韵味，但这本韩磊老师翻译这本中文版十几年过去了，印刷了许多版了，也能客观证明这本译作的价值。</p>
+<p>也许初读这本书，许多作者提到的手法我们无法短时间内认真体会，但许多读过这本书都表示，许多想法在我们写代码的时候突然迸溅而出，使得思路能够更加通达，并达到一种“人码合一”的状态。</p>
+<h3 id="”代码感“"><a href="#”代码感“" class="headerlink" title="”代码感“"></a>”代码感“</h3><p>在我们大部分开发者看来，我们开发的代码，往往无需涉及过于复杂的业务逻辑或底层技术，只需简单的使用一些代码拼凑，即可按时完成我们的任务，也就说所谓的”CRUD业务开发者“。</p>
+<p>但业务系统本身也并非全靠所谓的“无代码平台”或“代码生成器”能够自动开发完成，他依然需要开发者用心去设计其中的逻辑、变量、结构、流程，才能更好的运转，尤其是要想让应用系统能够保持长久的生命力，更需要我们能够编写更高质量的代码。</p>
+<p>在《代码整洁之道》中，作者将这种编写高质量代码的能力，称为“代码感”，这种感觉有时需要灵光一现，有时又需要花费大量的精力才能完成。</p>
+<p>就像在《灌篮高手》中，安西教练让大家培养球感：</p>
+<p><img src="/image-20200827083520175.png" alt="image-20200827083520175"></p>
+<p>两万个球？写两万个类/方法/代码行？确实是一种提高”代码感“的好方法。</p>
+<p>但跟投球要掌握方法一样，简单的重复写两万行代码估计很难提高代码质量，依然需要大量刻意练习才能带来质量上的提升。</p>
+<p>而如何编写高质量代码，在软件开发领域，也有一些前人总结出来的良好准则，人们将这些准则，总结为“设计原则”。除了设计原则外，还要许多良好的实践模式，人们将它们称为”设计模式“。设计原则就像是内功心法，设计模式，则像招数功夫。</p>
+<p>也许我们无法完全遵循这些原则或模式，但能够灵活的运用，总能给代码质量带来提升。</p>
+<h2 id="何为高质量代码"><a href="#何为高质量代码" class="headerlink" title="何为高质量代码"></a>何为高质量代码</h2><p>我个人认为：高质量代码是可读性强、易于测试，它们能够恰如其份的表达业务的需要，并能根据业务需要易于修改的代码。 高质量的代码也许与技术架构、特定API、特定的语言没有太大关系，但高质量代码或许都具备一些相似的特点。</p>
+<h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><p>结构是代码的核心，就像高楼的支架，为整个代码的完整运行奠定基础。好的代码一定结构清晰，让人易于理解，并能快速定位问题、解决问题。</p>
+<p>有人说好文章的结构特点便是：” 凤头、猪肚、豹尾“， 文章的起头要奇句夺目，引人入胜，如同凤头一样俊美精采;文章的主体要言之有物，紧凑而有气势，如同猪肚一样充实丰满;文章的结尾要转出别意，宕开警策，如同豹尾一样雄劲潇洒。 代码也许无需追求达到这么高的境界，但遵循一定清晰的代码结构也能达到同样的效果。</p>
+<p>结构按照我个人的理解，可能包括以下几种层面：1、项目文件夹命名；2、分层；3、模块命名；4、代码格式。</p>
+<h4 id="1、项目文件夹"><a href="#1、项目文件夹" class="headerlink" title="1、项目文件夹"></a>1、项目文件夹</h4><p>对于复杂项目，打开文件夹和解决方案的第一眼，是清晰还是紊乱，往往就是我们对于项目的第一印象。许多资深研发工程师，都会倾向于用数字来对文件夹进行编号，例如对于复杂项目，我们使用如下命名方式对定义解决方案文件夹，虽然不会花特别多的功夫，但会给开发过程带来许多便利。</p>
+<p>当然，由于在Visual Studio中，项目文件夹本身属于sln解决方案文件中定义的层级结构，并不会在资源管理器文件夹中体现，所以有时还需要在资源管理器文件夹中也定义类似的层级结构。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">01 基础服务</span><br><span class="line">02 框架服务</span><br><span class="line">03 应用服务</span><br><span class="line">   01 工作流服务</span><br><span class="line">   02 权限服务</span><br><span class="line">   03 日志服务</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、分层"><a href="#2、分层" class="headerlink" title="2、分层"></a>2、分层</h4><p>分层式架构大家都习以为常，其中尤其以三层架构（用户表现层，业务逻辑层，数据访问层）已经深入人心，成为许多.NET开发者的普遍认可，而领域驱动设计最常见的则是四层式领域驱动设计（用户界面层，应用层，领域层，基础设施层）。</p>
+<p>分层式架构体现了”关注度分离“的原则，在进行软件开发过程中，可以根据需求，找到对应的逻辑分层，进行代码实现；有时不同逻辑分层的组件会以各自不同的发展速度迭代以满足不同的需求；在适当的情况下，还能采用分布式架构，让不同层运行在不同的基础设施中，期间通过rpc等方式保持通信，给架构留下了足够的弹性空间。                                                                                                                                                                 </p>
+<p>设计分层式架构并非越多越好，尽量控制在三到四层就足够了，不然会陷入”千层饼“的陷阱，过多的分层和过少的分层，其实没有任何区别。</p>
+<p>对于后端工程师来说，理解分层式架构并不困难，难的是要识别哪里逻辑代码应该归属于哪一层；而许多对于方兴未艾的前端技术来说，如何分层，却似乎并不是一件容易的事，由于前端业务要适应来自用户层面的无穷变化，很容易就陷入“意大利面”式的代码混乱中。vuex框架为前端开发者提供了一种良好的示例，有时无需深入了解vuex的机制，只需”模仿”这种分层方法，就能写出更加易于维护的前端代码了。</p>
+<h4 id="3、模块（类库）"><a href="#3、模块（类库）" class="headerlink" title="3、模块（类库）"></a>3、模块（类库）</h4><h5 id="模块的设计和耦合性"><a href="#模块的设计和耦合性" class="headerlink" title="模块的设计和耦合性"></a>模块的设计和耦合性</h5><p>在.NET开发中，模块有时是一个独立的项目，并以一个独立dll（类库）的形式进行分发。模块也是最为常见的一种代码实践，但在《领域驱动设计·软件核心复杂性应对之道》一书中，作者埃里克·埃文斯却指出模块的运用，引起了“认知过载”的问题：</p>
+<blockquote>
+<p>认知负荷理论认为，在问题解决和学习过程中的各种认知加工活动均需要消耗认知资源，若所有活动所需的资源总量超过个体拥有的资源总量，就会引起资源的分配不足，从而影响个体学习或问题解决的效率，这种问题就说“认知过载”。</p>
+</blockquote>
+<p>这段理论确实有点拗口，对应到软件开发过程中，用通俗的说法，就是这个包承载的知识量太大了，把原本可以分离到多个模块中的逻辑代码都囊括进来，使得其反而降低了开发的效率。</p>
+<p>尤其是类库的定义，不同的开发者有不同的习惯，有时按技术来划分，有时又按业务场景来划分，有时分拆，有时组合，“千人千面”，不连贯的设计思想，和“能用就行”的想法混合在一起，很容易就造成了一锅粥的情况。</p>
+<p>在.NET项目中，每用一个using，就引入了一种耦合，而使用了new方法，创建了一个对象的示例，又引入了一个对象的耦合。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> xxx.Core;</span><br><span class="line"><span class="keyword">using</span> xxx.Infrastructure.Extension;</span><br><span class="line"><span class="keyword">using</span> Google.Protobuf.Collections;</span><br><span class="line"><span class="keyword">using</span> Google.Protobuf.WellKnownTypes;</span><br><span class="line"><span class="keyword">using</span> Grpc.Core;</span><br></pre></td></tr></table></figure>
+
+<p>而设计优良的代码模块，则可以让依赖尽可能的减少。</p>
+<p>模块其实也是实践“高内聚，低耦合”思想的主要阵地，如果业务相关性很高的对象被划分到不同的模块中，往往会使得开发者很难理解它们在业务上的作用，也会导致模块间的耦合进一步提高。</p>
+<p>因此，好的模块设计应该将那些具有紧密概念关系的模型元素集中在一起，并能描述该模型元素的职能，使之成为一个内聚的概念集合。</p>
+<h5 id="组件设计的原则"><a href="#组件设计的原则" class="headerlink" title="组件设计的原则"></a>组件设计的原则</h5><p>关于如何设计模块，在《敏捷软件开发 原则、模式与实践》一书中，作者引述了以下设计原则基于粒度这个角度为组件的内聚性进行描述：</p>
+<h6 id="重用-发布等价原则（REP）"><a href="#重用-发布等价原则（REP）" class="headerlink" title="重用-发布等价原则（REP）"></a>重用-发布等价原则（REP）</h6><blockquote>
+<p>重用的粒度就是发布的粒度。REP指出，一个组件的重用粒度可以和发布粒度一样大。我们所重用的任何东西都必须被发布和跟踪。简单的编写一个类，然后声称它是可重用的做法是不现实的。只有在建立一个跟踪系统，为潜在的使用者提供所需要的变更通知、安全性以及支持后，重用才有可能。</p>
+</blockquote>
+<h6 id="共同重用原则（CRP）"><a href="#共同重用原则（CRP）" class="headerlink" title="共同重用原则（CRP）"></a>共同重用原则（CRP）</h6><blockquote>
+<p>一个组件中的所有类应该是共同重用的，如果重用了组件中的一个类，那么就要重用组件中的所有类。</p>
+</blockquote>
+<h6 id="共同封闭原则（CCP"><a href="#共同封闭原则（CCP" class="headerlink" title="共同封闭原则（CCP)"></a>共同封闭原则（CCP)</h6><blockquote>
+<p>组件中的所有类对于同一种性质的变化应该是共同封闭的。一个变化若是对一个封闭的组件产生影响，则将对组件中所有的类产生影响，而对其他组件则不造成任何影响。</p>
+</blockquote>
+<p>从稳定性的角度为组件的内聚性进行描述：</p>
+<h6 id="无环依赖原则："><a href="#无环依赖原则：" class="headerlink" title="无环依赖原则："></a>无环依赖原则：</h6><blockquote>
+<p>在组件中的依赖关系图中，不允许存在环。</p>
+</blockquote>
+<h6 id="稳定抽象原则"><a href="#稳定抽象原则" class="headerlink" title="稳定抽象原则"></a>稳定抽象原则</h6><blockquote>
+<p>朝着稳定的方向进行依赖。</p>
+</blockquote>
+<p>设计不能是完全静态的。要使设计可维护，某种程度的易变性是必要的。我们通过遵循共同封闭原则来达到这个目标。使用这个原则，可以创建对某些变化类型敏感的组件。这些组件设计为可变的。我们期望他们变化。</p>
+<h6 id="稳定抽象原则-1"><a href="#稳定抽象原则-1" class="headerlink" title="稳定抽象原则"></a>稳定抽象原则</h6><blockquote>
+<p>组件的抽象程度应该与其稳定程度一致。</p>
+</blockquote>
+<h4 id="4、代码格式"><a href="#4、代码格式" class="headerlink" title="4、代码格式"></a>4、代码格式</h4><h5 id="类的基本结构"><a href="#类的基本结构" class="headerlink" title="类的基本结构"></a>类的基本结构</h5><p>代码格式，就是一个C#代码文件的逻辑结构。写代码其实是一件成本很低的事，但维护代码，却是一件成本很高的事。开发一个功能，只需短短几十分钟时间，但如果我们要去找出代码中存在的缺陷，却往往需要花费大量的时间。</p>
+<p>这就客观上要求，我们书写的代码应该尽量方便阅读（可读性）、检索（快速找问题）、易于维护，而书写出“格式化”的代码，大概是我们能够提高代码质量的第一步。</p>
+<p>对于书写的代码，大部分都是从上往下阅读，在需要阅读的代码较多量时，往往会选择折叠到定义，这样就能一眼看出每个方法的用途，要达到这个效果，就意味着我们需要精心设计安排代码的垂直格式。有经验的开发者往往会按照这种结构。</p>
+<p>私有字段：定义类内部的基本成员，高层次概念，常量，和引入的算法。</p>
+<p>构造函数：定义类的创建过程。</p>
+<p>公共方法：定义类为外部暴露的行为。</p>
+<p>私有方法：定义类为内部提供的行为。</p>
+<h5 id="类的格式要求"><a href="#类的格式要求" class="headerlink" title="类的格式要求"></a>类的格式要求</h5><p>在《代码整洁之道》这本书中，作者介绍了他对于代码的格式要求：</p>
+<h6 id="垂直格式"><a href="#垂直格式" class="headerlink" title="垂直格式"></a>垂直格式</h6><p>代码文件的长度控制在200-500行左右，且短文件通常比长文件易于理解。垂直阅读时，顶部是粗线条概述，隐藏了故事细节，然后再不断展开。</p>
+<p>每行展示一个表达式或一个子句，尤其是C#的链式语法，尽量一行代码就是一个方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">entity.Property(e =&gt; e.Memo)</span><br><span class="line">.HasMaxLength(500)</span><br><span class="line">.IsUnicode(false)</span><br><span class="line">.HasComment(&quot;备注&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>每组代码行展示一个完整的思路，思路间用空白行隔开。垂直方向上，靠近的代码可以展示它们之间的紧密关系，能够让代码更好阅读。</p>
+<p>变量声明应尽可能靠近其使用位置，因为函数很短，本地变量应该在函数的顶部出现。一个函数调用了另外一个函数，应该把它们放到一起，且调用者应该在被调用者上面。概念相关的代码应该放到一起，相关性越强，彼此之间的距离就该越短。</p>
+<h6 id="横向格式"><a href="#横向格式" class="headerlink" title="横向格式"></a>横向格式</h6><p>横向首先表现在代码的宽度上，尽量控制在一行代码不超过120个字符。</p>
+<p>水平方向上，可以用空格字符把彼此紧密相关的变量或对象连接在一起，也可以用空格将相关性较弱的对象分割开。</p>
+<p>注意水平缩进和左对齐，尤其是上面提到的链式语法，如果点号没对齐，简直让人难受。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">entity.Property(e =&gt; e.UserId)</span><br><span class="line">   .HasMaxLength(10)</span><br><span class="line">  .IsUnicode(false)</span><br><span class="line">.IsFixedLength();</span><br></pre></td></tr></table></figure>
+
+<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>本文对如何编写高质量代码进行了一些简单的概述，介绍了代码的分层、组件（包）的设计、以及整洁代码中的一些开发实践，通过了解这些知识，能够让我们逐渐形成自己对于代码的体会，并通过不断的练习，将能够提高我们的代码能力。</p>
+<p>当然，有时，写文档、适当的做一些软件工程设计，看起来与完成代码编写无关，但也同样是提高代码质量的一种手法，通过就像许多好文章往往会先搭框架，好代码也同样如此。</p>
+<p>根据业务需要，画一波流程图、领域模型图、类图、时序图能够让我们的思路提前沉淀，让我们的开发过程更加流畅，更能开发出高质量的代码。</p>
+<p>下一篇，将对规范命名、注释、设计向量、设计原则、设计模式进行一些讨论。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/25/技术/在ASP.NET Core中的应用启动时运行异步任务-第1部分/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/在生产中处理EFCore数据库迁移–第2部分/" rel="prev" title="在生产中处理EFCore-模式实战">
+                在生产中处理EFCore-模式实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何编写高质量的C-代码（一）"><span class="nav-number">1.</span> <span class="nav-text">如何编写高质量的C#代码（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从”整洁代码“谈起"><span class="nav-number">1.0.1.</span> <span class="nav-text">从”整洁代码“谈起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#”代码感“"><span class="nav-number">1.0.2.</span> <span class="nav-text">”代码感“</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何为高质量代码"><span class="nav-number">1.1.</span> <span class="nav-text">何为高质量代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码结构"><span class="nav-number">1.1.1.</span> <span class="nav-text">代码结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、项目文件夹"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">1、项目文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、分层"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">2、分层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、模块（类库）"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">3、模块（类库）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模块的设计和耦合性"><span class="nav-number">1.1.1.3.1.</span> <span class="nav-text">模块的设计和耦合性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组件设计的原则"><span class="nav-number">1.1.1.3.2.</span> <span class="nav-text">组件设计的原则</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#重用-发布等价原则（REP）"><span class="nav-number">1.1.1.3.2.1.</span> <span class="nav-text">重用-发布等价原则（REP）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#共同重用原则（CRP）"><span class="nav-number">1.1.1.3.2.2.</span> <span class="nav-text">共同重用原则（CRP）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#共同封闭原则（CCP"><span class="nav-number">1.1.1.3.2.3.</span> <span class="nav-text">共同封闭原则（CCP)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#无环依赖原则："><span class="nav-number">1.1.1.3.2.4.</span> <span class="nav-text">无环依赖原则：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#稳定抽象原则"><span class="nav-number">1.1.1.3.2.5.</span> <span class="nav-text">稳定抽象原则</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#稳定抽象原则-1"><span class="nav-number">1.1.1.3.2.6.</span> <span class="nav-text">稳定抽象原则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、代码格式"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">4、代码格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类的基本结构"><span class="nav-number">1.1.1.4.1.</span> <span class="nav-text">类的基本结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类的格式要求"><span class="nav-number">1.1.1.4.2.</span> <span class="nav-text">类的格式要求</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#垂直格式"><span class="nav-number">1.1.1.4.2.1.</span> <span class="nav-text">垂直格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#横向格式"><span class="nav-number">1.1.1.4.2.2.</span> <span class="nav-text">横向格式</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#小结"><span class="nav-number">1.1.1.4.3.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

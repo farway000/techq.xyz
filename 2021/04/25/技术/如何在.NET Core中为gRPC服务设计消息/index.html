@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="如何在.NET Core中为gRPC服务设计消息使用协议缓冲区规范定义gRPC服务非常容易，但从需求转换为.NET Core，然后管理服务的演变时，需要注意几件事。 创建gRPC服务的核心是.proto文件，该文件以与语言无关的格式描述了该服务。使用.proto文件，Visual Studio可以为您的服务生成基类（您只需编写特定于业务的代码），或者可以生成用于可靠访问服务的客户端类。 .prot">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content=". 如何在.NET Core中为gRPC服务设计消息">
+<meta property="og:url" content="http://techq.xyz/2021/04/25/技术/如何在.NET Core中为gRPC服务设计消息/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="如何在.NET Core中为gRPC服务设计消息使用协议缓冲区规范定义gRPC服务非常容易，但从需求转换为.NET Core，然后管理服务的演变时，需要注意几件事。 创建gRPC服务的核心是.proto文件，该文件以与语言无关的格式描述了该服务。使用.proto文件，Visual Studio可以为您的服务生成基类（您只需编写特定于业务的代码），或者可以生成用于可靠访问服务的客户端类。 .prot">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=". 如何在.NET Core中为gRPC服务设计消息">
+<meta name="twitter:description" content="如何在.NET Core中为gRPC服务设计消息使用协议缓冲区规范定义gRPC服务非常容易，但从需求转换为.NET Core，然后管理服务的演变时，需要注意几件事。 创建gRPC服务的核心是.proto文件，该文件以与语言无关的格式描述了该服务。使用.proto文件，Visual Studio可以为您的服务生成基类（您只需编写特定于业务的代码），或者可以生成用于可靠访问服务的客户端类。 .prot">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/04/25/技术/如何在.NET Core中为gRPC服务设计消息/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>. 如何在.NET Core中为gRPC服务设计消息 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/04/25/技术/如何在.NET Core中为gRPC服务设计消息/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">. 如何在.NET Core中为gRPC服务设计消息
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-04-25 18:56:00 / Modified: 11:04:00" itemprop="dateCreated datePublished" datetime="2021-04-25T18:56:00+00:00">2021-04-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="如何在-NET-Core中为gRPC服务设计消息"><a href="#如何在-NET-Core中为gRPC服务设计消息" class="headerlink" title="如何在.NET Core中为gRPC服务设计消息"></a>如何在.NET Core中为gRPC服务设计消息</h3><p>使用协议缓冲区规范定义gRPC服务非常容易，但从需求转换为.NET Core，然后管理服务的演变时，需要注意几件事。</p>
+<p>创建gRPC服务的核心是.proto文件，该文件以与语言无关的格式描述了该服务。使用.proto文件，Visual Studio可以为您的服务生成基类（您只需编写特定于业务的代码），或者可以生成用于可靠访问服务的客户端类。</p>
+<p>.proto文件必须符合Google的协议缓冲区规范（通常称为ProtoBuf）。原始文件的内容使您可以指定服务的接口。服务接口由两部分组成：</p>
+<ul>
+<li>您的gRPC服务提供的方法</li>
+<li>这些方法的参数和返回值的数据结构</li>
+</ul>
+<p>您可以使用<a href="https://developers.google.com/protocol-buffers/docs/proto3#scalar" target="_blank" rel="noopener">Protocol Buffers规范中</a>定义的标量类型来构建这些数据结构（在ProtoBuf中称为“消息”）。可用的类型包括布尔值，字符串，字节数组和各种数字类型（浮点型，整数型和长型）。没有日期或固定的十进制类型。在接下来的专栏中，我将向您展示如何添加时间戳类型。对于小数，您可以使用float …并伴随着float带来的精度损失。</p>
+<p>如果您要开始一个新项目，则要使用自2016年以来的proto3语法。但是，您必须在.proto文件的第一行“非空”行上明确指定proto3标准。引用<a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank" rel="noopener">规范</a>），否则将使用proto2规范解析您的.proto文件。指定您的文件使用proto3看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="消息和C＃类"><a href="#消息和C＃类" class="headerlink" title="消息和C＃类"></a>消息和C＃类</h5><p>使用proto3规范，用于客户信息的消息格式可能如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">message CustomerResponse &#123;</span><br><span class="line">  int32 custid = 1;</span><br><span class="line">  string firstName = 2;</span><br><span class="line">  string lastName = 3;</span><br><span class="line">  int32 age = 4;</span><br><span class="line">  fixed32 creditLimit = 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>等号后的数字指定消息中字段的位置，从位置1开始（在我的示例中，firstName将是消息中的第二个字段）。这些数字在消息中必须是唯一的（即，您不能在同一位置使用两个字段）。您不必按数字顺序列出字段，但是如果您这样做的话，则可以更轻松地发现重复的字段编号（尽管Visual Studio将发现任何重复的编号，并在构建应用程序时将其报告在“错误列表”中）。如果需要，您也可以跳过职位。此定义仅使用奇数，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">message CustomerResponse &#123;</span><br><span class="line">  int32 custid = 1;</span><br><span class="line">  string firstName = 3;</span><br><span class="line">  string lastName = 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在.NET Core中，消息格式被转换为类，每个字段都成为与消息同名的类的属性。命名这些属性时，.NET Core还将字段名称的第一个字符转换为大写。因此，例如，我上一个示例中的custId字段将成为我代码中CustomerResponse类上的CustId属性。</p>
+<p>在此过程中，还得删除字段名称中的所有下划线，并且将以下字母大写（即，Last_name字段名称变为LastName属性）。</p>
+<p>该过程还涉及将.NET类型映射到ProtoBuf类型（例如，ProtoBuf int32变为.NET int，ProtoBuf的int64变为long，fixed32变为uint），这需要向.NET Core添加一些新类。例如，ProtoBuf支持字节数组，其类型为字节。名为ByteString的新.NET数据类型支持该字段类型。要加载ByteString，请使用ByteString类的静态CopyFrom方法，并传递一个字节数组，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">byte[] bytes = new byte[1000];</span><br><span class="line">cr.Valid = ByteString.CopyFrom(bytes);</span><br></pre></td></tr></table></figure>
+
+<p>要从ByteString检索字节数组，请使用对象的CopyTo方法，并传递要将字节复制到的数组和起始位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cr.Valid.CopyTo(bytes,0);</span><br></pre></td></tr></table></figure>
+
+<h5 id="数组和字典"><a href="#数组和字典" class="headerlink" title="数组和字典"></a>数组和字典</h5><p>您也可以使用【repeated】的关键字将集合包括在定义中（在ProtoBuf中，不是集合的字段称为“单数”）。如果我的客户消息需要一组重复的交易金额，则可以指定如下字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message Customer &#123;</span><br><span class="line">   int32 id = 1;</span><br><span class="line">   repeated fixed32 transactionAmounts = 4;</span><br></pre></td></tr></table></figure>
+
+<p>重复的字段在转换为类的属性时，也使用新的类型：Google.Protobuf.RepeatedField <t>。例如，我的示例将生成Google.Protobuf.RepeatedField <uint>（无符号整数）的属性。您可以使用{}语法来初始化数组，如下所示：</uint></t></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CustomerResponse cr = new CustomerResponse</span><br><span class="line">            &#123;</span><br><span class="line">                CreditLimit = &#123;10, 15, 100&#125;    </span><br><span class="line">            &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>您可能更可能使用其各种Add方法将项目放入集合中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cr.CreditLimit.Add（200）;</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用LINQ方法（例如First（））或按位置访问RepeatedField中的项目。可以正常工作，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uint tranAmount = cr.CreditLimit [1];</span><br></pre></td></tr></table></figure>
+
+<p>ProtoBuf还支持称为map的Dictionary-type集合，该集合允许您为字典的键和值指定类型。我的客户消息可能会使用“友好名称”来跟踪客户的各种信用卡，以定义一个字典，该字典包含密钥（“彼得卡”，“我的旅行卡”）和值（信用卡号）的字符串）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message CustomerResponse &#123;</span><br><span class="line">  int32 custId = 1;</span><br><span class="line">  map&lt;string, string&gt; cards = 2;</span><br></pre></td></tr></table></figure>
+
+<p>有趣的是，在Visual Studio 2019预览版中，编辑器不会像其他类型一样突出显示map对象（尽管编译得很好）。</p>
+<p>相应的属性将为Google.Protobuf.Collections.MapField类型，您可以通过将其Add方法传递给键和一个值来加载它，就像其他任何Dictionary一样。</p>
+<h5 id="管理变更"><a href="#管理变更" class="headerlink" title="管理变更"></a>管理变更</h5><p>上线后（客户端开始使用它）更改.proto文件相对容易。例如，您可以将具有新位置编号的字段添加到服务器端软件使用的.proto文件中，而不会打扰仍在使用该文件的早期版本的客户端：客户端只是忽略未在其.proto文件中列出的字段。</p>
+<p>同样，在相反的情况下（当服务器.proto文件没有客户端的.proto字段具有的字段时），客户端只会发现服务器未发送的属性被设置为其默认值。顺便说一句，在服务器的.proto文件中定义的，未在客户端的.proto文件中定义的字段仍会发送到客户端，但是.NET不能提供一种方便的方式来访问它（至少现在还没有）。</p>
+<p>确实，随着服务的发展和修改其.proto文件，您仅应遵守两个规则：</p>
+<ul>
+<li>不要更改现有字段的位置编号</li>
+<li>不要回收职位编号（即不要用新的字段3替换过时的字段3）</li>
+</ul>
+<p>但是，从.proto文件生成的属性不可为空，因此，如果未将属性设置为值，则它将被设置为其默认值。这意味着数字被设置为0；数字被设置为0。将string设置为string.Empty（长度为零的字符串）；布尔变成虚假的；ByteString属性默认为ByteString对象，其IsEmpty属性设置为true；并且RepeatedField和MapField属性均默认为其对应的对象，每个对象均不包含任何项目，并且其Count属性设置为0。</p>
+<p>由于这种行为，存在从服务的.proto文件中删除字段并且不更新所有客户端（或者只是在服务器上生成响应时未在对象上设置属性）的危险。危险是客户端无法区分未使用的字段和已设置为其默认值的属性之间的区别。如果将我的客户的有效属性设置为false，则客户端将无法确定客户是否无效或服务器是否不再生成该字段。</p>
+<p>您可能需要考虑将属性初始化为某个“不合理的”值（例如，数字为-1），以便客户端可以区分设置为默认值的属性和已删除的字段之间的区别。因为这对于布尔值是不可能的（布尔值没有不合理的值），所以您要特别警惕删除（甚至不再使用）布尔类型的字段。</p>
+<h5 id="效率和局限性"><a href="#效率和局限性" class="headerlink" title="效率和局限性"></a>效率和局限性</h5><p>正如我在<a href="https://visualstudiomagazine.com/articles/2019/08/28/grpc-web-services.aspx" target="_blank" rel="noopener">较早的概述中</a>所讨论的<a href="https://visualstudiomagazine.com/articles/2019/08/28/grpc-web-services.aspx" target="_blank" rel="noopener">那样</a>，gRPC服务的功能之一是它们的消息比基于HTTP的（RESTful）服务小得多。如果您真的想利用这种效率，请注意位置1到15仅需要一个字节的额外开销（即超出存储值的数据），而位置16到2047则需要两个字节。将消息格式保持在16位以下似乎是个好主意。</p>
+<p>有关将数据打包到尽可能小的空间的选择类型方面的其他效率提示，请参阅规范中的<a href="https://developers.google.com/protocol-buffers/docs/proto3#scalar" target="_blank" rel="noopener">标量类型说明</a>。</p>
+<p>顺便说一句，您不能使用以下任何一种作为字段位置编号：负数，0、19,000到19,999（保留给ProtoBuf使用）或大于536,870,911的数字。我是否也可以建议，如果您想使用这些数字，那么您将遇到在本专栏中我无法解决的问题。</p>
+<p>真的。别那样做。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/25/技术/在生产环境下处理EFCore数据库迁移–第1部分/" rel="next" title="在生产环境下处理EFCore数据库迁移–第1部分">
+                <i class="fa fa-chevron-left"></i> 在生产环境下处理EFCore数据库迁移–第1部分
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/如何在ASP.NET Core中集成ElasticSearch/" rel="prev" title="如何在ASP.NET Core中集成ElasticSearch">
+                如何在ASP.NET Core中集成ElasticSearch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在-NET-Core中为gRPC服务设计消息"><span class="nav-number">1.</span> <span class="nav-text">如何在.NET Core中为gRPC服务设计消息</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#消息和C＃类"><span class="nav-number">1.0.1.</span> <span class="nav-text">消息和C＃类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数组和字典"><span class="nav-number">1.0.2.</span> <span class="nav-text">数组和字典</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#管理变更"><span class="nav-number">1.0.3.</span> <span class="nav-text">管理变更</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#效率和局限性"><span class="nav-number">1.0.4.</span> <span class="nav-text">效率和局限性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

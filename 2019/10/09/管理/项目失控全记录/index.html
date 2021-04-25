@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="题外话在此之前，笔者主要从事传统IT企业的研发技术管理工作，对项目管理虽然有一定的经验，但纯粹摸石子过河，没有系统的学习过项目管理理论，也很容易犯下技术人员对项目管理的一系列毛病。之前带的项目一般都是非产品型项目，功能一般以实现为主，对细节没有太多要求。项目一般采用瀑布模型，项目之初一般会制定一个非常详细的研发计划，涵盖需求分析、设计、研发、测试、验收的全过程。由于用户验收测试往往需要花大量时间，">
+<meta name="keywords" content="管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目失控过程全纪录">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/管理/项目失控全记录/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="题外话在此之前，笔者主要从事传统IT企业的研发技术管理工作，对项目管理虽然有一定的经验，但纯粹摸石子过河，没有系统的学习过项目管理理论，也很容易犯下技术人员对项目管理的一系列毛病。之前带的项目一般都是非产品型项目，功能一般以实现为主，对细节没有太多要求。项目一般采用瀑布模型，项目之初一般会制定一个非常详细的研发计划，涵盖需求分析、设计、研发、测试、验收的全过程。由于用户验收测试往往需要花大量时间，">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/yIOYm0fpLIklIBJc.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/Y3mAl1Mo3FYvknDn.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/yoJJ7UMPLkcLtE80.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目失控过程全纪录">
+<meta name="twitter:description" content="题外话在此之前，笔者主要从事传统IT企业的研发技术管理工作，对项目管理虽然有一定的经验，但纯粹摸石子过河，没有系统的学习过项目管理理论，也很容易犯下技术人员对项目管理的一系列毛病。之前带的项目一般都是非产品型项目，功能一般以实现为主，对细节没有太多要求。项目一般采用瀑布模型，项目之初一般会制定一个非常详细的研发计划，涵盖需求分析、设计、研发、测试、验收的全过程。由于用户验收测试往往需要花大量时间，">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/yIOYm0fpLIklIBJc.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/管理/项目失控全记录/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>项目失控过程全纪录 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/管理/项目失控全记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">项目失控过程全纪录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+00:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/管理/" itemprop="url" rel="index"><span itemprop="name">管理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h1><p>在此之前，笔者主要从事传统IT企业的研发技术管理工作，对项目管理虽然有一定的经验，但纯粹摸石子过河，没有系统的学习过项目管理理论，也很容易犯下技术人员对项目管理的一系列毛病。<br>之前带的项目一般都是非产品型项目，功能一般以实现为主，对细节没有太多要求。项目一般采用瀑布模型，项目之初一般会制定一个非常详细的研发计划，涵盖需求分析、设计、研发、测试、验收的全过程。由于用户验收测试往往需要花大量时间，因此会输出一份沉甸甸的需求说明书，然后让客户签字，并在验收阶段，在现场维持长时间的驻场开发，以便实时跟进需求的变化。曾经创造了带领10人研发团队、连续3个月，每天维持12个小时以上工时的工作记录。（堪称土劳模）<br>这是第一次参与互联网项目的开发，有明确的迭代周期和需求计划，但是由于各种原因，却逐渐走向失控，过程中究竟发生了什么原因？</p>
+<h1 id="失控全过程"><a href="#失控全过程" class="headerlink" title="失控全过程"></a>失控全过程</h1><p>话不多说，直接进入正题。<br>我将尽量以第三人称视角记录一个失控的项目，但事实上我实际是项目负责人，所以难免有失偏颇。<br>这是B公司一个面向特定行业的虚拟建站平台产品，虽然市面上建站产品非常多，但由于B公司在该行业颇有地位，能够获得一些比较实用的数据，这些数据是目标用户群体非常渴求的宝贵资源，因此如果将这些数据做成可视化组件然后打造这样的精准型建站产品，显然具有独特性的优势，能够为目标用户带来便利。<br>产品于2月底开始启动会，由研发部门内部碰头后，直接开始启动项目。（该公司管理比较扁平化，产品、研发、测试、设计分属技术部四个不同的团队）。<br>由于是互联网产品，因此往往会选择竞品。竞品为为3个比较热门的互联网建站平台，其目标是要满足这些建站平台的特性，包含一个功能强大、效果优雅、流程简单的设计器；实现自动化建站部署等。在项目初期仅明确了总功能点的约40%，初步估计需要完成大大小小的页面15个，设计数据库20几个表。<br>（最终做出的页面数量虽然没增加，但是前端的逻辑也非常复杂、后端逻辑也有点复杂，数据库有45个表，大小接口将近80个）<br>技术总监指示：采用敏捷开发模式。总工期为8周，按2周一迭代。项目启动时，共有后端开发者3人，前端1人、产品1人、设计1人，测试1人。由本人担任总体负责人和后端开发者。<br>这个配比本身不太合理的项目，显然8周时间不可能完成，但领导没有进一步的时间计划，只能基于现有资源制定为期八周的先启阶段，其目标是搭建符合流程的最小可行版本(MVP)。由于大部分功能都在前端，但是实际上仅配了一位前端，而且这位前端是公司的前端负责人，每天仅能花不到40%的时间投入到项目研发过程中。后端则可以开始根据现有需求进行数据库、接口的设计。<br>这个MVP版本包含网站定义、网站编辑、网站设计器和发布流程、目前需求范围内的接口功能开发，工期为8周。<br>项目组还需另外招聘3位前端开发者。<br>到五月底最终完成整个MVP功能开发花了十周时间。因为前端部分的工作量大于预估，仅设计器就花了6周。5月完成简单的演示，基本符合主体流程。<br><img src="https://uploader.shimo.im/f/yIOYm0fpLIklIBJc.png!thumbnail" alt="图片"><br>此时项目需求已经明确了60%，技术总监认为7月底可以完成功能的开发。<br>于是从5月开始，到7月底，共有10周时间，开始进入倒排期。庆幸项目组成员已经配齐，至少是有人可以用。但在需求池里面的需求非常多，所以大家得加班。于是集体开始进入加班状态。<br>项目很给力，动作交互和逻辑非常多，许多样式和动作都需要前端开发，几乎没有任何可以复用的经验，由于设计器本身是赶工期赶出来的，功能不完善，而且还有很多组件功能需要开发，最终于7月20几号左右完成主体功能的开发，但是有较多量的bug，推迟到8月6日才能交付测试，然后还剩余的40%功能点。<br><img src="https://uploader.shimo.im/f/Y3mAl1Mo3FYvknDn.png!thumbnail" alt="图片"><br>由于项目已经严重滞后，上线目标定在9月中旬，又是一轮加班，坚持到8月底。<br>需求勉强控制住了，但是bug却越来越多，已经远远不可能在9月交付了。<br><img src="https://uploader.shimo.im/f/yoJJ7UMPLkcLtE80.png!thumbnail" alt="图片"><br>一句话总结：开始时，没人，赶时间；后来人来了，但是任务多，赶时间；最后，任务多，bug多，也赶时间。 程序员们的996,就是这么产生的。</p>
+<h1 id="项目结局"><a href="#项目结局" class="headerlink" title="项目结局"></a>项目结局</h1><p>进入9月，公司高层对项目提出了新的要求，项目需求将进一步增加。<br>由于负面情绪的影响、以及对在这家公司的发展前途迷茫、无法忍受高强度的工作、转Java等原因，本人提出离职；<br>而担任前端开发工作的核心开发者也同样因为待遇问题、发展前途、技术路线不匹配等原因提出离职。<br>项目彻底失控。</p>
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><ol>
+<li>未能及时的向上级汇报可能存在的风险，未能考虑补偿资源等问题。未能实时的进行问题的跟进，汇报和沟通，直到最终问题无法弥补而爆发。</li>
+<li>项目管理过程中过程数据不完善，无法形成有效的经验教训知识库，容易造成组织过程资产的流失。</li>
+<li>这个项目前期需求范围虽然比较明确，但是技术细节多，人员不足，设定工期内明显完不成。</li>
+<li>项目团队属于重新组建的团队，都是入司未满一年的新员工，且还有一半是在项目期间组建的新员工，彼此缺乏磨合。</li>
+<li>项目任务优先级不明确，对MVP的粒度划分也不合理。（因为设计器功能很复杂，花费了大量的时间去开发）前期的功能粒度划分不合理，测试无法第一时间介入，问题积累到后期爆发。 </li>
+<li>功能逻辑复杂，细节颇多。拍脑袋式的工时估算和计划不适合此类项目。</li>
+<li>异地沟通本身存在时延，影响了项目执行效果。</li>
+<li>由于为了完成不可能完成的任务，项目组成员被迫赶工期，为了盲目应对需求变化而投机取巧，难免会改出新问题。</li>
+<li>公司内部对代码质量和工期提出了新要求，延迟这么凶的项目显然不会获得高绩效；除此之外，内部政策变动，要求实施9116的工作制度，加上提出了封闭项目等政策，让内部消极情绪开始占上风。</li>
+<li>本身存在一些技术问题。<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1>使用好项目管理工具有利于知识的传承和积累，对项目管理过程来说尤为重要，这个项目虽然使用了Jira作为项目管理工具，设定了迭代目标和周期，但是未能妥善使用，依然是用excel进行项目管理，措施不科学，也无法直观的观察项目进程。<br>互联网产品致力于为用户提高更高的用户体验，因此需要花更长的时间和精力进行UI级的打磨、开发者也同样需要花更大的时间来完成对应的开发任务，作为项目经理要学会做好上下沟通，遇到问题应该给出自己的专业意见，有问题应该尽早向领导汇报风险，积极的反馈意见，哪怕收不到积极的响应，也能起到提前预防的作用。<br>进度和计划固然是很重要的，但是要认识到人才是企业的核心竞争力，一支对产品精益求职的产品设计团队、一支每天愿意花10小时耐心写代码、努力提高研发产出的软件工程师团队是互联网产品成功的核心关键。<br>一味的压缩工时来完成产品的研发不现实，在时间、进度、质量之间，必须找到一个中间点，这就要求做好客户的预期管理。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/管理/" rel="tag"># 管理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/技术/从零开始学习TDD，测试驱动开发/" rel="next" title="从零开始学习TDD，测试驱动开发">
+                <i class="fa fa-chevron-left"></i> 从零开始学习TDD，测试驱动开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/技术/关注细节，成就卓越代码/" rel="prev" title="关注细节，成就卓越代码">
+                关注细节，成就卓越代码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题外话"><span class="nav-number">1.</span> <span class="nav-text">题外话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#失控全过程"><span class="nav-number">2.</span> <span class="nav-text">失控全过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目结局"><span class="nav-number">3.</span> <span class="nav-text">项目结局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题分析"><span class="nav-number">4.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

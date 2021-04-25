@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在上一篇文章中，我们讨论了将ElasticSearch用作简单的全文本搜索引擎，如何快速安装和配置它以及如何将其集成到我们的.NET Web应用程序中。 今天，我们仍然要在电子商务网站中向您展示如何使用ElasticSearch的许多功能来改善搜索。 我们使用了没有嵌套类的平面Product类来轻松管理搜索，但是这种方法有很多限制。然后，我们引入了一个新的数据模型，以便任何对象都是要建模的实体。一">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能">
+<meta property="og:url" content="http://techq.xyz/2021/04/25/技术/如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="在上一篇文章中，我们讨论了将ElasticSearch用作简单的全文本搜索引擎，如何快速安装和配置它以及如何将其集成到我们的.NET Web应用程序中。 今天，我们仍然要在电子商务网站中向您展示如何使用ElasticSearch的许多功能来改善搜索。 我们使用了没有嵌套类的平面Product类来轻松管理搜索，但是这种方法有很多限制。然后，我们引入了一个新的数据模型，以便任何对象都是要建模的实体。一">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/BilwmQvVpad7ea2q.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/dd2aDkD0aXTCSVUH.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/MPsAaaeIuepm2I2Y.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能">
+<meta name="twitter:description" content="在上一篇文章中，我们讨论了将ElasticSearch用作简单的全文本搜索引擎，如何快速安装和配置它以及如何将其集成到我们的.NET Web应用程序中。 今天，我们仍然要在电子商务网站中向您展示如何使用ElasticSearch的许多功能来改善搜索。 我们使用了没有嵌套类的平面Product类来轻松管理搜索，但是这种方法有很多限制。然后，我们引入了一个新的数据模型，以便任何对象都是要建模的实体。一">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/BilwmQvVpad7ea2q.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/04/25/技术/如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/04/25/技术/如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-04-25 18:56:00 / Modified: 11:04:00" itemprop="dateCreated datePublished" datetime="2021-04-25T18:56:00+00:00">2021-04-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上<a href="https://www.blexin.com/en-US/Article/Blog/How-to-integrate-ElasticSearch-in-ASPNET-Core-70" target="_blank" rel="noopener">一篇文章中</a>，我们讨论了将ElasticSearch用作简单的全文本搜索引擎，如何快速安装和配置它以及如何将其集成到我们的.NET Web应用程序中。</p>
+<p>今天，我们仍然要在电子商务网站中向您展示如何使用ElasticSearch的许多功能来改善搜索。</p>
+<p>我们使用了没有嵌套类的平面Product类来轻松管理搜索，但是这种方法有很多限制。然后，我们引入了一个新的数据模型，以便任何对象都是要建模的实体。一个文档可以包含无限数量的相关字段和值（数组，简单和复杂类型），并保存为JSON文档。</p>
+<p>我们的模型产品类别已变为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Product</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string Ean &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public string Description &#123; get; set; &#125;</span><br><span class="line">    public Brand Brand &#123; get; set; &#125;</span><br><span class="line">    public Category Category &#123; get; set; &#125;</span><br><span class="line">    public Store Store &#123; get; set; &#125;</span><br><span class="line">    public decimal Price &#123; get; set; &#125;</span><br><span class="line">    public string Currency &#123; get; set; &#125;</span><br><span class="line">    public int Quantity &#123; get; set; &#125;</span><br><span class="line">    public float Rating &#123; get; set; &#125;</span><br><span class="line">    public DateTime ReleaseDate &#123; get; set; &#125;</span><br><span class="line">    public string Image &#123; get; set; &#125;</span><br><span class="line">    public List&lt;Review&gt; Reviews &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中品牌，类别，商店评论和用户类别分别是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public class Brand</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public string Description &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Category</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public string Description &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Store</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public string Description &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Review</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public short Rating &#123; get; set; &#125;</span><br><span class="line">    public string Description &#123; get; set; &#125;</span><br><span class="line">    public User User &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class User</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string FirstName &#123; get; set; &#125;</span><br><span class="line">    public string LastName &#123; get; set; &#125;</span><br><span class="line">    public string IPAddress &#123; get; set; &#125;</span><br><span class="line">    public GeoIp GeoIp &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>GeoIp是NEST库中用于地理数据的类。<br>产品索引已被简单地命名为<em>产品</em>。我们以这种方式创建和配置了它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">client.Indices.Create(“products”, index =&gt; index</span><br><span class="line">    .Map&lt;Product&gt;(x =&gt; x.AutoMap())</span><br><span class="line">    .Map&lt;Brand&gt;(x =&gt; x.AutoMap())</span><br><span class="line">    .Map&lt;Category&gt;(x =&gt; x.AutoMap())</span><br><span class="line">    .Map&lt;Store&gt;(x =&gt; x.AutoMap())</span><br><span class="line">    .Map&lt;Review&gt;(x =&gt; x.AutoMap())</span><br><span class="line">    .Map&lt;User&gt;(x =&gt; x.AutoMap()</span><br><span class="line">        .Properties(props =&gt; props</span><br><span class="line">            .Keyword(t =&gt; t.Name(&quot;fullname&quot;))</span><br><span class="line">            .Ip(t =&gt; t.Name(dv =&gt; dv.IPAddress))</span><br><span class="line">            .Object&lt;GeoIp&gt;(t =&gt; t.Name(dv =&gt; dv.GeoIp))</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>我们专门为ElasticSearch索引创建一个名为<em>fullname</em>的新属性，用于名为<em>fullname</em>的User类<em>，</em>并定义了将要处理的地理信息。<br>为了使我们的产品能够在索引之前进行处理，一种有用的方法是<em>摄取节点</em>，即进行文档预处理的节点。接收节点拦截所有索引请求，甚至是批量索引请求，并将所有定义的转换应用于其内容，然后将文档发还给索引API。</p>
+<p>必须通过以下参数在配置文件<em>elasticsearch.yml中</em>启用摄取：</p>
+<p><code>node.ingest: true</code></p>
+<p>在我们的示例中，我们使用相同的节点进行搜索和摄取，我们不需要编写代码来管理摄取节点，但是，如果我们要拥有一组专用的摄取节点，则必须配置ElasticSearch客户如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var pool = new StaticConnectionPool(new [] </span><br><span class="line">&#123;</span><br><span class="line">    new Uri(&quot;http://ingestnode1:9200&quot;),</span><br><span class="line">    new Uri(&quot;http://ingestnode2:9200&quot;),</span><br><span class="line">    new Uri(&quot;http://ingestnode3:9200&quot;)</span><br><span class="line">&#125;);</span><br><span class="line">var settings = new ConnectionSettings(pool);</span><br><span class="line">var client = new ElasticClient(settings);</span><br></pre></td></tr></table></figure>
+
+<p>为了对文档进行预处理，需要在建立索引之前定义一个管道，该管道指定一组能够转换该文档的过程。有许多默认过程可供使用。例如：GeoIP从IP地址获取地理信息，JSON将字符串转换为JSON对象，小写和大写，Drop删除与某些参数匹配的文档。您也可以创建自定义过程。<br>我们在项目中使用的管道是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">client.Ingest.PutPipeline(&quot;product-pipeline&quot;, p =&gt; p</span><br><span class="line">                .Processors(ps =&gt; ps</span><br><span class="line">                    .Uppercase&lt;Brand&gt;(s =&gt; s</span><br><span class="line">                        .Field(t =&gt; t.Name)</span><br><span class="line">                    )</span><br><span class="line">                    .Uppercase&lt;Category&gt;(s =&gt; s</span><br><span class="line">                        .Field(t =&gt; t.Name)</span><br><span class="line">                    )</span><br><span class="line">                    .Set&lt;User&gt;(s =&gt; s.Field(&quot;fullname&quot;)</span><br><span class="line">                        .Value(s.Field(f =&gt; f.FirstName) + &quot; &quot; + </span><br><span class="line">                             s.Field(f =&gt; f.LastName)))</span><br><span class="line">                    .GeoIp&lt;User&gt;(s =&gt; s</span><br><span class="line">                        .Field(i =&gt; i.IPAddress)</span><br><span class="line">                        .TargetField(i =&gt; i.GeoIp)</span><br><span class="line">                    )</span><br><span class="line">                )</span><br><span class="line">            );</span><br></pre></td></tr></table></figure>
+
+<p>该管道处理文档，以便：</p>
+<ul>
+<li>Brand.Name和Category.Name将通过大写输入以大写形式索引；</li>
+<li>User.fullname将包含名字和姓氏（设置摄取）；</li>
+<li>User.IPAddress将成为地理定位的地理地址（GeoIp提取）。</li>
+</ul>
+<p>管道以ElasticSearch集群状态保存，要使用它们，您必须在索引请求中指定管道参数，以便摄取节点知道必须使用哪个管道：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">client.Bulk(b =&gt; b</span><br><span class="line">    .Index(&quot;products&quot;)</span><br><span class="line">    .Pipeline(&quot;product-pipeline&quot;)</span><br><span class="line">    .Timeout(&quot;5m&quot;) </span><br><span class="line">    .Index&lt;Person&gt;(/*snip*/)</span><br><span class="line">    .Index&lt;Person&gt;(/*snip*/)</span><br><span class="line">    .Index&lt;Person&gt;(/*snip*/)</span><br><span class="line">    .RequestConfiguration(rc =&gt; rc</span><br><span class="line">        .RequestTimeout(TimeSpan.FromMinutes(5)) </span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式，我们定义了索引编制过程，以便我们可以根据需要获取文档清单。<br>在使用创建的管道为文档建立索引之后，我们可以通过使用浏览器http：// localhost：9200 / products / _search进行访问来检查它们。我们得到类似于以下结果：</p>
+<p><img src="https://uploader.shimo.im/f/BilwmQvVpad7ea2q.png!thumbnail" alt="图片"></p>
+<p>如上一篇文章所述，搜索过程基于文档分析。这是第一个阶段的令牌化过程（将文本分成小块，称为令牌），另一个是规范化过程（它允许您查找与不等于搜索词但足够相似以至于相关的令牌的匹配项）为搜索建立索引的文本。分析仪执行此过程。 </p>
+<p>分析仪由三个主要部分组成：</p>
+<ol>
+<li>0个或多个字符过滤器</li>
+<li>1个分词器</li>
+<li>0个或多个令牌过滤器</li>
+</ol>
+<p><img src="https://uploader.shimo.im/f/dd2aDkD0aXTCSVUH.png!thumbnail" alt="图片">有一些默认的分析器可以使用，但是，为了根据我们的要求提高搜索的准确性，我们创建了一个自定义分析器。</p>
+<p>定制分析器使我们能够在分析过程中控制令牌化之前对文档的任何更改，如何将其转换为令牌以及如何对其进行规范化。</p>
+<p>这是我们的自定义分析器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var an = new CustomAnalyzer();</span><br><span class="line">an.CharFilter = new List&lt;string&gt;();</span><br><span class="line">an.CharFilter.Add(&quot;html_strip&quot;);</span><br><span class="line">an.Tokenizer = &quot;edgeNGram&quot;;</span><br><span class="line">an.Filter = new List&lt;string&gt;();</span><br><span class="line">an.Filter.Add(&quot;standard&quot;);</span><br><span class="line">an.Filter.Add(&quot;lowercase&quot;);</span><br><span class="line">an.Filter.Add(&quot;stop&quot;);</span><br><span class="line"> </span><br><span class="line">settings.Analysis.Tokenizers.Add(&quot;edgeNGram&quot;, new Nest.EdgeNGramTokenizer</span><br><span class="line">&#123;</span><br><span class="line">    MaxGram = 15,</span><br><span class="line">    MinGram = 3</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">settings.Analysis.Analyzers.Add(&quot;product-analyzer&quot;, an);</span><br></pre></td></tr></table></figure>
+
+<p>我们的分析器使用标准的标记化方法，创建3至15个字符的小写标记。我们可以将分析器添加到一个或多个字段的索引中，也可以将其添加为标准分析器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">client.CreateIndex(&quot;products&quot;, c =&gt; c</span><br><span class="line">    // Analyzer added only for the property Description of Product</span><br><span class="line">    .AddMapping&lt;Product&gt;(e =&gt; e</span><br><span class="line">        .MapFromAttributes()</span><br><span class="line">        .Properties(p =&gt; p.String(s =&gt; s.Name(f =&gt; f.Description)</span><br><span class="line">        .Analyzer(&quot;product-analyzer&quot;)))</span><br><span class="line">    )</span><br><span class="line">    //Analyzer added as default</span><br><span class="line">        .Analysis(analysis =&gt; analysis</span><br><span class="line">            .Analyzers(a =&gt; a</span><br><span class="line">            .Add(&quot;default&quot;, an)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>创建自定义分析器时，可以使用测试API对其进行测试。即使对于默认分析仪，也可以执行这些测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var analyzeResponse = client.Indices.Analyze(a =&gt; a</span><br><span class="line">    .Tokenizer(&quot;standard&quot;)</span><br><span class="line">    .Filter(&quot;lowercase&quot;, &quot;stop&quot;)</span><br><span class="line">    .Text(&quot;Lorem ipsum dolor sit amet, consectetur...&quot;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>我们还可以使用数据聚合来提供通过搜索查询聚合的数据，它基于可以组成以获得复杂聚合的简单块。聚合有不同类型，每种类型都有定义的范围和输出。<br>它们可以分为：</p>
+<ul>
+<li>桶装：具有关键和标准的容器；</li>
+<li>指标：根据一组文档计算的指标；</li>
+<li>矩阵：在不同文档字段上进行的一系列操作，以矩阵样式生成数据；</li>
+<li>管道：更多聚合的聚合。</li>
+</ul>
+<p>在我们的案例中，我们使用汇总来获取品牌，类别，价格范围的产品数量。在以下示例中，我们找到了产品价格的汇总：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">    .Query(...)</span><br><span class="line">    .Aggregations(aggs =&gt; aggs</span><br><span class="line">        .Average(&quot;average_price&quot;, avg =&gt; avg.Field(p =&gt; p.Price))</span><br><span class="line">        .Max(&quot;max_price&quot;, avg =&gt; avg.Field(p =&gt; p.Price))</span><br><span class="line">        .Min(&quot;min_price&quot;, avg =&gt; avg.Field(p =&gt; p.Price))</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>另一个有用的聚合是根据品牌，商店或类别进行分组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">     .Query(...)</span><br><span class="line">     .Aggregations(aggs =&gt; aggs</span><br><span class="line">         .ValueCount(&quot;products_for_category&quot;, avg =&gt; avg.Field(p =&gt; p.Category.Name))</span><br><span class="line">         .ValueCount(&quot;products_for_brand&quot;, avg =&gt; avg.Field(p =&gt; p.Brand.Name))</span><br><span class="line">         .ValueCount(&quot;products_for_store&quot;, avg =&gt; avg.Field(p =&gt; p.Store.Name))</span><br><span class="line">     )</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们可以实时获取针对类别，品牌和商店的搜索产品数量。汇总数据还可以用于创建仪表板，甚至可以使用动态过滤器（类似于电子商务）来组织搜索，并且显然可以用于统计目的。</p>
+<h2 id="改善您的搜索"><a href="#改善您的搜索" class="headerlink" title="改善您的搜索"></a><strong>改善您的搜索</strong></h2><p>如您所知，我们对任何搜索结果都有分数。等级是从0到1的数字，它确定搜索参数如何接近该结果。得分主要取决于三个参数：搜索词的频率，倒排文档的频率和字段长度。</p>
+<p>要从得分中排除得分过低的人，我们可以使用MinScore：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">     .MinScore(0.5)</span><br><span class="line">     .Query(...)</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们可以排除分数低于0.5的所有结果。<br>建议者允许您使用与搜索文本相似的术语来搜索ElasticSearch索引。例如，完成建议器对于自动完成很有用，它会在键入文本时引导您获得最佳和更相关的结果。该完成建议程序经过优化，可以尽快返回结果，但是它使用启用了快速查找的结构并需要资源。</p>
+<p>在我们的案例中，我们实现了基于产品名称的自动完成方法，该方法将在搜索框中键入以下内容时被调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">    .Query(...)</span><br><span class="line">    .Suggest(su =&gt; su</span><br><span class="line">        .Completion(&quot;name&quot;, cs =&gt; cs</span><br><span class="line">            .Field(f =&gt; f.Name)</span><br><span class="line">            .Fuzzy(f =&gt; f</span><br><span class="line">                .Fuzziness(Fuzziness.Auto)</span><br><span class="line">            )</span><br><span class="line">            .Size(5)</span><br><span class="line">        )</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>更好的搜索的另一有用方法是<em>索引boost</em>。当您搜索更多索引时，可以为这些索引分配一个乘数，这样一来，一个索引的结果将比另一个显示更多。您可以将其用于商业目的，与供应商达成协议或使我们的产品脱颖而出。<br>索引提升的一个示例是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">    .Query(...)</span><br><span class="line">    .IndicesBoost(b =&gt; b</span><br><span class="line">        .Add(&quot;products-1&quot;, 1.5)</span><br><span class="line">        .Add(&quot;products-2&quot;, 1)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>在此示例中，我们将乘数1.5乘以1的结果，乘以1乘以2的结果，这样乘积1的结果将被更频繁地显示。<br>改进搜索的另一种方法是通过一些参数对它们进行排序。就我们而言，我们可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s =&gt; s</span><br><span class="line">    .Query()</span><br><span class="line">    .Sort(ss =&gt; ss</span><br><span class="line">        .Descending(SortSpecialField.Score)</span><br><span class="line">        .Descending(p =&gt; p.Price)</span><br><span class="line">        .Descending(p =&gt; p.ReleaseDate)</span><br><span class="line">        .Ascending(SortSpecialField.DocumentIndexOrder)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>我们将评分，价格，发布日期以及最终索引顺序设置为更高的优先级。</p>
+<h2 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a><strong>运行项目</strong></h2><p>我们的示例项目是一个.NET Core MVC WebApi应用程序，该应用程序提供一个搜索框和一个仪表板，其中的仪表板会根据键入的文本自动刷新数据。首次运行项目时，我们可以加载由Bogus插件创建的n个Product对象。还有其他伪造类可以为品牌，类别，商店，评论和用户构建随机对象。它允许您拥有一个数据库来执行我们的搜索。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var productFaker = new Faker&lt;Product&gt;()</span><br><span class="line">    .CustomInstantiator(f =&gt; new Product())</span><br><span class="line">        .RuleFor(p =&gt; p.Id, f =&gt; f.IndexFaker)</span><br><span class="line">        .RuleFor(p =&gt; p.Ean, f =&gt; f.Commerce.Ean13())</span><br><span class="line">        .RuleFor(p =&gt; p.Name, f =&gt; f.Commerce.ProductName())</span><br><span class="line">        .RuleFor(p =&gt; p.Description, f =&gt; f.Lorem.Sentence(f.Random.Int(5, 20)))</span><br><span class="line">        .RuleFor(p =&gt; p.Brand, f =&gt; f.PickRandom(brands))</span><br><span class="line">        .RuleFor(p =&gt; p.Category, f =&gt; f.PickRandom(categories))</span><br><span class="line">        .RuleFor(p =&gt; p.Store, f =&gt; f.PickRandom(stores))</span><br><span class="line">        .RuleFor(p =&gt; p.Price, f =&gt; f.Finance.Amount(1, 1000, 2))</span><br><span class="line">        .RuleFor(p =&gt; p.Currency, &quot;€&quot;)</span><br><span class="line">        .RuleFor(p =&gt; p.Quantity, f =&gt; f.Random.Int(0, 1000))</span><br><span class="line">        .RuleFor(p =&gt; p.Rating, f =&gt; f.Random.Float(0, 1))</span><br><span class="line">        .RuleFor(p =&gt; p.ReleaseDate, f =&gt; f.Date.Past(2))</span><br><span class="line">        .RuleFor(p =&gt; p.Image, f =&gt; f.Image.PicsumUrl())</span><br><span class="line">        .RuleFor(p =&gt; p.Reviews, f =&gt; reviewFaker.Generate(f.Random.Int(0, 1000))</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://uploader.shimo.im/f/MPsAaaeIuepm2I2Y.png!thumbnail" alt="图片"></p>
+<p>在页面中间，有一个仪表板，我们在其中使用了本文介绍的过滤器，分析器和方法。在顶部的搜索框中键入一些文本时，将建议相关产品，并且仪表板内容将根据搜索文本进行更新。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h2><p>在本文中，我向您展示了如何使用Elasticsearch对复杂的实际场景进行有效的处理，分析和搜索数据。希望我对这个话题感兴趣。</p>
+<p><a href="https://github.com/enricobencivenga/ProductElasticSearchAdvanced" target="_blank" rel="noopener">此处</a>提供<a href="https://github.com/enricobencivenga/ProductElasticSearchAdvanced" target="_blank" rel="noopener">了</a>带有本文中使用的代码的示例项目。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/25/技术/如何在ASP.NET Core中集成ElasticSearch/" rel="next" title="如何在ASP.NET Core中集成ElasticSearch">
+                <i class="fa fa-chevron-left"></i> 如何在ASP.NET Core中集成ElasticSearch
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/提高编程技能的5种方法/" rel="prev" title="提高编程技能的5种方法">
+                提高编程技能的5种方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#改善您的搜索"><span class="nav-number">1.</span> <span class="nav-text">改善您的搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行项目"><span class="nav-number">2.</span> <span class="nav-text">运行项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">3.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

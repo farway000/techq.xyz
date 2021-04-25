@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="十一月初拖家带口去了上海，到了著名的城隍庙参观，无意中看到了一个仅出现在历史书上的古老物件“西洋镜”，仿佛跨越百年，来到那个如裹脚布般冗长而乏味的古老年代，看到了一群有一群卑微的小民在生活的裹挟之下，对外界充满兴趣，并透过一个西洋镜来看看外面的世界。对于古老时代的他们而言，西洋镜里的一切都充满稀奇。  有时候，今天的互联网就像西洋镜。 今天，制度的优越性让我们取得了经济上的飞速成长，互联网技术拉近">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网易事件，芸芸众生，相煎何急">
+<meta property="og:url" content="http://techq.xyz/2019/12/01/随笔/网易事件背后众生相/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="十一月初拖家带口去了上海，到了著名的城隍庙参观，无意中看到了一个仅出现在历史书上的古老物件“西洋镜”，仿佛跨越百年，来到那个如裹脚布般冗长而乏味的古老年代，看到了一群有一群卑微的小民在生活的裹挟之下，对外界充满兴趣，并透过一个西洋镜来看看外面的世界。对于古老时代的他们而言，西洋镜里的一切都充满稀奇。  有时候，今天的互联网就像西洋镜。 今天，制度的优越性让我们取得了经济上的飞速成长，互联网技术拉近">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/lsExqdP5K40rAqM2.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/eNIdyrdU3M4PbZKA.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/4q8Af3sOgGsHZibc.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网易事件，芸芸众生，相煎何急">
+<meta name="twitter:description" content="十一月初拖家带口去了上海，到了著名的城隍庙参观，无意中看到了一个仅出现在历史书上的古老物件“西洋镜”，仿佛跨越百年，来到那个如裹脚布般冗长而乏味的古老年代，看到了一群有一群卑微的小民在生活的裹挟之下，对外界充满兴趣，并透过一个西洋镜来看看外面的世界。对于古老时代的他们而言，西洋镜里的一切都充满稀奇。  有时候，今天的互联网就像西洋镜。 今天，制度的优越性让我们取得了经济上的飞速成长，互联网技术拉近">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/lsExqdP5K40rAqM2.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/12/01/随笔/网易事件背后众生相/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>网易事件，芸芸众生，相煎何急 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/12/01/随笔/网易事件背后众生相/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网易事件，芸芸众生，相煎何急
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-01 16:28:00" itemprop="dateCreated datePublished" datetime="2019-12-01T16:28:00+00:00">2019-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>十一月初拖家带口去了上海，到了著名的城隍庙参观，无意中看到了一个仅出现在历史书上的古老物件“西洋镜”，仿佛跨越百年，来到那个如裹脚布般冗长而乏味的古老年代，看到了一群有一群卑微的小民在生活的裹挟之下，对外界充满兴趣，并透过一个西洋镜来看看外面的世界。对于古老时代的他们而言，西洋镜里的一切都充满稀奇。</p>
+<p><img src="https://uploader.shimo.im/f/lsExqdP5K40rAqM2.png!thumbnail" alt="图片"></p>
+<p>有时候，今天的互联网就像西洋镜。</p>
+<p>今天，制度的优越性让我们取得了经济上的飞速成长，互联网技术拉近了彼此的距离，也容易打破隔阂，原来或许发生在与自己无关世界的事情，总是很容易的就让我们产生同理心。</p>
+<p><img src="https://uploader.shimo.im/f/eNIdyrdU3M4PbZKA.png!thumbnail" alt="图片"></p>
+<p>《前网不易员工发文称患病后遭遇公司“暴力裁员”》引起了轩然大波，随着网不易拿出了更多的论点，也让事件掀起了小高潮，我想换一个角度来考虑一下问题，分析一下在事件中那些出现了的，或没出现的人群。</p>
+<h1 id="主角："><a href="#主角：" class="headerlink" title="主角："></a>主角：</h1><p>主角J是一位90后，拥有上海交大的学历，是职场上最走俏的优秀资源。而且业余运营了自己的公众号，文笔朴实简练流畅自然。如此年轻的他，也是企业最受欢迎的优秀成员，假以时日，如果能够善终，一定能谱写一篇非常不错的故事，让大家看到90后是如何快速成长为企业的栋梁人才，为公司创造无穷价值。然而，由于一场身体上的变故，让他的职场之路遇到了困境，而且扩展性心肌炎病症非常严重，最终必须面临换心的痛苦。</p>
+<p>人生之痛，莫过于让白发人送黑发人，难道要让他的父母成为失独老人么。扼腕叹息。</p>
+<h1 id="主管和人事："><a href="#主管和人事：" class="headerlink" title="主管和人事："></a>主管和人事：</h1><p>在这个事件中，作为第一当事人的主管自然而然会成为焦点，甚至“网红”，即便他不想如此。</p>
+<p>当然，我们都知道，他的谈话是代表公司谈话的，所以他以为他的立场也同样代表了公司立场，嗯，那一刻他一定以为他是三石附体，公司要裁员，是裁掉那些劳动生产力低或者如大东子说的“性价比低”的员工，哪怕他生病了，也应该毫不犹豫的挥起屠刀，不能放过任何一个不能跟公司共同奋斗的人。于是他这么做了，并且他成功了。</p>
+<p>而人力资源部门显然是这件事情背后的幕后真凶，公司说要裁减人员，而作为裁员的直接被考核部门，自然而然要冲在最前面。</p>
+<p>在职场中，许多人都信奉这样的哲学：大家都是成年人，人性是什么重要么？难道还有什么比KPI更重要的么？</p>
+<p><img src="https://uploader.shimo.im/f/4q8Af3sOgGsHZibc.png!thumbnail" alt="图片"></p>
+<h1 id="三石兄："><a href="#三石兄：" class="headerlink" title="三石兄："></a>三石兄：</h1><p>说实话，网不易的发展历史对于80后的我来说一度是一个非常古老的故事，就像昔日《硅谷之火》一般，指引着我走上了IT这条道路，并成为一位普通码农。但是吃到了互联网时代的红利，却在移动互联网时代开始逐渐走下坡路了。</p>
+<p>而且网不易和微软中国、金山一样被成为中国互联网的黄埔军校，从网不易毕业的许多创业者，他们创造出许多优秀的产品，也深深的影响着我们。</p>
+<p>当然，黄埔军校其实对于公司本身来说，并非是个非常好听的名词，因为他代表着公司能够培养人，但是却不能留住人。用《浪潮之巅》中的一句话来说，要看一家公司是好还是坏，就看是优秀的人才流入还是流出。每一个优秀的人员流失，对一家大公司来说看起来没什么，但是往往意味着公司的吸引力在逐渐下降。</p>
+<p>经济学中有一个“劣币驱逐良币”的现象，对于一家无法维持积极发展的企业，也往往会面临这样的现象。优秀的人才流失之后，往往留下来的是最能体会企业文化精神、并能在肉体上跟公司在一起的人。</p>
+<p>嗯，肉体上跟公司在一起的人似乎更能理解企业管理的规则，并愿意花时间熬工时。年初马云说996是福报时，大家都在吐槽说资本家的本质彰显无疑，但是实际上还有更多IT公司其实是维持着更长的小时，每天只上9个小时，确实是一种福报啊。好吧，对于大部分公司而言，加班，其实是为了靠苦劳来弥补管理层甚至老板吹过的牛或能力上的不足吧。</p>
+<p>三石兄似乎已经退居二线了，这也意味着，企业文化精神已经在逐渐衰微，公司已经在“大公司病”这条路上越病越深。</p>
+<p>在互联网寒冬的今天，许多中小企业都面临着裁员的艰难抉择，也许他们没办法经营，但为了给员工多一条生路，往往也会想办法给他们一些补偿。当然有一些企业确实拿不出钱，但是他们也会给出承诺。</p>
+<p>但网不易的吃相会不会太难看了？连网不易这样的大公司都不给补偿，而是以这么难看的吃相挥舞屠刀，肆意驱赶那些为公司发展做出巨大贡献的优秀员工？那其他的公司还有没有更加恶劣的手段来赶人呢？招人的时候不惜一切代价，赶人的时候，也同样不惜一切代价?企业的商誉难道如此廉价？</p>
+<p>出生90后的主角身患需要换心的重病，而大概同样90后的网不易，也需要三石兄出面，给公司来一场换心手术吧。</p>
+<h1 id="工会"><a href="#工会" class="headerlink" title="工会"></a>工会</h1><p>在我的同学群讨论这个事情时，突然有人抛出了一个问题：工会去哪里了。大概大家都会觉得莫名其妙。虽然在有一部法律《工会法》明确了工会的职能是维系党和人民群众的关系、并维护广大工人阶级的基本利益，而且大部分公司似乎都设立了所谓的工会，但是真的有工会么？</p>
+<p>并非如此，工会代表老板的利益，或者说是管理层的利益，其目前的主要职能大概仅仅停留在“收会费、搞茶话会”。工会究竟还有什么用？</p>
+<p>期待全国总工会发声。</p>
+<h1 id="劳动部门"><a href="#劳动部门" class="headerlink" title="劳动部门"></a>劳动部门</h1><p>对于大部分普通群众来说，跟劳动部门似乎没有一丁点关系。</p>
+<p>虽然跟公司签署了劳动合同，看似应该受到劳动法的保护，但是当发生劳动纠纷，去劳动仲裁大队申请仲裁时，政府部门的工作方式往往会让人望而生畏。于是宁可自己吃点亏，也不愿意走那么冗长的劳动仲裁流程，毕竟搞不好就需要花大半年的时间，不定期就会接到劳动部门的电话让当事人去仲裁庭处理案子，对于个人来说确实是有点吃不消。</p>
+<p>期待劳动部门发声。</p>
+<p>我还记得多少年前，农民工的问题引起了政府部门的多次关注，连续好几年的中央一号文件都是关注农民工问题。IT民工呢？毕竟IT产业工人也算是个人所得税的主要纳税群体，难道就不应该引起更多关注？有关部门不要只想着GDP、招商引资、课税，而不想着如何维护劳动者的利益啊。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>城隍庙的西洋镜，看透百年，看透世间百态。</p>
+<p>网不易裁员事件，透过这个事件，我们看到了来自互联网时代的独特魅力，国民早已不再停留在鲁迅书中说过的矇昧和无知的区区看客，而是掌握了更多的方法，足以产生更加深远的影响力。</p>
+<p>使其生、使其亡。摧枯拉朽，谁能阻挡？</p>
+<p>时代在进步，那些该破灭的就让他破灭吧。</p>
+<p>由于时间仓促，胡言乱语，还请诸君一笑。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/" rel="next" title="2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡">
+                <i class="fa fa-chevron-left"></i> 2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/01/技术/简述介绍.NET Core中的依赖注入方法/" rel="prev" title="在.NET  Core/Framework中使用依赖注入框架">
+                在.NET  Core/Framework中使用依赖注入框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#主角："><span class="nav-number">1.</span> <span class="nav-text">主角：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主管和人事："><span class="nav-number">2.</span> <span class="nav-text">主管和人事：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三石兄："><span class="nav-number">3.</span> <span class="nav-text">三石兄：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工会"><span class="nav-number">4.</span> <span class="nav-text">工会</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#劳动部门"><span class="nav-number">5.</span> <span class="nav-text">劳动部门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

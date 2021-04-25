@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ASP.NET Core中的内存缓存 让我们看看如何通过缓存优化ASP.NET Core应用程序性能  我相信，在我们的工作中，每个人都收到来自客户的请求或来自我们应用程序用户的反馈，以提高响应速度。 如果在编写代码时仅使用最佳实践还不够，那么我们肯定需要使用缓存来微调我们的应用程序。 缓存包括将那些不经常更改的信息存储在某个地方。频率是我们应用程序的业务要求。 在本文中，我们将看到ASP.NET">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core中的内存中缓存">
+<meta property="og:url" content="http://techq.xyz/2020/07/20/技术/ASP.NET Core中的内存中缓存/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="ASP.NET Core中的内存缓存 让我们看看如何通过缓存优化ASP.NET Core应用程序性能  我相信，在我们的工作中，每个人都收到来自客户的请求或来自我们应用程序用户的反馈，以提高响应速度。 如果在编写代码时仅使用最佳实践还不够，那么我们肯定需要使用缓存来微调我们的应用程序。 缓存包括将那些不经常更改的信息存储在某个地方。频率是我们应用程序的业务要求。 在本文中，我们将看到ASP.NET">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET Core中的内存中缓存">
+<meta name="twitter:description" content="ASP.NET Core中的内存缓存 让我们看看如何通过缓存优化ASP.NET Core应用程序性能  我相信，在我们的工作中，每个人都收到来自客户的请求或来自我们应用程序用户的反馈，以提高响应速度。 如果在编写代码时仅使用最佳实践还不够，那么我们肯定需要使用缓存来微调我们的应用程序。 缓存包括将那些不经常更改的信息存储在某个地方。频率是我们应用程序的业务要求。 在本文中，我们将看到ASP.NET">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/07/20/技术/ASP.NET Core中的内存中缓存/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ASP.NET Core中的内存中缓存 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/07/20/技术/ASP.NET Core中的内存中缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core中的内存中缓存
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-20 21:05:00" itemprop="dateCreated datePublished" datetime="2020-07-20T21:05:00+00:00">2020-07-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ASP-NET-Core中的内存缓存"><a href="#ASP-NET-Core中的内存缓存" class="headerlink" title="ASP.NET Core中的内存缓存"></a><strong>ASP.NET Core中的内存缓存</strong></h1><p> <strong>让我们看看如何通过缓存优化ASP.NET Core应用程序性能</strong> </p>
+<p>我相信，在我们的工作中，每个人都收到来自客户的请求或来自我们应用程序用户的反馈，以提高响应速度。</p>
+<p>如果在编写代码时仅使用<strong>最佳实践</strong>还不够，那么我们肯定需要使用缓存来微调我们的应用程序。</p>
+<p>缓存包括将那些不经常更改的信息存储在某个地方。频率是我们应用程序的业务要求。</p>
+<p>在本文中，我们将看到ASP.NET Core可用于缓存的内容。</p>
+<h2 id="IMemoryCache和IDistributedCache"><a href="#IMemoryCache和IDistributedCache" class="headerlink" title="IMemoryCache和IDistributedCache"></a>IMemoryCache和IDistributedCache</h2><p>这两个接口代表.NET Core中用于缓存的<em>内置</em>机制。您可能已经听说过的所有其他技术都是这两个接口的实现。在本文中，我们将详细介绍<em>内存缓存</em>，而在以后的文章中将研究分布式缓存。</p>
+<h2 id="在ASP-NET-Core中启用内存中缓存"><a href="#在ASP-NET-Core中启用内存中缓存" class="headerlink" title="在ASP.NET Core中启用内存中缓存"></a>在ASP.NET Core中启用内存中缓存</h2><p>我们可以使用<strong>ConfigureServices</strong>方法将ASP.NET内存中缓存合并到应用程序中。您可以在<strong>Startup</strong>类中启用<em>内存中缓存</em>，如下面的代码片段所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    services.AddMvc();</span><br><span class="line">    services.AddMemoryCache();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 该<strong>AddMemoryCache</strong>方法允许我们注册<em>IMemoryCache</em>接口，如上面提到的，将被用于高速缓存的基础。下面我们看到框架中接口的定义： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface IMemoryCache : IDisposable</span><br><span class="line">&#123;</span><br><span class="line">    bool TryGetValue(object key, out object value);</span><br><span class="line">    ICacheEntry CreateEntry(object key);</span><br><span class="line">    void Remove(object key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 接口中提供的方法并不是唯一可用于缓存的方法：我们将在后面看到，存在各种扩展来丰富可用的API并极大地促进其使用。例如： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static class CacheExtensions</span><br><span class="line">&#123;</span><br><span class="line">    public static TItem Get&lt;titem&gt;(this IMemoryCache cache, object key);</span><br><span class="line">     </span><br><span class="line">    public static TItem Set&lt;titem&gt;(this IMemoryCache cache, object key, TItem value, MemoryCacheEntryOptions options);</span><br><span class="line"> </span><br><span class="line">    public static bool TryGetValue&lt;titem&gt;(this IMemoryCache cache, object key, out TItem value);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 注册后，该接口可以注入到我们要使用它的类构造函数中，如下所示： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private IMemoryCache cache;</span><br><span class="line">public MyCacheController(IMemoryCache cache)</span><br><span class="line">    &#123;</span><br><span class="line">        this.cache = cache;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在下面的部分中，我们将研究如何在ASP.NET Core中使用缓存API来存储和检索对象。</p>
+<h2 id="使用IMemoryCache存储和检索项目"><a href="#使用IMemoryCache存储和检索项目" class="headerlink" title="使用IMemoryCache存储和检索项目"></a>使用IMemoryCache存储和检索项目</h2><p>要使用<strong>IMemoryCache</strong>接口写入对象，请使用<strong>Set （）</strong>方法，如以下代码片段所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet]</span><br><span class="line">public string Get()</span><br><span class="line">&#123;</span><br><span class="line">    cache.Set(“MyKey”, DateTime.Now.ToString());</span><br><span class="line">    return “This is a test method...”;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 此方法接受两个参数，第一个是键，用于标识缓存的对象，第二个参数是我们要存储的值。要从缓存中检索对象，请使用<strong>Get （）</strong>方法，如下面的代码片段所示。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet(“&#123;key&#125;”)]</span><br><span class="line">public string Get(string key)</span><br><span class="line">&#123;</span><br><span class="line">    return cache.Get&lt;string&gt;(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们不确定缓存中是否存在特定的密钥，则可以使用TryGetValue（）方法进行帮助：它返回一个布尔值，指示所请求的密钥存在或不存在。</p>
+<p>下面是如何使用<em>TryGetValue</em>修改<em>Get（）</em>方法的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet(“&#123;key&#125;”)]</span><br><span class="line">public string Get(string key)</span><br><span class="line">&#123;</span><br><span class="line">    string obj;</span><br><span class="line">    if (!cache.TryGetValue&lt;string&gt;(key, out obj))</span><br><span class="line">     </span><br><span class="line">        obj = DateTime.Now.ToString();</span><br><span class="line">        cache.Set&lt;string&gt;(key, obj);</span><br><span class="line">     </span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 可用的另一种方法是<strong>GetOrCreate（）</strong>方法，该方法验证所需密钥的存在，否则，该方法将为您创建它。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet(“&#123;key&#125;”)]</span><br><span class="line">public string Get(string key)</span><br><span class="line">&#123;</span><br><span class="line">    return cache.GetOrCreate&lt;string&gt;(“key”,</span><br><span class="line">        cacheEntry =&gt; &#123;</span><br><span class="line">            return DateTime.Now.ToString();</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何在ASP-NET-Core中的缓存数据上设置过期策略"><a href="#如何在ASP-NET-Core中的缓存数据上设置过期策略" class="headerlink" title="如何在ASP.NET Core中的缓存数据上设置过期策略"></a>如何在ASP.NET Core中的缓存数据上设置过期策略</h2><p>当我们使用IMemoryCache存储对象时，<strong>MemoryCacheEntryOptions</strong>类为我们提供了各种技术来管理缓存数据的到期时间。</p>
+<p> 我们可以指定一个固定的时间，在该时间之后某个特定的密钥将过期（<strong>绝对过期</strong>），或者如果在某个特定的时间（<strong>滑动过期</strong>）之后没有访问它，则它可以过期。此外，还可以使用<strong>Expiration Token</strong>在缓存的对象之间创建依赖关系。这里有一些例子 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">//absolute expiration using TimeSpan</span><br><span class="line">_cache.Set(&quot;key&quot;, item, TimeSpan.FromDays(1));</span><br><span class="line"> </span><br><span class="line">//absolute expiration using DateTime</span><br><span class="line">_cache.Set(&quot;key&quot;, item, new DateTime(2020, 1, 1));</span><br><span class="line"> </span><br><span class="line">//sliding expiration (evict if not accessed for 7 days)</span><br><span class="line">_cache.Set(&quot;key&quot;, item, new MemoryCacheEntryOptions</span><br><span class="line">&#123;</span><br><span class="line">    SlidingExpiration = TimeSpan.FromDays(7)</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">//use both absolute and sliding expiration</span><br><span class="line">_cache.Set(&quot;key&quot;, item, new MemoryCacheEntryOptions</span><br><span class="line">&#123;</span><br><span class="line">    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(30),</span><br><span class="line">    SlidingExpiration = TimeSpan.FromDays(7)</span><br><span class="line">&#125;)</span><br><span class="line"> </span><br><span class="line">// This method adds a trigger to refresh the data from background</span><br><span class="line">private void UpdateReset()</span><br><span class="line">&#123;</span><br><span class="line">    var mo = new MemoryCacheEntryOptions();</span><br><span class="line">    mo.RegisterPostEvictionCallback(RefreshAllPlacessCache_PostEvictionCallback);</span><br><span class="line">    mo.AddExpirationToken(new CancellationChangeToken(new CancellationTokenSource(TimeSpan.FromMinutes(35)).Token));</span><br><span class="line">    Cache.Set(CACHE_KEY_PLACES_RESET, DateTime.Now, mo);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// Method triggered by the cancellation token that triggers the PostEvictionCallBack</span><br><span class="line">private async void RefreshAllPlacesCache_PostEvictionCallback(object key, object value, EvictionReason reason, object state)</span><br><span class="line">&#123;</span><br><span class="line">    // Regenerate a set of updated data</span><br><span class="line">    var places = await GetLongGeneratingData();</span><br><span class="line">    Cache.Set(CACHE_KEY_PLACES, places, TimeSpan.FromMinutes(40));</span><br><span class="line"> </span><br><span class="line">    // Re-set the cache to be reloaded in 35min</span><br><span class="line">    UpdateReset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="缓存回调"><a href="#缓存回调" class="headerlink" title="缓存回调"></a>缓存回调</h2><p><strong>MemoryCacheEntryOptions</strong>类提供的另一个有趣功能是允许我们注册回调的功能，当从缓存中删除一项时将执行该回调。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MemoryCacheEntryOptions cacheOption = new MemoryCacheEntryOptions()  </span><br><span class="line">&#123;  </span><br><span class="line">    AbsoluteExpirationRelativeToNow = (DateTime.Now.AddMinutes(1) - DateTime.Now),  </span><br><span class="line">&#125;;  </span><br><span class="line">cacheOption.RegisterPostEvictionCallback(  </span><br><span class="line">    (key, value, reason, substate) =&gt;  </span><br><span class="line">    &#123;  </span><br><span class="line">        Console.Write(&quot;Cache expired!&quot;);  </span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="缓存标签助手"><a href="#缓存标签助手" class="headerlink" title="缓存标签助手"></a>缓存标签助手</h2><p>到目前为止，我们已经看到.NET Core提供的API的使用，从而能够直接使用IMemoryCache接口手动在缓存中写入和读取项目。此接口还有其他实现，可能非常有用。例如，在Web环境中，如果我们使用.NET Core MVC框架，则可以使用<strong>helper cache tag</strong>存储部分页面。它非常简单易用：您可以将视图的一部分包装在缓存标签中以启用缓存：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Ora: @DateTime.Now<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cache</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> 对于页面的每个后续请求（包含此标记），将从缓存中使用该段的正文。如果将其放在页面上并观察其输出，则可以轻松检查行为。当然，我们使用它的方式仅出于示例目的，但是当您尝试渲染需要大量资源的页面时，您可以欣赏它的功能。一个明显的缓存候选是视图<a href="https://www.blexin.com/en-US/Article/Blog/Kestrel-build-me-up-31" target="_blank" rel="noopener">组件</a>调用 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span> <span class="attr">expires-on</span>=<span class="string">"@TimeSpan.FromSeconds(600)"</span>&gt;</span></span><br><span class="line">@await Component.InvokeAsync("BlogPosts", new &#123; tag = "popular" &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">cache</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上一个代码段中，您还可以通过属性<strong>expires-on</strong>来了解如何管理缓存中对象的<strong>过期期限</strong>。还有其他两种选择：</p>
+<ul>
+<li>过期时间：将使用TimeSpan进行评估以指示一段时间，此后必须重新生成内容；</li>
+<li>过期滑动：还应使用指示闲置时间的TimeSpan。每次从缓存中读取内容时，都会将其删除延迟。</li>
+</ul>
+<p>另一个可定制方面涉及配置缓存标准的可能性。我们可能需要根据一些变量来更新缓存的对象。一些要求是由覆盖<strong>变化逐</strong>下列属性：</p>
+<ul>
+<li>按路由变化：通过<strong>路由参数</strong>的名称（例如id）进行了增强，以指示在指示的属性更改时必须重新生成内容；</li>
+<li>因查询而异：当更改<strong>查询字符串键</strong>时，将生成并缓存内容；</li>
+<li>按用户不同：当我们显示已登录用户的特定数据时（例如，包含名称和照片的个人资料框），必须将其设置为true；</li>
+<li>按标题变化：如果我们使用HTTP请求标头显示语言内容，则根据HTTP请求标头来更改缓存，例如“ Accept-Language”。</li>
+<li>cookie-variable-by-cookie：允许您根据cookie的内容更改缓存，我们必须指出其名称。</li>
+</ul>
+<p>可以使用一个或多个按属性的属性来执行高级缓存策略，但是，有句著名的名言：“功能<em>强大，责任重大</em> ”。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>使用内存缓存可以使您将数据存储在服务器的内存中，并通过删除对外部数据源的不必要请求来帮助我们提高应用程序性能。如我们所见，它非常易于使用。</p>
+<p>我提醒您，当您的应用程序托管在多台服务器或云托管环境中时，不能使用这种方法。在下一篇文章中，我们将讨论分布式缓存。</p>
+<p>下次见！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/20/技术/常见的C＃异常及其修复方法/" rel="next" title="常见的C＃异常及其修复方法">
+                <i class="fa fa-chevron-left"></i> 常见的C＃异常及其修复方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/21/技术/ASP.NET Core中的分布式缓存/" rel="prev" title="ASP.NET Core中的内存中缓存">
+                ASP.NET Core中的内存中缓存 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ASP-NET-Core中的内存缓存"><span class="nav-number">1.</span> <span class="nav-text">ASP.NET Core中的内存缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IMemoryCache和IDistributedCache"><span class="nav-number">1.1.</span> <span class="nav-text">IMemoryCache和IDistributedCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在ASP-NET-Core中启用内存中缓存"><span class="nav-number">1.2.</span> <span class="nav-text">在ASP.NET Core中启用内存中缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用IMemoryCache存储和检索项目"><span class="nav-number">1.3.</span> <span class="nav-text">使用IMemoryCache存储和检索项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何在ASP-NET-Core中的缓存数据上设置过期策略"><span class="nav-number">1.4.</span> <span class="nav-text">如何在ASP.NET Core中的缓存数据上设置过期策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存回调"><span class="nav-number">1.5.</span> <span class="nav-text">缓存回调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存标签助手"><span class="nav-number">1.6.</span> <span class="nav-text">缓存标签助手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.7.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

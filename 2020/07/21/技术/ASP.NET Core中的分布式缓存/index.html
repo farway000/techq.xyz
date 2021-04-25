@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ASP.NET Core中的分布式缓存在上一篇文章中，我解释了如何使用内存缓存在ASP.NET Core应用程序中管理缓存。如果您的应用程序托管在单个服务器上，则可以使用这种类型的缓存。 那.NET Core框架可以使用哪些工具在云中的分布式方案中进行缓存呢？ IDistributedCache接口该框架提供以下接口： 123456789101112131415public interface I">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core中的内存中缓存">
+<meta property="og:url" content="http://techq.xyz/2020/07/21/技术/ASP.NET Core中的分布式缓存/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="ASP.NET Core中的分布式缓存在上一篇文章中，我解释了如何使用内存缓存在ASP.NET Core应用程序中管理缓存。如果您的应用程序托管在单个服务器上，则可以使用这种类型的缓存。 那.NET Core框架可以使用哪些工具在云中的分布式方案中进行缓存呢？ IDistributedCache接口该框架提供以下接口： 123456789101112131415public interface I">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.blexin.com/storage/articles/cache/img02.png">
+<meta property="og:image" content="https://www.blexin.com/storage/articles/cache/img01.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET Core中的内存中缓存">
+<meta name="twitter:description" content="ASP.NET Core中的分布式缓存在上一篇文章中，我解释了如何使用内存缓存在ASP.NET Core应用程序中管理缓存。如果您的应用程序托管在单个服务器上，则可以使用这种类型的缓存。 那.NET Core框架可以使用哪些工具在云中的分布式方案中进行缓存呢？ IDistributedCache接口该框架提供以下接口： 123456789101112131415public interface I">
+<meta name="twitter:image" content="https://www.blexin.com/storage/articles/cache/img02.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/07/21/技术/ASP.NET Core中的分布式缓存/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ASP.NET Core中的内存中缓存 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/07/21/技术/ASP.NET Core中的分布式缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core中的内存中缓存
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-21 21:05:00" itemprop="dateCreated datePublished" datetime="2020-07-21T21:05:00+00:00">2020-07-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ASP-NET-Core中的分布式缓存"><a href="#ASP-NET-Core中的分布式缓存" class="headerlink" title="ASP.NET Core中的分布式缓存"></a><strong>ASP.NET Core中的分布式缓存</strong></h1><p>在上<a href="https://www.blexin.com/en-US/Article/Blog/In-memory-caching-in-ASPNET-Core-45" target="_blank" rel="noopener">一篇文章中</a>，我解释了如何使用<strong><em>内存缓存</em></strong>在ASP.NET Core应用程序中管理<strong><em>缓存</em></strong>。如果您的应用程序托管在单个服务器上，则可以使用这种类型的缓存。</p>
+<p>那.NET Core框架可以使用哪些工具在云中的分布式方案中进行缓存呢？</p>
+<h2 id="IDistributedCache接口"><a href="#IDistributedCache接口" class="headerlink" title="IDistributedCache接口"></a>IDistributedCache接口</h2><p>该框架提供以下接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public interface IDistributedCache</span><br><span class="line">&#123;</span><br><span class="line">    byte[] Get(string key);</span><br><span class="line">    Task &lt;byte[]&gt; GetAsync(string key);</span><br><span class="line"></span><br><span class="line">    void Set(string key, byte[] value, DistributedCacheEntryOptions options);</span><br><span class="line">    Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options);</span><br><span class="line">     </span><br><span class="line">    void Refresh(string key);</span><br><span class="line">    Task RefreshAsync(string key);</span><br><span class="line">     </span><br><span class="line">    void Remove(string key);</span><br><span class="line">    Task RemoveAsync(string key);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果您还记得上一篇文章（<strong>IMemoryCache</strong>）中使用的接口，则可能会注意到一些相似之处，但甚至有很多区别，例如：</p>
+<ol>
+<li>异步方法</li>
+<li>刷新方法（无需请求数据即可更新缓存键）</li>
+<li>基于字节而非基于对象的方法</li>
+</ol>
+<p>到目前为止，Microsoft提供了3种实现：一种是<strong>内存中</strong>的，主要用于应用程序的开发阶段，第二种是在<strong>SQL Server上</strong>，最后一种是基于<strong>REDIS</strong>。<br>要使用基于REDIS的版本，必须安装NuGet软件包<strong>Microsoft.Extensions.Caching.Redis</strong>。</p>
+<h2 id="分布式内存缓存"><a href="#分布式内存缓存" class="headerlink" title="分布式内存缓存"></a>分布式内存缓存</h2><p>该实现由框架提供，并将我们的数据保存在内存中。它不是完全分布式的缓存，因为数据是从应用程序实例保存在其所在的服务器上的。在某些情况下可能会有用：</p>
+<ul>
+<li>开发与测试</li>
+<li>在生产中使用单个服务器时，内存消耗不是问题。</li>
+</ul>
+<p>无论如何，我们将使我们的应用程序仅在必要时才使用“真实的”分布式解决方案（用于保存的接口是相同的）。<br>要启用此IDistributedCache实现，您只需要在Startup类中注册它，如下所示：</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`services.AddDistributedMemoryCache();`</span><br></pre></td></tr></table></figure>
+
+<h2 id="分布式SQL-Server缓存"><a href="#分布式SQL-Server缓存" class="headerlink" title="分布式SQL Server缓存"></a>分布式SQL Server缓存</h2><p>此实现使分布式缓存可以将SQL Server数据库用作存储。有一些配置步骤。第一步包括创建用于保留数据的表。<br>有一个命令行命令工具，可通过简单的指令轻松实现</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`dotnet sql-cache ``create` `&lt;``connection` `string &gt; &lt;``schema` `&gt; &lt;``table` `&gt;`</span><br></pre></td></tr></table></figure>
+
+<p>允许创建具有以下结构的表：</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`CREATE` `TABLE` `[dbo].[CacheTable](``  ``[Id] [nvarchar](449) ``NOT` `NULL``,``  ``[Value] [varbinary](``max``) ``NOT` `NULL``,``  ``[ExpiresAtTime] [datetimeoffset](7) ``NOT` `NULL``,``  ``[SlidingExpirationInSeconds] [``bigint``] ``NULL``,``  ``[AbsoluteExpiration] [datetimeoffset](7) ``NULL``,`` ``CONSTRAINT` `[pk_Id] ``PRIMARY` `KEY` `CLUSTERED ``(``  ``[Id] ``ASC``)``WITH` `(PAD_INDEX = ``OFF``, STATISTICS_NORECOMPUTE = ``OFF``, ``  ``IGNORE_DUP_KEY = ``OFF``, ALLOW_ROW_LOCKS = ``ON``, ``  ``ALLOW_PAGE_LOCKS = ``ON``) ``ON` `[``PRIMARY``]``) ``ON` `[``PRIMARY``] TEXTIMAGE_ON [``PRIMARY``]` `CREATE` `NONCLUSTERED ``INDEX` `[Index_ExpiresAtTime] ``ON` `[dbo].[CacheTable]``(``  ``[ExpiresAtTime] ``ASC``)``WITH` `(PAD_INDEX = ``OFF``, STATISTICS_NORECOMPUTE = ``OFF``, ``  ``SORT_IN_TEMPDB = ``OFF``, DROP_EXISTING = ``OFF``, ``  ``ONLINE = ``OFF``, ALLOW_ROW_LOCKS = ``ON``, ``  ``ALLOW_PAGE_LOCKS = ``ON``) ``ON` `[``PRIMARY``]`</span><br></pre></td></tr></table></figure>
+
+<p>配置此实现的第二个也是最后一个步骤，即在我们的应用程序中进行注册。在Startup类的ConfigureServices方法内，我们添加以下代码块：</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`services.AddDistributedSqlServerCache(o =&gt;``&#123;``  ``o.ConnectionString = Configuration[``&quot;ConnectionStrings:Default&quot;``];``  ``o.SchemaName = ``&quot;dbo&quot;``;``  ``o.TableName = ``&quot;Cache&quot;``;``&#125;);`</span><br></pre></td></tr></table></figure>
+
+<h2 id="分布式Redis缓存"><a href="#分布式Redis缓存" class="headerlink" title="分布式Redis缓存"></a>分布式Redis缓存</h2><p>在分布式缓存场景中，Redis的使用非常广泛。Redis是一个快速存储的数据存储，它是开源的并且是键值类型。它提供的响应时间不到1毫秒，从而允许在各个领域中的每个实时应用程序每秒接收数百万个请求。<br>如果您的应用程序的基础结构基于Azure云，则可以使用服务<strong>Azure Redis缓存</strong>，并且可以从您的订阅中对其进行配置。</p>
+<p>要在Redis上使用分布式缓存，必须安装软件包Microsoft.Extensions.Caching.Redis。<br>第一步是在Startup.class中配置服务<a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`public` `void` `ConfigureServices(IServiceCollection services)``&#123;`` ``// Add framework services.`` ``// ... altri servizi ...`` ` ` ``services.AddDistributedRedisCache(cfg =&gt; `` ``&#123;``  ``cfg.Configuration = Configuration.GetConnectionString(``&quot;redis&quot;``);`` ``&#125;);``&#125;`</span><br></pre></td></tr></table></figure>
+
+<p>如果使用的是Azure Redis缓存，则可以通过访问面板的“访问键”部分找到连接字符串。</p>
+<p><img src="https://www.blexin.com/storage/articles/cache/img02.png" alt="img"></p>
+<h2 id="如何使用IDistributedCache"><a href="#如何使用IDistributedCache" class="headerlink" title="如何使用IDistributedCache"></a>如何使用IDistributedCache</h2><p>接口IDistributedCache的使用特别简单：如果您已经阅读了有关接口IMemoryCache的使用的文章，那么您将在命令中找到几点。如果要在控制器中使用它，则需要首先将实例注入构造函数中，如下面的代码所示：</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`public` `class` `HomeController : Controller``&#123;``  ``private` `readonly` `IDistributedCache _cache;` `  ``public` `HomeController(IDistributedCache cache)``  ``&#123;``    ``_cache = cache;``  ``&#125;``  ``public` `async Task  Index()``  ``&#123;``    ``await _cache.SetStringAsync(``&quot;TestString&quot;``, ``&quot;TestValue&quot;``);` `    ``var value = _cache.GetString(``&quot;TestString&quot;``);` `    ``return` `View();``  ``&#125;``&#125;`</span><br></pre></td></tr></table></figure>
+
+<p>如果让此代码运行，并在Index方法的最后一行插入一个断点，则会得到以下结果：</p>
+<p><img src="https://www.blexin.com/storage/articles/cache/img01.png" alt="img"></p>
+<p>我们可以使用<strong>DistributedCacheEntryOptions</strong>类轻松检查缓存的持续时间。在下面的代码中，我们创建一个实例，将持续时间设置为一小时。</p>
+<p><a href="https://www.blexin.com/en-US/Article/Blog/Distributed-cache-in-ASPNET-Core-53#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`public` `async Task  Index()``&#123;``  ``var options = ``new` `DistributedCacheEntryOptions``  ``&#123;``    ``AbsoluteExpiration = DateTime.Now.AddHours(1)``  ``&#125;;` `  ``await _cache.SetStringAsync(``&quot;TestString&quot;``, ``&quot;TestValue&quot;``, options);` `  ``var value = _cache.GetString(``&quot;TestString&quot;``);` `  ``return` `View();``&#125;`</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论与建议"><a href="#结论与建议" class="headerlink" title="结论与建议"></a>结论与建议</h2><p>在我们的应用中使用哪种IDistributedCache实现的决定取决于某些因素。在Redis和SQL之间进行选择（我将内存实现仅保留在测试和开发中，所以我将其保留在外）应该基于对您可用的基础结构，性能要求和开发团队的经验进行选择。如果团队对Redis感到放心，这将是最佳选择。SQL实现仍然是一个很好的解决方案，但应记住，数据恢复将不会提供出色的性能，因此应谨慎选择要缓存的数据。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/20/技术/ASP.NET Core中的内存中缓存/" rel="next" title="ASP.NET Core中的内存中缓存">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core中的内存中缓存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/25/技术/how-to-use-async-await-in-real-application/" rel="prev" title="一文看懂" async"和“await”关键词是如何简化了c#中多线程的开发过程">
+                一文看懂"async"和“await”关键词是如何简化了C#中多线程的开发过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ASP-NET-Core中的分布式缓存"><span class="nav-number">1.</span> <span class="nav-text">ASP.NET Core中的分布式缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IDistributedCache接口"><span class="nav-number">1.1.</span> <span class="nav-text">IDistributedCache接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式内存缓存"><span class="nav-number">1.2.</span> <span class="nav-text">分布式内存缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式SQL-Server缓存"><span class="nav-number">1.3.</span> <span class="nav-text">分布式SQL Server缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式Redis缓存"><span class="nav-number">1.4.</span> <span class="nav-text">分布式Redis缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用IDistributedCache"><span class="nav-number">1.5.</span> <span class="nav-text">如何使用IDistributedCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论与建议"><span class="nav-number">1.6.</span> <span class="nav-text">结论与建议</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

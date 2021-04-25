@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、 引子有一天，跟一位原同事老A聊起职场的一些情况，期间无意中提到了原公司的技术总监。我说这位技术总监带领公司从一家十几人的小团队，做到四百人的公司，作为同样都是开发者，而且以前也都从事过相同行业的开发，我非常钦佩他。 在内地城市长沙，虽然也有一些优秀的互联网公司，但像这样短短五年，使公司从十几个人的公司发展为几百人的公司，组建起拥有200人的技术团队，其实已经算是非常不错了。 在公司这五年的发">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="共同创业五年，技术总监却突然就这么离职了">
+<meta property="og:url" content="http://techq.xyz/2020/05/18/随笔/共同创业五年，技术总监却突然就这么离职了/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一、 引子有一天，跟一位原同事老A聊起职场的一些情况，期间无意中提到了原公司的技术总监。我说这位技术总监带领公司从一家十几人的小团队，做到四百人的公司，作为同样都是开发者，而且以前也都从事过相同行业的开发，我非常钦佩他。 在内地城市长沙，虽然也有一些优秀的互联网公司，但像这样短短五年，使公司从十几个人的公司发展为几百人的公司，组建起拥有200人的技术团队，其实已经算是非常不错了。 在公司这五年的发">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="共同创业五年，技术总监却突然就这么离职了">
+<meta name="twitter:description" content="一、 引子有一天，跟一位原同事老A聊起职场的一些情况，期间无意中提到了原公司的技术总监。我说这位技术总监带领公司从一家十几人的小团队，做到四百人的公司，作为同样都是开发者，而且以前也都从事过相同行业的开发，我非常钦佩他。 在内地城市长沙，虽然也有一些优秀的互联网公司，但像这样短短五年，使公司从十几个人的公司发展为几百人的公司，组建起拥有200人的技术团队，其实已经算是非常不错了。 在公司这五年的发">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/18/随笔/共同创业五年，技术总监却突然就这么离职了/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>共同创业五年，技术总监却突然就这么离职了 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/18/随笔/共同创业五年，技术总监却突然就这么离职了/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">共同创业五年，技术总监却突然就这么离职了
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-18 16:28:00" itemprop="dateCreated datePublished" datetime="2020-05-18T16:28:00+00:00">2020-05-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、-引子"><a href="#一、-引子" class="headerlink" title="一、 引子"></a>一、 引子</h1><p>有一天，跟一位原同事老A聊起职场的一些情况，期间无意中提到了原公司的技术总监。我说这位技术总监带领公司从一家十几人的小团队，做到四百人的公司，作为同样都是开发者，而且以前也都从事过相同行业的开发，我非常钦佩他。</p>
+<p>在内地城市长沙，虽然也有一些优秀的互联网公司，但像这样短短五年，使公司从十几个人的公司发展为几百人的公司，组建起拥有200人的技术团队，其实已经算是非常不错了。</p>
+<p>在公司这五年的发展过程中，这位技术总监应该是出力非常多的一位，从引入变革，到关键产品的发布，到团队的逐渐发展，到研发流程的规范化，已经算是一位适时刷新思想，实现组织变革的典型人物了。</p>
+<p>当然，有时候公司发展得好，既是“时势造英雄”，又是“英雄造时势”。老板不能只说自己的功劳，把公司做的好，全归功于自己决策做得好、党和国家政策好，技术总监也不会自吹自擂，将不属于自己的功劳，也吹成自己的功劳。虽然这两位之间看起来似乎有点不太明显的矛盾，但总归是维持在一个平衡的程度，使得公司依然能够保持快速的发展速度，长此以往一定会成就一段佳话。</p>
+<p>这时，老A却告诉我，这位技术总监过完年就已经从公司离职了。</p>
+<p>这让我非常惊讶，干得好好的，怎么就离职了?这位技术总监和老板之间配合得还算默契，公司发展也处于“如日中天”的状态，怎么说走就走？</p>
+<p>老板换人了？怎么可能，技术总监往往是公司最关键的技术岗位，怎么可能像普通开发岗位一样想换就换的。是不是有什么特殊的原因？</p>
+<p>他说：这有什么，想走了呗。也许有哪些原因，我们也看不出来啊。</p>
+<p>好吧，其实我也并非一位喜欢职场八卦的人，无意对深层次的原因进一步挖掘，尤其是这家公司纵使在长沙看起来有一点规模，但是在《架构师社区》的读者眼里，依然并非“大厂”，不提也罢。</p>
+<p>总结来说，每个人职场都有不同的选择，在恰到好处的时候离去，无论是归于平淡，还是寻找另外一番人生际遇，或是快意恩仇，或是潇洒自如，或是相忘于江湖，都是对自己职场人生的一段总结。</p>
+<h1 id="二、-技术总监，“高”处不胜寒"><a href="#二、-技术总监，“高”处不胜寒" class="headerlink" title="二、 技术总监，“高”处不胜寒"></a>二、 技术总监，“高”处不胜寒</h1><h2 id="1）"><a href="#1）" class="headerlink" title="1）"></a>1）</h2><p>在我刚刚参加工作时，曾经以为技术高管算是一位开发者职场奋斗的顶峰，能够成为技术高管，一定已经非常”稳定“了。</p>
+<p>当然，这种观点显然已经过时了。读者们都非常清楚，在一家成熟的公司，理论上讲，没有一个人是不可替换的，唯一的区别是替换成本的高低。尤其是那些成熟的互联网公司，连企业法人也会根据公司发展形势的变化而变化，那技术总监就更不用说了。</p>
+<p>技术总监甚至不一定属于“高管”，例如小公司，由于天花板很低，也许一位技术总监，已经算是“高管”了；但在大公司，其实很少会轻易将高管Title授予给他人，有时看上去那些所谓“总监”，其实只是头衔而已，并不能说明他的职位和话语权究竟有多高；也许得VP（技术合伙人）或CTO才能称为“高管”。</p>
+<p>不过总体来说，从白手起家的普通程序员，到成为“技术总监”，这已经算是对一位辛勤工作的开发者付出的极大肯定了。</p>
+<h2 id="2）"><a href="#2）" class="headerlink" title="2）"></a>2）</h2><p>但有朝一日成为了技术总监，就真的职场无忧了么？</p>
+<p>并非如此，有一位朋友曾经分享了一个图片，那是一位40+的技术总监求职10k+技术职位的简历截图。（由于某些原因，不便分享。）</p>
+<p>这位大佬在一家国企的IT技术部门担任技术总监，在公司期间曾经主导了公司从传统媒体到新媒体的转型，为公司寻找新的利益增长点做出了不可磨灭的贡献，但是由于新媒体市场的激烈竞争，即便是依托国企和政府的良好关系和资源，这家公司依然很难在这个市场获得不错的业绩。</p>
+<p>业绩不好，技术部门自然而然也不会有多好过，事实上压力最大、首当其冲的就是技术老大，一方面是公司在新方向上的投入和产出不对等，首先就会追究技术总监的责任，另外一方面，研发团队长期承受巨大的压力，每天都加班加点，却被公司业务部门屡屡出言不逊，“花了那么多钱，结果养出来一支这样的卵蛋”？（毕竟虽然是国企吃大锅饭，但技术部门的工资，其实比业务部门要高出一倍有余），好不容易培养出来的团队，面临着严重的人员流失问题，又会让新项目的开展面临难以维系的局面。</p>
+<p>曾几何时，这位技术总监试图在团队内营造一股生机盎然的学习氛围，让大家在轻松而又愉快的氛围中共同进步，但是来自于业务部门的压力，显然让一切试图制造象牙塔的努力都变成徒劳。</p>
+<p>最终那些琳琅满目的书架、咖啡机、每日点心，被那些“大干一百天，奋斗就是生存”“年轻时不奋斗，还何时奋斗”“我的生命只有一次，我们要用他来改变世界”这样的标语替代。 </p>
+<p>（这也让许多心心念念去国企、大厂寻求稳定的人提个醒，也许你还真寻不到你梦寐以求的稳定。）</p>
+<h2 id="3）"><a href="#3）" class="headerlink" title="3）"></a>3）</h2><p>他曾经跟我讲过刚去公司时，老板给他描绘的一幅幅宏伟蓝图，在刚开始业务转型时，在公司的大力支持之下，一个个他主导的项目都比他自己预想的还要轻易的完成，在同事们眼中，俨然一幅救世主一般。</p>
+<p>但是由于竞争对手过于强大，那些他带领几十号技术人员付出了许多个昼夜、熬夜加班干出来的新产品，却由于没办法获得足够的流量，最终如同一拳打到了棉花上，毫无产出。</p>
+<p>然后两年过去，他已经不再看业务部门同事的眼光了，也许莫名其妙间，感受到的是一股“嫌隙”的表情。许多业务部门的同事甚至会当着他的面说，如果把投入到互联网产品上的大几百万拿给自己做业务，肯定能带来更多客户。</p>
+<p>于是最终，这位技术总监也选择了放弃，他想回归本行，从一位纯粹的开发者干起，但大概市场已经没有他的位置了吧。</p>
+<p>毕竟，在如今的长沙，企业老板们对40岁左右的开发者，不管你履历多么华丽，所能提供的薪酬待遇，往往不超过10k。</p>
+<p>也许，他能选择的方向，是“教职”。</p>
+<h1 id="三-职业发展方向之谜"><a href="#三-职业发展方向之谜" class="headerlink" title="三 职业发展方向之谜"></a>三 职业发展方向之谜</h1><p>也许这篇文章又一次输出了“焦虑”，但并非笔者本意。”焦虑”大概是开发者们最普遍的情绪，尤其是最近疫情的影响，不少公司开始裁员，更是给开发者群体造成了不小的影响，职业发展再度成为大家普遍困扰的话题。</p>
+<p>在互联网上流传了三种不同的程序员发展路线图，一种是从程序员出发，然后干到专业工程师，高级工程师，架构师，技术负责人，技术总监，CTO；</p>
+<p>还有一种是从程序员出发，干到技术总监，然后开始送外卖或者送快递，或者自己开个彩票店，或者便利店，然后闲庭细步，泡上一杯茶、去钓钓鱼，细细品味这人生的慢慢悠长。</p>
+<p>当然，还有一种主流的发展路线，大概是最终走向创业，成为“万众创业”国家大计政策下的一颗螺丝钉。</p>
+<p>我们该如何选择适合自己的职场方向呢？</p>
+<p>在这篇文章中介绍了两个优秀的技术管理者，他们在自己的职场赛道上都遇到了一些困难，但也都一如既往的努力，那我们呢？</p>
+<p>其实，无论你做什么，其实都难以一帆风顺，但只要踏实坚持，总能看到希望。焦虑无助于改变现状，倒不如沉下心来，干好当下。</p>
+<p>​    </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/17/随笔/是小厂全栈好，还是大厂专业工程师好？/" rel="next" title="是小厂全栈好，还是大厂专业工程师好？">
+                <i class="fa fa-chevron-left"></i> 是小厂全栈好，还是大厂专业工程师好？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/26/管理/我是如何完成一个短期项目的？/" rel="prev" title="我是如何完成一个短期项目的？">
+                我是如何完成一个短期项目的？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、-引子"><span class="nav-number">1.</span> <span class="nav-text">一、 引子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、-技术总监，“高”处不胜寒"><span class="nav-number">2.</span> <span class="nav-text">二、 技术总监，“高”处不胜寒</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1）"><span class="nav-number">2.1.</span> <span class="nav-text">1）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2）"><span class="nav-number">2.2.</span> <span class="nav-text">2）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3）"><span class="nav-number">2.3.</span> <span class="nav-text">3）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-职业发展方向之谜"><span class="nav-number">3.</span> <span class="nav-text">三 职业发展方向之谜</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

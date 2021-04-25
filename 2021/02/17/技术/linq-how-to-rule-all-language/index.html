@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="LINQ：最终统治了所有的语言！ 让我们看看LINQ如何彻底改变了.NET中访问数据的方式  NETQ与其他技术堆栈的不同之处之一绝对是LINQ，它是Language Integrated Query的首字母缩写。实际上，它是随.NET Framework 3.5和Visual Studio 2008引入的，它是第一个独立于体系结构并集成在C＃和Visual Basic语言中的框架。 借助LINQ">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LINQ：最终统治了所有的语言！">
+<meta property="og:url" content="http://techq.xyz/2021/02/17/技术/linq-how-to-rule-all-language/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="LINQ：最终统治了所有的语言！ 让我们看看LINQ如何彻底改变了.NET中访问数据的方式  NETQ与其他技术堆栈的不同之处之一绝对是LINQ，它是Language Integrated Query的首字母缩写。实际上，它是随.NET Framework 3.5和Visual Studio 2008引入的，它是第一个独立于体系结构并集成在C＃和Visual Basic语言中的框架。 借助LINQ">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LINQ：最终统治了所有的语言！">
+<meta name="twitter:description" content="LINQ：最终统治了所有的语言！ 让我们看看LINQ如何彻底改变了.NET中访问数据的方式  NETQ与其他技术堆栈的不同之处之一绝对是LINQ，它是Language Integrated Query的首字母缩写。实际上，它是随.NET Framework 3.5和Visual Studio 2008引入的，它是第一个独立于体系结构并集成在C＃和Visual Basic语言中的框架。 借助LINQ">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/02/17/技术/linq-how-to-rule-all-language/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>LINQ：最终统治了所有的语言！ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/02/17/技术/linq-how-to-rule-all-language/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LINQ：最终统治了所有的语言！
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-02-17 20:28:00" itemprop="dateCreated datePublished" datetime="2021-02-17T20:28:00+00:00">2021-02-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="LINQ：最终统治了所有的语言！"><a href="#LINQ：最终统治了所有的语言！" class="headerlink" title="LINQ：最终统治了所有的语言！"></a><strong>LINQ：最终统治了所有的语言！</strong></h1><p> <strong>让我们看看LINQ如何彻底改变了.NET中访问数据的方式</strong> </p>
+<p>NETQ与其他技术堆栈的不同之处之一绝对是LINQ，它是Language Integrated Query的首字母缩写。实际上，它是随.NET Framework 3.5和Visual Studio 2008引入的，它是第一个独立于体系结构并集成在C＃和Visual Basic语言中的框架。</p>
+<p>借助LINQ，我们可以使用独立于各种源的单个编程模型来查询和操作数据。为了更好地理解它是什么，我们必须跳过去。</p>
+<p>在C＃的第一个版本中，我们必须使用<em>for</em>或<em>foreach</em>循环来遍历一个集合，正如我们所知，该集合实现<em>IEnumerable</em>接口，例如，在其中找到一个特定的对象。以下代码返回公司年龄在19至36岁（20至35岁）之间的所有客户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Customer</span><br><span class="line">&#123; </span><br><span class="line">   public int CustomerID &#123; get; set; &#125; </span><br><span class="line">   public String CustomerName &#123; get; set; &#125; </span><br><span class="line">   public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">class Program </span><br><span class="line">&#123; </span><br><span class="line">   static void Main(string[] args) </span><br><span class="line">   &#123; </span><br><span class="line">       Customer[] customerArray = &#123; </span><br><span class="line">          new Customer() &#123; CustomerID = 1, CustomerName = &quot;Joy&quot;, Age = 22 &#125;, </span><br><span class="line">          new Customer() &#123; CustomerID = 2, CustomerName = &quot;Bob&quot;, Age = 45 &#125;, </span><br><span class="line">          new Customer() &#123; CustomerID = 3, CustomerName = &quot;Curt&quot;, Age = 25 &#125;,</span><br><span class="line">       &#125;;</span><br><span class="line">        </span><br><span class="line">       Customer[] customers = new Customer[10]; </span><br><span class="line">        </span><br><span class="line">       int i = 0; </span><br><span class="line">        </span><br><span class="line">       foreach (Customer cst in customerArray) </span><br><span class="line">       &#123; </span><br><span class="line">           if (cst.Age &gt; 19 &amp;&amp; cst.Age &lt; 36) </span><br><span class="line">           &#123; </span><br><span class="line">               customers[i] = cst; </span><br><span class="line">               i++; </span><br><span class="line">           &#125;</span><br><span class="line">       &#125; </span><br><span class="line">   &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 有什么不同的方法？让我们尝试从“ <em>委托”</em>的概念开始逐步进行开发。甲<em>代表</em>是表示与相同的参数和返回的类型的方法的引用类型。它“委托”它旨在执行代码的方法，我们可以用这种方式声明它：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate bool Operations(int number);</span><br></pre></td></tr></table></figure>
+
+<p> 此<em>委托</em>可以指向所有接受输入整数并返回布尔值的方法。例如，假设在<em>CustomerOperations</em>类中有一个方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public bool CustomerAgeRangeCheck(int number)</span><br><span class="line">&#123;</span><br><span class="line">    return number &gt; 19 &amp;&amp; number &lt; 36; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 我们可以注册一个或多个将在执行<em>委托时</em>执行的方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Operations op = new Operations(CustomerOperations.CustomerAgeRangeCheck);</span><br></pre></td></tr></table></figure>
+
+<p> 或者简单地： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Operations op = CustomerOperations.CustomerAgeRangeCheck;</span><br></pre></td></tr></table></figure>
+
+<p> 因此，我们可以使用<em>委托</em>，在这种情况下，它将返回<em>true</em>： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">op(22);</span><br></pre></td></tr></table></figure>
+
+<p><em>委托</em>用于将方法作为参数传递给其他方法：<em>事件处理程序</em>和<em>回调</em>是通过<em>委托</em>调用的方法的示例。</p>
+<p>C＃2.0引入了<em>匿名委托</em>，您现在可以使用匿名方法来声明和初始化<em>委托</em>。例如，我们可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">delegate bool CustomerFilters(Customer customer);</span><br><span class="line">  </span><br><span class="line">class CustomerOperations</span><br><span class="line">&#123;</span><br><span class="line">    public static Customer[] FindWhere(Customer[] customers, CustomerFilters  customerFiltersDelegate)</span><br><span class="line">    &#123;</span><br><span class="line">        int i = 0;</span><br><span class="line">        Customer[] result = new Customer[6];</span><br><span class="line">        foreach (Customer customer in customers)</span><br><span class="line">           if (customerFiltersDelegate(customer))</span><br><span class="line">           &#123;</span><br><span class="line">               result[i] = customer;</span><br><span class="line">                i++;</span><br><span class="line">           &#125;</span><br><span class="line">    </span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Customer[] customers = &#123;</span><br><span class="line">           new Customer() &#123; CustomerID = 1, CustomerName = &quot;Joy&quot;, Age = 22 &#125;,</span><br><span class="line">           new Customer() &#123; CustomerID = 2, CustomerName = &quot;Bob&quot;, Age = 45 &#125;,</span><br><span class="line">           new Customer() &#123; CustomerID = 3, CustomerName = &quot;Curt&quot;, Age = 25 &#125;,</span><br><span class="line">        &#125;;</span><br><span class="line"> </span><br><span class="line">        Customer[] filteredCustomersAge = CustomerOperations.FindWhere(customers, delegate (Customer customer)  //Using anonimous delegate</span><br><span class="line">           &#123;</span><br><span class="line">              return customer.Age &gt; 19 &amp;&amp; customer.Age &lt; 36;</span><br><span class="line">           &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用C＃2.0，我们的优势是可以使用<em>匿名委托</em>在不同条件下进行搜索，而无需使用<em>for</em>或<em>foreach</em>循环。例如，我们可以使用上一个示例中相同的委托函数来查找“ CustomerID”为3或名称为“ Bob”的客户： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Customer[] filteredCustomersId = CustomerOperations.FindWhere(customers, delegate (Customer customer)  </span><br><span class="line">          &#123;</span><br><span class="line">             return customer.CustomerID == 3;</span><br><span class="line">          &#125;);</span><br><span class="line"> </span><br><span class="line">Customer[] filteredCustomersName = CustomerOperations.FindWhere(customers, delegate (Customer customer)  </span><br><span class="line">          &#123;</span><br><span class="line">             return customer.CustomerName == &quot;Bob&quot;;</span><br><span class="line">          &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>随着C＃的发展，从3.x版本开始，Microsoft团队引入了新功能，使代码更加紧凑和易读。这些直接支持LINQ来查询不同类型的数据源并获得产生单个指令的元素。</p>
+<p>这些功能是：</p>
+<p>  -在<em>VAR</em>结构，一个隐式类型的局部变量。它是强类型化的，因为已经声明了类型本身，但是由编译器根据分配给它的值使用类型推断来确定类型。以下两个语句在功能上等效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var customerAge = 30; // Implicitly typed.</span><br><span class="line">int customerAge = 30; // Explicitly typed.</span><br></pre></td></tr></table></figure>
+
+<p>  -使用 <em>对象初始化程序，</em> 您可以在对象创建期间将值分配给<em>对象的</em>全部或某些属性，而无需在分配指令行之后调用构造函数。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Customer customer = new Customer &#123; Age = 30, CustomerName = &quot;Adolfo&quot; &#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 与以下代码不同，在前一种情况下，所有内容都被视为单个操作。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Customer customer = new Customer();</span><br><span class="line">customer.Age = 30; </span><br><span class="line">customer.CustomerName = &quot;Adolfo&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>  - <em>匿名类型</em>，由编译器构建的只读类型，只有编译器知道它。但是，如果<em>程序</em>集中的两个或多个匿名<em>对象初始化</em>程序具有相同顺序的属性序列，并且具有相同的名称和类型，则编译器会将这些对象视为相同类型的实例。<em>匿名类型</em>是将查询结果中的一组属性临时分组的好方法，而不必定义单独的命名类型。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var customer = new &#123; YearsOfFidelity = 10, Name = &quot;Francesco&quot;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>   -扩展方法，使您可以将方法“添加”到现有类型，而无需创建新的派生类型，重新编译或修改原始类型。扩展方法是静态方法，但由于引入了语法糖，因此被称为，因为它们是扩展类型上的实例方法。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static class StringExtensionMethods</span><br><span class="line">&#123;</span><br><span class="line">    public static string ReverseString(this string input)</span><br><span class="line">    &#123;</span><br><span class="line">        if (string.IsNullOrEmpty(input)) return &quot;&quot;;</span><br><span class="line">        return new string(input.ToCharArray().Reverse().ToArray());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <em>扩展方法</em>必须在静态类中定义。第一个参数表示要扩展的类型，并且必须以关键字<em>this</em>开头，其他参数则不需要它。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(&quot;Hello&quot;.ReverseString());   //olleH</span><br></pre></td></tr></table></figure>
+
+<p> 请注意，在方法调用中不得指定第一个参数，该参数以<em>this</em>修饰符开头。 </p>
+<p>  - <em>Lambda表达式</em>，可作为可变的或作为在一方法调用中的参数被传递匿名函数。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customer =&gt; customer.Age &gt; 19 &amp;&amp; customer.Age &lt; 36;</span><br></pre></td></tr></table></figure>
+
+<p>=&gt;运算符称为<em>lambda运算符</em>，而<em>customer</em>是函数的输入参数。<em>lambda运算符</em>右侧的部分代表函数的主体及其返回的值，在这种情况下为布尔值。</p>
+<p>在LINQ的引入中，我们终于有了C＃3.5版本。</p>
+<p>简而言之，我们可以说LINQ是IEnumerable <t>和IQueryable <t>接口的<em>扩展方法</em>库，它使我们能够执行各种操作，如过滤，进行投影，聚合和排序。</t></t></p>
+<p>我们有几种可用的LINQ实现：</p>
+<ul>
+<li>LINQ到对象（内存中对象集合）</li>
+<li>LINQ到实体（实体框架）</li>
+<li>LINQ to SQL（SQL数据库）</li>
+<li>LINQ to XML（XML文档）</li>
+<li>LINQ到数据集（ADO.Net数据集）</li>
+<li>通过实现IQueryable接口（其他数据源）</li>
+</ul>
+<p>在前面的示例中，数组用作数据源，因此隐式支持通用接口IEnumerable &lt;T &lt;。支持IEnumerable <t>或其派生接口的类型（例如通用IQueryable <t>接口）称为<em>可查询类型</em>，使我们可以直接执行LINQ查询。如果数据源尚未以<em>可查询类型</em>存储在内存中，则LINQ提供程序必须将其表示为<em>可查询类型</em>。</t></t></p>
+<p>正如我们所说，LINQ查询主要基于.NET Framework 2.0版中引入的通用类型。这意味着，例如，如果尝试将Customer对象添加到List <string>对象，则在编译时将生成错误。使用通用集合很容易，因为不需要在运行时强制转换类型。<br>如果愿意，可以使用前面提到的<em>var</em>关键字来避免通用语法，在下面的示例中，该关键字要求编译器通过检查<em>from</em>子句中指定的数据源来推断查询变量的类型。<br>因此，让我们看看如何能达到同样的效果，在前面的代码中我们获得了使用<em>匿名委托</em>，使用LINQ到对象查询，该<em>变种</em>构造和<em>lambda表达式</em>：</string></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var filteredCustomersAge = customers.Where(c =&gt; c.Age &gt; 19 &amp;&amp; c.Age &lt; 36);</span><br></pre></td></tr></table></figure>
+
+<p> 这种语法称为方法语法。<br>在下一个示例中，我们将使用查询语法（Query Syntax），该语法是为那些已经了解SQL语言并且因此会喜欢这种方法的人引入的： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var filteredCustomersAge =</span><br><span class="line">    from customer in customers</span><br><span class="line">    where customer.Age &gt; 19 &amp;&amp; customer.Age &lt; 36</span><br><span class="line">    select customer;</span><br></pre></td></tr></table></figure>
+
+<p>查询语法和方法语法在语义上是相同的，许多人发现查询的语法更简单，更易于阅读。<br>在查询语法中，LINQ查询运算符在编译时转换为对相关LINQ <em>扩展方法的</em>调用。</p>
+<p>在下一篇文章中，我们将继续讨论LINQ！<br>我们将讨论IQueryable <t>接口，其相关的LINQ扩展方法以及与IEnumerable <t>接口的区别。<br>与远程数据库一样，我们还将看到LINQ与内存外集合的数据源一起使用。</t></t></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/20/技术/浅议C#客户端和服务端通信的几种方法：RestGrpc和其他技术/" rel="next" title="浅议C#客户端和服务端通信的几种方法：Rest和GRPC">
+                <i class="fa fa-chevron-left"></i> 浅议C#客户端和服务端通信的几种方法：Rest和GRPC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/在ASP.NET Core中的应用启动时运行异步任务-第1部分/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LINQ：最终统治了所有的语言！"><span class="nav-number">1.</span> <span class="nav-text">LINQ：最终统治了所有的语言！</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

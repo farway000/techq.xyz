@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用自定义DelegatingHandler编写更整洁的Typed HttpClient简介﻿我写了很多HttpClient，包括类型化的客户端。自从我发现Refit以来，我只使用了那一个，所以我只编写了很少的代码！但是我想到了你！你们中的某些人不一定会使用Refit，因此，我将为您提供一些技巧，以使用HttpClient消息处理程序（尤其是DelegatingHandlers）编写具有最大可重用">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用自定义DelegatingHandler编写更整洁的Typed HttpClient">
+<meta property="og:url" content="http://techq.xyz/2020/04/30/技术/使用自定义DelegatingHandler编写更清洁的Typed HttpClient/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="使用自定义DelegatingHandler编写更整洁的Typed HttpClient简介﻿我写了很多HttpClient，包括类型化的客户端。自从我发现Refit以来，我只使用了那一个，所以我只编写了很少的代码！但是我想到了你！你们中的某些人不一定会使用Refit，因此，我将为您提供一些技巧，以使用HttpClient消息处理程序（尤其是DelegatingHandlers）编写具有最大可重用">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用自定义DelegatingHandler编写更整洁的Typed HttpClient">
+<meta name="twitter:description" content="使用自定义DelegatingHandler编写更整洁的Typed HttpClient简介﻿我写了很多HttpClient，包括类型化的客户端。自从我发现Refit以来，我只使用了那一个，所以我只编写了很少的代码！但是我想到了你！你们中的某些人不一定会使用Refit，因此，我将为您提供一些技巧，以使用HttpClient消息处理程序（尤其是DelegatingHandlers）编写具有最大可重用">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/30/技术/使用自定义DelegatingHandler编写更清洁的Typed HttpClient/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用自定义DelegatingHandler编写更整洁的Typed HttpClient | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/30/技术/使用自定义DelegatingHandler编写更清洁的Typed HttpClient/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用自定义DelegatingHandler编写更整洁的Typed HttpClient
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-30 19:07:00" itemprop="dateCreated datePublished" datetime="2020-04-30T19:07:00+00:00">2020-04-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用自定义DelegatingHandler编写更整洁的Typed-HttpClient"><a href="#使用自定义DelegatingHandler编写更整洁的Typed-HttpClient" class="headerlink" title="使用自定义DelegatingHandler编写更整洁的Typed HttpClient"></a>使用自定义DelegatingHandler编写更整洁的Typed HttpClient</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介﻿"></a><strong>简介</strong>﻿</h2><p>我写了很多<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>，包括类型化的客户端。自从我发现<a href="https://github.com/reactiveui/refit" target="_blank" rel="noopener">Refit</a>以来，我只使用了那一个，所以我只编写了很少的代码！但是我想到了你！你们中的某些人不一定会使用<a href="https://github.com/reactiveui/refit" target="_blank" rel="noopener">Refit，</a>因此，我将为您提供一些技巧，以使用<a href="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/httpclient-message-handlers" target="_blank" rel="noopener">HttpClient消息处理程序</a>（尤其是<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.delegatinghandler?view=netframework-4.8" target="_blank" rel="noopener">DelegatingHandlers）</a>编写具有最大可重用性的<a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests" target="_blank" rel="noopener">类型化HttpClient</a>。</p>
+<h2 id="编写类型化的HttpClient来转发JWT并记录错误"><a href="#编写类型化的HttpClient来转发JWT并记录错误" class="headerlink" title="编写类型化的HttpClient来转发JWT并记录错误"></a><strong>编写类型化的HttpClient来转发JWT并记录错误</strong></h2><p>这是要清理的<a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests" target="_blank" rel="noopener">键入的HttpClient</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">using DemoRefit.Models;</span><br><span class="line">using DemoRefit.Repositories;</span><br><span class="line">using Microsoft.AspNetCore.Authentication;</span><br><span class="line">using Microsoft.AspNetCore.Http;</span><br><span class="line">using Microsoft.Extensions.Logging;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Net.Http;</span><br><span class="line">using System.Net.Http.Headers;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace DemoRefit.HttpClients</span><br><span class="line">&#123;</span><br><span class="line">    public class CountryRepositoryClient : ICountryRepositoryClient</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly HttpClient _client;</span><br><span class="line">        private readonly IHttpContextAccessor _httpContextAccessor;</span><br><span class="line">        private readonly ILogger&lt;CountryRepositoryClient&gt; _logger;</span><br><span class="line"></span><br><span class="line">        public CountryRepositoryClient(HttpClient client, ILogger&lt;CountryRepositoryClient&gt; logger, IHttpContextAccessor httpContextAccessor)</span><br><span class="line">        &#123;</span><br><span class="line">            _client = client;</span><br><span class="line">            _logger = logger;</span><br><span class="line">            _httpContextAccessor = httpContextAccessor;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public async Task&lt;IEnumerable&lt;Country&gt;&gt; GetAsync()</span><br><span class="line">        &#123;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync(&quot;access_token&quot;);</span><br><span class="line">                if (string.IsNullOrEmpty(accessToken))</span><br><span class="line">                &#123;</span><br><span class="line">                    throw new Exception(&quot;Access token is missing&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(&quot;bearer&quot;, accessToken);</span><br><span class="line"></span><br><span class="line">                var headers = _httpContextAccessor.HttpContext.Request.Headers;</span><br><span class="line">                if (headers.ContainsKey(&quot;X-Correlation-ID&quot;) &amp;&amp; !string.IsNullOrEmpty(headers[&quot;X-Correlation-ID&quot;]))</span><br><span class="line">                &#123;</span><br><span class="line">                    _client.DefaultRequestHeaders.Add(&quot;X-Correlation-ID&quot;, headers[&quot;X-Correlation-ID&quot;].ToString());</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                using (HttpResponseMessage response = await _client.GetAsync(&quot;/api/democrud&quot;))</span><br><span class="line">                &#123;</span><br><span class="line">                    response.EnsureSuccessStatusCode();</span><br><span class="line">                    return await response.Content.ReadAsAsync&lt;IEnumerable&lt;Country&gt;&gt;();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception e)</span><br><span class="line">            &#123;</span><br><span class="line">                _logger.LogError(e, &quot;Failed to run http query&quot;);</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有许多事情需要清理，因为它们在您将在同一应用程序中编写的每个客户端中可能都是多余的：</p>
+<ul>
+<li>从<strong>HttpContext</strong>读取访问令牌</li>
+<li>令牌为空时，管理访问令牌</li>
+<li>将访问令牌附加到<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>进行委派</li>
+<li>从<strong>HttpContext</strong>读取CorrelationId</li>
+<li>将CorrelationId附加到<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>进行委托</li>
+<li>使用<em>EnsureSuccessStatusCode（）</em>验证Http查询是否成功</li>
+</ul>
+<h2 id="编写自定义的DelegatingHandler来处理冗余代码"><a href="#编写自定义的DelegatingHandler来处理冗余代码" class="headerlink" title="编写自定义的DelegatingHandler来处理冗余代码"></a><strong>编写自定义的DelegatingHandler来处理冗余代码</strong></h2><p>这是<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.delegatinghandler?view=netframework-4.8" target="_blank" rel="noopener">DelegatingHandler</a>：          </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Authentication;</span><br><span class="line">using Microsoft.AspNetCore.Http;</span><br><span class="line">using Microsoft.Extensions.Logging;</span><br><span class="line">using System;</span><br><span class="line">using System.Net.Http;</span><br><span class="line">using System.Net.Http.Headers;</span><br><span class="line">using System.Threading;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace DemoRefit.Handlers</span><br><span class="line">&#123;</span><br><span class="line">    public class MyDelegatingHandler : DelegatingHandler</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly IHttpContextAccessor _httpContextAccessor;</span><br><span class="line">        private readonly ILogger&lt;MyDelegatingHandler&gt; _logger;</span><br><span class="line"></span><br><span class="line">        public MyDelegatingHandler(IHttpContextAccessor httpContextAccessor, ILogger&lt;MyDelegatingHandler&gt; logger)</span><br><span class="line">        &#123;</span><br><span class="line">            _httpContextAccessor = httpContextAccessor;</span><br><span class="line">            _logger = logger;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected override async Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            HttpResponseMessage httpResponseMessage;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync(&quot;access_token&quot;);</span><br><span class="line">                if (string.IsNullOrEmpty(accessToken))</span><br><span class="line">                &#123;</span><br><span class="line">                    throw new Exception($&quot;Access token is missing for the request &#123;request.RequestUri&#125;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                request.Headers.Authorization = new AuthenticationHeaderValue(&quot;bearer&quot;, accessToken);</span><br><span class="line"></span><br><span class="line">                var headers = _httpContextAccessor.HttpContext.Request.Headers;</span><br><span class="line">                if (headers.ContainsKey(&quot;X-Correlation-ID&quot;) &amp;&amp; !string.IsNullOrEmpty(headers[&quot;X-Correlation-ID&quot;]))</span><br><span class="line">                &#123;</span><br><span class="line">                    request.Headers.Add(&quot;X-Correlation-ID&quot;, headers[&quot;X-Correlation-ID&quot;].ToString());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                httpResponseMessage = await base.SendAsync(request, cancellationToken);</span><br><span class="line">                httpResponseMessage.EnsureSuccessStatusCode();</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                _logger.LogError(ex, &quot;Failed to run http query &#123;RequestUri&#125;&quot;, request.RequestUri);</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line">            return httpResponseMessage;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如您所见，现在它封装了用于同一应用程序中每个<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>的冗余逻辑 。</p>
+<p>现在，清理后的<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using DemoRefit.Models;</span><br><span class="line">using DemoRefit.Repositories;</span><br><span class="line">using Microsoft.Extensions.Logging;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Net.Http;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace DemoRefit.HttpClients</span><br><span class="line">&#123;</span><br><span class="line">    public class CountryRepositoryClientV2 : ICountryRepositoryClient</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly HttpClient _client;</span><br><span class="line">        private readonly ILogger&lt;CountryRepositoryClient&gt; _logger;</span><br><span class="line"></span><br><span class="line">        public CountryRepositoryClientV2(HttpClient client, ILogger&lt;CountryRepositoryClient&gt; logger)</span><br><span class="line">        &#123;</span><br><span class="line">            _client = client;</span><br><span class="line">            _logger = logger;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public async Task&lt;IEnumerable&lt;Country&gt;&gt; GetAsync()</span><br><span class="line">        &#123;</span><br><span class="line">            using (HttpResponseMessage response = await _client.GetAsync(&quot;/api/democrud&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                try</span><br><span class="line">                &#123;</span><br><span class="line">                    return await response.Content.ReadAsAsync&lt;IEnumerable&lt;Country&gt;&gt;();</span><br><span class="line">                &#125;</span><br><span class="line">                catch (Exception e)</span><br><span class="line">                &#123;</span><br><span class="line">                    _logger.LogError(e, &quot;Failed to read content&quot;);</span><br><span class="line">                    return null;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好多了不是吗？🙂</p>
+<p>最后，让我们将<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.delegatinghandler?view=netframework-4.8" target="_blank" rel="noopener">DelegatingHandler</a>附加到Startup.cs中的<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netcore-3.0" target="_blank" rel="noopener">HttpClient</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">using DemoRefit.Handlers;</span><br><span class="line">using DemoRefit.HttpClients;</span><br><span class="line">using DemoRefit.Repositories;</span><br><span class="line">using Microsoft.AspNetCore.Builder;</span><br><span class="line">using Microsoft.AspNetCore.Hosting;</span><br><span class="line">using Microsoft.Extensions.Configuration;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using Microsoft.Extensions.Hosting;</span><br><span class="line">using Refit;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">namespace DemoRefit</span><br><span class="line">&#123;</span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        public Startup(IConfiguration configuration)</span><br><span class="line">        &#123;</span><br><span class="line">            Configuration = configuration;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public IConfiguration Configuration &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">        // This method gets called by the runtime. Use this method to add services to the container.</span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            services.AddHttpContextAccessor();</span><br><span class="line"></span><br><span class="line">            services.AddControllers();</span><br><span class="line"></span><br><span class="line">            services.AddHttpClient&lt;ICountryRepositoryClient, CountryRepositoryClientV2&gt;()</span><br><span class="line">                    .ConfigureHttpClient(c =&gt; c.BaseAddress = new Uri(Configuration.GetSection(&quot;Apis:CountryApi:Url&quot;).Value))</span><br><span class="line">                    .AddHttpMessageHandler&lt;MyDelegatingHandler&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span><br><span class="line">        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">        &#123;</span><br><span class="line">            if (env.IsDevelopment())</span><br><span class="line">            &#123;</span><br><span class="line">                app.UseDeveloperExceptionPage();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">            app.UseRouting();</span><br><span class="line"></span><br><span class="line">            app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">            app.UseEndpoints(endpoints =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                endpoints.MapControllers();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用Refit"><a href="#使用Refit" class="headerlink" title="使用Refit"></a><strong>使用Refit</strong></h2><p>如果您正在使用<a href="https://github.com/reactiveui/refit" target="_blank" rel="noopener">Refit</a>，则绝对可以重用该<a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.delegatinghandler?view=netframework-4.8" target="_blank" rel="noopener">DelegatingHandler</a>！</p>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">using DemoRefit.Handlers;</span><br><span class="line">using DemoRefit.HttpClients;</span><br><span class="line">using DemoRefit.Repositories;</span><br><span class="line">using Microsoft.AspNetCore.Builder;</span><br><span class="line">using Microsoft.AspNetCore.Hosting;</span><br><span class="line">using Microsoft.Extensions.Configuration;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using Microsoft.Extensions.Hosting;</span><br><span class="line">using Refit;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">namespace DemoRefit</span><br><span class="line">&#123;</span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        public Startup(IConfiguration configuration)</span><br><span class="line">        &#123;</span><br><span class="line">            Configuration = configuration;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public IConfiguration Configuration &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">        // This method gets called by the runtime. Use this method to add services to the container.</span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            services.AddHttpContextAccessor();</span><br><span class="line"></span><br><span class="line">            services.AddControllers();</span><br><span class="line"></span><br><span class="line">            services.AddRefitClient&lt;ICountryRepositoryClient&gt;()</span><br><span class="line">                    .ConfigureHttpClient(c =&gt; c.BaseAddress = new Uri(Configuration.GetSection(&quot;Apis:CountryApi:Url&quot;).Value));</span><br><span class="line">                    .AddHttpMessageHandler&lt;MyDelegatingHandler&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span><br><span class="line">        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">        &#123;</span><br><span class="line">            if (env.IsDevelopment())</span><br><span class="line">            &#123;</span><br><span class="line">                app.UseDeveloperExceptionPage();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">            app.UseRouting();</span><br><span class="line"></span><br><span class="line">            app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">            app.UseEndpoints(endpoints =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                endpoints.MapControllers();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="轮子介绍："><a href="#轮子介绍：" class="headerlink" title="轮子介绍："></a>轮子介绍：</h5><p>Refit是一个深受Square的 Retrofit 库启发的库,目前在github上共有star 4000枚，通过这个框架，可以把你的REST API变成了一个活的接口:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface IGitHubApi</span><br><span class="line">&#123;</span><br><span class="line">    [Get(&quot;/users/&#123;user&#125;&quot;)]</span><br><span class="line">    Task&lt;User&gt; GetUser(string user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RestService类生成一个IGitHubApi的实现，它使用HttpClient进行调用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var gitHubApi = RestService.For&lt;IGitHubApi&gt;(&quot;https://api.github.com&quot;);</span><br><span class="line"></span><br><span class="line">var octocat = await gitHubApi.GetUser(&quot;octocat&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>查看更多： <a href="https://reactiveui.github.io/refit/" target="_blank" rel="noopener">https://reactiveui.github.io/refit/</a> </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/28/技术/在C＃中使用RESTful API的几种好方法/" rel="next" title="在C＃中使用RESTful API的几种好方法">
+                <i class="fa fa-chevron-left"></i> 在C＃中使用RESTful API的几种好方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/30/技术/什么是TDD（一）/" rel="prev" title=".TDD学习笔记（一）单元测试">
+                .TDD学习笔记（一）单元测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用自定义DelegatingHandler编写更整洁的Typed-HttpClient"><span class="nav-number">1.</span> <span class="nav-text">使用自定义DelegatingHandler编写更整洁的Typed HttpClient</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介﻿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写类型化的HttpClient来转发JWT并记录错误"><span class="nav-number">1.2.</span> <span class="nav-text">编写类型化的HttpClient来转发JWT并记录错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写自定义的DelegatingHandler来处理冗余代码"><span class="nav-number">1.3.</span> <span class="nav-text">编写自定义的DelegatingHandler来处理冗余代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Refit"><span class="nav-number">1.4.</span> <span class="nav-text">使用Refit</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#轮子介绍："><span class="nav-number">1.4.0.0.1.</span> <span class="nav-text">轮子介绍：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

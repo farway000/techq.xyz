@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在ASP.NET Core中的应用启动时运行异步任务-第1部分这是该系列的第一篇文章：在ASP.NET Core中的应用程序启动时运行异步任务。  第1部分-用于运行异步任务的内置选项（本文） 第2部分-运行异步任务的两种方法 第3部分-对异步任务示例和其他可能解决方案的反馈 第4部分-使用运行状况检查在ASP.NET Core中运行异步任务 第5部分-在ASP.NET Core 3.0中的应用启">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xiyuan技术圈">
+<meta property="og:url" content="http://techq.xyz/2021/04/25/技术/在ASP.NET Core中的应用启动时运行异步任务-第1部分/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="在ASP.NET Core中的应用启动时运行异步任务-第1部分这是该系列的第一篇文章：在ASP.NET Core中的应用程序启动时运行异步任务。  第1部分-用于运行异步任务的内置选项（本文） 第2部分-运行异步任务的两种方法 第3部分-对异步任务示例和其他可能解决方案的反馈 第4部分-使用运行状况检查在ASP.NET Core中运行异步任务 第5部分-在ASP.NET Core 3.0中的应用启">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xiyuan技术圈">
+<meta name="twitter:description" content="在ASP.NET Core中的应用启动时运行异步任务-第1部分这是该系列的第一篇文章：在ASP.NET Core中的应用程序启动时运行异步任务。  第1部分-用于运行异步任务的内置选项（本文） 第2部分-运行异步任务的两种方法 第3部分-对异步任务示例和其他可能解决方案的反馈 第4部分-使用运行状况检查在ASP.NET Core中运行异步任务 第5部分-在ASP.NET Core 3.0中的应用启">
+<meta name="twitter:image" content="https://andrewlock.net/assets/img/icons-link.svg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2021/04/25/技术/在ASP.NET Core中的应用启动时运行异步任务-第1部分/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2021/04/25/技术/在ASP.NET Core中的应用启动时运行异步任务-第1部分/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-04-25 11:04:00" itemprop="dateCreated datePublished" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在ASP-NET-Core中的应用启动时运行异步任务-第1部分"><a href="#在ASP-NET-Core中的应用启动时运行异步任务-第1部分" class="headerlink" title="在ASP.NET Core中的应用启动时运行异步任务-第1部分"></a><a href="https://andrewlock.net/series/running-async-tasks-on-app-startup-in-asp-net-core/" target="_blank" rel="noopener">在ASP.NET Core中的应用启动时运行异步任务-第1部分</a></h1><p>这是该系列的第一篇文章：<a href="https://andrewlock.net/series/running-async-tasks-on-app-startup-in-asp-net-core/" target="_blank" rel="noopener">在ASP.NET Core中的应用程序启动时运行异步任务</a>。</p>
+<ol>
+<li>第1部分-用于运行异步任务的内置选项（本文）</li>
+<li>第2部分-运行异步任务的两种方法</li>
+<li>第3部分-对异步任务示例和其他可能解决方案的反馈</li>
+<li>第4部分-使用运行状况检查在ASP.NET Core中运行异步任务</li>
+<li>第5部分-在ASP.NET Core 3.0中的应用启动时运行异步任务</li>
+</ol>
+<p>有时，您需要先执行一次性初始化逻辑，然后应用才能正常启动。例如，您可能要<a href="https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/" target="_blank" rel="noopener">验证您的配置正确</a>，填充缓存或<a href="https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/#apply-migrations-at-runtime" target="_blank" rel="noopener">运行数据库迁移</a>。在这篇文章中，我将介绍可用的选项，并展示一些我认为可以很好解决问题的简单方法和扩展点。</p>
+<p>我首先描述使用来运行同步任务的内置解决方案<code>IStartupFilter</code>。然后，我逐步介绍了用于运行异步任务的各种选项。您可以（但可能不应该）使用<code>IStartupFilter</code>或<code>IApplicationLifetime</code>事件来运行异步任务。您可以使用该<code>IHostedService</code>界面运行一次性任务，而不会阻止应用程序启动。但是，唯一真正的解决方案是在<em>program.cs中</em>手动运行任务。在我的下一篇文章中，我将显示一个建议的建议，该建议使此过程更容易一些。</p>
+<h2 id="为什么我们需要在应用启动时运行任务？"><a href="#为什么我们需要在应用启动时运行任务？" class="headerlink" title="为什么我们需要在应用启动时运行任务？"></a>为什么我们需要在应用启动时运行任务？<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#why-do-we-need-to-run-tasks-on-app-startup-" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h2><p>在应用能够启动并开始处理请求之前，通常需要运行各种初始化代码。在ASP.NET Core应用程序中，显然有很多事情需要发生，例如：</p>
+<ul>
+<li>确定当前的托管环境</li>
+<li>从<em>appsettings.json</em>和环境变量加载配置</li>
+<li>依赖项注入容器的配置</li>
+<li>依赖项注入容器的<em>构建</em></li>
+<li>中间件管道的配置</li>
+</ul>
+<p>所有这些步骤都需要执行以引导应用程序。但是，<em>在</em><code>WebHost</code>运行并开始侦听请求<em>之前</em>，通常要执行一次性任务。例如：</p>
+<ul>
+<li><a href="https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/" target="_blank" rel="noopener">检查您的强类型配置是否有效</a>。</li>
+<li>使用数据库或API中的数据启动/填充缓存</li>
+<li>在启动应用程序之前运行数据库迁移。（<a href="https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/#apply-migrations-at-runtime" target="_blank" rel="noopener">这通常不是一个好主意，但对于某些应用程序可能已经足够了</a>）。</li>
+</ul>
+<p>有时，这些任务不<em>具有</em>被运行之前，你的应用程序启动服务请求。例如，缓存启动示例-如果其性能良好，则在启动之前查询缓存是否无关紧要。另一方面，您几乎可以肯定要在应用程序开始处理请求之前迁移数据库！</p>
+<p>有一些示例表明ASP.NET Core框架本身需要一次性的初始化任务。<a href="https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/introduction?view=aspnetcore-2.1" target="_blank" rel="noopener">数据保护子系统</a>就是一个很好的例子，该<a href="https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/introduction?view=aspnetcore-2.1" target="_blank" rel="noopener">子系统</a>用于瞬时加密（cookie值，防伪令牌等）。在应用程序可以开始处理任何请求之前，必须初始化此子系统。为了解决这个问题，他们使用<code>IStartupFilter</code>。</p>
+<h2 id="与同步运行任务-IStartupFilter"><a href="#与同步运行任务-IStartupFilter" class="headerlink" title="与同步运行任务 IStartupFilter"></a>与同步运行任务 <code>IStartupFilter</code><a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#running-tasks-synchronously-with-istartupfilter" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h2><p>我之前已经写过有关的文章<code>IStartupFilter</code>，因为在您的工具栏中可以使用它来定制应用程序是一个非常有用的界面：</p>
+<ul>
+<li><a href="https://andrewlock.net/exploring-istartupfilter-in-asp-net-core/" target="_blank" rel="noopener">在ASP.NET Core中探索IStartupFilter</a>（<code>IStartupFilter</code>的简介）</li>
+<li><a href="https://andrewlock.net/understanding-your-middleware-pipeline-with-the-middleware-analysis-package/" target="_blank" rel="noopener">通过Middleware Analysis软件包了解您的中间件管道</a>（剧透警报-使用<code>IStartupFilter</code>）</li>
+<li><a href="https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/" target="_blank" rel="noopener">向ASP.NET Core中的强类型配置对象添加验证</a>（再次使用<code>IStartupFilter</code>）</li>
+</ul>
+<p>如果您不熟悉过滤器，建议阅读我的介绍性文章，但是我将在此处提供一个简短的摘要。</p>
+<p><code>IStartupFilter</code>在配置中间件管道的过程中执行（通常在中完成<code>Startup.Configure()</code>）。它们允许您通过插入额外的中间件，对它进行分叉或执行许多其他操作来定制由应用程序实际创建的中间件管道。例如，<a href="https://github.com/aspnet/Hosting/blob/27e4e1aca3863389098b9be6dd9c5b7c030180b8/src/Microsoft.AspNetCore.Hosting/Internal/AutoRequestServicesStartupFilter.cs" target="_blank" rel="noopener">以下<code>AutoRequestServicesStartupFilter</code> </a>所示在管道的开头插入了一个新的中间件：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AutoRequestServicesStartupFilter</span> : <span class="title">IStartupFilter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Action&lt;IApplicationBuilder&gt; <span class="title">Configure</span>(<span class="params">Action&lt;IApplicationBuilder&gt; next</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> builder =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            builder.UseMiddleware&lt;RequestServicesContainerMiddleware&gt;();</span><br><span class="line">            next(builder);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这很有用，但是与在应用程序启动时运行一次性任务有什么关系？</p>
+<p>该<code>IStartupFilter</code>所提供的主要功能是，在设置了配置并配置了依赖项注入容器之后，但在应用程序准备启动之前，可以钩住早期的应用程序启动过程。这意味着您可以将依赖注入与<code>IStartupFilter</code>s一起使用，因此几乎可以运行任何代码。而<a href="https://github.com/aspnet/DataProtection/blob/2.2.0-preview3/src/Microsoft.AspNetCore.DataProtection/Internal/DataProtectionStartupFilter.cs" target="_blank" rel="noopener"><code>DataProtectionStartupFilter</code></a>则用于初始化数据保护系统。我使用了类似的<code>IStartupFilter</code>方法来提供<a href="https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/" target="_blank" rel="noopener">对强类型配置的热验证</a>。</p>
+<p>另一个非常有用的功能是，它允许您通过在DI容器中注册服务来添加要执行的任务。这意味着作为源代码作者，您可以注册要在应用程序启动时运行的任务，而无需应用程序作者显式调用它。</p>
+<p>那么为什么我们不能只<code>IStartupFilter</code>在启动时用来运行异步任务呢？</p>
+<p>问题在于<code>IStartupFilter</code>基本上是<em>同步的</em>。该<code>Configure()</code>方法（您可以在上面的代码中看到）没有返回a <code>Task</code>，因此<a href="https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/master/AsyncGuidance.md#asynchrony-is-viral" target="_blank" rel="noopener">尝试通过async进行同步不是一个好主意</a>。我稍后再讨论，但是现在绕道而行。</p>
+<h2 id="为什么不使用健康检查？"><a href="#为什么不使用健康检查？" class="headerlink" title="为什么不使用健康检查？"></a>为什么不使用健康检查？<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#why-not-use-health-checks-" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h2><p>ASP.NET Core 2.2为ASP.NET Core应用程序引入了运行状况检查功能，该功能使您可以查询通过HTTP端点公开的应用程序的“运行状况”。部署后，编排引擎（如Kubernetes）或反向代理（如HAProxy和NGINX）可以查询此终结点，以检查您的应用是否准备好开始接收请求。</p>
+<p>您<em>可以</em>使用运行状况检查功能来确保您的应用程序在所有必需的一次性任务完成之前不会开始服务请求（即从运行状况检查端点返回“运行状况”状态）。但是，这有一些缺点：</p>
+<ul>
+<li>在<code>WebHost</code>已执行的一次性任务前，探针会启动。尽管他们不会收到“实际”请求（仅运行状况检查请求），但这仍然可能是一个问题。</li>
+<li>它引入了额外的复杂性。除了添加代码以运行一个任务之外，您还需要添加运行状况检查以测试任务是否完成，并同步任务的状态。</li>
+<li>应用程序的启动仍会延迟到所有任务都完成为止，因此不太可能减少启动时间。</li>
+<li>如果任务失败，则该应用将继续以“死”状态运行，在此状态下，运行状况检查将永远不会通过。这可能是可以接受的，但就我个人而言，我更喜欢一个应用程序立即失败。</li>
+<li>运行状况检查方面仍未定义<em>如何</em>实际运行任务，仅定义任务是否成功完成。您仍然需要确定一种在启动时运行任务的机制。</li>
+</ul>
+<p>对我来说，健康检查似乎不适合一次性任务的情况。对于我描述的某些示例，它们可能很有用，但我认为它们并不适合所有情况。我真的很想能够在应用启动时运行一次性任务，然后再运行<code>WebHost</code>。</p>
+<h2 id="运行异步任务"><a href="#运行异步任务" class="headerlink" title="运行异步任务"></a>运行异步任务<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#running-asynchronous-tasks" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h2><p>我花了很长时间讨论所有<em>无法</em>实现目标的方法，以及一些解决方案！在本节中，我将介绍一些运行异步任务（即返回a <code>Task</code>并需要<code>await</code>-ing的任务）的可能性。有些比其他的要好，有些则应避免，但我想介绍各种选择。</p>
+<p>为了具体讨论，我将考虑<a href="https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/#apply-migrations-at-runtime" target="_blank" rel="noopener">数据库迁移示例</a>。在EF Core中，您可以在运行时通过调用迁移数据库<code>myDbContext.Database.MigrateAsync()</code>，其中<code>myDbContext</code>是应用程序的实例<code>DbContext</code>。</p>
+<blockquote>
+<p>该方法还有一个同步版本<code>Database.Migrate()</code>，但只是假装目前没有！</p>
+</blockquote>
+<h3 id="1-使用-IStartupFilter"><a href="#1-使用-IStartupFilter" class="headerlink" title="1.使用 IStartupFilter"></a>1.使用 <code>IStartupFilter</code><a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#1-using-istartupfilter" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h3><p>前面已经介绍了如何在应用程序启动时<code>IStartupFilter</code>用于运行<em>同步</em>任务。不幸的是，运行<em>异步</em>任务的唯一方法是使用“异步同步”方法，我们称之为<code>GetAwaiter().GetResult()</code>：</p>
+<blockquote>
+<p>警告：此代码使用了不合适的<code>async</code>做法。</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MigratorStartupFilter</span>: <span class="title">IStartupFilter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// We need to inject the IServiceProvider so we can create </span></span><br><span class="line">    <span class="comment">// the scoped service, MyDbContext</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IServiceProvider _serviceProvider;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MigratorStartupFilter</span>(<span class="params">IServiceProvider serviceProvider</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        _serviceProvider = serviceProvider;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Action&lt;IApplicationBuilder&gt; <span class="title">Configure</span>(<span class="params">Action&lt;IApplicationBuilder&gt; next</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// Create a new scope to retrieve scoped services</span></span><br><span class="line">        <span class="keyword">using</span>(<span class="keyword">var</span> scope = _seviceProvider.CreateScope())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Get the DbContext instance</span></span><br><span class="line">            <span class="keyword">var</span> myDbContext = scope.ServiceProvider.GetRequiredService&lt;MyDbContext&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//Do the migration by blocking the async call</span></span><br><span class="line">            myDbContext.Database.MigrateAsync()</span><br><span class="line">                .GetAwaiter()   <span class="comment">// Yuk!</span></span><br><span class="line">                .GetResult();   <span class="comment">// Yuk!</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// don't modify the middleware pipeline</span></span><br><span class="line">        <span class="keyword">return</span> next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这很可能不会引起任何问题-此代码仅在应用程序启动时运行，然后再处理请求，因此似乎不太可能出现死锁。但是坦率地说，我不能肯定地说，我会尽可能避免这样的代码。</p>
+<blockquote>
+<p><a href="https://twitter.com/davidfowl" target="_blank" rel="noopener">大卫·福勒</a>（<a href="https://twitter.com/davidfowl" target="_blank" rel="noopener">David Fowler</a>）整理了<a href="https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/0ba7625050f975f8a7df1df57c80ad08da250541/AsyncGuidance.md" target="_blank" rel="noopener">一些正确的异步编程指南</a>。我强烈建议您阅读！</p>
+</blockquote>
+<h3 id="2-使用IApplicationLifetime事件"><a href="#2-使用IApplicationLifetime事件" class="headerlink" title="2.使用IApplicationLifetime事件"></a>2.使用<code>IApplicationLifetime</code>事件<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#2-using-iapplicationlifetime-events" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h3><p>我之前没有讨论过太多，但是当您的应用程序<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iapplicationlifetime?view=aspnetcore-2.1" target="_blank" rel="noopener">通过<code>IApplicationLifetime</code>界面</a>启动和关闭时，您可以收到通知。我这里不做详细介绍，因为它对于我们的目的有一些问题：</p>
+<ul>
+<li><code>IApplicationLifetime</code>使用<code>CancellationToken</code>s来注册回调，这意味着您只能同步执行回调。从本质上讲，这意味着您无论采取什么操作，都必须坚持使用<a href="https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/0ba7625050f975f8a7df1df57c80ad08da250541/AsyncGuidance.md#avoid-using-taskresult-and-taskwait" target="_blank" rel="noopener">异步</a>模式进行<a href="https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/0ba7625050f975f8a7df1df57c80ad08da250541/AsyncGuidance.md#avoid-using-taskresult-and-taskwait" target="_blank" rel="noopener">同步</a>。</li>
+<li>该<code>ApplicationStarted</code>事件仅在开始了WebHost后运行，所以任务应用程序启动时接受请求后运行。</li>
+</ul>
+<p>鉴于其没有解决<code>IStartupFilter</code>的异步同步问题，也没有阻止应用启动，因此我们将<code>IApplicationLifetime</code>继续进行下一个可能性。</p>
+<h3 id="3-IHostedService用于运行异步任务"><a href="#3-IHostedService用于运行异步任务" class="headerlink" title="3. IHostedService用于运行异步任务"></a>3. <code>IHostedService</code>用于运行异步任务<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#3-using-ihostedservice-to-run-asynchronous-tasks" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h3><p><code>IHostedService</code>允许ASP.NET Core应用<a href="https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/background-tasks-with-ihostedservice" target="_blank" rel="noopener">在应用生命周期内在后台执行长时间运行的任务</a>。它们有许多不同的用途-您可以使用它们在计时器上运行定期任务，处理其他消息传递范例，例如RabbitMQ消息或许多其他事情。在ASP.NET Core 3.0中，<a href="https://github.com/aspnet/Hosting/pull/1580" target="_blank" rel="noopener">甚至ASP.NET Web主机也可能建立在之上<code>IHostedService</code></a>。</p>
+<p>在<code>IHostedService</code>本质上是异步的，同时具有<code>StartAsync</code>和<code>StopAsync</code>功能。这对我们来说很棒，因为这意味着不再需要通过异步进行同步！将数据库迁移器实现为托管服务可能看起来像这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MigratorHostedService</span>: <span class="title">IHostedService</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// We need to inject the IServiceProvider so we can create </span></span><br><span class="line">    <span class="comment">// the scoped service, MyDbContext</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IServiceProvider _serviceProvider;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MigratorStartupFilter</span>(<span class="params">IServiceProvider serviceProvider</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        _serviceProvider = serviceProvider;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">StartAsync</span>(<span class="params">CancellationToken cancellationToken</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// Create a new scope to retrieve scoped services</span></span><br><span class="line">        <span class="keyword">using</span>(<span class="keyword">var</span> scope = _seviceProvider.CreateScope())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Get the DbContext instance</span></span><br><span class="line">            <span class="keyword">var</span> myDbContext = scope.ServiceProvider.GetRequiredService&lt;MyDbContext&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//Do the migration asynchronously</span></span><br><span class="line">            <span class="keyword">await</span> myDbContext.Database.MigrateAsync();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Task <span class="title">StopAsync</span>(<span class="params">CancellationToken cancellationToken</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// noop</span></span><br><span class="line">        <span class="keyword">return</span> Task.CompletedTask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不幸的是，<code>IHostedService</code>这不是我们所希望的灵丹妙药。它允许我们编写真正的异步代码，但是它有两个问题：</p>
+<ul>
+<li><code>IHostedService</code>s 的典型实现期望<code>StartAsync</code>函数返回相对较快。对于后台服务，预计您将异步启动该服务，但是大部分工作将在该启动代码之外进行（<a href="https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/background-tasks-with-ihostedservice#implementing-ihostedservice-with-a-custom-hosted-service-class-deriving-from-the-backgroundservice-base-class" target="_blank" rel="noopener">请参阅docs中的示例</a>）。因此，“内联”迁移数据库不是问题，但是它将阻止其他<code>IHostedService</code>s的启动，这可能会或可能不会发生。</li>
+<li><code>IHostedService.StartAsync()</code>被称为<em>后</em>的<code>WebHost</code>启动，所以你不能用这种方式来运行的任务<em>之前，</em>您的应用程序启动。</li>
+</ul>
+<p>最大的问题是第二个问题-应用程序将在<code>IHostedService</code>运行数据库迁移之前开始接受请求，这不是我们想要的。回到绘图板。</p>
+<h3 id="4-在Program-cs中手动运行任务"><a href="#4-在Program-cs中手动运行任务" class="headerlink" title="4.在Program.cs中手动运行任务"></a>4.在Program.cs中手动运行任务<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#4-manually-running-tasks-in-program-cs" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h3><p>到目前为止，没有显示解决方案可以提供完整的解决方案。他们要么需要在异步编程上使用同步（虽然在应用程序启动的上下文中可以这样做，但并不鼓励这样做），或者不阻止应用程序启动。到目前为止，有一个简单的解决方案我已经忽略了，那就是停止尝试使用框架机制，而是自己完成这项工作。</p>
+<p>ASP.NET Core模板中使用的默认<em>Program.cs</em>会<code>IWebHost</code>在<code>Main</code>函数中生成并运行一条语句：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        CreateWebHostBuilder(args).Build().Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CreateWebHostBuilder</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt;</span><br><span class="line">        WebHost.CreateDefaultBuilder(args)</span><br><span class="line">            .UseStartup&lt;Startup&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是，在<code>Build()</code>创建之后<code>WebHost</code>，但是在您调用之前，没有什么阻止您运行代码<code>Run()</code>。再加上允许您的<code>Main</code>函数异步的C＃7.1功能，我们有一个合理的解决方案：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">async</span> Task <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        IWebHost webHost = CreateWebHostBuilder(args).Build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Create a new scope</span></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> scope = webHost.Services.CreateScope())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Get the DbContext instance</span></span><br><span class="line">            <span class="keyword">var</span> myDbContext = scope.ServiceProvider.GetRequiredService&lt;MyDbContext&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//Do the migration asynchronously</span></span><br><span class="line">            <span class="keyword">await</span> myDbContext.Database.MigrateAsync();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Run the WebHost, and start accepting requests</span></span><br><span class="line">        <span class="comment">// There's an async overload, so we may as well use it</span></span><br><span class="line">        <span class="keyword">await</span> webHost.RunAsync();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CreateWebHostBuilder</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt;</span><br><span class="line">        WebHost.CreateDefaultBuilder(args)</span><br><span class="line">            .UseStartup&lt;Startup&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该解决方案具有许多优点：</p>
+<ul>
+<li>我们现在正在执行真正的异步，不需要通过异步进行同步</li>
+<li>我们可以异步执行任务</li>
+<li>在执行任务后，该应用才接受请求</li>
+<li>此时已构建了DI容器，因此我们可以使用它来创建服务。</li>
+</ul>
+<p>不幸的是，这并非所有的好消息。我们仍然缺少一些东西：</p>
+<ul>
+<li>即使已经构建了DI容器，也没有中间件管道。这不会发生，直到你打电话<code>Run()</code>或<code>RunAsync()</code>上<code>IWebHost</code>。到那时，构建了中间件管道，<code>IStartupFilter</code>执行了，然后启动了应用程序。如果您的异步任务需要在以下任何步骤中进行配置，那么您就不走运了</li>
+<li>通过将服务添加到DI容器，我们失去了自动运行任务的能力。我们必须记住要手动运行任务。</li>
+</ul>
+<p>如果这些警告不是问题，那么我认为此最终选择将为解决该问题提供最佳解决方案。在我的下一篇文章中，我将展示一些方法，我们可以采用这个基本示例并在其基础上进行构建，以使某些操作变得更容易使用。</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要<a href="https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/#summary" target="_blank" rel="noopener"><img src="https://andrewlock.net/assets/img/icons-link.svg" alt="img"></a></h2><p>在本文中，我讨论了在应用启动时异步运行任务的需求。我描述了这样做的一些挑战。对于同步任务，<code>IStartupFilter</code>它提供了一个有用的钩子，可以连接到ASP.NET Core应用程序的启动过程，但是运行异步任务需要通过异步编程进行同步，这通常是一个坏主意。我描述了许多用于运行异步任务的可能选项，我发现最好的方法是在<em>Program.cs中</em> “手动”运行任务，并在构建<code>IWebHost</code>和运行它之间进行。在下一篇文章中，我将提供一些代码来简化此模式的使用。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/02/17/技术/linq-how-to-rule-all-language/" rel="next" title="LINQ：最终统治了所有的语言！">
+                <i class="fa fa-chevron-left"></i> LINQ：最终统治了所有的语言！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/25/技术/如何编写高质量的C#代码？/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在ASP-NET-Core中的应用启动时运行异步任务-第1部分"><span class="nav-number">1.</span> <span class="nav-text">在ASP.NET Core中的应用启动时运行异步任务-第1部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么我们需要在应用启动时运行任务？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么我们需要在应用启动时运行任务？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与同步运行任务-IStartupFilter"><span class="nav-number">1.2.</span> <span class="nav-text">与同步运行任务 IStartupFilter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么不使用健康检查？"><span class="nav-number">1.3.</span> <span class="nav-text">为什么不使用健康检查？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行异步任务"><span class="nav-number">1.4.</span> <span class="nav-text">运行异步任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-使用-IStartupFilter"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.使用 IStartupFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用IApplicationLifetime事件"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.使用IApplicationLifetime事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-IHostedService用于运行异步任务"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. IHostedService用于运行异步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-在Program-cs中手动运行任务"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.在Program.cs中手动运行任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.5.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

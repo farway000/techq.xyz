@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术C＃（通常是.NET）中的事件注册是内存泄漏的最常见原因。至少从我的经验来看。实际上，我从事件中看到了太多的内存泄漏，因此 在代码中看到 + =将立即使我感到怀疑。 尽管事件很常见，但它们也很危险。如果您不知道要查找的内容，则事件很容易导致内存泄漏。在本文中，我将解释此问题的根本原因，并提供几种最佳实践技术来解决该问题。最后，我将向您展示一">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术">
+<meta property="og:url" content="http://techq.xyz/2020/04/22/技术/您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术C＃（通常是.NET）中的事件注册是内存泄漏的最常见原因。至少从我的经验来看。实际上，我从事件中看到了太多的内存泄漏，因此 在代码中看到 + =将立即使我感到怀疑。 尽管事件很常见，但它们也很危险。如果您不知道要查找的内容，则事件很容易导致内存泄漏。在本文中，我将解释此问题的根本原因，并提供几种最佳实践技术来解决该问题。最后，我将向您展示一">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i2.wp.com/michaelscodingspot.com/wp-content/uploads/2018/12/breakpoint-in-finalizer.jpg?w=1080&ssl=1">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术">
+<meta name="twitter:description" content="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术C＃（通常是.NET）中的事件注册是内存泄漏的最常见原因。至少从我的经验来看。实际上，我从事件中看到了太多的内存泄漏，因此 在代码中看到 + =将立即使我感到怀疑。 尽管事件很常见，但它们也很危险。如果您不知道要查找的内容，则事件很容易导致内存泄漏。在本文中，我将解释此问题的根本原因，并提供几种最佳实践技术来解决该问题。最后，我将向您展示一">
+<meta name="twitter:image" content="https://i2.wp.com/michaelscodingspot.com/wp-content/uploads/2018/12/breakpoint-in-finalizer.jpg?w=1080&ssl=1">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/22/技术/您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/22/技术/您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-22 22:58:00" itemprop="dateCreated datePublished" datetime="2020-04-22T22:58:00+00:00">2020-04-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="您应该知道的5种避免C＃-NET中事件造成的内存泄漏的技术"><a href="#您应该知道的5种避免C＃-NET中事件造成的内存泄漏的技术" class="headerlink" title="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术"></a>您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术</h1><p>C＃（通常是.NET）中的事件注册是内存泄漏的最常见原因。至少从我的经验来看。实际上，我从事件中看到了太多的内存泄漏，因此 在代码中看到 <strong>+ =</strong>将立即使我感到怀疑。</p>
+<p>尽管事件很常见，但它们也很危险。如果您不知道要查找的内容，则事件很容易导致内存泄漏。在本文中，我将解释此问题的根本原因，并提供几种最佳实践技术来解决该问题。最后，我将向您展示一个简单的技巧，以找出您是否确实存在内存泄漏。</p>
+<h2 id="了解内存泄漏"><a href="#了解内存泄漏" class="headerlink" title="了解内存泄漏"></a>了解内存泄漏</h2><p>在垃圾收集环境中，术语“内存泄漏”有点反直觉。当有一个垃圾收集器负责收集所有内容时，我的内存如何泄漏？</p>
+<p>答案是，在存在垃圾收集器（<strong>GC</strong>）的情况下，内存泄漏表示有些对象仍在引用中，但实际上未被使用。由于已引用它们，因此GC将不会收集它们，并且它们将永久保存，占用内存。</p>
+<p>让我们来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class WiFiManager</span><br><span class="line">&#123;</span><br><span class="line">    public event EventHandler &lt;WifiEventArgs&gt; WiFiSignalChanged;</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass</span><br><span class="line">&#123;</span><br><span class="line">    public MyClass(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        wiFiManager.WiFiSignalChanged += OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(object sender, WifiEventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void SomeOperation(WiFiManager wiFiManager)</span><br><span class="line">&#123;</span><br><span class="line">    var myClass = new MyClass(wiFiManager);</span><br><span class="line">    myClass.DoSomething();</span><br><span class="line">    </span><br><span class="line">    //... myClass is not used again</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在此示例中，我们假设<strong>WiFiManager</strong> 在程序的整个生命周期中都处于活动状态。执行<strong>SomeOperation之后</strong>，将创建<strong>MyClass</strong>的实例，并且不再使用它。程序员可能会认为GC将收集它，但事实并非如此。所述<strong>WiFiManager</strong>保持在其事件MyClass的参考 <strong>WiFiSignalChanged</strong>和它引起了内存泄漏。GC将永远不会收集<strong>MyClass</strong>。</p>
+<h2 id="1-确保退订"><a href="#1-确保退订" class="headerlink" title="1.确保退订"></a>1.确保退订</h2><p>显而易见的解决方案（尽管并非总是最简单的）是记住从事件中注销事件处理程序。一种方法是实现IDisposable：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass : IDisposable</span><br><span class="line">&#123;</span><br><span class="line">    private readonly WiFiManager _wiFiManager;</span><br><span class="line"> </span><br><span class="line">    public MyClass(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        _wiFiManager = wiFiManager;</span><br><span class="line">        _wiFiManager.WiFiSignalChanged += OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void Dispose()</span><br><span class="line">    &#123;</span><br><span class="line">        _wiFiManager.WiFiSignalChanged -= OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(object sender, WifiEventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，您必须确保调用<strong>Dispose</strong>。如果您有WPF控件，一个简单的解决方案是退订<strong>Unloaded</strong>事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public partial class MyUserControl : UserControl</span><br><span class="line">&#123;</span><br><span class="line">    public MyUserControl(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent();</span><br><span class="line">        this.Loaded += (sender, args) =&gt; wiFiManager.WiFiSignalChanged += OnWiFiChanged;</span><br><span class="line">        this.Unloaded += (sender, args) =&gt; wiFiManager.WiFiSignalChanged -= OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(object sender, WifiEventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优点**：简单易读的代码。</p>
+<p><strong>缺点：</strong>您很容易忘记取消订阅，或者在所有情况下都不会取消订阅，这将导致内存泄漏。</p>
+<h6 id="注意：并非所有事件注册都会导致内存泄漏。注册到将要过期的事件时，不会发生内存泄漏。例如，在WPF-UserControl中，您可以注册到Button的Click事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且GC将同时收集两者。"><a href="#注意：并非所有事件注册都会导致内存泄漏。注册到将要过期的事件时，不会发生内存泄漏。例如，在WPF-UserControl中，您可以注册到Button的Click事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且GC将同时收集两者。" class="headerlink" title="注意：并非所有事件注册都会导致内存泄漏。注册到将要过期的事件时，不会发生内存泄漏。例如，在WPF UserControl中，您可以注册到Button的Click事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且GC将同时收集两者。"></a>注意：并非所有事件注册都会导致内存泄漏。注册到将要<strong>过期</strong>的事件时，不会发生内存泄漏。例如，在WPF <strong>UserControl中，</strong>您可以注册到Button的<strong>Click</strong>事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且<strong>GC</strong>将同时收集两者。</h6><h2 id="2-让处理程序退订"><a href="#2-让处理程序退订" class="headerlink" title="2.让处理程序退订"></a>2.让处理程序退订</h2><p>在某些情况下，您可能希望事件处理程序仅发生一次。在这种情况下，您将希望代码自己退订。当事件处理程序是命名方法时，它很容易：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass</span><br><span class="line">&#123;</span><br><span class="line">    private readonly WiFiManager _wiFiManager;</span><br><span class="line"> </span><br><span class="line">    public MyClass(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        _wiFiManager = wiFiManager;</span><br><span class="line">        _wiFiManager.WiFiSignalChanged += OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(object sender, WifiEventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">        _wiFiManager.WiFiSignalChanged -= OnWiFiChanged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是，有时您希望事件处理程序是lambda表达式。在这种情况下，以下是一种使自己退订的有用技术：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MyClass</span><br><span class="line">&#123;</span><br><span class="line">    public MyClass(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        var someObject = GetSomeObject();</span><br><span class="line">        EventHandler&lt;WifiEventArgs&gt; handler = null;</span><br><span class="line">        handler = (sender, args) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(someObject);</span><br><span class="line">            wiFiManager.WiFiSignalChanged -= handler;</span><br><span class="line">        &#125;;</span><br><span class="line">        wiFiManager.WiFiSignalChanged += handler;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，lambda表达式非常有用，因为您可以捕获局部变量<strong>someObject</strong>，而使用处理程序方法则无法做到这一点。</p>
+<p><strong>优点：</strong>简单，易读，只要您确定事件至少会触发一次，就不会发生内存泄漏。</p>
+<p><strong>缺点：</strong>仅在需要处理一次事件的特殊情况下可用。</p>
+<h2 id="3-将弱事件与事件聚合器一起使用"><a href="#3-将弱事件与事件聚合器一起使用" class="headerlink" title="3.将弱事件与事件聚合器一起使用"></a>3.将弱事件与事件聚合器一起使用</h2><p>在.NET中引用对象时，您基本上会告诉GC该对象正在使用中，因此请不要收集它。有一种引用对象的方法，而无需实际说“我正在使用它”。这种参考称为 <em>弱参考</em>。您是说“我不需要它，但是如果它仍然存在，那么我会使用它”。在其他换句话说，如果某个对象仅被弱引用引用，则<strong>GC</strong>会收集该对象并释放该内存。这是使用.NET的<strong>WeakReference</strong> 类实现的。</p>
+<p>我们可以通过多种方式使用它来防止内存泄漏。一种流行的设计模式是使用<a href="https://www.codeproject.com/Articles/812461/Event-Aggregator-Pattern" target="_blank" rel="noopener">事件聚合器</a>。这个概念是，任何人都可以<strong>订阅</strong> T类型的事件，任何人都可以<strong>发布</strong> T类型的事件。因此，当一个类发布事件时，将调用所有订阅的事件处理程序。事件聚合器使用WeakReference引用所有内容。所以即使有物体提斯 订阅事件，仍然可以对其进行垃圾回收。</p>
+<p>这是一个使用<strong>Prism</strong> 流行的事件聚合器（通过NuGet <a href="https://www.nuget.org/packages/Prism.Core/" target="_blank" rel="noopener">Prism.Core提供</a>）的<a href="https://www.nuget.org/packages/Prism.Core/" target="_blank" rel="noopener">示例</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class WiFiManager</span><br><span class="line">&#123;</span><br><span class="line">    private readonly IEventAggregator _eventAggregator;</span><br><span class="line"> </span><br><span class="line">    public WiFiManager(IEventAggregator eventAggregator)</span><br><span class="line">    &#123;</span><br><span class="line">        _eventAggregator = eventAggregator;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void PublishEvent()</span><br><span class="line">    &#123;</span><br><span class="line">        _eventAggregator.GetEvent&lt;WiFiEvent&gt;().Publish(new WifiEventArgs());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass</span><br><span class="line">&#123;</span><br><span class="line">    public MyClass(IEventAggregator eventAggregator)</span><br><span class="line">    &#123;</span><br><span class="line">        eventAggregator.GetEvent&lt;WiFiEvent&gt;().Subscribe(OnWiFiChanged);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(WifiEventArgs args)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class WiFiEvent : PubSubEvent&lt;WifiEventArgs&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优点：</strong> 防止内存泄漏，相对易于使用。</p>
+<p><strong>缺点：</strong></p>
+<p> 充当所有事件的全局容器。任何人都可以订阅任何人。这使得系统在过度使用时难以理解。没有分离的关注点。</p>
+<h2 id="4-对常规事件使用弱事件处理程序"><a href="#4-对常规事件使用弱事件处理程序" class="headerlink" title="4.对常规事件使用弱事件处理程序"></a>4.对常规事件使用弱事件处理程序</h2><p>借助一些代码技巧，可以将弱引用与常规事件一起使用。这可以通过几种不同的方式来实现。这是使用Paul Stovell的<a href="http://paulstovell.com/blog/weakevents" target="_blank" rel="noopener">WeakEventHandler</a>的示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass</span><br><span class="line">&#123;</span><br><span class="line">    public MyClass(WiFiManager wiFiManager)</span><br><span class="line">    &#123;</span><br><span class="line">        wiFiManager.WiFiSignalChanged += new WeakEventHandler&lt;WifiEventArgs&gt;(OnWiFiChanged).Handler;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    private void OnWiFiChanged(object sender, WifiEventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class WiFiManager</span><br><span class="line">&#123;</span><br><span class="line">    public event EventHandler&lt;WifiEventArgs&gt; WiFiSignalChanged;</span><br><span class="line">    // ...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void SomeOperation(WiFiManager wiFiManager)</span><br><span class="line">&#123;</span><br><span class="line">    var myClass = new MyClass(wiFiManager);</span><br><span class="line">    myClass.DoSomething();</span><br><span class="line">    </span><br><span class="line">    //... myClass is not used again</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我真的很喜欢这种方法，因为在我们的案例中，发布者<strong>WiFiManager</strong>保留了标准的C＃事件。这只是这种模式的一种实现，但是实际上有很多方法可以解决。<strong>Daniel Grunwald</strong>写了<a href="https://www.codeproject.com/Articles/29922/Weak-Events-in-C" target="_blank" rel="noopener">一篇</a>有关不同实现及其差异的文章。</p>
+<p><strong>优点：</strong>利用标准事件。简单。没有内存泄漏。关注点分离（与事件聚合器不同）。</p>
+<p><strong>缺点：</strong>此模式的不同实现有一些细微之处和不同问题。该示例中的实现实际上创建了一个 注册的<strong>包装</strong>对象，该 <strong>包装</strong>对象从未被GC收集。其他实现可以解决此问题，但还有其他问题，例如其他样板代码。在Daniel的<a href="https://www.codeproject.com/Articles/29922/Weak-Events-in-C" target="_blank" rel="noopener">文章中</a>了解有关此内容的更多信息 。</p>
+<h2 id="WeakReference解决方案存在的问题"><a href="#WeakReference解决方案存在的问题" class="headerlink" title="WeakReference解决方案存在的问题"></a>WeakReference解决方案存在的问题</h2><p>使用<strong>WeakReference</strong>意味着<strong>GC</strong>将能够在可能的情况下收集订阅类。但是，GC不会立即收集未引用的对象。就开发商而言，它是随机的。因此，对于弱事件，您可能会在当时不应该存在的对象中调用事件处理程序。</p>
+<p>事件处理程序可能会执行无害的操作，例如更新内部状态。或者，它可能会更改程序状态，直到GC决定随机收集某个时间为止。这种行为确实很危险。在<a href="https://ladimolnar.com/2015/09/14/the-weak-event-pattern-is-dangerous/" target="_blank" rel="noopener">“弱事件模式是危险的”中</a>对此进行附加阅读 。</p>
+<h2 id="5-在没有内存探查器的情况下检测内存泄漏"><a href="#5-在没有内存探查器的情况下检测内存泄漏" class="headerlink" title="5.在没有内存探查器的情况下检测内存泄漏"></a>5.在没有内存探查器的情况下检测内存泄漏</h2><p>此技术是为了测试现有的内存泄漏，而不是编码模式以首先避免它们。</p>
+<p>假设您怀疑某个类存在内存泄漏。如果您有创建一个实例然后希望<strong>GC</strong>收集它的情况，则可以轻松地确定是否将收集您的实例或是否存在内存泄漏。按着这些次序：</p>
+<p>1.将<strong>终结器添加</strong>到您的可疑类中，并在其中放置一个断点：</p>
+<p><img src="https://i2.wp.com/michaelscodingspot.com/wp-content/uploads/2018/12/breakpoint-in-finalizer.jpg?w=1080&ssl=1" alt="img"></p>
+<ol start="2">
+<li>在场景<strong>开始</strong>时添加以下要调用的魔术3行：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GC.Collect();</span><br><span class="line">GC.WaitForPendingFinalizers();</span><br><span class="line">GC.Collect();</span><br></pre></td></tr></table></figure>
+
+<p>这将迫使GC到目前为止收集所有未引用的实例（不在生产环境中使用），因此它们不会干扰我们的调试。</p>
+<p>3.添加相同的3条魔术代码行，以 <strong>在</strong>方案<strong>之后</strong>运行。请记住，该方案是创建并收集可疑对象的方案。</p>
+<p>4.运行有问题的方案。</p>
+<p>在第1步中，我告诉您在类的终结器中放置一个断点。<strong>在</strong>第一个垃圾回收完成<strong>之后</strong>，您实际上应该注意该断点。否则，您可能会被废弃旧实例感到困惑。需要注意的重要时刻是 您的方案<strong>之后</strong>调试器是否在Finalizer中停止 。 </p>
+<p>它还有助于在类的构造函数中放置一个断点。这样，您可以计算创建次数和完成次数。如果触发了终结器中的断点，则GC会收集您的实例，一切正常。如果没有，则可能发生内存泄漏。</p>
+<p>这是我调试的一种方案，该方案使用了上一种技术中的WeakEventHandler，并且没有内存泄漏：</p>
+<p><video controls src="https://michaelscodingspot.com/wp-content/uploads/2018/12/my-class-is-finalized-with-weakEventHandler.mp4" style="box-sizing: border-box; max-width: 100%; margin: 0px; padding: 0px; border: 0px; font: inherit; vertical-align: baseline;"></video></p>
+<p>这是我使用常规事件注册的另一种情况，它确实存在内存泄漏：</p>
+<p><video controls src="https://michaelscodingspot.com/wp-content/uploads/2018/12/my-class-is-not-finalized-with-regular-event.mp4" style="box-sizing: border-box; max-width: 100%; margin: 0px; padding: 0px; border: 0px; font: inherit; vertical-align: baseline;"></video></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>总是让我感到惊讶的是，C＃看起来像是一种易于学习的语言，并且提供了一个提供训练平台的环境。但实际上，还远远没有做到。诸如使用事件之类的简单事情，可以由未经培训的手轻松地将您的应用程序变成一堆内存泄漏。</p>
+<p>至于在代码中使用的正确模式，我认为本文的结论应该是，在所有情况下都没有正确答案。提供的所有技术，以及他们， 视情况而定是可行的解决方案。 </p>
+<p>原来这是一个相对较大的职位，但在此问题上，我仍然处于较高水平。这恰恰证明了在这些问题上存在多少深度，以及软件开发如何永无止境。</p>
+<p>有关内存泄漏的更多信息，请查看我的文章<a href="https://michaelscodingspot.com/2019/01/03/find-fix-and-avoid-memory-leaks-in-c-net-8-best-practices/" target="_blank" rel="noopener">查找，修复和避免C＃.NET：8最佳实践中的内存泄漏</a>。从我自己的经验和其他高级.NET开发人员那里获得的大量信息都为我提供了建议。它包括有关内存分析器，非托管代码的内存泄漏，监控内存等信息。</p>
+<p>我希望您在评论部分中留下一些反馈。并确保<a href="https://michaelscodingspot.com/subscribe/" target="_blank" rel="noopener">订阅</a>博客并收到新帖子通知。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/22/技术/分析EFCore中的内存泄漏/" rel="next" title="分析EFCore中的内存泄漏">
+                <i class="fa fa-chevron-left"></i> 分析EFCore中的内存泄漏
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/28/技术/在C＃中使用RESTful API的几种好方法/" rel="prev" title="在C＃中使用RESTful API的几种好方法">
+                在C＃中使用RESTful API的几种好方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#您应该知道的5种避免C＃-NET中事件造成的内存泄漏的技术"><span class="nav-number">1.</span> <span class="nav-text">您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#了解内存泄漏"><span class="nav-number">1.1.</span> <span class="nav-text">了解内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-确保退订"><span class="nav-number">1.2.</span> <span class="nav-text">1.确保退订</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#注意：并非所有事件注册都会导致内存泄漏。注册到将要过期的事件时，不会发生内存泄漏。例如，在WPF-UserControl中，您可以注册到Button的Click事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且GC将同时收集两者。"><span class="nav-number">1.2.0.0.0.1.</span> <span class="nav-text">注意：并非所有事件注册都会导致内存泄漏。注册到将要过期的事件时，不会发生内存泄漏。例如，在WPF UserControl中，您可以注册到Button的Click事件。这很好，并且不需要注销，因为用户控件是唯一引用该Button的控件。如果没有一个人引用用户控件，那么也将没有一个人引用按钮，并且GC将同时收集两者。</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#2-让处理程序退订"><span class="nav-number">1.3.</span> <span class="nav-text">2.让处理程序退订</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-将弱事件与事件聚合器一起使用"><span class="nav-number">1.4.</span> <span class="nav-text">3.将弱事件与事件聚合器一起使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-对常规事件使用弱事件处理程序"><span class="nav-number">1.5.</span> <span class="nav-text">4.对常规事件使用弱事件处理程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakReference解决方案存在的问题"><span class="nav-number">1.6.</span> <span class="nav-text">WeakReference解决方案存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-在没有内存探查器的情况下检测内存泄漏"><span class="nav-number">1.7.</span> <span class="nav-text">5.在没有内存探查器的情况下检测内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.8.</span> <span class="nav-text">摘要</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

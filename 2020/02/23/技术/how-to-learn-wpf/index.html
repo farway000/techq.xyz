@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="引言在桌面开发领域，虽然在某些领域，基于electron的跨平台方案能够为我们带来某些便利，但是由于WPF技术能够更好的运用Direct3D带来的性能提升、以及海量Windows操作系统和硬件资源的支持，所以他依然有着得天独厚的优势。     当然，选用一门技术，依然看公司的基因土壤和综合因素或者老板的心血来潮，例如QT也同样是一门非常不错的跨平台图形界面解决方案。     目前我们公司在桌面开发">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF学习路线概述">
+<meta property="og:url" content="http://techq.xyz/2020/02/23/技术/how-to-learn-wpf/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="引言在桌面开发领域，虽然在某些领域，基于electron的跨平台方案能够为我们带来某些便利，但是由于WPF技术能够更好的运用Direct3D带来的性能提升、以及海量Windows操作系统和硬件资源的支持，所以他依然有着得天独厚的优势。     当然，选用一门技术，依然看公司的基因土壤和综合因素或者老板的心血来潮，例如QT也同样是一门非常不错的跨平台图形界面解决方案。     目前我们公司在桌面开发">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/circleButton.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/likeButton.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/flow.png">
+<meta property="og:image" content="https://uploader.shimo.im/f/f44dU5UMbaYZpJtm.png!thumbnail">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/ui.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/event.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WPF学习路线概述">
+<meta name="twitter:description" content="引言在桌面开发领域，虽然在某些领域，基于electron的跨平台方案能够为我们带来某些便利，但是由于WPF技术能够更好的运用Direct3D带来的性能提升、以及海量Windows操作系统和硬件资源的支持，所以他依然有着得天独厚的优势。     当然，选用一门技术，依然看公司的基因土壤和综合因素或者老板的心血来潮，例如QT也同样是一门非常不错的跨平台图形界面解决方案。     目前我们公司在桌面开发">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/circleButton.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/02/23/技术/how-to-learn-wpf/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>WPF学习路线概述 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/02/23/技术/how-to-learn-wpf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WPF学习路线概述
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-02-23 16:28:00" itemprop="dateCreated datePublished" datetime="2020-02-23T16:28:00+00:00">2020-02-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>在桌面开发领域，虽然在某些领域，基于electron的跨平台方案能够为我们带来某些便利，但是由于WPF技术能够更好的运用Direct3D带来的性能提升、以及海量Windows操作系统和硬件资源的支持，所以他依然有着得天独厚的优势。    </p>
+<p>当然，选用一门技术，依然看公司的基因土壤和综合因素或者老板的心血来潮，例如QT也同样是一门非常不错的跨平台图形界面解决方案。    </p>
+<p>目前我们公司在桌面开发领域广泛应用了WPF技术，主要是使用其作为大屏数据可视化相关的UI呈现，包括一些数据展示效果、动画效果等。由于之前我对WPF仅有三周经验，因此在开发和设计相关功能时，一些简单功能还能勉强完成，稍微复杂一点的就有点费时过长了，因此这篇文章主要梳理自己的学习笔记，以便总结学习成果。    </p>
+<h1 id="如何学习WPF技术？"><a href="#如何学习WPF技术？" class="headerlink" title="如何学习WPF技术？"></a>如何学习WPF技术？</h1><p>在Quote上有人提出了这样一个相同的问题，<a href="https://www.quora.com/How-can-I-learn-WPF-easily" target="_blank" rel="noopener">查看问题</a>，开发者Srikanth Pagadala如是回答：    </p>
+<blockquote>
+<p>1、以了解基础控件作为学习的起步过程：这些控件包括TextBox,Button,TextBlock及其他的，理解这些控件对外提供的属性，以及如何使用。<br>2、了解和使用布局空间：例如Grid、StackPanel、DockerPanel和其他控件，在这一点上，你需要花费大量的时间。同时你需要学会创建复杂的UI设计。<br>3、了解循环类型的空间，例如ItemControl控件。<br>4、了解关于模板的概念。包括如何定义包含CheckBox的Combox，同时这个控件还包含了一张图片的按钮，以及如何在ItemsControl中使用不同的模板。<br>5、理解数据绑定的运行机制。尝试创建一个MVVM或类似类型的应用程序。<br>6、创建一个典型的控件，探索DependencyProperties（依赖属性）和AttachedProperties（附加属性）。<br>7、创建一个样式资源，理解如何给控件设计样式。</p>
+</blockquote>
+<p>除此之外，还有其他开发者给出了补充回答：    </p>
+<blockquote>
+<p>1、学习控件的数据绑定过程，在DataGrid上实现数据绑定。<br>2、学习和实现INotifyPropertyChanged类。<a href="https://msdn.microsoft.com/en-us/library/vstudio/ms743695(v=vs.100).aspx" target="_blank" rel="noopener">查看如何实现</a><br>3、学习Observable Collection。该类型的集合广泛使用于数据集合绑定方面，同时也提供了数据改变通知的机制。<br>4、使网格上的列可编辑。用文本控件（用户项目模板）替换列。为每个捕获文本更改事件的列创建一个属性。在文本控件上使用绑定类型。尝试捕获您在后端在网格上所做的更改。<br>5、成功将数据控件中的文本控件与后端属性绑定后，请在同一页面上创建网格的副本。尝试同步这两个网格。例如，您在第一个网格中所做的每个更改都必须在第二个网格中自动更新。</p>
+</blockquote>
+<p>网站“<a href="https://www.wpf-tutorial.com/" target="_blank" rel="noopener">https://www.wpf-tutorial.com/</a>”是一个专门用于学习WPF的网站，通过这个网站，可以快速的入门WPF。    </p>
+<p>由于WPF技术已经比较熟悉，所以书籍也比较多，网友推荐来自刘铁猛老师的《深入浅出WPF》这本书，而我通过Kindle则看到了一本比较有意思的书《葵花宝典-WPF自学手册》，这本书写得比较生动，通过故事的形式讲了WPF的许多技术原理，无形中让我对WPF的概念有了许多新的认识。当然，这本书已经有点年头了。    </p>
+<h1 id="WPF的常用控件"><a href="#WPF的常用控件" class="headerlink" title="WPF的常用控件"></a>WPF的常用控件</h1><p>| 控件类型   | 控件名称   | 控件说明   | 链接地址   |<br>|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|<br>| 组件   | Window   | 窗口   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.window?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Page   | 页面   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.page?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | NavigationWindow   | 导航窗口   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.navigation.navigationwindow?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Frame   |    | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Frame" target="_blank" rel="noopener">查看示例</a>   |<br>| 常规控件   | Button   | 按钮控件，提供Content作为内容   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Button" target="_blank" rel="noopener">查看示例</a>   |<br>|    | TextBox   | 文本框控件，用以输入文本   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/TextBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | TextBlock   | 文本块，用以显示文本   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/TextBlock" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Label   | 标签，用以显示文本   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Label" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ProgressBar   | 进度条   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/ProgressBar" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ToggleButton   | 一种可以设置开关三态的按钮   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.primitives.togglebutton?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Image   | 图像控件，通过Source设置资源路径   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Image" target="_blank" rel="noopener">查看示例</a>   |<br>|    | CheckBox   | 勾选框，可以设置是否勾选的三种状态   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/CheckBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | RichTextBox   | 富文本框，可以多种格式显示和输入文本   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/RichTextBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | TreeView   | 树视图，以树状图的形式显示绑定内容，可以显示是否勾选三态。   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/TreeView" target="_blank" rel="noopener">查看示例</a>   |<br>|    | WebBrowser   | 浏览器，基于IE内核的浏览器控件   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.webbrowser?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Calendar   | 日历控件   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.calendar?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ComboBox   | 下拉列表   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/ComboBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ContentControl   | 内容控件   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.contentcontrol?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Expander   | 扩展器，可以显示和折叠面板内的元素   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Expander" target="_blank" rel="noopener">查看示例</a>   |<br>|    | GroupBox   | 分组框   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/GroupBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | StatusBar   | 状态栏，用于在页面下方显示状态信息。   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/StatusBar" target="_blank" rel="noopener">查看示例</a>   |<br>|    | DateTimePicker   | 时间控件，可以设置时间状态。   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.forms.datetimepicker?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | DocumentViewer   | 文档查看器   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/DocumentViewer" target="_blank" rel="noopener">查看示例</a>   |<br>|    | RadioButton   | 单选按钮   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/RadioButton" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ScollViewer   | 滚动视图   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/scrollviewer-overview" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ScollBar   | 滚动条   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.primitives.scrollbar?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Separator   | 分隔器   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Separator" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ToolBar   | 工具条   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/ToolBar" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Slider   |    | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Slider" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Menu   | 菜单   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Menu" target="_blank" rel="noopener">查看示例</a>   |<br>|    | MediaElement   | 多媒体控件   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.mediaelement?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | PasswordBox   | 密码输入框   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/PasswordBox" target="_blank" rel="noopener">查看示例</a>   |<br>|    | TabControl   | 选项卡   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/TabControl" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ToolBarTray   | 工具条   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.toolbartray?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | WindowsFormsHost   | 用以承载WinForm   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.forms.integration.windowsformshost?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Border   | 边框   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Border" target="_blank" rel="noopener">查看示例</a>   |<br>| 数据控件   | ListView   | 列表视图   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/ListView" target="_blank" rel="noopener">查看示例</a>   |<br>|    | DataGrid   | 数据表   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/datagrid" target="_blank" rel="noopener">查看示例</a>   |<br>|    | ListBox   | 列表框   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/ListBox" target="_blank" rel="noopener">查看示例</a>   |<br>| 布局   | WrapPanel   | 可变面板   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/WrapPanel" target="_blank" rel="noopener">查看示例</a>   |<br>|    | StackPanel   | 固定面板   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/StackPanel" target="_blank" rel="noopener">查看示例</a>   |<br>|    | DockerPanel   | 停靠面板   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.dockpanel?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Grid   | 表格布局   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Grid" target="_blank" rel="noopener">查看示例</a>   |<br>|    | UniformGrid   | 统一分布表格布局   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.controls.primitives.uniformgrid?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>| <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Label" target="_blank" rel="noopener">查看示例</a>   | Canvas   | 画布   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Canvas" target="_blank" rel="noopener">查看示例</a>   |<br>| 图形   | Point   | 点   | <a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/controls/Border" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Line   | 线   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.shapes.line?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Path   | 路径   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.shapes.path?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Polygon   | 多边形   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.shapes.polygon?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Polyline   | 多段线   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.shapes.polyline?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Rectangle   | 矩形   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.drawing.rectangle?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Shape   | 画笔   | <a href="http://各类图元的基类" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Rectangle   | 矩形   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.drawing.rectangle?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   |<br>|    | Ellipse   | 椭圆   | <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.shapes.ellipse?view=netframework-4.8" target="_blank" rel="noopener">查看示例</a>   | </p>
+<h1 id="WPF的XAML语法"><a href="#WPF的XAML语法" class="headerlink" title="WPF的XAML语法"></a>WPF的XAML语法</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在WPF技术中引入的XAML语法算是该技术的一大特色，也是被学习者视同为学习路径陡峭的“罪魁祸首”。原因是在前端技术飞速发展的今天，HTML的语法体系由于更早的被开发者接受，所以也自然而然更容易成为开发者的首选。    </p>
+<p>而XAML是一种脱胎于XML，并吸收了HTML的精华的语法体系，是一种界面描述语言，XML语法本身相对而言较为臃肿的体系，看似成为了他的历史负担，但是其实倒也没那么复杂，通过几个简单的示例，其实就足够掌握这门新的语法体系了。例如，使用<button></button>这样的语法，完全可以平滑过渡到<button></button>这样的语法体系。(部分标签其实只是大小写不同）。当然，在XAML中熟练编写样式，确实需要花一点点时间。    </p>
+<p>在WPF中，通过XAML定义面向用户交互层的界面，然后编译成baml运行，后端则使用C#或VB.NET这样的CLR语法来实现逻辑交互。    </p>
+<h2 id="XAML的语法定义"><a href="#XAML的语法定义" class="headerlink" title="XAML的语法定义"></a>XAML的语法定义</h2><h3 id="XAML的根元素定义"><a href="#XAML的根元素定义" class="headerlink" title="XAML的根元素定义"></a>XAML的根元素定义</h3><p>根元素定义是定义XAML的命名空间。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Page</span><br><span class="line">  xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span><br><span class="line">  xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XAML的属性语法"><a href="#XAML的属性语法" class="headerlink" title="XAML的属性语法"></a>XAML的属性语法</h3><p>通过xaml定义按钮，并设置文本为 helloworld 。这种写法在官方文档中称为“属性语法”，即直接在XAML中对属性进行设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button Background=&quot;Blue&quot; Foreground=&quot;Red&quot; Content=&quot;hello world&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XAML的属性元素语法"><a href="#XAML的属性元素语法" class="headerlink" title="XAML的属性元素语法"></a>XAML的属性元素语法</h3><p>通过xaml定义按钮，并设置其背景为蓝色画笔，字体颜色为红色画笔，内容 为helloworld。这种写法在官方文档中称为“属性元素语法”。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button&gt;</span><br><span class="line">  &lt;Button.Background&gt;</span><br><span class="line">    &lt;SolidColorBrush Color=&quot;Blue&quot;/&gt;</span><br><span class="line">  &lt;/Button.Background&gt;</span><br><span class="line">  &lt;Button.Foreground&gt;</span><br><span class="line">    &lt;SolidColorBrush Color=&quot;Red&quot;/&gt;</span><br><span class="line">  &lt;/Button.Foreground&gt;</span><br><span class="line">  &lt;Button.Content&gt;</span><br><span class="line">    hello world</span><br><span class="line">  &lt;/Button.Content&gt;</span><br><span class="line">&lt;/Button&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XAML的集合语法"><a href="#XAML的集合语法" class="headerlink" title="XAML的集合语法"></a>XAML的集合语法</h3><p>定义按钮的颜色为红色和蓝色渐变色，内容为helloworld。这种称为“集合语法”。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearGradientBrush&gt;</span><br><span class="line">  &lt;LinearGradientBrush.GradientStops&gt;</span><br><span class="line">    &lt;!-- no explicit new GradientStopCollection, parser knows how to find or create --&gt;</span><br><span class="line">    &lt;GradientStop Offset=&quot;0.0&quot; Color=&quot;Red&quot; /&gt;</span><br><span class="line">    &lt;GradientStop Offset=&quot;1.0&quot; Color=&quot;Blue&quot; /&gt;</span><br><span class="line">  &lt;/LinearGradientBrush.GradientStops&gt;</span><br><span class="line">&lt;/LinearGradientBrush&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="XAML的样式定义"><a href="#XAML的样式定义" class="headerlink" title="XAML的样式定义"></a>XAML的样式定义</h2><h3 id="通过属性语法来定义按钮的外观"><a href="#通过属性语法来定义按钮的外观" class="headerlink" title="通过属性语法来定义按钮的外观"></a>通过属性语法来定义按钮的外观</h3><p>样式定义使用 <style></style>标签，然后在中间对样式的内容进行定义。    </p>
+<p>例如，以下表示通过XAML语法对 ToggleButton 按钮定义了一个命名为 ToggleLikeButtonStyle 的样式。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> &lt;Style TargetType=&quot;ToggleButton&quot; x:Key=&quot;ToggleLikeButtonStyle&quot;&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Margin&quot;   Value=&quot;4&quot; /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;Black&quot;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;Setter Property=&quot;Foreground&quot;  Value=&quot;Black&quot; /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;0&quot;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;Setter Property=&quot;IsThreeState&quot; Value=&quot;False&quot;&gt;&lt;/Setter&gt;</span><br><span class="line"></span><br><span class="line">&lt;/Style&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="WPF中的模板Template"><a href="#WPF中的模板Template" class="headerlink" title="WPF中的模板Template"></a>WPF中的模板Template</h3><p>WPF中的控件可以通过模板 Template 的形式来定义其内容，使得开发者能够通过 XAML 灵活的对控件的外观进行扩展。例如，如下定义了一个 Template，这个控件模板将会对控件（Button）定义填充制定颜色。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> &lt;Setter Property=&quot;Template&quot;&gt;  </span><br><span class="line">                &lt;Setter.Value&gt;  </span><br><span class="line">                    &lt;ControlTemplate&gt;  </span><br><span class="line">                        &lt;Border BorderThickness=&quot;0&quot; CornerRadius=&quot;3&quot;&gt;  </span><br><span class="line">                            &lt;Border.Background&gt;  </span><br><span class="line">                                &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;  </span><br><span class="line">                                    &lt;GradientStop Color=&quot;#4696F2&quot; Offset=&quot;0.5&quot;/&gt;  </span><br><span class="line">                                &lt;/LinearGradientBrush&gt;  </span><br><span class="line">                            &lt;/Border.Background&gt;  </span><br><span class="line">                            &lt;ContentPresenter Content=&quot;&#123;TemplateBinding ContentControl.Content&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;  </span><br><span class="line">                        &lt;/Border&gt;  </span><br><span class="line">                    &lt;/ControlTemplate&gt;  </span><br><span class="line">                &lt;/Setter.Value&gt;  </span><br><span class="line">            &lt;/Setter&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XAML中的触发器Triggers"><a href="#XAML中的触发器Triggers" class="headerlink" title="XAML中的触发器Triggers"></a>XAML中的触发器Triggers</h3><p>传统的WinForm开发者习惯于通过事件的机制对按钮的外观进行定义，而在WPF中，则可以通过属性的形式对外观进行设置，这使得开发者更能够写出高质量的代码。  </p>
+<p>例如，如下代码通过定义触发器，设置控件（控件为 ToggleButton），当控件的勾选状态属性为“IsChecked” 时，其边框填充色为#4696F2颜色。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;ControlTemplate.Triggers&gt;  </span><br><span class="line">                            &lt;Trigger Property=&quot;IsChecked&quot; Value=&quot;True&quot;&gt;  </span><br><span class="line">  &lt;Setter Property=&quot;Border.Background&quot; TargetName=&quot;PART_Background&quot;</span><br><span class="line">&lt;Setter.Value&gt;</span><br><span class="line">                                        &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                            &lt;GradientStop Color=&quot;#4696F2&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                        &lt;/LinearGradientBrush&gt;</span><br><span class="line">                                    &lt;/Setter.Value&gt;</span><br><span class="line">                                &lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Width&quot; TargetName=&quot;PART_Background&quot; Value=&quot;60&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Content&quot;  TargetName=&quot;contextPresenter&quot; Value=&quot;已点赞&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot;  TargetName=&quot;contextPresenter&quot; Value=&quot;Visible&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot; TargetName=&quot;contextImage&quot; Value=&quot;Hidden&quot;/&gt;</span><br><span class="line">                            &lt;/Trigger&gt;</span><br><span class="line">&lt;/ControlTemplate.Triggers&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="部分完整代码"><a href="#部分完整代码" class="headerlink" title="部分完整代码"></a>部分完整代码</h3><p>在上述事例中，共定义了两个按钮的样式，分别是:</p>
+<ul>
+<li><p><strong>FlatButtonStyle，这是个圆角按钮。</strong><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/circleButton.png" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;Style TargetType=&quot;Button&quot; x:Key=&quot;FlatButtonStyle&quot;&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Margin&quot;   Value=&quot;4&quot; /&gt;</span><br><span class="line">            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;Black&quot;/&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Foreground&quot;  Value=&quot;Black&quot; /&gt;</span><br><span class="line">            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;0&quot;/&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Template&quot;&gt;</span><br><span class="line">                &lt;Setter.Value&gt;</span><br><span class="line">                    &lt;ControlTemplate&gt;</span><br><span class="line">                        &lt;Border BorderThickness=&quot;0&quot; CornerRadius=&quot;3&quot;&gt;</span><br><span class="line">                            &lt;Border.Background&gt;</span><br><span class="line">                                &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                    &lt;GradientStop Color=&quot;#4696F2&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                &lt;/LinearGradientBrush&gt;</span><br><span class="line">                            &lt;/Border.Background&gt;</span><br><span class="line">                            &lt;ContentPresenter Content=&quot;&#123;TemplateBinding ContentControl.Content&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;</span><br><span class="line">                        &lt;/Border&gt;</span><br><span class="line">                    &lt;/ControlTemplate&gt;</span><br><span class="line">                &lt;/Setter.Value&gt;</span><br><span class="line">            &lt;/Setter&gt;</span><br><span class="line">        &lt;/Style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>ToggleLikeButtonStyle，这是一个点赞按钮。</strong><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/likeButton.png" alt="图片">。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;Style TargetType=&quot;ToggleButton&quot; x:Key=&quot;ToggleLikeButtonStyle&quot;&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Margin&quot;   Value=&quot;4&quot; /&gt;</span><br><span class="line">            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;Black&quot;/&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Foreground&quot;  Value=&quot;Black&quot; /&gt;</span><br><span class="line">            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;0&quot;/&gt;</span><br><span class="line">            &lt;Setter Property=&quot;IsThreeState&quot; Value=&quot;False&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">            &lt;Setter Property=&quot;Template&quot;&gt;</span><br><span class="line">                &lt;Setter.Value&gt;</span><br><span class="line">                    &lt;ControlTemplate TargetType=&quot;&#123;x:Type ToggleButton&#125;&quot;&gt;</span><br><span class="line">                        &lt;Border BorderThickness=&quot;0&quot; CornerRadius=&quot;3&quot; Name=&quot;PART_Background&quot;&gt;</span><br><span class="line">                            &lt;Border.Background&gt;</span><br><span class="line">                                &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                    &lt;GradientStop Color=&quot;#525252&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                &lt;/LinearGradientBrush&gt;</span><br><span class="line">                            &lt;/Border.Background&gt;</span><br><span class="line">                            &lt;Grid&gt;</span><br><span class="line">                                &lt;ContentPresenter x:Name=&quot;contextPresenter&quot; Content=&quot;&#123;TemplateBinding ContentControl.Content&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;</span><br><span class="line">                                &lt;Image x:Name=&quot;contextImage&quot; Width=&quot;24&quot; Height=&quot;24&quot; Source=&quot;assests/thumbs-up-outline.png&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;</span><br><span class="line">                            &lt;/Grid&gt;</span><br><span class="line">                        &lt;/Border&gt;</span><br><span class="line">                        &lt;ControlTemplate.Triggers&gt;</span><br><span class="line">                            &lt;Trigger Property=&quot;IsChecked&quot; Value=&quot;True&quot;&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Border.Background&quot; TargetName=&quot;PART_Background&quot;&gt;</span><br><span class="line">                                    &lt;Setter.Value&gt;</span><br><span class="line">                                        &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                            &lt;GradientStop Color=&quot;#4696F2&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                        &lt;/LinearGradientBrush&gt;</span><br><span class="line">                                    &lt;/Setter.Value&gt;</span><br><span class="line">                                &lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Width&quot; TargetName=&quot;PART_Background&quot; Value=&quot;60&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Content&quot;  TargetName=&quot;contextPresenter&quot; Value=&quot;已点赞&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot;  TargetName=&quot;contextPresenter&quot; Value=&quot;Visible&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot; TargetName=&quot;contextImage&quot; Value=&quot;Hidden&quot;/&gt;</span><br><span class="line">                            &lt;/Trigger&gt;</span><br><span class="line">                            &lt;Trigger Property=&quot;IsChecked&quot; Value=&quot;False&quot;&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Border.Background&quot; TargetName=&quot;PART_Background&quot;&gt;</span><br><span class="line">                                    &lt;Setter.Value&gt;</span><br><span class="line">                                        &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                            &lt;GradientStop Color=&quot;#525252&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                        &lt;/LinearGradientBrush&gt;</span><br><span class="line">                                    &lt;/Setter.Value&gt;</span><br><span class="line">                                &lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Width&quot; TargetName=&quot;PART_Background&quot; Value=&quot;40&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot;  TargetName=&quot;contextPresenter&quot; Value=&quot;Hidden&quot;&gt;&lt;/Setter&gt;</span><br><span class="line">                                &lt;Setter Property=&quot;Visibility&quot; TargetName=&quot;contextImage&quot; Value=&quot;Visible&quot;/&gt;</span><br><span class="line">                            &lt;/Trigger&gt;</span><br><span class="line">                        &lt;/ControlTemplate.Triggers&gt;</span><br><span class="line">                    &lt;/ControlTemplate&gt;</span><br><span class="line">                &lt;/Setter.Value&gt;</span><br><span class="line">            &lt;/Setter&gt;</span><br><span class="line">&lt;/Style&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="XAML的标记扩展"><a href="#XAML的标记扩展" class="headerlink" title="XAML的标记扩展"></a>XAML的<a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/advanced/markup-extensions-and-wpf-xaml" target="_blank" rel="noopener">标记扩展</a></h2><p>通过了解WPF的常用控件，我们可以知道自己需要使用的控件有哪些属性，并能使用 XAML 语法对相应的属性进行设置，这种设置方法有别于通过C#代码的形式进行定义的方法，在 XAML中的属性称为 “标记”。标记使用 “{}” 花括号，编译器通过该花括号将语法和XAML语法进行区分。  </p>
+<p>例如：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> HeaderTemplate=&quot;&#123;DynamicResource StretchedHeaderTemplate&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="标记值的转换与TypeConverters"><a href="#标记值的转换与TypeConverters" class="headerlink" title="标记值的转换与TypeConverters"></a>标记值的转换与TypeConverters</h3><p>在进行标记值转换时，有时候需要使用TypeConverters实现类型转换。例如，在上述示例代码中，可以看到使用了字符串“#525252”来定义颜色，在内部就是实现了从字符串到 Color 类的转换过程。限于篇幅有限，此处就暂时略过。  </p>
+<h3 id="XAML中内置特殊标记扩展"><a href="#XAML中内置特殊标记扩展" class="headerlink" title="XAML中内置特殊标记扩展"></a>XAML中内置特殊标记扩展</h3><ul>
+<li><p>x:Type：特定类型  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;x:Type prefix:typeNameValue&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>x:Static：使用静态值。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;x:Static prefix:typeName.staticMemberName&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>x:Null：使用空对象定义为属性值。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;x:Null&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>x:Array：使用数组对象。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;x:Array Type=&quot;typeName&quot;&gt;    </span><br><span class="line">  arrayContents    </span><br><span class="line">&lt;/x:Array&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="常见的标记扩展"><a href="#常见的标记扩展" class="headerlink" title="常见的标记扩展"></a>常见的标记扩展</h3><ol>
+<li><p>StaticResource：通过替换已定义资源的值来为属性提供内容，该资源标记在XAML加载时自动执行。静态资源无法通过在XAML语法体系中对其引用关系进行前向引用，意味着无法通过多层级关系定义可复用的样式资源，如果需要这样做，则需要使用DynamicResource。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;StaticResource key&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DynamicResource：在运行时为资源提供内容。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;DynamicResource key&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Binding：在运行时为使用数据上下文为数据提供内容。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;Binding&#125;&quot; .../&gt;    </span><br><span class="line">-or-  </span><br><span class="line">&lt;object property=&quot;&#123;Binding  bindProp1=value1[, bindPropN=valueN]*&#125;&quot; ...  </span><br><span class="line">/&gt;    </span><br><span class="line">-or-    </span><br><span class="line">&lt;object property=&quot;&#123;Binding path&#125;&quot; .../&gt;  </span><br><span class="line">-or     </span><br><span class="line">&lt;object property=&quot;&#123;Binding path[, bindPropN=valueN]*&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>RelativeSource：提供了可在运行时对象树中导航几个可能的关系的 <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.data.binding" target="_blank" rel="noopener">Binding</a> 的源信息。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Binding RelativeSource=&quot;&#123;RelativeSource modeEnumValue&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TemplateBinding：使控件模板能够使用模板化属性的值，这些属性来自于将使用该模板的类的对象模型定义属性。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;TemplateBinding sourceProperty&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ColorConvertedBitmap：提供一种方法，用于指定没有嵌入的配置文件的位图源。 颜色上下文/配置文件由 URI 指定，与映像源 URI 相同。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object property=&quot;&#123;ColorConvertedBitmap imageSource sourceIIC destinationIIC&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ComponentResourceKey和TemplateResourceKey：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object x:Key=&quot;&#123;ComponentResourceKey &#123;x:Type targetTypeName&#125;, targetID&#125;&quot; .../&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="XAML资源复用"><a href="#XAML资源复用" class="headerlink" title="XAML资源复用"></a>XAML资源复用</h2><p>在开发过程中，我们可以直接在按钮上进行按钮模板的定义，例如下面的代码。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button Width=&quot;40&quot; Height=&quot;40&quot; Style=&quot;&#123;DynamicResource CubeImageButtonStyle&#125;&quot; Click=&quot;Button_Click&quot; Content=&quot;点赞&quot;&gt;</span><br><span class="line">    &lt;Button.Background&gt;</span><br><span class="line">                                &lt;ImageBrush ImageSource=&quot;/assests/favicon.png&quot; Stretch=&quot;Fill&quot;/&gt; </span><br><span class="line">                            &lt;/Button.Background&gt;</span><br><span class="line">                        &lt;/Button&gt;   </span><br><span class="line">                          &lt;Setter Property=&quot;Template&quot;</span><br><span class="line">                &lt;Setter.Value&gt;</span><br><span class="line">                    &lt;ControlTemplate&gt;</span><br><span class="line">                        &lt;Border BorderThickness=&quot;0&quot; CornerRadius=&quot;3&quot;&gt;</span><br><span class="line">                            &lt;Border.Background&gt;</span><br><span class="line">                                &lt;LinearGradientBrush EndPoint=&quot;0,1&quot; StartPoint=&quot;0,0&quot;&gt;</span><br><span class="line">                                    &lt;GradientStop Color=&quot;#4696F2&quot; Offset=&quot;0.5&quot;/&gt;</span><br><span class="line">                                &lt;/LinearGradientBrush&gt;</span><br><span class="line">                            &lt;/Border.Background&gt;</span><br><span class="line">                            &lt;ContentPresenter Content=&quot;&#123;TemplateBinding ContentControl.Content&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;</span><br><span class="line">                        &lt;/Border&gt;</span><br><span class="line">                    &lt;/ControlTemplate&gt;</span><br><span class="line">                &lt;/Setter.Value&gt;</span><br><span class="line">            &lt;/Setter&gt;</span><br><span class="line">        &lt;/Style&gt;</span><br><span class="line"> &lt;/Window.Resources&gt;</span><br><span class="line"> &lt;Grid&gt;</span><br><span class="line">&lt;Button Grid.Column=&quot;0&quot; Grid.Row=&quot;1&quot; Style=&quot;&#123;StaticResource FlatButtonStyle&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Top&quot; Width=&quot;48&quot; Height=&quot;16&quot; FontSize=&quot;10&quot; Background=&quot;#4696F2&quot; Content=&quot;获取&quot;&gt;&lt;/Button&gt;</span><br><span class="line"> &lt;/Grid&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这样的代码在界面比较简单时，还无所谓，但是随着控件的样式越来越复杂，可能会成为一团乱麻，这对于追求优雅代码的我们来说，可能是难以忍受的，所以往往会使用资源引用来完成。    </p>
+<h3 id="StaticResource"><a href="#StaticResource" class="headerlink" title="StaticResource"></a>StaticResource</h3><p>例如，我们可以在当前页面代码中定义对应的样式，这种样式可以使用 StaticResource 的形式引入。但是这样的引用形式，没有对象图的访问权限，意味着无法访问资源依赖的其他资源。    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> &lt;Window.Resources&gt;  </span><br><span class="line">&lt;Style TargetType=&quot;Button&quot; x:Key=&quot;FlatButtonStyle&quot;&gt;     </span><br><span class="line">            &lt;Setter Property=&quot;Margin&quot;   Value=&quot;4&quot; /&gt;    </span><br><span class="line">            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;Black&quot;/&gt;    </span><br><span class="line">            &lt;Setter Property=&quot;Foreground&quot;  Value=&quot;Black&quot; /&gt;        </span><br><span class="line">            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;0&quot;/&gt;    </span><br><span class="line">&lt;/Window.Resources&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DynamicResource"><a href="#DynamicResource" class="headerlink" title="DynamicResource"></a>DynamicResource</h3><p>将上述代码中的{StaticResource FlatButtonStyle} 改成{StaticResource  FlatButtonStyle}则会在运行时加载样式，并可以访问相应的对象图。</p>
+<p>当然，这样的更改意义不大，如果该FlatButtonStyle引用了其他样式或元素，会发生作用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Grid</span><br><span class="line">&lt;Button Grid.Column=&quot;0&quot; Grid.Row=&quot;1&quot; Style=&quot;&#123;StaticResource FlatButtonStyle&#125;&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Top&quot; Width=&quot;48&quot; Height=&quot;16&quot; FontSize=&quot;10&quot; Background=&quot;#4696F2&quot; Content=&quot;获取&quot;&gt;&lt;/Button&gt;</span><br><span class="line"> &lt;/Grid&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1、由于XAML语法脱胎于XML语法，而XML语法中本身对某些输入字符，如“&lt;&gt;”存在限制，所以在XAML中也会出现这类问题，并会被Visual Studio检测出错误而无法编译，需要使用UTF-8编码进行转换。  </p>
+<h1 id="用户控件和自定义控件"><a href="#用户控件和自定义控件" class="headerlink" title="用户控件和自定义控件"></a>用户控件和自定义控件</h1><h2 id="用户控件"><a href="#用户控件" class="headerlink" title="用户控件"></a>用户控件</h2><p>而用户控件，使用于控件组合的场景。  </p>
+<h2 id="自定义控件"><a href="#自定义控件" class="headerlink" title="自定义控件"></a>自定义控件</h2><p>在笔者进行开发时，总是思考究竟是使用用户控件，还是自定义控件，后来在阅读《葵花宝典-WPF自学手册》这本书中，终于得以大彻大悟。  </p>
+<p>作者指出：“不要被控件的外观所欺骗，要考虑其内在本质”。即思考控件的基本特征，首先想到该控件的行为与原有控件的行为是否相似，如果能够找到，则修改原有控件，而不是定义一个控件。尤其是在XAML语法中，能够通过Content 模型和模板、附加属性的运用，使得自定义控件的用途得到了进一步缩减，只有当实在万不得已时，在定义自定义控件。</p>
+<p>作者给出了使用自定义控件的分析思路：    </p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/flow.png" alt="图片"></p>
+<p>例如，在示例代码*<em>ToggleLikeButtonStyle *</em>中，我实现了一个点赞和取消点赞的状态，则使用了ToggleButton来完成，就没必要使用 Button 扩展出一个是否点赞的状态了。  </p>
+<p>而如果我们需要实现的功能有这么复杂，那大概使用传统的控件就无法实现，就得使用自定义控件了。（<a href="https://github.com/caomfan/WpfDemo.git" target="_blank" rel="noopener">点击查看示例代码</a>）</p>
+<p><img src="https://uploader.shimo.im/f/f44dU5UMbaYZpJtm.png!thumbnail" alt="图片"></p>
+<p>作者定义了自定义控件 ButtonEx，并实现了依赖属性 ButtonType，见【依赖属性】，并定义了不同类型的样式特征。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> &lt;Trigger Property=&quot;ButtonType&quot; Value=&quot;Icon&quot;&gt;</span><br><span class="line">                &lt;Setter Property=&quot;Cursor&quot; Value=&quot;Hand&quot;/&gt;</span><br><span class="line">                &lt;Setter Property=&quot;Template&quot;&gt;</span><br><span class="line">                    &lt;Setter.Value&gt;</span><br><span class="line">                        &lt;ControlTemplate TargetType=&quot;&#123;x:Type controls:ButtonEx&#125;&quot;&gt;</span><br><span class="line">                            &lt;Border Width=&quot;&#123;TemplateBinding Width&#125;&quot; Height=&quot;&#123;TemplateBinding Height&#125;&quot;&gt;</span><br><span class="line">                                &lt;Image x:Name=&quot;Img&quot; VerticalAlignment=&quot;Center&quot; HorizontalAlignment=&quot;Center&quot; Source=&quot;&#123;TemplateBinding Icon&#125;&quot; Stretch=&quot;None&quot;/&gt;</span><br><span class="line">                            &lt;/Border&gt;</span><br><span class="line">                            &lt;ControlTemplate.Triggers&gt;</span><br><span class="line">                                &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;</span><br><span class="line">                                    &lt;Setter Property=&quot;Opacity&quot; Value=&quot;0.8&quot;/&gt;</span><br><span class="line">                                &lt;/Trigger&gt;</span><br><span class="line">                                &lt;Trigger Property=&quot;IsPressed&quot; Value=&quot;True&quot;&gt;</span><br><span class="line">                                    &lt;Setter Property=&quot;Opacity&quot; Value=&quot;0.9&quot;/&gt;</span><br><span class="line">                                &lt;/Trigger&gt;</span><br><span class="line">                            &lt;/ControlTemplate.Triggers&gt;</span><br><span class="line">                        &lt;/ControlTemplate&gt;</span><br><span class="line">                    &lt;/Setter.Value&gt;</span><br><span class="line">                &lt;/Setter&gt;</span><br><span class="line">            &lt;/Trigger&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用时，只需这样设置，即可实现不同类型的按钮外观。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> &lt;controls:ButtonEx Icon=&quot;/Images/search.png&quot;  Margin=&quot;10&quot; ButtonType=&quot;Icon&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="属性和事件"><a href="#属性和事件" class="headerlink" title="属性和事件"></a>属性和事件</h1><h2 id="依赖属性"><a href="#依赖属性" class="headerlink" title="依赖属性"></a><a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/advanced/dependency-properties-overview" target="_blank" rel="noopener">依赖属性</a></h2><p>依赖属性是为既有WPF控件对象定义自定义属性，以便支持其扩展，例如在上述自定义控件的示例中，就定义了依赖属性 ButtonType，实现了不同类型的按钮外观。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ButtonType ButtonType  </span><br><span class="line">        &#123;</span><br><span class="line">            get &#123; return (ButtonType)GetValue(ButtonTypeProperty); &#125;</span><br><span class="line">            set &#123; SetValue(ButtonTypeProperty, value); &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public static readonly DependencyProperty ButtonTypeProperty =</span><br></pre></td></tr></table></figure>
+
+<h2 id="DependencyProperty-Register-“ButtonType”-typeof-ButtonType-typeof-ButtonEx-new-PropertyMetadata-ButtonType-Normal"><a href="#DependencyProperty-Register-“ButtonType”-typeof-ButtonType-typeof-ButtonEx-new-PropertyMetadata-ButtonType-Normal" class="headerlink" title="DependencyProperty.Register(“ButtonType”, typeof(ButtonType), typeof(ButtonEx), new PropertyMetadata(ButtonType.Normal));"></a>DependencyProperty.Register(“ButtonType”, typeof(ButtonType), typeof(ButtonEx), new PropertyMetadata(ButtonType.Normal));</h2><p><a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/advanced/attached-properties-overview" target="_blank" rel="noopener">附加属性</a><br>按照官方的说法就是“附加属性旨在用作可在任何对象上设置的一类全局属性”，例如，DockPanel面板中的子对象，继承了来自于容器对象的附加属性，使得其能够在父对象中实现停靠的功能。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;DockPanel&gt;</span><br><span class="line">  &lt;CheckBox DockPanel.Dock=&quot;Top&quot;&gt;Hello&lt;/CheckBox&gt;</span><br><span class="line">&lt;/DockPanel&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="路由事件"><a href="#路由事件" class="headerlink" title="路由事件"></a><a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/advanced/routed-events-overview" target="_blank" rel="noopener">路由事件</a></h2><h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>假设我们定义了几个这样的控件。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Border Height=&quot;50&quot; Width=&quot;300&quot; BorderBrush=&quot;Gray&quot; BorderThickness=&quot;1&quot;&gt;</span><br><span class="line">  &lt;StackPanel Background=&quot;LightGray&quot; Orientation=&quot;Horizontal&quot; Button.Click=&quot;CommonClickHandler&quot;&gt;</span><br><span class="line">    &lt;Button Name=&quot;YesButton&quot; Width=&quot;Auto&quot; &gt;Yes&lt;/Button&gt;</span><br><span class="line">    &lt;Button Name=&quot;NoButton&quot; Width=&quot;Auto&quot; &gt;No&lt;/Button&gt;</span><br><span class="line">    &lt;Button Name=&quot;CancelButton&quot; Width=&quot;Auto&quot; &gt;Cancel&lt;/Button&gt;</span><br><span class="line">  &lt;/StackPanel&gt;</span><br><span class="line">&lt;/Border&gt;</span><br></pre></td></tr></table></figure>
+
+<p>实现了这样的界面<img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/ui.png" alt="图片"></p>
+<p>路由事件就是针对这组元素树中多个元素调用处理程序的事件。当我们点击了按钮Button时，将会触发 Button=&gt;StackPanel=&gt;Border的事件路由，而不是像WinForm应用一样，只能触发最上层的Button的按钮点击事件。  </p>
+<h3 id="路由策略"><a href="#路由策略" class="headerlink" title="路由策略"></a>路由策略</h3><ul>
+<li><p>冒泡事件（官方称为浮升，这个翻译有点。。）：调用事件源上的事件处理程序。 路由事件随后会路由到后续的父级元素，直到到达元素树的根。 大多数路由事件都使用浮升路由策略。 浮升路由事件通常用于报告来自不同控件或其他 UI 元素的输入或状态变化。  </p>
+</li>
+<li><p>直接： 只有源元素本身才有机会调用处理程序以进行响应。通过使用 <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.eventsetter" target="_blank" rel="noopener">EventSetter</a> 和 <a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.eventtrigger" target="_blank" rel="noopener">EventTrigger</a>使用来设置处理程序。例如，可以使用RoutedEventArgs的<a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.routedeventargs.handled" target="_blank" rel="noopener">Handled</a>，设置为 true 将事件标记为已处理，将 “停止” 路由用于隧道路由或冒泡路由。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void MakeButton2()</span><br><span class="line">&#123;</span><br><span class="line">  Button b2 = new Button();</span><br><span class="line">  b2.Click += new RoutedEventHandler(Onb2Click2);</span><br><span class="line">&#125;</span><br><span class="line">void Onb2Click2(object sender, RoutedEventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">  //logic to handle the Click event     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隧道：最初将调用元素树的根处的事件处理程序。 随后，路由事件将朝着路由事件的源节点元素（即引发路由事件的元素）方向，沿路由线路传播到后续的子元素。  </p>
+</li>
+<li><p>WPF中约定，隧道路由事件的名称以单词“Preview”开头。 输入事件通常成对出现，一个是浮升事件，另一个是隧道事件。例如，如下图所示，假设按钮2为触发事件的源。  </p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-learn-wpf/event.png" alt="图片"></p>
+<p>1、处理Border根元素的隧道事件PreviewMouseDown  </p>
+<p>2、处理StackPanel面板的隧道事件PreviewMouseDown.  </p>
+<p>3、处理Button按钮的隧道事件的PreMouseDown。  </p>
+<p>4、处理Button按钮的MouseDown事件。  </p>
+<p>5、处理StackPanel的MouseDown事件。  </p>
+<p>6、处理Border的MouseDown事件。    </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>WPF是一个非常庞大的技术体系，以上学习路径仅供开发者进行简单的入门，由于篇幅有限，对于标记扩展还需要进一步理解透彻，以及格式转换、图形绘制、数据绑定、MVVM等内容未能一一描述。  </p>
+<p>如果果想要对WPF进一步了解，最好通过系统的学习相关知识，除了前面提到的网站和几本书，最好的入门网站依然是<a href="https://docs.microsoft.com/zh-cn/dotnet/framework/wpf/" target="_blank" rel="noopener">微软官方文档</a>。  </p>
+<h1 id><a href="#" class="headerlink" title></a></h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/随笔/如何快速融入团队并成为团队核心（七）/" rel="next" title="如何快速融入团队并成为团队核心(七)">
+                <i class="fa fa-chevron-left"></i> 如何快速融入团队并成为团队核心(七)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/23/技术/how-to-use-restfulapi-in-netcore/" rel="prev" title="一步一步的构建整洁、可维护的RESTful APIs">
+                一步一步的构建整洁、可维护的RESTful APIs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何学习WPF技术？"><span class="nav-number">2.</span> <span class="nav-text">如何学习WPF技术？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WPF的常用控件"><span class="nav-number">3.</span> <span class="nav-text">WPF的常用控件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WPF的XAML语法"><span class="nav-number">4.</span> <span class="nav-text">WPF的XAML语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XAML的语法定义"><span class="nav-number">4.2.</span> <span class="nav-text">XAML的语法定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML的根元素定义"><span class="nav-number">4.2.1.</span> <span class="nav-text">XAML的根元素定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML的属性语法"><span class="nav-number">4.2.2.</span> <span class="nav-text">XAML的属性语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML的属性元素语法"><span class="nav-number">4.2.3.</span> <span class="nav-text">XAML的属性元素语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML的集合语法"><span class="nav-number">4.2.4.</span> <span class="nav-text">XAML的集合语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XAML的样式定义"><span class="nav-number">4.3.</span> <span class="nav-text">XAML的样式定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过属性语法来定义按钮的外观"><span class="nav-number">4.3.1.</span> <span class="nav-text">通过属性语法来定义按钮的外观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPF中的模板Template"><span class="nav-number">4.3.2.</span> <span class="nav-text">WPF中的模板Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML中的触发器Triggers"><span class="nav-number">4.3.3.</span> <span class="nav-text">XAML中的触发器Triggers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部分完整代码"><span class="nav-number">4.3.4.</span> <span class="nav-text">部分完整代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XAML的标记扩展"><span class="nav-number">4.4.</span> <span class="nav-text">XAML的标记扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标记值的转换与TypeConverters"><span class="nav-number">4.4.1.</span> <span class="nav-text">标记值的转换与TypeConverters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XAML中内置特殊标记扩展"><span class="nav-number">4.4.2.</span> <span class="nav-text">XAML中内置特殊标记扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的标记扩展"><span class="nav-number">4.4.3.</span> <span class="nav-text">常见的标记扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XAML资源复用"><span class="nav-number">4.5.</span> <span class="nav-text">XAML资源复用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StaticResource"><span class="nav-number">4.5.1.</span> <span class="nav-text">StaticResource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DynamicResource"><span class="nav-number">4.5.2.</span> <span class="nav-text">DynamicResource</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">4.6.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户控件和自定义控件"><span class="nav-number">5.</span> <span class="nav-text">用户控件和自定义控件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户控件"><span class="nav-number">5.1.</span> <span class="nav-text">用户控件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义控件"><span class="nav-number">5.2.</span> <span class="nav-text">自定义控件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性和事件"><span class="nav-number">6.</span> <span class="nav-text">属性和事件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖属性"><span class="nav-number">6.1.</span> <span class="nav-text">依赖属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DependencyProperty-Register-“ButtonType”-typeof-ButtonType-typeof-ButtonEx-new-PropertyMetadata-ButtonType-Normal"><span class="nav-number">6.2.</span> <span class="nav-text">DependencyProperty.Register(“ButtonType”, typeof(ButtonType), typeof(ButtonEx), new PropertyMetadata(ButtonType.Normal));</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由事件"><span class="nav-number">6.3.</span> <span class="nav-text">路由事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本定义"><span class="nav-number">6.3.1.</span> <span class="nav-text">基本定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由策略"><span class="nav-number">6.3.2.</span> <span class="nav-text">路由策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">8.</span> <span class="nav-text"></span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器在软件开发领域中工作的任何人都将需要在旧代码中添加功能，这些功能可能是从先前的团队继承而来的，您需要对其进行紧急修复。 可以在文献中找到许多遗留代码的定义，我更喜欢的定义是：“通过遗留代码，我们指的是我们害怕改变的有利可图的代码”。 该定义包含两个基本概念：  该代码必须有利可图。如果不是这样，我们将无意对其">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一种在.NET Core中重构遗留代码的利器">
+<meta property="og:url" content="http://techq.xyz/2020/10/17/技术/Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器在软件开发领域中工作的任何人都将需要在旧代码中添加功能，这些功能可能是从先前的团队继承而来的，您需要对其进行紧急修复。 可以在文献中找到许多遗留代码的定义，我更喜欢的定义是：“通过遗留代码，我们指的是我们害怕改变的有利可图的代码”。 该定义包含两个基本概念：  该代码必须有利可图。如果不是这样，我们将无意对其">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一种在.NET Core中重构遗留代码的利器">
+<meta name="twitter:description" content="Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器在软件开发领域中工作的任何人都将需要在旧代码中添加功能，这些功能可能是从先前的团队继承而来的，您需要对其进行紧急修复。 可以在文献中找到许多遗留代码的定义，我更喜欢的定义是：“通过遗留代码，我们指的是我们害怕改变的有利可图的代码”。 该定义包含两个基本概念：  该代码必须有利可图。如果不是这样，我们将无意对其">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/10/17/技术/Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一种在.NET Core中重构遗留代码的利器 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/10/17/技术/Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一种在.NET Core中重构遗留代码的利器
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-10-17 20:28:00" itemprop="dateCreated datePublished" datetime="2020-10-17T20:28:00+00:00">2020-10-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Golden-Master-Pattern-：一种在-NET-Core中重构遗留代码的利器"><a href="#Golden-Master-Pattern-：一种在-NET-Core中重构遗留代码的利器" class="headerlink" title="Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器"></a>Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器</h4><p>在软件开发领域中工作的任何人都将需要在旧代码中添加功能，这些功能可能是从先前的团队继承而来的，您需要对其进行紧急修复。</p>
+<p>可以在文献中找到许多遗留代码的定义，我更喜欢的定义是：“通过<strong>遗留代码</strong>，我们指的是我们<strong>害怕改变</strong>的有利可图的代码”。</p>
+<p>该定义包含两个基本概念：</p>
+<ol>
+<li>该代码必须有利可图。如果不是这样，我们将无意对其进行更改。 </li>
+<li>它必须引起对修改它的恐惧，因为我们可以引入新的bug或依赖影子的东西。</li>
+</ol>
+<p>在以下情况下，更容易出错：</p>
+<ul>
+<li>测试未涵盖该代码。 </li>
+<li>代码不干净；不遵守单一责任原则。 </li>
+<li>该代码的设计不正确，或者随着时间的流逝其结构变得不合理：对一段代码进行更改可能会产生一些副作用。 </li>
+<li>您没有时间全面了解正在修改的内容。</li>
+</ul>
+<p>测试是我们作为开发人员可用的强大武器。这些测试为我们提供了结果的安全性，并且是一种快速检测错误的方法。但是，我们如何测试未知的代码？构建单元测试套件将为我们提供有关该项目的深入知识，但它将使长时间保持高成本。如果我们无法测试细节，则可以使用<strong>Characterization Test</strong>，它是描述软件行为的测试。</p>
+<p>在这种情况下起重要作用的<strong>模式</strong>是“ <strong>黄金大师模式”</strong>。基本思想很简单：如果我们无法深入了解，我们需要一些有关整个执行过程的指标。我们捕获正确执行的输出（stdout，图像，日志文件等），这就是我们的Golden Master，可用于预期输出。如果当前执行的输出匹配，我们可以确信我们的更改没有引入新的错误。 </p>
+<p>为了展示Golden Master Pattern的用法，让我们从一个示例开始（完整的代码可以在<a href="https://github.com/ntonjeta/GoldenMasterExample" target="_blank" rel="noopener">此处</a>找到）。我们公司开发了用于命令行的游戏，包括井字游戏（该游戏的实现从<a href="https://www.c-sharpcorner.com/UploadFile/75a48f/tic-tac-toe-game-in-C-Sharp/" target="_blank" rel="noopener">此处获取</a>），我们的老板要求我们更改游戏以提供调整游戏板尺寸的能力。让我们看一下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">namespace Tris</span><br><span class="line">&#123;</span><br><span class="line">    public class Game</span><br><span class="line">    &#123;</span><br><span class="line">        //making array and   </span><br><span class="line">        //by default I am providing 0-9 where no use of zero  </span><br><span class="line">        static char[] arr = &#123; &apos;0&apos;, &apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;4&apos;, &apos;5&apos;, &apos;6&apos;, &apos;7&apos;, &apos;8&apos;, &apos;9&apos; &#125;;</span><br><span class="line">        static int player = 1; //By default player 1 is set  </span><br><span class="line">        static int choice; //This holds the choice at which position user want to mark   </span><br><span class="line">        // The flag variable checks who has won if its value is 1 then someone has won the match if -1 then Match has Draw if 0 then match is still running  </span><br><span class="line">        static int flag = 0;</span><br><span class="line"> </span><br><span class="line">        public static void run()</span><br><span class="line">        &#123;</span><br><span class="line">            do</span><br><span class="line">            &#123;</span><br><span class="line">                Console.Clear();// whenever loop will be again start then screen will be clear  </span><br><span class="line">                Console.WriteLine(&quot;Player1:X and Player2:O&quot;);</span><br><span class="line">                Console.WriteLine(&quot;\n&quot;);</span><br><span class="line">                if (player % 2 == 0)//checking the chance of the player  </span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(&quot;Player 2 Chance&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(&quot;Player 1 Chance&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                Console.WriteLine(&quot;\n&quot;);</span><br><span class="line">                Board();// calling the board Function  </span><br><span class="line">                choice = int.Parse(Console.ReadLine());//Taking users choice   </span><br><span class="line"> </span><br><span class="line">                // checking that position where user want to run is marked (with X or O) or not  </span><br><span class="line">                if (arr[choice] != &apos;X&apos; &amp;&amp; arr[choice] != &apos;O&apos;)</span><br><span class="line">                &#123;</span><br><span class="line">                    if (player % 2 == 0) //if chance is of player 2 then mark O else mark X  </span><br><span class="line">                    &#123;</span><br><span class="line">                        arr[choice] = &apos;O&apos;;</span><br><span class="line">                        player++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    else</span><br><span class="line">                    &#123;</span><br><span class="line">                        arr[choice] = &apos;X&apos;;</span><br><span class="line">                        player++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                else //If there is any position where user wants to run and that is already marked then show message and load board again  </span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(&quot;Sorry the row &#123;0&#125; is already marked with &#123;1&#125;&quot;, choice, arr[choice]);</span><br><span class="line">                    Console.WriteLine(&quot;\n&quot;);</span><br><span class="line">                    Console.WriteLine(&quot;Please wait 2 second board is loading again.....&quot;);</span><br><span class="line">                    Thread.Sleep(2000);</span><br><span class="line">                &#125;</span><br><span class="line">                flag = CheckWin();// calling of check win  </span><br><span class="line">            &#125; while (flag != 1 &amp;&amp; flag != -1);// This loof will be run until all cell of the grid is not marked with X and O or some player is not winner </span><br><span class="line"> </span><br><span class="line">            Console.Clear();// clearing the console  </span><br><span class="line"> </span><br><span class="line">            Board();// getting filled board again  </span><br><span class="line"> </span><br><span class="line">            if (flag == 1)// if flag value is 1 then someone has win or means who played marked last time which has win  </span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;Player &#123;0&#125; has won&quot;, (player % 2) + 1);</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            else// if flag value is -1 the match will be drawn and no one is the winner  </span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;Draw&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            Console.ReadLine();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        // Board method which creats board  </span><br><span class="line">        private static void Board()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;     |     |      &quot;);</span><br><span class="line">            Console.WriteLine(&quot;  &#123;0&#125;  |  &#123;1&#125;  |  &#123;2&#125;&quot;, arr[1], arr[2], arr[3]);</span><br><span class="line">            Console.WriteLine(&quot;_____|_____|_____ &quot;);</span><br><span class="line">            Console.WriteLine(&quot;     |     |      &quot;);</span><br><span class="line">            Console.WriteLine(&quot;  &#123;0&#125;  |  &#123;1&#125;  |  &#123;2&#125;&quot;, arr[4], arr[5], arr[6]);</span><br><span class="line">            Console.WriteLine(&quot;_____|_____|_____ &quot;);</span><br><span class="line">            Console.WriteLine(&quot;     |     |      &quot;);</span><br><span class="line">            Console.WriteLine(&quot;  &#123;0&#125;  |  &#123;1&#125;  |  &#123;2&#125;&quot;, arr[7], arr[8], arr[9]);</span><br><span class="line">            Console.WriteLine(&quot;     |     |      &quot;);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        private static int CheckWin()</span><br><span class="line">        &#123;</span><br><span class="line">            #region Horzontal Winning Condtion</span><br><span class="line">            //Winning Condition For First Row   </span><br><span class="line">            if (arr[1] == arr[2] &amp;&amp; arr[2] == arr[3])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            //Winning Condition For Second Row   </span><br><span class="line">            else if (arr[4] == arr[5] &amp;&amp; arr[5] == arr[6])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            //Winning Condition For Third Row   </span><br><span class="line">            else if (arr[6] == arr[7] &amp;&amp; arr[7] == arr[8])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            #endregion</span><br><span class="line"> </span><br><span class="line">            #region vertical Winning Condtion</span><br><span class="line"> </span><br><span class="line">            //Winning Condition For First Column       </span><br><span class="line">            else if (arr[1] == arr[4] &amp;&amp; arr[4] == arr[7])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            //Winning Condition For Second Column  </span><br><span class="line">            else if (arr[2] == arr[5] &amp;&amp; arr[5] == arr[8])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            //Winning Condition For Third Column  </span><br><span class="line">            else if (arr[3] == arr[6] &amp;&amp; arr[6] == arr[9])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            #endregion</span><br><span class="line"> </span><br><span class="line">            #region Diagonal Winning Condition</span><br><span class="line">            else if (arr[1] == arr[5] &amp;&amp; arr[5] == arr[9])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            else if (arr[3] == arr[5] &amp;&amp; arr[5] == arr[7])</span><br><span class="line">            &#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            #endregion</span><br><span class="line"> </span><br><span class="line">            #region Checking For Draw</span><br><span class="line"> </span><br><span class="line">            // If all the cells or values filled with X or O then any player has won the match  </span><br><span class="line">            else if (arr[1] != &apos;1&apos; &amp;&amp; arr[2] != &apos;2&apos; &amp;&amp; arr[3] != &apos;3&apos; &amp;&amp; arr[4] != &apos;4&apos; &amp;&amp; arr[5] != &apos;5&apos; &amp;&amp; arr[6] != &apos;6&apos; &amp;&amp; arr[7] != &apos;7&apos; &amp;&amp; arr[8] != &apos;8&apos; &amp;&amp; arr[9] != &apos;9&apos;)</span><br><span class="line">            &#123;</span><br><span class="line">                return -1;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            #endregion</span><br><span class="line"> </span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                return 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>快速阅读后，代码看上去很混乱，职责没有正确分开，变量名也没有意义。</p>
+<p>经过准确的阅读后，我们可以找到游戏板，该游戏板存储在“ static char [] arr”中。向阵列添加新元素没有任何效果，因为该阵列直接在PrintBoard和CheckWin函数中访问。现在我们知道要调整游戏板的大小，必须更改大部分代码。 </p>
+<p>创建一个新项目并运行游戏：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Game.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 一旦我们印刷了棋盘，游戏就会要求用户输入。我们可以通过从文件中读取输入来实现自动化。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    private const string InputPath = &quot;input.txt&quot;;</span><br><span class="line"> </span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var input = new StreamReader(new FileStream(InputPath, FileMode.Open));</span><br><span class="line">        Console.SetIn(input);</span><br><span class="line">        Game.run();</span><br><span class="line">        input.Close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有输入的集合太大，无法使用蛮力测试。我们可以做的就是对输入进行<strong>采样</strong>。为此，我们考虑井字游戏的最终得分：</p>
+<ul>
+<li>玩家1获胜</li>
+<li>玩家2获胜</li>
+<li>绘制图形</li>
+</ul>
+<p>选择覆盖这三种情况的最低限度的测试集，在文本文件中编写路径，并在golendenMaster文件夹中收集结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    private const string InputFolderPath = &quot;input/&quot;;</span><br><span class="line">    private const string OutputFolderPath = &quot;goldenMaster/&quot;;</span><br><span class="line"> </span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        int i = 1;</span><br><span class="line">        foreach (var filePath in Directory.GetFiles(InputFolderPath)) &#123;</span><br><span class="line">            var input = new StreamReader(new FileStream(filePath, FileMode.Open));</span><br><span class="line">            var output = new StreamWriter(new FileStream(OutputFolderPath + &quot;output&quot; + i.ToString() + &quot;.txt&quot; , FileMode.CreateNew));</span><br><span class="line">            Console.SetIn(input);</span><br><span class="line">            Console.SetOut(output);</span><br><span class="line">            Game.run();</span><br><span class="line">            input.Close();</span><br><span class="line">            output.Close();</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这三个结果文件代表了我们的Golden Master，我们可以在此基础上进行一些特性测试： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[Test]</span><br><span class="line">public void WinPlayerOne()</span><br><span class="line">&#123;</span><br><span class="line">    inputPath = InputFolderPath + &quot;input1.txt&quot;;</span><br><span class="line">    outputPath = OutputFolderPath + &quot;output.txt&quot;;</span><br><span class="line">    var goldenMasterOutput = GoldenMasterOutput + &quot;output1.txt&quot;;</span><br><span class="line"> </span><br><span class="line">    var input = new StreamReader(new FileStream(inputPath, FileMode.Open));</span><br><span class="line">    var output = new StreamWriter(new FileStream(outputPath, FileMode.CreateNew));</span><br><span class="line">    Console.SetIn(input);</span><br><span class="line">    Console.SetOut(output);</span><br><span class="line"> </span><br><span class="line">    Game.run();</span><br><span class="line"> </span><br><span class="line">    input.Close();</span><br><span class="line">    output.Close();</span><br><span class="line"> </span><br><span class="line">    Assert.True(AreFileEquals(goldenMasterOutput, outputPath));</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">private bool AreFileEquals(string expectedPath, string actualPath)</span><br><span class="line">&#123;</span><br><span class="line">    byte[] bytes1 = Encoding.Convert(Encoding.ASCII, Encoding.ASCII, Encoding.ASCII.GetBytes(File.ReadAllText(expectedPath)));</span><br><span class="line">    byte[] bytes2 = Encoding.Convert(Encoding.ASCII, Encoding.ASCII, Encoding.ASCII.GetBytes(File.ReadAllText(actualPath)));</span><br><span class="line"> </span><br><span class="line">    return bytes1.SequenceEqual(bytes2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 只要测试是绿色的，我们就可以重构而不必担心破坏某些东西。一种可能的结果可能是： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static void run()</span><br><span class="line">&#123;</span><br><span class="line">    char[] board = &#123; &apos;0&apos;, &apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;4&apos;, &apos;5&apos;, &apos;6&apos;, &apos;7&apos;, &apos;8&apos;, &apos;9&apos; &#125;;</span><br><span class="line">    int actualPlayer = 1;</span><br><span class="line"> </span><br><span class="line">    while (CheckWin(board) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">        PrintPlayerChoise(actualPlayer);</span><br><span class="line">        PrintBoard(board);</span><br><span class="line">        var choice = ReadPlayerChoise();</span><br><span class="line">        if (isBoardCellAlreadyTaken(board[choice]))</span><br><span class="line">        &#123;</span><br><span class="line">            PrintCellIsAlreadyMarketMessage(board[choice], choice);</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        board[choice] = GetPlayerMarker(actualPlayer);</span><br><span class="line">        actualPlayer = UpdatePlayer(actualPlayer);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    PrintResult(board, actualPlayer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从这段代码中可以看出Board的概念及其职责。让我们尝试在新的<strong>Board</strong>类中提取行为。新Board应能够： </p>
+<ul>
+<li>印刷板</li>
+<li>标记玩家的选择 </li>
+<li>检查是否有赢家</li>
+</ul>
+<p>使用TDD（更多详情，请阅读<a href="https://www.blexin.com/en-US/Article/Blog/TDD-the-whole-code-is-guilty-until-proven-innocent-38" target="_blank" rel="noopener">这篇文章</a>）制定一个可调整大小的Board（发现测试的完整代码<a href="https://github.com/ntonjeta/GoldenMasterExample/blob/master/test/GoldenMasterExampleTest/BoardShould.cs" target="_blank" rel="noopener">在这里</a>和阶级的一个<a href="https://github.com/ntonjeta/GoldenMasterExample/blob/master/lib/Game/Board.cs" target="_blank" rel="noopener">位置</a>）。现在尝试将它们插入游戏中，并检查Golden Master是否保持绿色：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private const int Boardsize = 3;</span><br><span class="line"> </span><br><span class="line">public static void run()</span><br><span class="line">&#123;</span><br><span class="line">    Board board = new Board(Boardsize);</span><br><span class="line">    int actualPlayer = 1;</span><br><span class="line"> </span><br><span class="line">    while (board.CheckWin() == -1)</span><br><span class="line">    &#123;</span><br><span class="line">        PrintPlayerChoise(actualPlayer);</span><br><span class="line">        Console.WriteLine(board.Print());</span><br><span class="line">        var choice = ReadPlayerChoise();</span><br><span class="line">        if (!board.UpdateBoard(actualPlayer, choice))</span><br><span class="line">        &#123;</span><br><span class="line">            PrintCellIsAlreadyMarketMessage(board.GetCellValue(choice), choice);</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        actualPlayer = UpdatePlayer(actualPlayer);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    PrintResult(board, actualPlayer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 此时，我们可以恢复标准输入/标准输出并从用户那里读取电路板的尺寸： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Insert Diagonal dimension of Board: &quot;);</span><br><span class="line">        var boardSize = int.Parse(Console.ReadLine());</span><br><span class="line">        Game.run(boardSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如您所见，多亏了Golden Master Pattern，我们能够控制遗留代码并进行重构，而无需担心。但是，所有闪闪发光的东西都不是金子：在“噪声输出”的情况下使用Golden Master可能会很困难，“噪声输出”对于执行无用，但会随时间（例如时间戳记，线程名等）而变化。在这种情况下，我们可以过滤输出并仅考虑重要部分。</p>
+<p>我希望它在您下次重写旧项目时对您有用：毕竟，我们担心我们的代码失去控制！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/08/技术/编写更好的C＃代码的技巧/" rel="next" title="编写更好的C＃代码的技巧">
+                <i class="fa fa-chevron-left"></i> 编写更好的C＃代码的技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/20/技术/浅议C#客户端和服务端通信的几种方法：RestGrpc和其他技术/" rel="prev" title="浅议C#客户端和服务端通信的几种方法：Rest和GRPC">
+                浅议C#客户端和服务端通信的几种方法：Rest和GRPC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Golden-Master-Pattern-：一种在-NET-Core中重构遗留代码的利器"><span class="nav-number">1.</span> <span class="nav-text">Golden Master Pattern ：一种在.NET Core中重构遗留代码的利器</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

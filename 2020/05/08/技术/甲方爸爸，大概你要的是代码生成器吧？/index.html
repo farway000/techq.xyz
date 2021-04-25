@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="甲方爸爸，大概你要的是代码生成器吧？一1）有一天，我的朋友Y童鞋分享了他正在做的一个内部开源项目，这个开源项目从外表上看，跟目前市场上那些代码生成器本没有特别大的区别，所以我兴趣并不大。 在他给我介绍了一下具体需求之后，我才体会了他的意思，并提起了那么一丢丢兴趣。。 毕竟，听起来有点“鬼扯”，为啥？因为，他居然试图依靠这个项目来生成”单元测试“。。。。 他：定义好数据库表和结构，然后就生成逻辑方法">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="甲方爸爸，大概你要的是代码生成器吧？">
+<meta property="og:url" content="http://techq.xyz/2020/05/08/技术/甲方爸爸，大概你要的是代码生成器吧？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="甲方爸爸，大概你要的是代码生成器吧？一1）有一天，我的朋友Y童鞋分享了他正在做的一个内部开源项目，这个开源项目从外表上看，跟目前市场上那些代码生成器本没有特别大的区别，所以我兴趣并不大。 在他给我介绍了一下具体需求之后，我才体会了他的意思，并提起了那么一丢丢兴趣。。 毕竟，听起来有点“鬼扯”，为啥？因为，他居然试图依靠这个项目来生成”单元测试“。。。。 他：定义好数据库表和结构，然后就生成逻辑方法">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="甲方爸爸，大概你要的是代码生成器吧？">
+<meta name="twitter:description" content="甲方爸爸，大概你要的是代码生成器吧？一1）有一天，我的朋友Y童鞋分享了他正在做的一个内部开源项目，这个开源项目从外表上看，跟目前市场上那些代码生成器本没有特别大的区别，所以我兴趣并不大。 在他给我介绍了一下具体需求之后，我才体会了他的意思，并提起了那么一丢丢兴趣。。 毕竟，听起来有点“鬼扯”，为啥？因为，他居然试图依靠这个项目来生成”单元测试“。。。。 他：定义好数据库表和结构，然后就生成逻辑方法">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/08/技术/甲方爸爸，大概你要的是代码生成器吧？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>甲方爸爸，大概你要的是代码生成器吧？ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/08/技术/甲方爸爸，大概你要的是代码生成器吧？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">甲方爸爸，大概你要的是代码生成器吧？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-08 19:49:00" itemprop="dateCreated datePublished" datetime="2020-05-08T19:49:00+00:00">2020-05-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="甲方爸爸，大概你要的是代码生成器吧？"><a href="#甲方爸爸，大概你要的是代码生成器吧？" class="headerlink" title="甲方爸爸，大概你要的是代码生成器吧？"></a>甲方爸爸，大概你要的是代码生成器吧？</h1><h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><h3 id="1）"><a href="#1）" class="headerlink" title="1）"></a>1）</h3><p>有一天，我的朋友Y童鞋分享了他正在做的一个内部开源项目，这个开源项目从外表上看，跟目前市场上那些代码生成器本没有特别大的区别，所以我兴趣并不大。</p>
+<p>在他给我介绍了一下具体需求之后，我才体会了他的意思，并提起了那么一丢丢兴趣。。</p>
+<p>毕竟，听起来有点“鬼扯”，为啥？因为，他居然试图依靠这个项目来生成”单元测试“。。。。</p>
+<p>他：定义好数据库表和结构，然后就生成逻辑方法和代码、以及界面，还同时把“单元测试”代码给生成了，免得程序员要花时间去思考代码逻辑之余，还要想怎么写出可测试代码。</p>
+<p>我：这样生成的代码还有灵魂么。。</p>
+<p>他：有啊，编写高可测试代码，不就是我辈中人，这些有追求的码农应该实现的目标么？</p>
+<p>我：这种模式怎么越看越像埃里克埃文斯大佬说的“Smart UI”模式啊。。</p>
+<p>他：你倒这么说，也有那么一点点像。</p>
+<h3 id="2）"><a href="#2）" class="headerlink" title="2）"></a>2）</h3><p>我：当然，能够生成单元测试倒也可以。毕竟大部分单元测试看起来似乎是一模一样的。无外乎就是“ Arrange\Act\Assert”，AAA操作猛如虎，测试代码一把梭。</p>
+<p>他：我这个东西，生成的代码，除了看起来提高了单元测试覆盖率之外，其实，并不能提高代码的质量。</p>
+<p>我：是什么逼得你要花时间去开发这样的代码生成器呢？</p>
+<p>他：还不是被这班菜鸡开发者们产出的劣质产品闹腾的。我不是想着省测试的钱，又能提高产品的质量么？就自然而然只能靠压榨“程序员”来实现了。但是让我来对这么多人的代码进行审查，还是太难了。这不，用单元测试来操作，不就可以了？</p>
+<h3 id="3）"><a href="#3）" class="headerlink" title="3）"></a>3）</h3><p>我： 你们太难了。为啥这么赶啊？</p>
+<p>他：这不是甲方爸爸要加需求，他说得倒是好：加需求也就几行代码，多简单。但是我们这边，就得忙翻天，太特么累了。</p>
+<p>我：那能不能多招几个测试？</p>
+<p>他：端到端测试，只是看起来将缺陷扼杀在摇篮而已，实际上。。隐藏在冰山下的缺陷呢。。客户就是小白鼠啊。再说，我们现在家业太小，测试有两个了，再招就请不起了。。功能是不能少的，bug是不能多的，我只能想想单元测试这种办法了。</p>
+<p>我：好吧。。我们也一样。。</p>
+<h2 id="二"><a href="#二" class="headerlink" title="二"></a>二</h2><h3 id="1）-1"><a href="#1）-1" class="headerlink" title="1）"></a>1）</h3><p> 之前有个朋友老张介绍了一个故事，仿佛跟这个有点类似。他有幸参与了一个交通信息化的项目，这个项目的业主是国企单位，属于“体制内”的企业。</p>
+<p>在过去一波有一波的信息化发展过程中，这些体制内的企业仿佛成为了许多IT企业竞相薅羊毛的对象。为啥，国企项目多、钱也不少，关键是国企对软件质量要求不高啊。</p>
+<p> 许多企业借助国企项目，他们依托所谓“快速上线”的神器，将中华民族艰苦奋斗的精神发挥到了极致，公司能够在最短的时间内，将原本停留在脑海里的软件，快速的转化成为实现，并部署到甲方爸爸的现场环境中。</p>
+<p>至于软件的质量、软件的工程化水平，对不起，不重要？用户体验？性能？功能可用性？重要么，不重要。先快速上线回款再说。于是，这些企业获得了业绩的腾飞，老板们赚得盆满簸赢，好不自在。</p>
+<p>而且老板们还会吹：我们公司最大的优点，就是在逆境下生存的能力，能够在最短的时间消化需求，做出最符合客户需求的软件。</p>
+<p>好吧，仿佛这也是软件工程的一种方向？快速开发。。。。</p>
+<h3 id="2）-1"><a href="#2）-1" class="headerlink" title="2）"></a>2）</h3><p>然后，有那么几年，市场突然间就“做烂“了。一方面，国家将投资方向重点放在了房地产领域，对信息化的投入也逐渐收紧了许多；另外一方面，企业过去匆忙上线了太多的软件系统，不同软件系统之间的对接沟通困难，操作过程缺乏连贯性，使得基层员工开始抗拒这些”看似“能够带来效率提升，却容易出现各种质量问题导致自己过去几天工作量返工的所谓”信息化“系统；另外，大家也都很清楚，效率提升其实带来的是”裁员“，首先被裁的…</p>
+<p>总之，有那么一段时间，国企对信息化是“弃若敝屣”的。</p>
+<h2 id="三"><a href="#三" class="headerlink" title="三"></a>三</h2><h3 id="1）-2"><a href="#1）-2" class="headerlink" title="1）"></a>1）</h3><p>但，随着“互联网”和“共享出行”的兴起，又让这个概念重新热炒了起来。</p>
+<p>老张他们公司也有幸接到了一个这样的项目，公司还是一家非常大的出租车公司，拥有二十多家子公司，员工超过2万人。这个项目的目的是打通出租车和旅客的关系，借助于手机实现快速出行，同时打通企业内部信息孤岛，让总公司领导能够第一时间看到各种数据的流转情况，为建立科学决策提供依据。</p>
+<p>老张被选为这个项目的负责人。在项目启动会上，他意气风发，向业主和公司老板们保证，将带领公司团队与甲方团队一起，以饱满的姿态打响这场战役，为业主的业绩腾飞贡献自己的一份力量。</p>
+<p>然而，但项目启动后，他才深刻的明白这究竟是一个怎样的坑。</p>
+<h3 id="2）-2"><a href="#2）-2" class="headerlink" title="2）"></a>2）</h3><p>首先是业主关系，由于业主是一家涉及大几万员工和二十几家子公司的大型集团公司，需要梳理的业务表单非常复杂，业务流程和体系，远比甲方爸爸预想的要复杂得多。</p>
+<p>其次是开发周期短，不知从何时起，国企对于软件系统的印象就是“简单、容易、很快就能实现”，仿佛一个需求只要说出来，这般不要命的程序员们就能很快的实现功能。当老张跟他们提到需求太多，根本做不完时，甲方爸爸甚至说：怎么可能有做不出来的软件系统，是不是你能力不行？</p>
+<p>再次是外部系统多，由于不同的子公司往往采购了不同的系统，要统一对接到一个系统 。</p>
+<p>还有就是涉及的技术点多，需要在许多领域进行专门的技术攻关，由于公司暂时缺乏相关资源，使得开发过程屡屡收到阻塞。</p>
+<h3 id="2）-3"><a href="#2）-3" class="headerlink" title="2）"></a>2）</h3><p>经过长达几个月的需求调研，老张编写了一份超过一千页纸的需求规格说明书，并获得了业主的批准，但项目正式开始时，他却只获得了短短半年的开发周期。此时，他手上能够调动的开发者资源，才不过10余人。</p>
+<p>为了干完这个项目，他和项目团队的成员不得不牺牲周末和假期，辛苦坚持了半年，才把项目功能都开发完，但在项目实施环节时，由于子公司与总公司的意见不统一，根本用不起来。</p>
+<p>最终，项目崩盘，公司倒闭，甲方将近一年的投入近乎白费。老张和项目团队也白白辛苦了大半年，还得去劳动仲裁，找老板讨薪。</p>
+<p>回顾这段时光时，老张说了一段话：</p>
+<p>“企业信息服务化的项目，看起来合同工价很高，其实都是坑啊。有的业主，根本不懂什么叫“合适的软件”。</p>
+<p>在互联网如此发展的今天，这些业主，要的还是“快速开发”。但凡想到什么就往里面加，程序员不猝死太难了。许多需求今天提，明天就要，但是用了一次呢这些功能就不用了，我根本不知道这些软件，干出来有什么意义。</p>
+<p>千万别跟业主提敏捷，他们会在你的每个迭代中塞根本干不完的工作量；也不要提拥抱变化，他们变起脸来，自己都怕。”</p>
+<h2 id="四"><a href="#四" class="headerlink" title="四"></a>四</h2><p>仔细想想，许多传统企业领导想转型到互联网，不就是这样么，恨不能一天就把项目干完，干完项目就“升官发财”，至于项目能不能用，谁知道呢。。</p>
+<p>也许，他们要的并不是软件，而是一种“代码生成器”。嗯，输入“甲方爸爸的一万种需求”，输出“一个功能齐全、包容万物、自由变化的软件”。。</p>
+<p>作为有追求的码农们，我们能像Robert大叔在《代码整洁之道-程序员的自我修养》一书中写的方法：选择“拒绝”么。</p>
+<p>额。。生存要紧。。偶尔吐吐槽，饭还是得恰啊。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/03/技术/提升WebAPI性能的几个小建议/" rel="next" title="提升WebAPI性能的几个小建议">
+                <i class="fa fa-chevron-left"></i> 提升WebAPI性能的几个小建议
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/12/技术/最佳REST API最佳做法/" rel="prev" title="使用REST API 最佳实践简述">
+                使用REST API 最佳实践简述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#甲方爸爸，大概你要的是代码生成器吧？"><span class="nav-number">1.</span> <span class="nav-text">甲方爸爸，大概你要的是代码生成器吧？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一"><span class="nav-number">2.</span> <span class="nav-text">一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）"><span class="nav-number">2.0.1.</span> <span class="nav-text">1）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）"><span class="nav-number">2.0.2.</span> <span class="nav-text">2）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3）"><span class="nav-number">2.0.3.</span> <span class="nav-text">3）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二"><span class="nav-number">2.1.</span> <span class="nav-text">二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">1）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">2）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三"><span class="nav-number">2.2.</span> <span class="nav-text">三</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）-2"><span class="nav-number">2.2.1.</span> <span class="nav-text">1）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）-2"><span class="nav-number">2.2.2.</span> <span class="nav-text">2）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）-3"><span class="nav-number">2.2.3.</span> <span class="nav-text">2）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四"><span class="nav-number">2.3.</span> <span class="nav-text">四</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

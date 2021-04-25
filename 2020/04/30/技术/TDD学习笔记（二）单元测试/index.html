@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="单元测试定义单元测试最早来源于Kent Beck，他在开发SmallTalk中引入了这个概念，随着软件工程学的不断发展，使得单元测试已经成为软件编程中一项非常有用的实践。 在维基百科中，“单元测试”是这样定义的：  一个单元测试是一段代码（通常是一个方法），这段代码调用另一段代码，然后检验某些假设的正确性。如果这些假设是错误的，单元测试就失败了。一个单元可以是一个方法或一个函数。    而《单元测">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".TDD学习笔记（二）单元测试">
+<meta property="og:url" content="http://techq.xyz/2020/04/30/技术/TDD学习笔记（二）单元测试/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="单元测试定义单元测试最早来源于Kent Beck，他在开发SmallTalk中引入了这个概念，随着软件工程学的不断发展，使得单元测试已经成为软件编程中一项非常有用的实践。 在维基百科中，“单元测试”是这样定义的：  一个单元测试是一段代码（通常是一个方法），这段代码调用另一段代码，然后检验某些假设的正确性。如果这些假设是错误的，单元测试就失败了。一个单元可以是一个方法或一个函数。    而《单元测">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/9bhjo93eYX4y1Mbt.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/OLf5e8HV6yUrw7uC.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/X7xnMFmBKoQQXb7C.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=".TDD学习笔记（二）单元测试">
+<meta name="twitter:description" content="单元测试定义单元测试最早来源于Kent Beck，他在开发SmallTalk中引入了这个概念，随着软件工程学的不断发展，使得单元测试已经成为软件编程中一项非常有用的实践。 在维基百科中，“单元测试”是这样定义的：  一个单元测试是一段代码（通常是一个方法），这段代码调用另一段代码，然后检验某些假设的正确性。如果这些假设是错误的，单元测试就失败了。一个单元可以是一个方法或一个函数。    而《单元测">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/9bhjo93eYX4y1Mbt.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/30/技术/TDD学习笔记（二）单元测试/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>.TDD学习笔记（二）单元测试 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/30/技术/TDD学习笔记（二）单元测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">.TDD学习笔记（二）单元测试
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-30 19:07:00" itemprop="dateCreated datePublished" datetime="2020-04-30T19:07:00+00:00">2020-04-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>单元测试最早来源于Kent Beck，他在开发SmallTalk中引入了这个概念，随着软件工程学的不断发展，使得单元测试已经成为软件编程中一项非常有用的实践。</p>
+<p>在维基百科中，“单元测试”是这样定义的：</p>
+<blockquote>
+<p>一个单元测试是一段代码（通常是一个方法），这段代码调用另一段代码，然后检验某些假设的正确性。如果这些假设是错误的，单元测试就失败了。一个单元可以是一个方法或一个函数。</p>
+</blockquote>
+<p>  而《单元测试的艺术》作者Roy Osherove则认为，一个单元不仅仅是一个方法，也有可能是包括实现某个功能的多个类和函数。</p>
+<h2 id="什么是好的单元测试"><a href="#什么是好的单元测试" class="headerlink" title="什么是好的单元测试"></a>什么是好的单元测试</h2><p>Roy Osherove同时也认为，一个单元测试应该具备以下特征：</p>
+<ol>
+<li>它应该是自动化的，可重复执行。</li>
+<li>它应该很容易实现；</li>
+<li>它应该第二天还有意义；</li>
+<li>任何人都应该能一键运行它；</li>
+<li>它应该运行很快；</li>
+<li>它的结果应该是稳定的（如果运行之间没有进行修改的话，多次运行一个测试应该总是能够返回同样的结果）</li>
+<li>它应该能完全控制被测试的单元；</li>
+<li>它应该是完全隔离的（独立于其他测试的运行）；</li>
+<li>如果它失败了，我们应该很容易发现什么是期待的结果，进而定位问题所在。<h1 id="几种概念"><a href="#几种概念" class="headerlink" title="几种概念"></a>几种概念</h1>在<a href="https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da" target="_blank" rel="noopener">这篇博客</a>中，作者对Fake、Mock、Stub进行了对比。</li>
+</ol>
+<h2 id="Fakes（伪造）"><a href="#Fakes（伪造）" class="headerlink" title="Fakes（伪造）"></a>Fakes（伪造）</h2><p><img src="https://uploader.shimo.im/f/9bhjo93eYX4y1Mbt.png!thumbnail" alt="图片"></p>
+<p>Fake创建的对象，看似跟原对象一致，但是简化了原来对象的某些行为，使得我们在进行代码过程中，无需通过启动数据库或其他外部组件，即可对服务进行集成测试。</p>
+<h2 id="Mock（模拟）"><a href="#Mock（模拟）" class="headerlink" title="Mock（模拟）"></a>Mock（模拟）</h2><p><img src="https://uploader.shimo.im/f/OLf5e8HV6yUrw7uC.png!thumbnail" alt="图片"></p>
+<p>mock是在调用方法中，注入“模拟”的完整的被调用者对象，并在Test方法中，通过注入的这个模拟对象来执行对应的操作。</p>
+<h2 id="Stub（打桩）"><a href="#Stub（打桩）" class="headerlink" title="Stub（打桩）"></a>Stub（打桩）</h2><p><img src="https://uploader.shimo.im/f/X7xnMFmBKoQQXb7C.png!thumbnail" alt="图片"></p>
+<p>存根是预先定义一个方法的返回值，以便我们在调用该方法时，返回存根对象，这样使我们的代码不会以不改变原方法、或对原方法产生副作用的情况下，实现某方法。</p>
+<h2 id="横切关注点"><a href="#横切关注点" class="headerlink" title="横切关注点"></a>横切关注点</h2><blockquote>
+<p>部分关注点「横切」程序代码中的数个模块，即在多个模块中都有出现，它们即被称作「横切关注点（Cross-cutting concerns, Horizontal concerns）」。</p>
+</blockquote>
+<p>横切关注点也是面向对象编程中的概念，我们通俗意义上理解的AOP框架，可以理解为解决横切关注点问题的一种框架。</p>
+<p>日志、异常处理、服务调用、方法调用链路都是大家会遇到的一类关注点问题，而而在《单元测试的艺术》这本书中，作者也指出“时间”（DateTime）也同样是一种问题。例如，如果我们在代码中普遍使用了系统默认的DateTime.Now，那么假设我们要测试代码在元旦和非元旦日期中的不同行为时，是不是手动把系统时间修改为指定的时间？这显然是的代码不利于维护，也不利于代码的可测试性。</p>
+<p>通过定义了一个SystemTime 对象来解决这个问题，确实是一种非常不错的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> [TestFixture]</span><br><span class="line">    public class TimeLoggerTests</span><br><span class="line">    &#123;</span><br><span class="line">        [Test]</span><br><span class="line">        public void SettingingSystemTime_Always_ChangesTime()</span><br><span class="line">        &#123;</span><br><span class="line">            SystemTime.Set(new DateTime(2000, 1, 1));</span><br><span class="line">            string output = TimeLogger.CreateMessage(&quot;a&quot;);</span><br><span class="line">            StringAssert.Contains(&quot;01.01.2000&quot;, output);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> public class SystemTime</span><br><span class="line">    &#123;</span><br><span class="line">        private static DateTime _dateTime;</span><br><span class="line">        public static void Set(DateTime custom)</span><br><span class="line">        &#123;</span><br><span class="line">            _dateTime = custom;</span><br><span class="line">        &#125;</span><br><span class="line">        public static void Reset()</span><br><span class="line">        &#123;</span><br><span class="line">            _dateTime = DateTime.MinValue;</span><br><span class="line">        &#125;</span><br><span class="line">        public static DateTime Now</span><br><span class="line">        &#123;</span><br><span class="line">            get</span><br><span class="line">            &#123;</span><br><span class="line">                if (_dateTime != DateTime.MinValue)</span><br><span class="line">                &#123;</span><br><span class="line">                    return _dateTime;</span><br><span class="line">                &#125;</span><br><span class="line">                return DateTime.Now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="测试框架"><a href="#测试框架" class="headerlink" title="测试框架"></a>测试框架</h1><p>测试框架是用来辅助开发者进行单元测试的代码库。在.NET开发环境下，我们常见的的测试框架可以分成以下两种类型：</p>
+<h2 id="单元测试框架"><a href="#单元测试框架" class="headerlink" title="单元测试框架"></a>单元测试框架</h2><p>单元测试框架框架是帮助开发者进行单元测试的代码库和模块，它也可以作为自动编译过程的一个步骤运行测试。单元测试的框架<a href="https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks" target="_blank" rel="noopener">如此之多</a>，而在.NET中，常见的主要包括这几种：</p>
+<p>1、MSTest:这是Visual Studio中最常见的测试框架，在除Visual Studio2019以前的版本中，创建的单元测试项目自带的就是这种测试框架。</p>
+<p>2、XUnit:XUnit是一个大家族，在Java、.NET、等多种技术语言下都有XUnit的身影。</p>
+<p>3、NUnit:在许多介绍单元测试的书籍中，都会采用NUnit作为示例，在本文中，也主要介绍这种框架。</p>
+<h2 id="隔离（模拟）框架"><a href="#隔离（模拟）框架" class="headerlink" title="隔离（模拟）框架"></a>隔离（模拟）框架</h2><p>隔离（模拟）是一种可编程的API，使用这种API可以使得创建为对象比手工编写简便、快速和容易。常见的隔离（模拟）框架包括以下几种：</p>
+<p>1、Moq：在.NET中常见的Mock框架。</p>
+<p>2、NSubstitute：在《单元测试的艺术》一书中，作者Roy Osherove着重介绍过这种测试隔离框架，也经常和Moq框架一起进行<a href="https://itenium.be/blog/dotnet/nsubstitute-vs-moq/" target="_blank" rel="noopener">比较</a>。</p>
+<p>3、Microsoft Fakes:也是一种模拟框架，经常被用于和上述模拟框架<a href="https://saucelabs.com/blog/mock-frameworks-vs-microsoft-fakes" target="_blank" rel="noopener">对比</a>。</p>
+<p>4、FakeItEasy、EasyMoq、JustMock框架：其他模拟框架。 </p>
+<h1 id="编写良好测试代码中常见的问题"><a href="#编写良好测试代码中常见的问题" class="headerlink" title="编写良好测试代码中常见的问题"></a>编写良好测试代码中常见的问题</h1><h2 id="如何给测试方法命名"><a href="#如何给测试方法命名" class="headerlink" title="如何给测试方法命名"></a>如何给测试方法命名</h2><p>方法的命名一直是困扰开发者的难题，尤其是单元测试方法。我们该如何给单元测试方法命名呢？目前我了解到两种不同的命名方法：</p>
+<p>假设，现有一个新增方法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public int Add(int x,int y)</span><br></pre></td></tr></table></figure>
+
+<p>一种是Should开头的单元测试命名方法，可以命名为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Should_Returns_Sum_When_Add_Numbers();</span><br></pre></td></tr></table></figure>
+
+<p>另外一种是在《单元测试的艺术》这本书中作者用到的命名方法，作者将单元测试命名为三个部分，分别为：被测试方法名，测试场景，预期行为，将三个部分用下划线“_”分开，例如MethodUnderTest_Scenario_Behavior()。按照这个命名方法，上述方法可以被命名为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add_Nums_Returns_ResultsOfInteger();</span><br></pre></td></tr></table></figure>
+
+<h2 id="静态类或单例如何进行单元测试"><a href="#静态类或单例如何进行单元测试" class="headerlink" title="静态类或单例如何进行单元测试"></a>静态类或单例如何进行单元测试</h2><h3 id="静态类"><a href="#静态类" class="headerlink" title="静态类"></a>静态类</h3><p>在.NET Framework中经常互相静态类和静态对象，这无形中给我们的单元测试过程带来了不少困扰。我们可以采取以下方式对这些静态类进行测试。</p>
+<p>1、静态类应该只限于静态的方法，例如像StringExtension这样的扩展方法，这种方式是可以直接进行测试的。</p>
+<p>2、对于历史代码中为包含不少静态成员的“静态”对象，应该将其改成有IoC框架注入的单例对象，这样就能使用mock的方式进行单元测试。</p>
+<p>3、对于无法修改的静态对象，我们可以考虑将其隔离。</p>
+<h3 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h3><p>而对于单例代码，则可以采用将单例逻辑和单例持有者分开的方式，让代码更易于测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class MySingleton</span><br><span class="line">&#123;</span><br><span class="line">       private static MySingleton _instance;</span><br><span class="line">       public static MySingleton Instance</span><br><span class="line">       &#123;</span><br><span class="line">           get</span><br><span class="line">           &#123;</span><br><span class="line">               if (_instance == null)</span><br><span class="line">               &#123;</span><br><span class="line">                   _instance = new MySingleton();</span><br><span class="line">               &#125;</span><br><span class="line">               return _instance;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       public void Foo()</span><br><span class="line">       &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> public class MySingletonLogic</span><br><span class="line">    &#123; </span><br><span class="line">        public void Foo()</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public class MySingletonHolder</span><br><span class="line">    &#123;</span><br><span class="line">        private static MySingletonLogic _instance;</span><br><span class="line">        public static MySingletonLogic Instance</span><br><span class="line">        &#123;</span><br><span class="line">            get</span><br><span class="line">            &#123;</span><br><span class="line">                if (_instance == null)</span><br><span class="line">                &#123;</span><br><span class="line">                    _instance = new MySingletonLogic();</span><br><span class="line">                &#125;</span><br><span class="line">                return _instance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式的改造，使得我们能够非常方便的对Foo方法进行测试了。</p>
+<h3 id="何时开始进行单元测试？"><a href="#何时开始进行单元测试？" class="headerlink" title="何时开始进行单元测试？"></a>何时开始进行单元测试？</h3><p>最好的时机就是当下，当你需要键入一行逻辑代码时，先写一个测试方法，按照TDD的流程进行开发，将有利于你的代码开发过程处于“自信满满”的状态，而且还能减少代码调试的时间，进而提高代码开发的效率。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/30/技术/什么是TDD（一）/" rel="next" title=".TDD学习笔记（一）单元测试">
+                <i class="fa fa-chevron-left"></i> .TDD学习笔记（一）单元测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/03/技术/提升WebAPI性能的几个小建议/" rel="prev" title="提升WebAPI性能的几个小建议">
+                提升WebAPI性能的几个小建议 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单元测试"><span class="nav-number">1.</span> <span class="nav-text">单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是好的单元测试"><span class="nav-number">1.2.</span> <span class="nav-text">什么是好的单元测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种概念"><span class="nav-number">2.</span> <span class="nav-text">几种概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Fakes（伪造）"><span class="nav-number">2.1.</span> <span class="nav-text">Fakes（伪造）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mock（模拟）"><span class="nav-number">2.2.</span> <span class="nav-text">Mock（模拟）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stub（打桩）"><span class="nav-number">2.3.</span> <span class="nav-text">Stub（打桩）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#横切关注点"><span class="nav-number">2.4.</span> <span class="nav-text">横切关注点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试框架"><span class="nav-number">3.</span> <span class="nav-text">测试框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试框架"><span class="nav-number">3.1.</span> <span class="nav-text">单元测试框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离（模拟）框架"><span class="nav-number">3.2.</span> <span class="nav-text">隔离（模拟）框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写良好测试代码中常见的问题"><span class="nav-number">4.</span> <span class="nav-text">编写良好测试代码中常见的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何给测试方法命名"><span class="nav-number">4.1.</span> <span class="nav-text">如何给测试方法命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态类或单例如何进行单元测试"><span class="nav-number">4.2.</span> <span class="nav-text">静态类或单例如何进行单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态类"><span class="nav-number">4.2.1.</span> <span class="nav-text">静态类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例"><span class="nav-number">4.2.2.</span> <span class="nav-text">单例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时开始进行单元测试？"><span class="nav-number">4.2.3.</span> <span class="nav-text">何时开始进行单元测试？</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

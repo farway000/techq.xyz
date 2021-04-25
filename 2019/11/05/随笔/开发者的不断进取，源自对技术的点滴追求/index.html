@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="身边的优秀开发者，【DotNET骚操作】周杰一，社区的小圈子今年3月的一次技术交流活动上，那是我们.NET技术社区第一次组织线下活动，由于没什么经验，所以活动组织得比较仓促，内容也比较一般，效果还是有点欠缺。当然，活动本身是必要的，这次活动上有幸认识了许多长沙的优秀开发者，这让我非常的高兴。 事实上搞技术活动，与其说是交流技术，倒不如说是扩大圈子，交流感情，认识更多的朋友。毕竟每个职场人往往圈子都">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发者的不断进取，源自对技术的点滴追求">
+<meta property="og:url" content="http://techq.xyz/2019/11/05/随笔/开发者的不断进取，源自对技术的点滴追求/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="身边的优秀开发者，【DotNET骚操作】周杰一，社区的小圈子今年3月的一次技术交流活动上，那是我们.NET技术社区第一次组织线下活动，由于没什么经验，所以活动组织得比较仓促，内容也比较一般，效果还是有点欠缺。当然，活动本身是必要的，这次活动上有幸认识了许多长沙的优秀开发者，这让我非常的高兴。 事实上搞技术活动，与其说是交流技术，倒不如说是扩大圈子，交流感情，认识更多的朋友。毕竟每个职场人往往圈子都">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/image.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/person.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/qrcode.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发者的不断进取，源自对技术的点滴追求">
+<meta name="twitter:description" content="身边的优秀开发者，【DotNET骚操作】周杰一，社区的小圈子今年3月的一次技术交流活动上，那是我们.NET技术社区第一次组织线下活动，由于没什么经验，所以活动组织得比较仓促，内容也比较一般，效果还是有点欠缺。当然，活动本身是必要的，这次活动上有幸认识了许多长沙的优秀开发者，这让我非常的高兴。 事实上搞技术活动，与其说是交流技术，倒不如说是扩大圈子，交流感情，认识更多的朋友。毕竟每个职场人往往圈子都">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/image.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/11/05/随笔/开发者的不断进取，源自对技术的点滴追求/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>开发者的不断进取，源自对技术的点滴追求 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/11/05/随笔/开发者的不断进取，源自对技术的点滴追求/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">开发者的不断进取，源自对技术的点滴追求
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-05 16:28:00" itemprop="dateCreated datePublished" datetime="2019-11-05T16:28:00+00:00">2019-11-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="身边的优秀开发者，【DotNET骚操作】周杰"><a href="#身边的优秀开发者，【DotNET骚操作】周杰" class="headerlink" title="身边的优秀开发者，【DotNET骚操作】周杰"></a>身边的优秀开发者，【DotNET骚操作】周杰</h1><h1 id="一，社区的小圈子"><a href="#一，社区的小圈子" class="headerlink" title="一，社区的小圈子"></a>一，社区的小圈子</h1><p>今年3月的一次技术交流活动上，那是我们.NET技术社区第一次组织线下活动，由于没什么经验，所以活动组织得比较仓促，内容也比较一般，效果还是有点欠缺。当然，活动本身是必要的，这次活动上有幸认识了许多长沙的优秀开发者，这让我非常的高兴。</p>
+<p>事实上搞技术活动，与其说是交流技术，倒不如说是扩大圈子，交流感情，认识更多的朋友。毕竟每个职场人往往圈子都是固定的，哪怕是在大公司，真正经常来往的朋友其实也不过三两人而已。但是在北上广深的大城市，往往有时候刚刚认识几个朋友，对方可能就离开了，这也是一种遗憾。相对而言，在小城市或许也相对容易形成更加稳定的精准小圈子，这也是我认为一个社区存在的最大价值。</p>
+<p>小城市的职业发展方向大概都是一样的，从入门级小程序员出发，然后到高级程序员，再到项目经理，然后逐渐脱离技术的主航道，直到被技术抛弃。有朋友戏谑道，长沙的程序员大概率都是一样的，靠经验的简单复制、依靠人际关系技巧或者靠资历，而真正钻研技术的非常少。</p>
+<p>哪怕有许多开发者得以突破转到了项目管理或其他方向，也很难能够在专业领域能够进一步的发展。毕竟首先企业大环境决定了个人的职业选择，其次就是很少有开发者能够明白的看清自己的职业发展规划，为了钱而生存无可厚非，然后整个职业生涯都迷迷茫茫，只能导致最终到了一定的年纪，就开始原地踏步了。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/image.png" alt="别瞎迷茫了"></p>
+<h1 id="二、周杰的成长历程"><a href="#二、周杰的成长历程" class="headerlink" title="二、周杰的成长历程"></a>二、周杰的成长历程</h1><p>而公众号DotNet骚操作的作者周杰则是小城市中少有的对技术始终保持热心的优秀开发者。周杰也是参加了我们第一次活动的三十位开发者中的一位。</p>
+<p>事实上很多年前（三年前）我就对他的名字有所耳闻，我的好几个朋友都说他的生活除了工作，家庭，剩下的就都是技术，是一个不折不扣的.NET技术狂。</p>
+<p>不过由于当时我主要是沉浸于小行业应用的泥坑之中，还不能体会.NET技术作为基础技术的巨大价值，自然而然相对来说比较无感。直到从泥坑中出来才能深深体会到技术的无穷魅力，也才真正理解在长沙这座城市，能够踏踏实实的以.NET技术作为自己的核心竞争力的开发者是何其的珍贵。</p>
+<p>当时的他的公众号【DotNet骚操作】还没开，以前他经常做开源项目。与许多内地城市的开源项目参与者热衷于刷开源项目，以fork了哪些项目贡献了多少文档的形式相比，他更倾向于自己造轮子。在他的github仓库（<a href="https://github.com/sdcb" target="_blank" rel="noopener">https://github.com/sdcb</a>）中还有许多各种各样的开源项目，这些都是他一点一滴的积累，几乎每个方法都会认真考虑代码背后的实现逻辑和性能优化，这些小巧玲珑、性能完美、代码整洁的小轮子，既让他在技能方面得到了积累，更是让其他人能从中获益。</p>
+<p>当时他还很少写博客，我就撺掇他写博客，他也说干就干，很快就写完一篇，那篇文章的具体内容我不太记得了，我只记得他对于技术问题的专注和专业，令我非常钦佩。</p>
+<p>这个时候就体现了他过去那么多年积累的价值，一旦开始写博客，就产量特别高。到现在短短五个月时间已经写了二十篇，而且素材越写越多，质量也越来越好，几乎每一篇都会成为博客园的推荐文章。他立下了一个flag，要写五十篇精品博客，让大家看到DotNet技术的美妙与精彩。</p>
+<p>我们偶尔会讨论.NET开发者的焦虑，许多.NET开发者都以自己选择了.NET为耻，总觉得是这个技术让自己的路越走越窄，经常在各种技术群里吐槽，说自己人生最大的错误就是选择了.Net。</p>
+<p>我们都对这种人觉得惋惜。他说，程序员只有因为自己没能努力学习而感到焦虑，真正掌握了一种开发技术，一定也能适应其他语言和技术。优秀开发者根本没时间焦虑，毕竟要学习的技能点随着年龄的增长越来越多，恨不能每天有48个小时来学习技术，哪里还有其他闲心去思考工作，家庭，技术之外的其他事情？只要自己技术过硬，哪里还需要担心什么未来前途不保？</p>
+<p>我们也经常讨论招人难的问题。尤其是对于基于.NET技术栈的企业来说，都遇到了这样的问题。一方面，确实越来越少的开发者使用.NET技术栈，一方面许多使用.NET技术栈的开发者都在从事边缘业务的开发者，很难触及底层技术或核心的技术。这并非企业行为，而是兴趣爱好驱动的。</p>
+<p>也必须承认，过去十年借助于互联网取得财富自由的.NET开发者几乎非常罕见，许多以前致力于研究.NET技术的开发者的出路都只能选择出国。这样的前提让功利的中国社会，越来越少人选择.NET技术。但是这也是.NET开发者最大的机会，好好学习技术、努力跳出自己的圈子，看看世界，选择将让你成长。</p>
+<p>我深以为然。程序员，不仅仅是.NET程序员或java程序员，能够用心学好技术，努力提高自己的技能，并时刻保持学习的精神，才是程序员的最大的价值。</p>
+<p>周杰正是按照这样的节奏在坚持自己的方向，他深刻的明白贪多嚼不烂的道理、没有追求一蹴而就，而是一步一个脚印，每一步都踏得严严实实。这种严于律己的优秀开发者的自我进取，也正是开发者所应该具备的自我刷新的精神。</p>
+<p>他使我明白，无论是什么岗位，在什么环境下，都应该清楚自己的职业发展方向，并努力提高自己的硬技能和软实力，这是开发者得以利足于时代永不淘汰的光辉色彩。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/person.png" alt="才华照"></p>
+<p>（ps，大概需要减肥了。。）</p>
+<h1 id="三、环境造人才"><a href="#三、环境造人才" class="headerlink" title="三、环境造人才"></a>三、环境造人才</h1><p>在互联网技术飞速发展的今天，越是优秀的企业也往往最能凝聚最优秀的人才，正是这种人才间相互吸引的魅力，让企业更加优秀，也让人才得以借助企业提供的平台取得了更好的发展。</p>
+<p>他所在的公司是我一直神往的优秀互联网企业，也是长沙地区.NET开发者最多的企业。公司基于.NET方向的开发者超过一百人，福利好，制度好，充满了积极的分享氛围，正是这样的氛围才得以造就出周杰这样的优秀开发者。</p>
+<p>企业良好氛围的形成，并非个人或某几个人所能影响，而是一种从企业基因出发，到企业各个维度精神的集中体现，是集体智慧和创始人基因以及管理层管理能力的最好表达。</p>
+<p>互联网时代许多企业盲目追求眼前的快速扩展，总是恨不能招待机时间最长的二十几岁开发者完成原始积累之后再把资源甩开。而这家优秀的公司则并非如此，更在乎团队能力的整体提升。</p>
+<p>我仍然记得曾经问过他们的人事同学为何改成现在这个名字时，她说是总经理说的。不由得让我想起那个历经互联网大时代的优秀企业家，他曾经以一己之力，撑起了星城IT产业的繁荣。</p>
+<p>曾经，那些从这家公司毕业的优秀开发者都能成为其他公司最核心的开发者。而每年还有更多优秀开发者，正在这里跟随企业一起成长，正在成为企业和社会的顶梁支柱。</p>
+<p>生死看淡，不服来干的企业精神，让企业得以常盛不衰。积极分享、勇于进取、不断挑战，携手并进、共创辉煌的集体意识，让企业的人才队伍源远流长。</p>
+<p>人才、人才、人才，这正是在互联网大时代最宝贵的财富。</p>
+<p>（请大C小姐姐看到这篇文章后考虑一下广告赞助的形式）</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>欢迎大家关注他的公众号，【DotNet骚操作】。也请大家记住他，一位年轻而充满激情的开发者。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%8D%E6%96%AD%E8%BF%9B%E5%8F%96/qrcode.png" alt="DotNET骚操作公众号二维码"></p>
+<p>让我们一起跟随他的步伐，看看DotNet的一系列骚操作将如何给我们的生活带来更多精彩。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/05/技术/你或许以为你不需要领域驱动设计/" rel="next" title="你或许以为你不需要领域驱动设计">
+                <i class="fa fa-chevron-left"></i> 你或许以为你不需要领域驱动设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/" rel="prev" title="2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡">
+                2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#身边的优秀开发者，【DotNET骚操作】周杰"><span class="nav-number">1.</span> <span class="nav-text">身边的优秀开发者，【DotNET骚操作】周杰</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一，社区的小圈子"><span class="nav-number">2.</span> <span class="nav-text">一，社区的小圈子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、周杰的成长历程"><span class="nav-number">3.</span> <span class="nav-text">二、周杰的成长历程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、环境造人才"><span class="nav-number">4.</span> <span class="nav-text">三、环境造人才</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

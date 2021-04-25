@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简述上一篇简述了ABP框架中的一些基础理论，包括ABP前后端项目的分层结构，以及后端项目中涉及到的知识点，例如DTO,应用服务层，整洁架构，领域对象（如实体，聚合，值对象）等。 笔者也曾经提到，ABP依赖于领域驱动设计这门方法论，由于其门槛较高，给使用者带来了不少理解上的难度。尤其是三层架构对.NET开发者影响太深，有时很难对领域驱动设计产生直观的理解。 在本文中，打算从传统的简单三层架构谈起，介">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用ABP进行软件开发（2）三层架构与领域驱动设计的对比">
+<meta property="og:url" content="http://techq.xyz/2020/07/19/技术/how-to-use-abp-part2-compare-with-three-layers/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="简述上一篇简述了ABP框架中的一些基础理论，包括ABP前后端项目的分层结构，以及后端项目中涉及到的知识点，例如DTO,应用服务层，整洁架构，领域对象（如实体，聚合，值对象）等。 笔者也曾经提到，ABP依赖于领域驱动设计这门方法论，由于其门槛较高，给使用者带来了不少理解上的难度。尤其是三层架构对.NET开发者影响太深，有时很难对领域驱动设计产生直观的理解。 在本文中，打算从传统的简单三层架构谈起，介">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_1.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_2.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_3.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_4.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_5.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_6.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_7.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_8.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_9.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_10.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_11.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_12.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_13.png">
+<meta property="og:image" content="http://techq.xyz/images/compare-with_three-layers_14.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用ABP进行软件开发（2）三层架构与领域驱动设计的对比">
+<meta name="twitter:description" content="简述上一篇简述了ABP框架中的一些基础理论，包括ABP前后端项目的分层结构，以及后端项目中涉及到的知识点，例如DTO,应用服务层，整洁架构，领域对象（如实体，聚合，值对象）等。 笔者也曾经提到，ABP依赖于领域驱动设计这门方法论，由于其门槛较高，给使用者带来了不少理解上的难度。尤其是三层架构对.NET开发者影响太深，有时很难对领域驱动设计产生直观的理解。 在本文中，打算从传统的简单三层架构谈起，介">
+<meta name="twitter:image" content="http://techq.xyz/images/compare-with_three-layers_1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/07/19/技术/how-to-use-abp-part2-compare-with-three-layers/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何使用ABP进行软件开发（2）三层架构与领域驱动设计的对比 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/07/19/技术/how-to-use-abp-part2-compare-with-three-layers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用ABP进行软件开发（2）三层架构与领域驱动设计的对比
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-19 19:14:00" itemprop="dateCreated datePublished" datetime="2020-07-19T19:14:00+00:00">2020-07-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>上一篇简述了ABP框架中的一些基础理论，包括ABP前后端项目的分层结构，以及后端项目中涉及到的知识点，例如DTO,应用服务层，整洁架构，领域对象（如实体，聚合，值对象）等。</p>
+<p>笔者也曾经提到，ABP依赖于领域驱动设计这门方法论，由于其门槛较高，给使用者带来了不少理解上的难度。尤其是三层架构对.NET开发者影响太深，有时很难对领域驱动设计产生直观的理解。</p>
+<p>在本文中，打算从传统的简单三层架构谈起，介绍一个实际场景下的三层业务逻辑实现，然后再与领域驱动设计中的对应实现形成对比，以便让开发者形成直观具体的印象。</p>
+<h1 id="回顾三层架构"><a href="#回顾三层架构" class="headerlink" title="回顾三层架构"></a>回顾三层架构</h1><p>对于.NET开发者来说，三层架构相比都不陌生，这种架构，将代码层次划分为用户界面层，业务逻辑层、数据访问层三个逻辑层次，实现了代码的关注度分离，且因其易于理解，已经成为众多.NET开发者的”条件反射”。</p>
+<h2 id="三层架构简介"><a href="#三层架构简介" class="headerlink" title="三层架构简介"></a>三层架构简介</h2><p>三层架构就是为了符合“高内聚，低耦合”思想，把各个功能模块划分为表示层（UI）、业务逻辑层（BLL）和数据访问层（DAL）三层架构，各层之间采用接口相互访问，并通过对象模型的实体类（Model）作为数据传递的载体，不同的对象模型的实体类一般对应于数据库的不同表，实体类的属性与数据库表的字段名一致。</p>
+<p>三层架构区分层次的目的是为了 “高内聚，低耦合”。开发人员分工更明确，将精力更专注于应用系统核心业务逻辑的分析、设计和开发，加快项目的进度，提高了开发效率，有利于项目的更新和维护工作。</p>
+<h2 id="三层架构的分层逻辑"><a href="#三层架构的分层逻辑" class="headerlink" title="三层架构的分层逻辑"></a>三层架构的分层逻辑</h2><p>UI层：用户界面层，实现与UI交互有关的逻辑。用于输入用户数据，输出和呈现数据。在基于WebAPI的现代Web框架中，往往会使用MVC架构，将界面的数据行为，拆分成“模型-视图-控制器”，实现了针对对UI层上关注度的进一步分离，</p>
+<p>业务逻辑层： 业务逻辑层是用户界面层和数据访问层之间的转换层，负责完成对数据的业务组装，界面数据处理，将数据层的对象输出（转换）给用户界面层。</p>
+<p>数据访问层：实现数据的存储（持久化）操作，包括集成存储过程，集成SQL语句，或集成现代ORM组件的形式，实现实现数据的存储。  </p>
+<p><img src="/images/compare-with_three-layers_1.png" alt="图片"></p>
+<h2 id="三层架构的应用"><a href="#三层架构的应用" class="headerlink" title="三层架构的应用"></a>三层架构的应用</h2><p>遇到项目，先从实体关系建模开始，使用PowerDesign或其他数据库设计软件分析业务与业务之间的关系，是一对多，还是一对一，还是多对多，绘制实体关系图。</p>
+<p><img src="/images/compare-with_three-layers_2.png" alt="图片"></p>
+<p>在进行软件开发时，根据数据需求，定制想要的数据接口，从而实现以数据为核心的业务功能开发。</p>
+<p>于是，在业务层次上，这种三层架构，进一步可以表示为如下分层结构：</p>
+<p><img src="/images/compare-with_three-layers_3.png" alt="图片"></p>
+<p>在三层架构中，实体是业务的核心，所有的业务代码，都是围绕实体展开，而左侧三个功能层，其主要目的都是为了实现对实体的“增删改查”操作。</p>
+<p>以下代码简述了一个订单对象提交的全过程。（模型和代码仅供参考，不能直接运行）</p>
+<p><img src="/images/compare-with_three-layers_4.png" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// UI控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class OrderController</span><br><span class="line">&#123;</span><br><span class="line">  private OrderBll OrderBll = new OrderBll();</span><br><span class="line">  /// &lt;summary&gt;</span><br><span class="line">  /// 新增订单</span><br><span class="line">  /// &lt;/summary&gt;</span><br><span class="line">  /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;</span><br><span class="line">  /// &lt;param name=&quot;productId&quot;&gt;&lt;/param&gt;</span><br><span class="line">  /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">  public void AddOrder(int userId, int productId, int count)</span><br><span class="line">  &#123;</span><br><span class="line">      OrderBll.AddOrder(userId, productId, count);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 业务逻辑层</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class OrderBll</span><br><span class="line">&#123;</span><br><span class="line">  private UserInfoDal userInfoDal = new UserInfoDal();</span><br><span class="line">  private ProductInfoDal productInfoDal = new ProductInfoDal();</span><br><span class="line">  private OrderDal orderDal = new OrderDal();</span><br><span class="line">  /// &lt;summary&gt;</span><br><span class="line">  /// 新增订单</span><br><span class="line">  /// &lt;/summary&gt;</span><br><span class="line">  /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;</span><br><span class="line">  /// &lt;param name=&quot;productId&quot;&gt;&lt;/param&gt;</span><br><span class="line">  /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">  public void CreateOrder(int userId, int productId, int count)</span><br><span class="line">  &#123;</span><br><span class="line">      UserInfo userInfo = userInfoDal.Get(userId);</span><br><span class="line">      ProductInfo productInfo = productInfoDal.Get(productId);</span><br><span class="line">      //新订单</span><br><span class="line">      Order order = new Order();</span><br><span class="line">      order.Address = userInfo.Address;</span><br><span class="line">      order.UserId = userId;</span><br><span class="line">      order.TotalPrice = productInfo.Price * count;</span><br><span class="line">      order.ProductId = productId;</span><br><span class="line">      orderDal.Insert(order);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 数据访问层</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class OrderDal</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 插入数据</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;order&quot;&gt;&lt;/param&gt;</span><br><span class="line">    public void Insert(Order order)</span><br><span class="line">    &#123; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种基于实体驱动建模的三层架构，变成了以数据为核心的“表模块模式”。<br>参见《企业应用架构模式》第87页中关于表模块的介绍：</p>
+<blockquote>
+<p>表模块以一个类对应数据库中的一个表来组织领域逻辑，而且使用单一的类实体来包含将对数据进行的各种操作程序。<br>通常，表模块会与面向表的后端数据结构一起使用。以列表形式排列的数据通常是某个SQL调用的结果，它们被至于一个记录集中，用于某一个SQL表。表模块提供了一个明确的基于方法的接口对数据进行操作。<br>要进行一些实际的操作，一般需要多个表模块的行为。<br>表模块中的“表”一词，暗示你数据库中的每一个表对应一个表模块。虽然大多数情况下都是如此，但也并非绝对。对于通用的视图或其他查询，建立一个表模块也是有用的。事实上，表模块的结构并非真的取决于数据库表的结构，更多的是由应用程序能识别的虚拟表所标识，例如视图或查询。</p>
+</blockquote>
+<p>在《Microsoft.NET企业级架构设计》一书中，作者认为“多数.NET开发者在成长的过程中都受到了表模块模式的影响”。而相比之下，多数Java开发者则“深陷事务脚本的泥足”。</p>
+<h2 id="三层架构的优缺点"><a href="#三层架构的优缺点" class="headerlink" title="三层架构的优缺点"></a>三层架构的优缺点</h2><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>软件分层架构的目的是为了分离关注点，三层架构也同样如此，简简单单的三层代码+ER图，就能设计出一个良好结构的软件系统。</p>
+<p>这种模式，建立了以数据库表为核心的开发模式，使得开发者能够很便捷的对业务进行分析，进而驱动软件功能的快速开发。</p>
+<p>在应对简单业务变迁过程中，由于能够快速完成代码的堆积，也使得开发者只需关注数据库表的拼凑，就能快速的完成代码开发，为开发项目带来了不少便利。   </p>
+<p>除了简单业务普遍采用三层，事实上许多复杂项目也会同样采用，大概是由于三层架构的思想已经深入人心，许多资深开发者都形成的只要有表就能完成项目的开发的思维定势。</p>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>还是使用上述示例代码，我们假设需求发生了变化，要求减少订单的数量或增加订单，我们会怎么做？也许，我们很容易就写出了下面的代码：</p>
+<blockquote>
+<p>（当然，实际项目中，如果订单已经提交，很少会直接对订单数量进行修改的，往往会重新发起新订单，但为了演示方便，我们先设定有这么一个奇怪的需求吧。）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 减少订单数量</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;orderId&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;minusCount&quot;&gt;&lt;/param&gt;</span><br><span class="line">public void MinusOrder(int orderId, int minusCount)</span><br><span class="line">&#123;</span><br><span class="line">    Order order = orderDal.Get(orderId);</span><br><span class="line">    order.Count -= minusCount;</span><br><span class="line">    order.TotalPrice -= order.Price * minusCount;</span><br><span class="line">    orderDal.Update(order);</span><br><span class="line">&#125;</span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 增加订单数量</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;orderId&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;minusCount&quot;&gt;&lt;/param&gt;</span><br><span class="line">public void AddOrder(int orderId, int addCount)</span><br><span class="line">&#123;</span><br><span class="line">    Order order = orderDal.Get(orderId);</span><br><span class="line">    order.Count += addCount;</span><br><span class="line">    order.TotalPrice += order.Price * addCount;</span><br><span class="line">    orderDal.Update(order);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个代码写起来非常快，因为只是新增了两小段代码逻辑，而从减少订单，到新增订单，只是加法和减法的区别，自然而然就更快了。<br>但是，速度快，一定是优点么？如果需求继续持续不断的累积呢。</p>
+<p>例如，我们要修改订单收货人，收货地址，修改订单价格，是不是我们这种代码逻辑会越来越多，而且不同的业务逻辑互相搅合，使得后期的维护变得越来越困难？</p>
+<p>所以，笔者认为，三层架构的缺点，就是前期开发速度太快，由于缺乏设计思想和设计模式的参与，太容易导致异味、垃圾代码、重复代码等问题产生。</p>
+<p>所有这些问题，最终都被归类于“技术债”的范畴。</p>
+<blockquote>
+<p>详见维基百科。<br>技术债：指开发人员为了加速软件开发，在应该采用最佳方案时进行了妥协，改用了短期内能加速软件开发的方案，从而在未来给自己带来的额外开发负担。<br>这种技术上的选择，就像一笔债务一样，虽然眼前看起来可以得到好处，但必须在未来偿还。<br>软件工程师必须付出额外的时间和精力持续修复之前的妥协所造成的问题及副作用，或是进行重构，把架构改善为最佳实现方式。</p>
+</blockquote>
+<h1 id="回顾领域驱动设计"><a href="#回顾领域驱动设计" class="headerlink" title="回顾领域驱动设计"></a>回顾领域驱动设计</h1><h2 id="领域驱动设计简介"><a href="#领域驱动设计简介" class="headerlink" title="领域驱动设计简介"></a>领域驱动设计简介</h2><p>领域驱动设计思想来源于埃里克埃文斯在2002年前后出版的技术书籍《领域驱动设计·软件系统复杂性核心应对之道》，在这本书中，作者介绍了领域驱动设计相关的核心模式，例如：统一语言，模型驱动设计，领域实体，聚合，值对象，仓储，限界上下文等模式。 </p>
+<p>随着微服务的不断兴起，领域驱动设计也越来越受到互联网人的广泛追捧，在许多不同的行业应用实践过程中，已经逐渐扮演了非常基础的作用。无论是微服务架构下的服务粒度拆分，或者甚至是中台应用，以及传统的单体应用，都可以利用领域驱动设计思想下提供的模式，为应用程序的开发插上想象的翅膀。</p>
+<h2 id="领域驱动设计的分层逻辑"><a href="#领域驱动设计的分层逻辑" class="headerlink" title="领域驱动设计的分层逻辑"></a>领域驱动设计的分层逻辑</h2><p>在上一篇博客中，我们也介绍了领域驱动设计思想分层逻辑结构，共划分为如下四个层次：</p>
+<p><img src="/images/compare-with_three-layers_5.png" alt="图片"></p>
+<ul>
+<li>用户界面层（或者表示层）：负责向用户显示信息和解释用户指令。这里的用户，既可以是使用用户界面的人，也可以是另外一个计算机系统。</li>
+<li>应用层：定义软件要完成的任务，并且只会表达领域概念的对象来解决问题。这一层实际上负责的是系统与应用层进行交互的必要渠道。</li>
+<li>领域层：负责表达业务概念、业务状态信息以及业务规则。尽管技术细节由基础设施层实现，但业务情况状态的反映则需要有领域层进行控制。领域层是业务软件的核心。</li>
+<li>基础设施层：为上面各层提供通用的技术能力：为应用层传递消息，为领域层提供持久化机制，为用户界面层绘制屏幕组件等等。基础设施层还能够通过架构框架来支持4个层次间的交互模式。<h2 id="领域驱动设计的应用步骤"><a href="#领域驱动设计的应用步骤" class="headerlink" title="领域驱动设计的应用步骤"></a>领域驱动设计的应用步骤</h2></li>
+</ul>
+<h3 id="1）形成统一语言"><a href="#1）形成统一语言" class="headerlink" title="1）形成统一语言"></a>1）形成统一语言</h3><p>统一语言是围绕产品展开的一系列流程，方案，术语和名词解释及匹配的注释。在领域驱动设计为每个应用设计成体系的【统一语言】是核心要点。</p>
+<p>统一语言的形成是团队成员协同参与，围绕不同的需求，达成一致性理解的过程。</p>
+<p>形成统一语言有时需要领域专家的参与，但有时可能难以达到这个条件，用需求代言人也同样能够满足这个条件。</p>
+<h3 id="2）使用UML建模和画图"><a href="#2）使用UML建模和画图" class="headerlink" title="2）使用UML建模和画图"></a>2）使用UML建模和画图</h3><ol>
+<li>建模的必要性</li>
+</ol>
+<p>在我们工作过程中模型无处不在，不管是在纸上绘制的简单模型，或者使用专业软件绘制的各种模型，都是模型。领域驱动设计本身，依然依赖于模型驱动设计。</p>
+<p>学会建模对于广大开发者来说，都是一项基本技能，当然也是众多最弱技能中的一种，因为广泛依赖于实体关系建模的思维模式，使得开发者已经很难形成有效的模型设计思想，代码也越来越趋于【过程化】。 </p>
+<p>有时开发者甚至连实体关系建模这个步骤都会省略，直接使用Code First或甚至数据库开始建表，这样看起来速度非常快，但是太容易翻车了。</p>
+<p>在团队协作项目中，没有良好的模型，仅凭高级开发者或有经验开发者的“”一面之词”进行设计，几乎很难完成一个复杂项目。</p>
+<p>而uml统一建模语言也是这样的良好工具。</p>
+<ol start="2">
+<li>使用哪些模型</li>
+</ol>
+<p>笔者曾经有幸请教国内.NET技术圈拥有多年DDD实践经验的阿里技术专家，汤雪华老师，他指出：</p>
+<blockquote>
+<p>采用实体关系建模很容易看出对象与对象的关系，但仅此而已。数据并非对象，数据也无法看出行为，如果要依托实体关系建模来构建系统，往往需要开发者发挥自己的主观抽象思维，根据客户提供的资料或可用的原型，自行思考代码的逻辑实现。<br>但显然，具备优秀逻辑思维能力和设计思想的开发者凤毛麟角，仅凭ER图，代码写出来往往很糟糕。</p>
+</blockquote>
+<p>他认为，采用领域驱动设计，产品架构图，系统架构图，领域模型图，类图，关键业务场景的交互时序图，这些是必不可少的。</p>
+<ul>
+<li>产品架构图：列出产品功能，表现出产品模块间的相关性。</li>
+</ul>
+<p><img src="/images/compare-with_three-layers_6.png" alt="图片"></p>
+<p>图来自<a href="http://www.woshipm.com/pmd/1065960.html" target="_blank" rel="noopener">http://www.woshipm.com/pmd/1065960.html</a></p>
+<ul>
+<li>系统架构图：从技术层面列出系统模块组成关系。</li>
+</ul>
+<p><img src="/images/compare-with_three-layers_7.png" alt="图片"></p>
+<p>原图来自互联网</p>
+<ul>
+<li>领域模型关系图：反映出各领域模型间的相关性，限界上下文，聚合，和聚合根。</li>
+</ul>
+<p><img src="/images/compare-with_three-layers_8.png" alt="图片"></p>
+<p>来自<a href="https://102.alibaba.com/detail?id=174" target="_blank" rel="noopener">https://102.alibaba.com/detail?id=174</a></p>
+<ol start="3">
+<li>如何建模？</li>
+</ol>
+<p>如果说代码语言是为了与其他开发者进行沟通交流，那我们建立的各种软件设计模型将极大的方便不同领域的人员进行交流。建模也可以称之为语言的一部分。利用uml建立类图，是一种可以比较易于接受的方式。我们可以采用以下手段来建立领域模型。 </p>
+<p>1)建立一个与实现绑定的模型。初版的模型也许很简陋，但是它可以成为一个基础，然后在后期逐渐完善。 </p>
+<p>2)建立一种基于模型的通用语言或表达形式和机制。通过通用语言让参与项目的所有人理解模型。 </p>
+<p>3)开发一个蕴含丰富知识的模型。模型不是单纯的数据结构，它更是各类知识的聚合体。 </p>
+<p>4)提炼模型，模型应该能在项目过程中动态改变，发现新的概念就加进来，过时的概念就适时移除，避免臃肿。 </p>
+<p>5)头脑风暴和实验。模型在于实践和应用，它需要项目参与者共同的努力，而头脑风暴是发挥集体智慧的良好方式。对模型进行实验或者进行场景的模拟，有利于让模型更符合需求。 </p>
+<p>当然，对于领域专家而言，不同类型的模型也许无法理解，例如类图可能过于复杂，可以使用画图的形式，通过解释性的图形，甚至纸面上的图，更能直观的表现出领域的逻辑层次。</p>
+<p><img src="/images/compare-with_three-layers_9.png" alt="图片"></p>
+<p>这张来自TW分享的一张图，就是一个基于.NET MVC的产品设计UML设计图。</p>
+<p>建模也并非这篇博客所能讲清楚的，包括笔者自己，也只是偶尔设计过用例图，时序图和类图，可能需要在后期系统的学习一下。</p>
+<h3 id="3）代码实现"><a href="#3）代码实现" class="headerlink" title="3）代码实现"></a>3）代码实现</h3><p>回到最开始的那个三层架构下的代码示例，如果采用领域驱动设计，大概如下图所示：</p>
+<p><img src="/images/compare-with_three-layers_10.png" alt="图片"></p>
+<p>回到开始那个示例代码，如果采用DDD的代码实现，大概是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 应用服务层</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class OrderAppService</span><br><span class="line">&#123;</span><br><span class="line">    private OrderRepository _orderRepository;</span><br><span class="line">    private UserInfoRepository _userInfoRepository;</span><br><span class="line">    private ProductInfoRepository _productInfoRepository;</span><br><span class="line">    public OrderAppService(OrderRepository orderRepository, UserInfoRepository userInfoRepository, ProductInfoRepository productInfoRepository)</span><br><span class="line">    &#123;</span><br><span class="line">        _orderRepository = orderRepository;</span><br><span class="line">        _userInfoRepository = userInfoRepository;</span><br><span class="line">        _productInfoRepository = productInfoRepository; </span><br><span class="line">    &#125;</span><br><span class="line">  /// &lt;summary&gt;</span><br><span class="line">  /// 新增订单</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;productId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">        public void CreateOrder(int userId, int productId, int count)</span><br><span class="line">        &#123;</span><br><span class="line">              UserInfo userInfo = _userInfoRepository.Get(userId);</span><br><span class="line">            ProductInfo productInfo = _productInfoRepository.Get(productId);</span><br><span class="line">            if (userInfo != null &amp;&amp; productInfo != null)</span><br><span class="line">            &#123;</span><br><span class="line">                //新订单</span><br><span class="line">                Order order = Order.CreateOrder(productId, userInfo.Address, userId, productInfo.Price, count);</span><br><span class="line">                _orderRepository.Insert(order);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 减少订单数量</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;orderId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;minusCount&quot;&gt;&lt;/param&gt;</span><br><span class="line">        public void MinusOrder(int orderId, int minusCount)</span><br><span class="line">        &#123;</span><br><span class="line">            Order order = _orderRepository.Get(orderId);</span><br><span class="line">            order.Minus(minusCount);</span><br><span class="line">            _orderRepository.Update(order);</span><br><span class="line">        &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 增加订单数量</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;orderId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;minusCount&quot;&gt;&lt;/param&gt;</span><br><span class="line">        public void AddOrder(int orderId, int addCount)</span><br><span class="line">        &#123;</span><br><span class="line">            Order order = _orderRepository.Get(orderId);</span><br><span class="line">            order.Add(addCount);</span><br><span class="line">            _orderRepository.Update(order);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    ///订单对象 </span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class Order</span><br><span class="line">    &#123;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 主键</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public int Id &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 地址</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public string Address &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 用户id</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public int UserId &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 产品id</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public int ProductId &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 数量</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public int Count &#123; get; protected set; &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 单价</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public double Price &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 总价</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public double TotalPrice &#123; get; protected set; &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 创建订单</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;productId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;address&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;price&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">        /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">        public static Order CreateOrder(int productId, string address, int userId, double price, int count)</span><br><span class="line">        &#123;</span><br><span class="line">            return new Order()</span><br><span class="line">            &#123;</span><br><span class="line">                Address = address,</span><br><span class="line">                UserId = userId,</span><br><span class="line">                TotalPrice = price * count,</span><br><span class="line">                ProductId = productId,</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 新增</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">        public void Add(int count)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 减少</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">        public void Minus(int count)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码，最主要的变化是如下几点：</p>
+<ol>
+<li>引入领域模型，在三层架构的示例代码中，我们建立了如下模型：</li>
+</ol>
+<p><img src="/images/compare-with_three-layers_11.png" alt="图片"></p>
+<p>这个模型是当我们Entity Framework脚本时生成的实体模型，在业内通常称其为“贫血模型”。对人类来说，红细胞负责把氧气输送到组织细胞，然后新陈代谢，产生ATP，产生动力。</p>
+<p>而“贫血模型”这个术语恰如其份的表现出这类模型虽然还能有效的工作，但是需要由其他对象来驱动其完成动作的含义。</p>
+<p>领域模型与贫血模型相比，更关注对象的行为，而关注行为的目的是创建带有公共接口并与在现实世界观察到的实体相似的对象，使得依照统一语言的名字和规则进行建模变得更加容易。</p>
+<ol start="2">
+<li>将原来的Order对象抽象化建模为一个DDD实体。DDD实体是一个包含数据（属性）和行为（方法）的POCO对象。</li>
+</ol>
+<p>在《Microsoft .NET企业级应用架构实战》书第9.2.2中指出了领域实体的特点：</p>
+<blockquote>
+<p>定义明确的身份标识。<br>通过公共和非公共方法表示行为。<br>通过只读属性暴露状态。<br>限制基元类型的使用，使用值对象代替。<br>工厂方法优于多个构造函数。<br>3. 私有set或protected set：</p>
+</blockquote>
+<p>在示例代码中将Order中的所有属性设置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public double TotalPrice &#123; get; protected set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的目的是为了避免对该属性的随意更改，使得开发者在对属性进行操作过程中，多了一个环节，即需要谨慎思考这样的代码修改，从行为角度来分析是否符合业务需要。<br>在设计时实体时，开放set可能会带来严重的副作用，例如影响实体的状态。</p>
+<p>在张逸老师的《<a href="https://gitbook.cn/gitchat/column/5cbed2f6f00736695f3a8699/topic/5cd3fe04e30c87051ad3d110" target="_blank" rel="noopener">领域驱动设计实战，战术篇第15课</a>》中，作者指出：</p>
+<blockquote>
+<p>对象之间若要默契配合，形成良好的协作关系，就需要通过行为进行协作，而不是让参与协作的对象成为数据的提供者。<br>《ThoughtWorks 软件开发沉思录》中的“对象健身操”提出了优秀软件设计的九条规则，其中最后一条提出：不使用任何 Getter/Setter/Property。<br>作者 Jeff Bay 认为：“如果可以从对象之外随便询问实例变量的值，那么行为与数据就不可能被封装到一处。在严格的封装边界背后，真正的动机是迫使程序员在完成编码之后，一定有为这段代码的行为找到一个适合的位置，确保它在对象模型中的唯一性。”</p>
+</blockquote>
+<p>当然，在实际开发过程中，有时并不一定把get方法也设置为protected，毕竟有时候还需要有所妥协。</p>
+<ol start="4">
+<li>将创建方法从业务逻辑层，移动到了领域对象Order中的静态工厂方法。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 创建订单</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;productId&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;address&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;userId&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;price&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public static Order CreateOrder(int productId, string address, int userId, double price, int count)</span><br><span class="line">&#123;        </span><br><span class="line">    return new Order()</span><br><span class="line">    &#123;</span><br><span class="line">        Address = address,</span><br><span class="line">        UserId = userId,</span><br><span class="line">        TotalPrice = price * count,</span><br><span class="line">        ProductId = productId,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>创建过程应该是一个非常严谨的过程，而原来在业务逻辑层中初始化对象的方法，随意性比较高，很容易就出现开发者在创建过程中将无关属性赋值的现象。<br>但如果把创建过程改成使用构造方法，又可能会造成可读性问题，而使用工厂方法，并创建一个受保护的构造方法则不会造成这个担忧。</p>
+<ol start="5">
+<li>将订单新增内容和减少内容从业务逻辑层移动到了领域对象上，并封装为方法。采用迪米卡法则，只暴露最小的参数，每次只对最该赋值的属性进行操作，也容易约束开发者的操作。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 新增</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">public void Add(int count)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 减少</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;count&quot;&gt;&lt;/param&gt;</span><br><span class="line">public void Minus(int count)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>大概修改过程是最容易造成领域知识丢失的地方，而通过封装为方法，使得这个过程得以以受控的形式进行，有助于让其他开发者通过暴露的方法。<br>但这样做要确保所使用的命名规范符合统一语言，否则会重蹈贫血模型的覆辙。当然，在领域设计中，经常会纠结于哪些行为应该放在领域对象中，可以参考这样的规则：</p>
+<ul>
+<li>如果方法只处理实体的成员，它可能属于这个实体。</li>
+<li>如果方法访问相同聚合的其他实体或值对象，它可能属于聚合根。</li>
+<li>如何方法里的代码需要查询或更新持久层，或者需要用到实体（或聚合）边界以外的引用，它属于领域服务方法。<h1 id="对比分析"><a href="#对比分析" class="headerlink" title="对比分析"></a>对比分析</h1></li>
+</ul>
+<h2 id="二者的对比"><a href="#二者的对比" class="headerlink" title="二者的对比"></a>二者的对比</h2><p>笔者整理了一个简单的图表来表现二者的对比关系。显然，三层架构并非毫无优势，领域驱动设计也并非银弹。  </p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">三层架构</th>
+<th align="left">领域驱动设计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">业务识别方法</td>
+<td align="left">结合瀑布模型，通过需求分析，形成数据字典，指导数据库设计。</td>
+<td align="left">团队协作形成统一语言，并从统一语言中提取术语，指导类、流程，变量，行为定义等。</td>
+</tr>
+<tr>
+<td align="left">业务参与者</td>
+<td align="left">具备IT知识的开发人员，业务人员只能提供需求，往往不能参与设计过程。</td>
+<td align="left">由需求提供者或客户、开发者、测试、产品经理等组成的跨职能团队全力参与。</td>
+</tr>
+<tr>
+<td align="left">建模方法</td>
+<td align="left">实体关系建模为主，有时可以用UML</td>
+<td align="left">以UML方法为主，画图为辅</td>
+</tr>
+<tr>
+<td align="left">业务代码分层</td>
+<td align="left">业务代码理论上应该在业务逻辑层，但有时游离在控制器、业务逻辑层或数据访问层，甚至受依赖的其他业务逻辑中</td>
+<td align="left">业务代码在领域层，有时在领域对象上，有时在领域服务中。</td>
+</tr>
+<tr>
+<td align="left">修改代码的难易程度</td>
+<td align="left">随时随地想改就改</td>
+<td align="left">需要遵循一定的设计原则或步骤、流程</td>
+</tr>
+<tr>
+<td align="left">可维护性</td>
+<td align="left">项目简单时，易于维护；复杂时，难于维护。</td>
+<td align="left">掌握方法时，维护难度比较平滑。</td>
+</tr>
+<tr>
+<td align="left">数据持久化</td>
+<td align="left">在数据访问层中完成，有时可以适当复用；也有开发者将数据访问层提取出仓储的模板方法进行复用。</td>
+<td align="left">一般在仓储层中实现，且仓储一般是基础设施，意味着除特定场景外，基础设施不会依赖于领域而二外定制行为。</td>
+</tr>
+<tr>
+<td align="left">多业务逻辑的整合</td>
+<td align="left">一般在业务逻辑层中实现</td>
+<td align="left">一般在应用服务层实现。</td>
+</tr>
+<tr>
+<td align="left">可测试性</td>
+<td align="left">比较难以加入测试代码</td>
+<td align="left">易于加入测试代码；也可以根据UML使用TDD来进行开发。</td>
+</tr>
+</tbody></table>
+<h2 id="该如何取舍？"><a href="#该如何取舍？" class="headerlink" title="该如何取舍？"></a>该如何取舍？</h2><p>下图这种流传已久，同样来自马丁弗勒老爷子《企业架构应用模式》。</p>
+<p>表现了随着软件复杂度的逐渐提升，数据驱动设计和领域驱动设计模式两种不同类型的设计模式的开发效率（时间）对比曲线。</p>
+<p><img src="/images/compare-with_three-layers_12.png" alt="图片"></p>
+<ul>
+<li>数据驱动设计建立了一个比较平滑的发展轨迹，但是随着拐点的到来，将变得越来越为难以维护，最终造出一个难以维护的“意大利面”。</li>
+</ul>
+<p><img src="/images/compare-with_three-layers_13.png" alt="图片"></p>
+<ul>
+<li>领域驱动设计，前期的起点确实比数据驱动设计要高很多，而且甚至在刚刚使用一段时间后，由于业务复杂度的提升，会迎来一个拐点。这个拐点有点像“邓宁·克鲁格效应”中遇到的“绝望之谷”，让开发者和管理层感觉有点力不从心，不少企业最终又拆掉了他们的领域驱动设计搭建的软件；</li>
+<li>使用领域驱动设计，随着复杂度的逐渐推移，软件开发人员的信心越来越足，代码自然也能够不断演进，平滑发展，。</li>
+</ul>
+<p><img src="/images/compare-with_three-layers_14.png" alt="图片"></p>
+<ul>
+<li>从长期来看，领域驱动建模将给复杂系统带来更加高效的维护效能。<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1></li>
+</ul>
+<p>本文介绍了三层架构和领域驱动设计两种不同的设计思想中如何实现业务逻辑代码的过程，并对针对代码的维护性问题进行了分析。由于时间仓促，部分观点、设计图、代码可能还不够成熟，还请大家批评指正。</p>
+<p>下一篇将介绍ABP框架开发中的具体实践步骤。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/25/技术/如何在ASP.NET Core中使用SignalR构建与Angular通信的实时通信应用程序/" rel="next" title="如何在ASP.NET Core中使用SignalR构建与Angular通信的实时通信应用程序">
+                <i class="fa fa-chevron-left"></i> 如何在ASP.NET Core中使用SignalR构建与Angular通信的实时通信应用程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/20/技术/常见的C＃异常及其修复方法/" rel="prev" title="常见的C＃异常及其修复方法">
+                常见的C＃异常及其修复方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾三层架构"><span class="nav-number">2.</span> <span class="nav-text">回顾三层架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#三层架构简介"><span class="nav-number">2.1.</span> <span class="nav-text">三层架构简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三层架构的分层逻辑"><span class="nav-number">2.2.</span> <span class="nav-text">三层架构的分层逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三层架构的应用"><span class="nav-number">2.3.</span> <span class="nav-text">三层架构的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三层架构的优缺点"><span class="nav-number">2.4.</span> <span class="nav-text">三层架构的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点："><span class="nav-number">2.4.0.1.</span> <span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点："><span class="nav-number">2.4.0.2.</span> <span class="nav-text">缺点：</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾领域驱动设计"><span class="nav-number">3.</span> <span class="nav-text">回顾领域驱动设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#领域驱动设计简介"><span class="nav-number">3.1.</span> <span class="nav-text">领域驱动设计简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域驱动设计的分层逻辑"><span class="nav-number">3.2.</span> <span class="nav-text">领域驱动设计的分层逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域驱动设计的应用步骤"><span class="nav-number">3.3.</span> <span class="nav-text">领域驱动设计的应用步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）形成统一语言"><span class="nav-number">3.3.1.</span> <span class="nav-text">1）形成统一语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）使用UML建模和画图"><span class="nav-number">3.3.2.</span> <span class="nav-text">2）使用UML建模和画图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3）代码实现"><span class="nav-number">3.3.3.</span> <span class="nav-text">3）代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对比分析"><span class="nav-number">4.</span> <span class="nav-text">对比分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二者的对比"><span class="nav-number">4.1.</span> <span class="nav-text">二者的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#该如何取舍？"><span class="nav-number">4.2.</span> <span class="nav-text">该如何取舍？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

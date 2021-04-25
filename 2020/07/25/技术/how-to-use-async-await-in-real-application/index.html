@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="实际应用程序中的async和await一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程当我们使用需要长时间运行的方法（即，用于读取大文件或从网络下载大量资源）时，在同步的应用程序中，应用程序本身将停止运行，直到活动完成。在这些情况下，异步编程非常有用：它使我们能够并行执行不同任务，并在需要时等待其完成。 有这种方法编程许多不同的模型类型：APM（异步编程模型），基于事">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文看懂&quot;async&quot;和“await”关键词是如何简化了C#中多线程的开发过程">
+<meta property="og:url" content="http://techq.xyz/2020/07/25/技术/how-to-use-async-await-in-real-application/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="实际应用程序中的async和await一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程当我们使用需要长时间运行的方法（即，用于读取大文件或从网络下载大量资源）时，在同步的应用程序中，应用程序本身将停止运行，直到活动完成。在这些情况下，异步编程非常有用：它使我们能够并行执行不同任务，并在需要时等待其完成。 有这种方法编程许多不同的模型类型：APM（异步编程模型），基于事">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一文看懂&quot;async&quot;和“await”关键词是如何简化了C#中多线程的开发过程">
+<meta name="twitter:description" content="实际应用程序中的async和await一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程当我们使用需要长时间运行的方法（即，用于读取大文件或从网络下载大量资源）时，在同步的应用程序中，应用程序本身将停止运行，直到活动完成。在这些情况下，异步编程非常有用：它使我们能够并行执行不同任务，并在需要时等待其完成。 有这种方法编程许多不同的模型类型：APM（异步编程模型），基于事">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/07/25/技术/how-to-use-async-await-in-real-application/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一文看懂"async"和“await”关键词是如何简化了C#中多线程的开发过程 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/07/25/技术/how-to-use-async-await-in-real-application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一文看懂"async"和“await”关键词是如何简化了C#中多线程的开发过程
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-25 17:35:00" itemprop="dateCreated datePublished" datetime="2020-07-25T17:35:00+00:00">2020-07-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实际应用程序中的async和await"><a href="#实际应用程序中的async和await" class="headerlink" title="实际应用程序中的async和await"></a><strong>实际应用程序中的async和await</strong></h1><h3 id="一文看懂”async”和“await”关键词是如何简化了C-中多线程的开发过程"><a href="#一文看懂”async”和“await”关键词是如何简化了C-中多线程的开发过程" class="headerlink" title="一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程"></a>一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程</h3><p>当我们使用需要长时间运行的方法（即，用于读取大文件或从网络下载大量资源）时，在同步的应用程序中，应用程序本身将停止运行，直到活动完成。在这些情况下，<strong>异步</strong>编程非常有用：它使我们能够并行执行不同任务，并在需要时等待其完成。</p>
+<p>有这种方法编程许多不同的模型类型：<strong>APM</strong>（异步编程模型），基于事件（异步模型<strong>EAP</strong>），以及<strong>TAP</strong>，基于任务的（异步模型<strong>任务</strong>）。让我们看看如何使用关键字async和await在C＃中实现第三个方法。</p>
+<p>编写异步代码的主要问题之一是可维护性：实际上，这种编程方法会使代码复杂化。幸运的是，C＃5引入了一种简化的方法，在该方法中，编译器运行由开发人员先前完成的艰巨任务，并且应用程序保留类似于同步代码的逻辑结构。</p>
+<p>让我们举个例子。假设我们有一个.NET Core项目，我们应该在其中管理三个实体：Area，Company和Resource。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Area</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"> </span><br><span class="line">    [Required]</span><br><span class="line">    [StringLength(255)]</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">public class Company</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"> </span><br><span class="line">    [Required]</span><br><span class="line">    [StringLength(255)]</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public class Resource</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"> </span><br><span class="line">    [Required]</span><br><span class="line">    [StringLength(255)]</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 现在假设我们应该使用Entity Framework Core将这些实体的值保存在数据库中。其<strong>DbContext</strong>是： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class AppDbContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">    public DbSet&lt;Area&gt; Areas &#123; get; set; &#125;</span><br><span class="line">    public DbSet&lt;Company&gt; Companies &#123; get; set; &#125;</span><br><span class="line">    public DbSet&lt;Resource&gt; Resources &#123; get; set; &#125;</span><br><span class="line">    public AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : base(options)  &#123;&#125;</span><br><span class="line">  </span><br><span class="line">    override protected void OnModelCreating(ModelBuilder modelBuilder)</span><br><span class="line">    &#123;</span><br><span class="line">        modelBuilder.Entity&lt;Area&gt; ().HasData(</span><br><span class="line">            new Area &#123; Id = 1, Name = &quot;Area1&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 2, Name = &quot;Area2&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 3, Name = &quot;Area3&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 4, Name = &quot;Area4&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 5, Name = &quot;Area5&quot;&#125;);</span><br><span class="line">        modelBuilder.Entity&lt;Company&gt; ().HasData(</span><br><span class="line">            new Area &#123; Id = 1, Name = &quot;Company1&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 2, Name = &quot;Company2&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 3, Name = &quot;Company3&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 4, Name = &quot;Company4&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 5, Name = &quot;Company5&quot;&#125;);</span><br><span class="line">        modelBuilder.Entity&lt;Resource&gt;().HasData(</span><br><span class="line">            new Area &#123; Id = 1, Name = &quot;Resource1&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 2, Name = &quot;Resource2&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 3, Name = &quot;Resource3&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 4, Name = &quot;Resource4&quot;&#125;,</span><br><span class="line">            new Area &#123; Id = 5, Name = &quot;Resource5&quot;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从代码中可以看到，我们插入了一些示例数据进行处理。现在假设我们要使用<em>Controller API</em>公开这些数据，既单独（针对每个实体），又使用将它们全部联接在一起的方法，并通过一次调用返回它们。</p>
+<p>使用同步方法，<em>Controller API</em> 将是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;[controller]&quot;)]</span><br><span class="line">public class DataController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    private readonly AppDbContext db = null;</span><br><span class="line">     </span><br><span class="line">    public DataController(AppDbContext db)</span><br><span class="line">    &#123;</span><br><span class="line">        this.db = db;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public IActionResult Get()</span><br><span class="line">    &#123;</span><br><span class="line">        var areas = this.GetAreas();</span><br><span class="line">        var companies = this.GetCompanies();</span><br><span class="line">        var resources = this.GetResources();</span><br><span class="line">        return Ok(new &#123; areas = areas, companies = companies, resources = resources &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    [Route(&quot;areas&quot;)]</span><br><span class="line">    public Area[] GetAreas() </span><br><span class="line">    &#123;</span><br><span class="line">        return this.db.Areas.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    [Route(&quot;companies&quot;)]</span><br><span class="line">    public Company[] GetCompanies() </span><br><span class="line">    &#123;</span><br><span class="line">        return this.db.Companies.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    [Route(&quot;resources&quot;)]</span><br><span class="line">    public Resource[] GetResources() </span><br><span class="line">    &#123;</span><br><span class="line">        return this.db.Resources.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> Get（）方法在其中调用返回单个结果的三个方法，并等待每个方法的执行完成后再传递到下一个结果。这三种方法互不相关，因此您无需等待其中一种方法的执行即可调用另一种方法。然后，您可以创建三个独立的任务以并行执行。<br>第一种方法可以基于该方法<strong>运行</strong>中的<strong>任务</strong>类队列指定的作业是在跑步<em>线程池</em>，并返回一个<strong>任务</strong>对象，它代表了这项工作。这样，方法可以在线程池的不同线程上同时运行： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public IActionResult Get()</span><br><span class="line">&#123;</span><br><span class="line">    var areas = Task.Run(() = &gt; this.GetAreas());</span><br><span class="line">    var companies = Task.Run(() = &gt; this.GetCompanies());</span><br><span class="line">    var resources = Task.Run(() = &gt; this.GetResources());        </span><br><span class="line">    Task.WhenAll(areas, companies, resources);</span><br><span class="line">    return Ok(new &#123; areas = areas.Result, companies = companies.Result, resources = resources.Result &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Task</strong>的<strong>Result</strong>属性包含详细说明的结果。方法<em>WhenAll</em>允许暂停当前线程执行，直到所有<em>Task</em>完成。运行代码，我们可以注意到一个有趣的事情：调用中断，并启动以下异常：</p>
+<p>AggregateException：发生一个或多个错误。（在上一个操作完成之前，第二个操作在此上下文上开始。这通常是由使用相同DbContext实例的不同线程引起的。有关如何避免DbContext线程问题的更多信息，请参见<a href="https://go.microsoft.com/fwlink/?linkid=2097913" target="_blank" rel="noopener">https://go.microsoft.com。 / fwlink /？linkid = 2097913。</a>）</p>
+<p>此错误消息告诉我们，方法在不同的线程上同时执行，但是由于它们使用与<strong>DbContext</strong> 相同的实例来连接数据库，<br>因此引发了异常，<strong>DbContext</strong>类无法确保<em>线程安全的</em>功能：我们可以轻松地绕过此问题，避免了.NET Core 的<em>依赖项注入</em>引擎创建单个实例，而我们为每种方法创建了单独的实例。作为示例，让我们看看方法GetAreas（）会如何变化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class DataController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    private readonly DbContextOptionsBuilder &lt;AppDbContext&gt; optionsBuilder = null;</span><br><span class="line">     </span><br><span class="line">    public DataController(IConfiguration configuration)</span><br><span class="line">    &#123;</span><br><span class="line">        this.optionsBuilder = new DbContextOptionsBuilder &lt;AppDbContext&gt; ()</span><br><span class="line">            .UseSqlite(configuration.GetConnectionString(&quot;DefaultConnection&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    [Route(&quot;areas&quot;)]</span><br><span class="line">    public Area[] GetAreas() </span><br><span class="line">    &#123;</span><br><span class="line">        using(var db = new AppDbContext(this.optionsBuilder.Options))</span><br><span class="line">        &#123;</span><br><span class="line">            return db.Areas.ToArray();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 好吧，现在可以了。我们应该注意，EFCore提供了一些方法，例如，与方法<em>ToArrayAsync</em>一样，使用相同的<strong>DbContext</strong>进行异步调用，该方法从IQueryable <em>创建一个数组，该数组  异步枚举它。此方法返回*</em>Task *<em>，它是表示异步操作的活动。这样，我们不再需要使用</em>Task.Run（）： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public IActionResult Get()</span><br><span class="line">&#123;</span><br><span class="line">    var areas = this.GetAreas();</span><br><span class="line">    var companies = this.GetCompanies();</span><br><span class="line">    var resources = this.GetResources();</span><br><span class="line">    Task.WhenAll(areas, companies, resources);</span><br><span class="line">    return Ok(new &#123; areas = areas.Result, companies = companies.Result, resources = resources.Result &#125;);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">[Route(&quot;areas&quot;)]</span><br><span class="line">public Task&lt;Area[]&gt; GetAreas() </span><br><span class="line">&#123;</span><br><span class="line">    return db.Areas.ToArrayAsync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>无论如何，Microsoft不能保证这些异步方法在每种情况下都能工作，因为DbContext尚未设计为线程安全的。您可以查询此链接以获取更多信息：<a href="https://docs.microsoft.com/en-us/ef/core/querying/async" target="_blank" rel="noopener">https</a> : <a href="https://docs.microsoft.com/en-us/ef/core/querying/async" target="_blank" rel="noopener">//docs.microsoft.com/zh-cn/ef/core/querying/async</a></p>
+<p>使用Entity Framework Core时，最佳实践是在启动另一个异步操作之前，为每个异步操作都拥有一个DbContext或等待每个异步操作完成。<br>当我们必须进行异步调用并返回结果时，这种最佳做法是可以的。但是，如果我们想在返回结果之前对结果进行一些操作，会发生什么？如果我们想向列表中添加元素怎么办？我们应该等待结果，添加元素，然后返回修改后的列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Route(&quot;companies&quot;)]</span><br><span class="line">public Task&lt;Company[]&gt; GetCompanies() </span><br><span class="line">&#123;</span><br><span class="line">    using (var db = new AppDbContext(this.optionsBuilder.Options))</span><br><span class="line">    &#123;</span><br><span class="line">        var data = this.db.Companies.ToListAsync().Result;</span><br><span class="line">        data.Insert(0, new Company() &#123; Id = 0, Name = &quot;-&quot;&#125;);</span><br><span class="line">        return data.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 不幸的是，该代码无法编译，因为data.ToArray（）返回的是数组而不是Task。实际上，这里我们需要三个线程：主调用方（Get（）），数据库查询（this.db.Companies.ToListAsync（））和一个线程，该线程将一个值添加到列表中。我们有三种方法可以做到这一点：让我们用三种单一方法来查看它们。我们已经看到的第一个，可以使用Task.Run（）方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Route(&quot;companies&quot;)]</span><br><span class="line">public Task&lt;Company[]&gt; GetCompanies()</span><br><span class="line">&#123;</span><br><span class="line">     return Task.Run(() =&gt;</span><br><span class="line">     &#123;</span><br><span class="line">          using (var db = new AppDbContext(this.optionsBuilder.Options))</span><br><span class="line">          &#123;</span><br><span class="line">               var data = db.Companies.ToList();</span><br><span class="line">               data.Insert(0, new Company() &#123; Id = 0, Name = &quot;-&quot; &#125;);</span><br><span class="line">               return data.ToArray();</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 作为替代方案，我们可以使用方法<strong>ContinueWith（）</strong>，该方法可以应用于任务，并且可以在上一个方法完成后立即指定要运行的新任务： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Route(&quot;resources&quot;)]</span><br><span class="line">public Task &lt;Resource[]&gt; GetResources()</span><br><span class="line">&#123;</span><br><span class="line">     using (var db = new AppDbContext(this.optionsBuilder.Options))</span><br><span class="line">     &#123;</span><br><span class="line">          return db.Resources.ToListAsync()</span><br><span class="line">              .ContinueWith(dataTask = &gt;</span><br><span class="line">              &#123;</span><br><span class="line">                   var data = dataTask.Result;</span><br><span class="line">                   dataTask.Result.Insert(0, new Resource() &#123; Id = 0, Name = &quot;-&quot; &#125;);</span><br><span class="line">                   return data.ToArray();</span><br><span class="line">              &#125;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 我们可以让编译器执行“垃圾代码”，并使用关键字<strong>async</strong>和<strong>await</strong>，这可以为我们创建Task： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Route(&quot;areas&quot;)]</span><br><span class="line">public async Task &lt;Area[]&gt; GetAreas()</span><br><span class="line">&#123;</span><br><span class="line">     using (var db = new AppDbContext(this.optionsBuilder.Options))</span><br><span class="line">     &#123;</span><br><span class="line">          var data = await db.Areas.ToListAsync();</span><br><span class="line">          data.Insert(0, new Area() &#123; Id = 0, Name = &quot;-&quot; &#125;);</span><br><span class="line">          return data.ToArray();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正如您在最后一种方法中看到的那样，代码更加简单，并且向我们隐藏了Task的创建，从而使我们可以异步返回。让我们想象一下一个场景，其中调用不止一个，并且这种方法如何使一切变得更加线性。</p>
+<p>重构的副作用是方法GetAreas（）已成为<strong>异步操作</strong>。这个事实意味着，当不同的请求到达此API时，分配给该请求的线程池的线程将被释放以供其他请求使用，直到DbContext终止数据提取为止。</p>
+<p>我希望我能引起您足够的兴趣来深入分析该论点。在许多情况下，使用async和await非常方便，并且除了使代码更加简洁和线性外，还可以提高应用程序的一般性能。</p>
+<p>可以在这里找到代码：<a href="https://github.com/fvastarella/Programmazione-asincrona-con-async-await" target="_blank" rel="noopener">https</a>：<a href="https://github.com/fvastarella/Programmazione-asincrona-con-async-await" target="_blank" rel="noopener">//github.com/fvastarella/Programmazione-asincrona-con-async-await</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/21/技术/ASP.NET Core中的分布式缓存/" rel="next" title="ASP.NET Core中的内存中缓存">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core中的内存中缓存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/08/技术/编写更好的C＃代码的技巧/" rel="prev" title="编写更好的C＃代码的技巧">
+                编写更好的C＃代码的技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实际应用程序中的async和await"><span class="nav-number">1.</span> <span class="nav-text">实际应用程序中的async和await</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一文看懂”async”和“await”关键词是如何简化了C-中多线程的开发过程"><span class="nav-number">1.0.1.</span> <span class="nav-text">一文看懂”async”和“await”关键词是如何简化了C#中多线程的开发过程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

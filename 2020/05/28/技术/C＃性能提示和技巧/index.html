@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="C＃性能提示和技巧在Raygun，我们是一群非常懂多种语言的开发人员。Raygun的各个部分使用不同的语言和框架编写-最好的工作方式。 鉴于大量的C＃和我们正在处理的数据的爆炸性增长，在不同的时间需要进行一些优化工作。大部分重大的收获往往来自于真正地重新思考问题并从全新的角度解决问题。 今天我想分享一些C＃性能技巧，这些技巧对我的最新工作有所帮助。其中一些功能在你看来也许相当微不足道，因此请不要在">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C＃提升性能的几点提示和技巧">
+<meta property="og:url" content="http://techq.xyz/2020/05/28/技术/C＃性能提示和技巧/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="C＃性能提示和技巧在Raygun，我们是一群非常懂多种语言的开发人员。Raygun的各个部分使用不同的语言和框架编写-最好的工作方式。 鉴于大量的C＃和我们正在处理的数据的爆炸性增长，在不同的时间需要进行一些优化工作。大部分重大的收获往往来自于真正地重新思考问题并从全新的角度解决问题。 今天我想分享一些C＃性能技巧，这些技巧对我的最新工作有所帮助。其中一些功能在你看来也许相当微不足道，因此请不要在">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raygun.com/blog/images/c-sharp-performance/image1.jpg">
+<meta property="og:image" content="https://raygun.com/blog/images/c-sharp-performance/image3.png">
+<meta property="og:image" content="https://raygun.com/blog/images/c-sharp-performance/image5.jpg">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C＃提升性能的几点提示和技巧">
+<meta name="twitter:description" content="C＃性能提示和技巧在Raygun，我们是一群非常懂多种语言的开发人员。Raygun的各个部分使用不同的语言和框架编写-最好的工作方式。 鉴于大量的C＃和我们正在处理的数据的爆炸性增长，在不同的时间需要进行一些优化工作。大部分重大的收获往往来自于真正地重新思考问题并从全新的角度解决问题。 今天我想分享一些C＃性能技巧，这些技巧对我的最新工作有所帮助。其中一些功能在你看来也许相当微不足道，因此请不要在">
+<meta name="twitter:image" content="https://raygun.com/blog/images/c-sharp-performance/image1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/28/技术/C＃性能提示和技巧/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C＃提升性能的几点提示和技巧 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/28/技术/C＃性能提示和技巧/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C＃提升性能的几点提示和技巧
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-28 20:05:00" itemprop="dateCreated datePublished" datetime="2020-05-28T20:05:00+00:00">2020-05-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="C＃性能提示和技巧"><a href="#C＃性能提示和技巧" class="headerlink" title="C＃性能提示和技巧"></a>C＃性能提示和技巧</h1><p>在<a href="https://raygun.com/" target="_blank" rel="noopener">Raygun</a>，我们是一群非常懂多种语言的开发人员。Raygun的各个部分使用不同的语言和框架编写-最好的工作方式。</p>
+<p>鉴于大量的C＃和我们正在处理的数据的爆炸性增长，在不同的时间需要进行一些优化工作。大部分重大的收获往往来自于真正地重新思考问题并从全新的角度解决问题。</p>
+<p>今天我想分享一些C＃性能技巧，这些技巧对我的最新工作有所帮助。其中一些功能在你看来也许相当微不足道，因此请不要在这里充电并使用所有功能。就这样，提示1是…</p>
+<h2 id="1-每个开发人员都应使用分析器"><a href="#1-每个开发人员都应使用分析器" class="headerlink" title="1.每个开发人员都应使用分析器"></a>1.每个开发人员都应使用分析器</h2><p>有一些很棒的.NET分析器。我个人使用了<a href="https://www.jetbrains.com/" target="_blank" rel="noopener">Jet Brains</a>团队的dotTrace分析器。我知道我们团队中的Jason 也从<a href="http://www.red-gate.com/products/dotnet-development/ants-performance-profiler/" target="_blank" rel="noopener">Red Gate分析器中</a>获得了很多价值。每个开发人员都应安装<strong>并使用</strong>探查器。</p>
+<p>我无法数出我<strong>认为</strong>应用程序的最慢部分在一个区域中的次数，而实际上却完全在其他地方。探查器对此提供了帮助。此外，有时候，它可以帮助我发现错误-缓慢的部分之所以缓慢，只是因为它做错了什么（单元测试<em>没有</em>正确地拾取它）。</p>
+<p>这是您要执行的所有优化工作的第一步，也是有效的第一步。</p>
+<p> <img src="https://raygun.com/blog/images/c-sharp-performance/image1.jpg" alt="冲刺开始"> </p>
+<h2 id="2-级别越高，速度越慢（通常）"><a href="#2-级别越高，速度越慢（通常）" class="headerlink" title="2.级别越高，速度越慢（通常）"></a>2.级别越高，速度越慢（通常）</h2><p>这只是我闻到的气味。您使用的抽象级别越高，通常越慢。我在这里发现的一个常见示例是在代码繁忙的部分（也许在循环中被称为数百万次）中使用LINQ。LINQ非常适合快速表达某些内容，而这些内容可能要花一堆代码，但是您通常会将性能留在桌面上。</p>
+<p>不要误会我的意思-LINQ非常适合让您开发出可运行的应用程序。但是在代码库中以性能为中心的部分中，您可能会付出太多。特别是因为将这么多操作链接在一起非常容易。</p>
+<p>我所使用的特定示例是我使用的地方<code>.SelectMany().Distinct().Count()</code>。鉴于这被称为数千万次（由我的探查器发现的关键热点），它正在累积大量的运行时间。我采用了另一种方法，并将执行时间减少了几个数量级。</p>
+<h2 id="3-不要低估发行版和调试版"><a href="#3-不要低估发行版和调试版" class="headerlink" title="3.不要低估发行版和调试版"></a>3.不要低估发行版和调试版</h2><p>我一直在努力工作，对获得的性能感到非常满意。然后，我意识到自己已经在Visual Studio中进行了所有测试（我经常将性能测试编写为也可以作为单元测试运行，因此我可以更轻松地运行自己关心的部分）。我们都知道发行版本已启用优化。</p>
+<p>因此，我做了一个发布版本，称为从控制台应用程序测试的方法。</p>
+<p>我对此有了很大的转变。我的代码已经疯狂地进行了优化，因此确实是时候对.NET JIT编译器进行一些微优化了。启用优化后，我的性能提高了约30％！这使我想起了我不久前在网上阅读的一个故事。</p>
+<p><img src="https://raygun.com/blog/images/c-sharp-performance/image3.png" alt="软盘的屏幕截图"></p>
+<p>这是上世纪90年代的一个古老游戏编程故事，当时内存限制非常严格。在开发周期的后期，团队最终将耗尽内存，并开始考虑必须删除或降级哪些内容以适合可用的微小内存空间。资深开发人员根据他的经验就曾期望这样做，并在项目一开始就分配了1MB的内存和垃圾数据。然后，他节省了一天的时间，并删除了他在项目开始时立即分配的1MB内存，从而解决了问题！</p>
+<p>知道团队总是没有足够的空间，因为那里有可用的内存，就可以为团队提供他们所需要的东西，并按时发货。</p>
+<p>我为什么要分享这个？在性能方面类似–在调试模式下获得足够好的运行，并且您将在发行版本中获得一些“免费”性能。美好时光。</p>
+<h2 id="4-看大局"><a href="#4-看大局" class="headerlink" title="4.看大局"></a>4.看大局</h2><p>有一些很棒的算法。您多数不需要每天甚至每月都不用。但是，值得知道它们的存在。我经常进行研究后，就会发现一种更好的解决问题的方法。在编码之前进行研究的开发人员与在编写代码之前进行适当分析的开发人员的可能性差不多。我们喜欢代码，并且总是想直接进入IDE。</p>
+<p>此外，通常在查看性能问题时，我们过于专注于单个生产线或方法。这可能是一个错误–放眼全局，可以通过减少需要完成的工作来帮助您显着提高性能。</p>
+<h2 id="5-内存位置很重要"><a href="#5-内存位置很重要" class="headerlink" title="5.内存位置很重要"></a>5.内存位置很重要</h2><p>假设我们有一个数组数组。实际上是一张桌子，尺寸为3000×3000。我们要计算有多少个插槽的值大于零。</p>
+<p>问题–这两个中哪个更快？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; _map.Length; i++)</span><br><span class="line">&#123;</span><br><span class="line">	for (int n = 0; n &lt; _map.Length; n++)</span><br><span class="line">	&#123;</span><br><span class="line">  		if (_map[i][n] &gt; 0)</span><br><span class="line">  		&#123;</span><br><span class="line">    	    result++;</span><br><span class="line">  		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for (int i = 0; i &lt; _map.Length; i++)</span><br><span class="line">&#123;</span><br><span class="line">	for (int n = 0; n &lt; _map.Length; n++)</span><br><span class="line">	&#123;</span><br><span class="line">  		if (_map[n][i] &gt; 0)</span><br><span class="line">  		&#123;</span><br><span class="line">    	    result++;</span><br><span class="line">  		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回答？第一个。 在我的测试中，此循环使性能提高了8倍！</p>
+<p>注意区别吗？这是我们遍历此数组数组的顺序（[i] [n]与[n] [i]）。即使我们从自己管理内存中抽象出来，内存局部性在.NET中的确很重要。</p>
+<p>就我而言，这种方法被称为数百万次（准确地说是数亿次），因此我可以从中获得的任何性能都获得了可观的胜利。再次感谢我经常使用的分析器，以确保我专注于正确的地方！</p>
+<h2 id="6-减轻垃圾收集器的压力"><a href="#6-减轻垃圾收集器的压力" class="headerlink" title="6.减轻垃圾收集器的压力"></a>6.减轻垃圾收集器的压力</h2><p>C＃/.NET具有垃圾回收功能。垃圾收集是确定哪些对象当前已过时并删除它们以释放内存中空间的过程。这意味着在C＃中，与C ++之类的语言不同，您不必手动维护不再有用的对象的删除，即可声明其在内存中的空间。相反，垃圾收集器（GC）处理所有这些，因此您不必这样做。</p>
+<blockquote>
+<p>问题是没有免费的午餐</p>
+</blockquote>
+<p>问题是没有免费的午餐。收集过程本身会导致性能下降，因此您实际上并不希望GC一直收集。那么如何避免这种情况呢？</p>
+<p>有<a href="https://michaelscodingspot.com/avoid-gc-pressure/" target="_blank" rel="noopener">许多有用的技术可以避免对GC施加太大压力</a>。在这里，我将只关注一个技巧：避免不必要的分配。这意味着要避免这样的事情：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Product&gt; products = new List&lt;Product&gt;();</span><br><span class="line">products = productRepo.All();</span><br></pre></td></tr></table></figure>
+
+<p>第一行创建了一个完全无用的列表实例，因为下一行返回另一个实例并将其引用分配给变量。现在想象一下上面的两行是否在一个执行数千次的循环中？</p>
+<p>上面的代码可能看起来像一个愚蠢的示例，但是我已经在生产中看到了这样的代码，而不仅仅是一次。不要只关注示例本身，而要关注一般建议。除非确实需要，否则不要创建对象。</p>
+<p>由于GC在.NET中的工作方式（这是一个世代的GC流程），因此较旧的对象更有可能收集较新的对象。这意味着创建许多新的，短暂的对象可能会触发GC运行。</p>
+<h2 id="7-不要使用空的析构函数"><a href="#7-不要使用空的析构函数" class="headerlink" title="7.不要使用空的析构函数"></a>7.不要使用空的析构函数</h2><p>标题说明了一切-请勿在类中添加空的析构函数。<code>Finalize</code>每个具有析构函数的类的条目都会添加到队列中。然后在调用析构函数时调用我们的老朋友GC来处理队列。空的析构函数意味着这一切都是徒劳的。</p>
+<p>请记住，就性能而言，GC执行并不便宜，正如我们已经提到的。不要不必要地导致GC工作。</p>
+<p><img src="https://raygun.com/blog/images/c-sharp-performance/image5.jpg" alt="盒子的屏幕截图"></p>
+<h2 id="8-避免不必要的装箱和拆箱"><a href="#8-避免不必要的装箱和拆箱" class="headerlink" title="8.避免不必要的装箱和拆箱"></a>8.避免不必要的装箱和拆箱</h2><p>装箱和拆箱就像垃圾回收一样，在性能方面很昂贵。因此，我们希望避免不必要地进行操作。但是他们在实践中会做什么？</p>
+<p>装箱就像创建引用类型框并将值类型的值放入其中一样。换句话说，它包括将值类型转换为“对象”或该值类型实现的接口类型。取消装箱相反，它会打开包装盒并从其中提取值类型。为什么会有问题呢？</p>
+<p>好吧，正如我们已经提到的，装箱和拆箱本身就是昂贵的过程。除此之外，当您装箱一个值时，您会在堆上创建另一个对象，这给GC带来了额外的压力（您已经猜到了！）。</p>
+<p>那么，如何避免装箱和拆箱呢？</p>
+<p>通常，您可以通过避免.NET（版本1.0）中早于泛型的API来做到这一点，因此，它们必须依赖于使用对象类型。例如，更喜欢通用集合，例如<code>System.Collections.Generic.List</code>，而不是<code>System.Collections.ArrayList</code>。</p>
+<h2 id="9-当心字符串连接"><a href="#9-当心字符串连接" class="headerlink" title="9.当心字符串连接"></a>9.当心字符串连接</h2><p>在C＃/。NET中，字符串是不可变的。因此，每次执行一些看起来好像在更改字符串的操作时，它们都会创建一个新的字符串。这些操作包括类似的方法<code>Replace</code>和<code>Substring</code>，同时也串联。</p>
+<blockquote>
+<p>提防串联大量字符串，尤其是在循环内部</p>
+</blockquote>
+<p>因此，这里的技巧很简单-注意不要串联大量字符串，尤其是在循环内部。在这种情况下，请使用<code>System.Text.StringBuilder</code>类，而不要使用“ +”运算符。这样可以确保不会为连接的每个部分创建新实例。</p>
+<h2 id="10-随时关注C＃的发展"><a href="#10-随时关注C＃的发展" class="headerlink" title="10.随时关注C＃的发展"></a>10.随时关注C＃的发展</h2><p>最后，我们以非常笼统的建议作为结尾-请密切关注C＃语言的更改和发展方式。C＃团队不断提供可以对性能产生积极影响的新功能。</p>
+<p>我们可以提到的一个最新示例是C＃7中引入的<a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/ref-returns" target="_blank" rel="noopener">ref</a> return <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/ref-returns" target="_blank" rel="noopener">和ref locals</a>。这些新功能允许开发人员按引用返回并将引用存储在局部变量中。C＃7.2引入了<a href="https://docs.microsoft.com/en-us/dotnet/api/system.span-1?view=netcore-3.0" target="_blank" rel="noopener">Span</a> 类型，从而可以对内存的连续区域进行类型安全的访问。</p>
+<p>诸如此类的新功能和类型不太可能被大多数C＃开发人员使用，但是它们无疑会对性能至关重要的应用程序产生影响，值得进一步了解。</p>
+<h2 id="C＃性能很重要！"><a href="#C＃性能很重要！" class="headerlink" title="C＃性能很重要！"></a>C＃性能很重要！</h2><p>这只是我发现对提高.NET代码性能有用的几件事的集合-但是值得花时间检查代码以确保其性能。您的团队和客户将感谢您！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/26/管理/我是如何完成一个短期项目的？/" rel="next" title="我是如何完成一个短期项目的？">
+                <i class="fa fa-chevron-left"></i> 我是如何完成一个短期项目的？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/09/技术/how-to-manage-user-secret-in-develop-and-production/" rel="prev" title="在Asp.NET Core中如何优雅的管理用户机密数据">
+                在Asp.NET Core中如何优雅的管理用户机密数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C＃性能提示和技巧"><span class="nav-number">1.</span> <span class="nav-text">C＃性能提示和技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-每个开发人员都应使用分析器"><span class="nav-number">1.1.</span> <span class="nav-text">1.每个开发人员都应使用分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-级别越高，速度越慢（通常）"><span class="nav-number">1.2.</span> <span class="nav-text">2.级别越高，速度越慢（通常）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-不要低估发行版和调试版"><span class="nav-number">1.3.</span> <span class="nav-text">3.不要低估发行版和调试版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-看大局"><span class="nav-number">1.4.</span> <span class="nav-text">4.看大局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-内存位置很重要"><span class="nav-number">1.5.</span> <span class="nav-text">5.内存位置很重要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-减轻垃圾收集器的压力"><span class="nav-number">1.6.</span> <span class="nav-text">6.减轻垃圾收集器的压力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-不要使用空的析构函数"><span class="nav-number">1.7.</span> <span class="nav-text">7.不要使用空的析构函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-避免不必要的装箱和拆箱"><span class="nav-number">1.8.</span> <span class="nav-text">8.避免不必要的装箱和拆箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-当心字符串连接"><span class="nav-number">1.9.</span> <span class="nav-text">9.当心字符串连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-随时关注C＃的发展"><span class="nav-number">1.10.</span> <span class="nav-text">10.随时关注C＃的发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C＃性能很重要！"><span class="nav-number">1.11.</span> <span class="nav-text">C＃性能很重要！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

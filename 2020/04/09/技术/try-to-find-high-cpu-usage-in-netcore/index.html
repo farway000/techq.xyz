@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="作者:胡安·帕勃罗·希达，JUAN PABLO SCIDA是一位软件架构师，在软件开发方面拥有10多年的经验。他是经过认证的.NET和Java开发人员。在过去的几年中，他还热衷于使用Node.js，MongoDB和Erlang。 原文来自：https://www.toptal.com/dot-net/hunting-high-cpu-usage-in-dot-net 软件开发可能是一个非常复杂的过">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在.NET应用程序中分析CPU使用率过高的问题">
+<meta property="og:url" content="http://techq.xyz/2020/04/09/技术/try-to-find-high-cpu-usage-in-netcore/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="作者:胡安·帕勃罗·希达，JUAN PABLO SCIDA是一位软件架构师，在软件开发方面拥有10多年的经验。他是经过认证的.NET和Java开发人员。在过去的几年中，他还热衷于使用Node.js，MongoDB和Erlang。 原文来自：https://www.toptal.com/dot-net/hunting-high-cpu-usage-in-dot-net 软件开发可能是一个非常复杂的过">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/nLECb8q0ecw5UN4q.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/pUEaTdjUQ34gG4NI.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/YLVYmJ9IXEsw2vyW.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/o4CEqvo7SO4tN36e.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/TMJu2hTrqlgsk72i.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/FiLI9Fm8THwFbtHC.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/g0Ju109AJTgK2mGc.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/8yUwhsUG7wg9LalW.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/UejsVGxAkYEiBRaH.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/oBHnRyDQWvU0RxZP.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/RrbDyIKOrqQQ2qt0.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在.NET应用程序中分析CPU使用率过高的问题">
+<meta name="twitter:description" content="作者:胡安·帕勃罗·希达，JUAN PABLO SCIDA是一位软件架构师，在软件开发方面拥有10多年的经验。他是经过认证的.NET和Java开发人员。在过去的几年中，他还热衷于使用Node.js，MongoDB和Erlang。 原文来自：https://www.toptal.com/dot-net/hunting-high-cpu-usage-in-dot-net 软件开发可能是一个非常复杂的过">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/nLECb8q0ecw5UN4q.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/09/技术/try-to-find-high-cpu-usage-in-netcore/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在.NET应用程序中分析CPU使用率过高的问题 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/09/技术/try-to-find-high-cpu-usage-in-netcore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在.NET应用程序中分析CPU使用率过高的问题
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-09 21:24:00" itemprop="dateCreated datePublished" datetime="2020-04-09T21:24:00+00:00">2020-04-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作者:胡安·帕勃罗·希达，JUAN PABLO SCIDA是一位软件架构师，在软件开发方面拥有10多年的经验。他是经过认证的.NET和Java开发人员。在过去的几年中，他还热衷于使用Node.js，MongoDB和Erlang。</p>
+<p>原文来自：<a href="https://www.toptal.com/dot-net/hunting-high-cpu-usage-in-dot-net" target="_blank" rel="noopener">https://www.toptal.com/dot-net/hunting-high-cpu-usage-in-dot-net</a></p>
+<p>软件开发可能是一个非常复杂的过程。作为开发人员，我们需要考虑很多不同的变量。有些不在我们的控制之下，有些在实际代码执行时对我们来说是未知的，有些则由我们直接控制。 <a href="https://www.toptal.com/dot-net" target="_blank" rel="noopener">.NET开发人员</a>也毫不例外。</p>
+<p>考虑到这样的现实情况，当我们在受控环境中工作时，事情通常会按计划进行。假设就是我们的开发机器或我们可以完全访问的集成环境。我们可以使用工具来分析影响我们的代码和软件的不同变量。我们也不必处理服务器的繁重负载，也不必处理并发用户尝试同时执行相同操作的情况。</p>
+<p>在可描述和安全的情况下，我们的代码通常可以正常工作，但是在生产环境下，如果处于过度负载或其他一些外部因素的影响，可能会发生意外问题。生产环境的软件性能很难分析。在大多数情况下，我们必须在理论上处理潜在的问题：我们知道可能会发生问题，但无法测试。这就是为什么我们需要以我们所用语言的最佳实践和文档为基础进行开发，并避免<a href="https://www.toptal.com/c-sharp/top-10-mistakes-that-c-sharp-programmers-make" target="_blank" rel="noopener">常见错误</a>。</p>
+<p>如前所述，当软件上线时，可能会出错，并且代码可能会以我们未计划的方式开始执行。当我们不得不处理问题而又无法调试或确定发生了什么情况时，我们可能会遇到这种情况。在这种情况下我们该怎么办？</p>
+<p><img src="https://uploader.shimo.im/f/nLECb8q0ecw5UN4q.png!thumbnail" alt="图片"></p>
+<p>如果某个进程长时间使用超过90％的CPU，则我们会遇到麻烦</p>
+<p>在本文中，我们将分析基于Windows的服务器上. net web应用程序的高CPU使用率的实际案例场景、涉及到的识别问题的过程，以及更重要的问题，为什么会出现这个问题以及我们如何解决它。</p>
+<p>CPU使用率和内存消耗是广泛讨论的主题。通常，很难确定某个特定进程应使用的资源（CPU，RAM，I / O）的正确数量以及持续的时间段。尽管可以肯定的是-如果某个进程长时间使用了超过90％的CPU，那么我们将特别麻烦，因为在这种情况下服务器将无法处理任何其他请求。</p>
+<p>这是否意味着流程本身存在问题？不必要。该过程可能需要更多的处理能力，或者正在处理大量数据。首先，我们唯一能做的就是尝试确定发生这种情况的原因。</p>
+<p>所有操作系统都有几种不同的工具来监视服务器中发生的事情。Windows服务器专门具有任务管理器<a href="https://technet.microsoft.com/en-us/library/cc749115.aspx" target="_blank" rel="noopener">Performance Monitor</a>，在本例中，我们使用了<a href="http://newrelic.com/server-monitoring" target="_blank" rel="noopener">New Relic Servers</a>，它是监视服务器的绝佳工具。</p>
+<h2 id="最初症状和问题分析"><a href="#最初症状和问题分析" class="headerlink" title="最初症状和问题分析"></a>最初症状和问题分析</h2><p>部署应用程序后，在头两周的时间里，我们开始看到服务器的CPU使用率达到峰值，这使服务器无响应。为了使其再次可用，我们必须重新启动它，并且该事件在该时间段内发生了3次。如前所述，我们使用New Relic Servers作为服务器监视器，它表明w3wp.exe在服务器崩溃时，该进程占用了94％的CPU。</p>
+<p>Internet信息服务（IIS）工作进程是Windows进程（w3wp.exe），它运行Web应用程序，并负责处理发送到特定应用程序池的Web服务器的请求。IIS服务器可能有多个应用程序池（和几个不同的w3wp.exe进程），这些池可能会产生问题。根据该进程具有的用户（这在New Relic报告中显示），我们确定问题出在我们的.NET C＃Web表单旧版应用程序。</p>
+<p>.NET Framework与Windows调试工具紧密集成在一起，因此，我们要做的第一件事是查看事件查看器和应用程序日志文件，以查找有关正在发生的事情的有用信息。无论我们是否在事件查看器中记录了一些异常，它们都没有提供足够的数据来进行分析。这就是为什么我们决定更进一步并收集更多数据的原因，因此当事件再次发生时，我们将做好准备。</p>
+<h2 id="数据采集"><a href="#数据采集" class="headerlink" title="数据采集"></a>数据采集</h2><p>收集用户模式进程转储的最简单方法是使用<a href="https://www.microsoft.com/en-us/download/details.aspx?id=49924" target="_blank" rel="noopener">Debug Diagnostic Tools v2.0</a>或仅使用DebugDiag。DebugDiag具有一组用于收集数据（DebugDiag集合）和分析数据（DebugDiag分析）的工具。</p>
+<p>因此，让我们开始定义使用调试诊断工具收集数据的规则：</p>
+<ol>
+<li>打开DebugDiag集合，然后选择Performance。<img src="https://uploader.shimo.im/f/pUEaTdjUQ34gG4NI.png!thumbnail" alt="图片"></li>
+<li>选择Performance Counters并单击Next。</li>
+<li>点击Add Perf Triggers。</li>
+<li>展开Processor（不是Process）对象，然后选择% Processor Time。请注意，如果您使用的是Windows Server 2008 R2，并且具有64个以上的处理器，请选择该Processor Information对象而不是该Processor对象。</li>
+<li>在实例列表中，选择_Total。</li>
+<li>单击Add，然后单击确定OK。</li>
+<li>选择新添加的触发器，然后单击确定Edit Thresholds。<img src="https://uploader.shimo.im/f/YLVYmJ9IXEsw2vyW.png!thumbnail" alt="图片"></li>
+<li>Above在下拉菜单中选择。</li>
+<li>将阈值更改为80。</li>
+<li>输入20秒数。您可以根据需要调整该值，但请注意不要指定小数秒，以防止错误触发。<img src="https://uploader.shimo.im/f/o4CEqvo7SO4tN36e.png!thumbnail" alt="图片"></li>
+<li>点击OK。</li>
+<li>点击Next。</li>
+<li>点击Add Dump Target。</li>
+<li>Web Application Pool从下拉菜单中选择。</li>
+<li>从应用程序池列表中选择您的应用程序池。</li>
+<li>点击OK。</li>
+<li>点击Next。</li>
+<li>Next再点击一次。</li>
+<li>如果需要，请输入规则名称，并记下转储的保存位置。您可以根据需要更改此位置。</li>
+<li>点击Next。</li>
+<li>选择Activate the Rule Now并单击Finish。</li>
+</ol>
+<p>描述的规则将创建一组小型转储文件，这些文件的大小将非常小。最终转储将是具有完整内存的转储，并且该转储会更大。现在，我们只需要等待高CPU事件再次发生即可。</p>
+<p>将转储文件保存在所选文件夹中后，我们将使用DebugDiag Analysis工具来分析收集的数据：</p>
+<ol>
+<li>选择性能分析器。<img src="https://uploader.shimo.im/f/TMJu2hTrqlgsk72i.png!thumbnail" alt="图片"></li>
+<li>添加转储文件。<img src="https://uploader.shimo.im/f/FiLI9Fm8THwFbtHC.png!thumbnail" alt="图片"></li>
+<li>开始分析。</li>
+</ol>
+<p>DebugDiag将花费几分钟（或数分钟）来解析转储并提供分析。完成分析后，您将看到一个网页，其中包含摘要以及有关线程的大量信息，类似于以下内容：</p>
+<p><img src="https://uploader.shimo.im/f/g0Ju109AJTgK2mGc.png!thumbnail" alt="图片"></p>
+<p>正如您在摘要中看到的那样，有一条警告说：“在一个或多个线程上检测到转储文件之间的CPU使用率过高。” 如果单击建议，我们将开始了解应用程序存在问题的地方。我们的示例报告如下所示：</p>
+<p><img src="https://uploader.shimo.im/f/8yUwhsUG7wg9LalW.png!thumbnail" alt="图片"></p>
+<p>正如我们在报告中看到的那样，有一个关于CPU使用率的模式。所有CPU使用率高的线程都与同一类相关。在跳到代码之前，让我们看一下第一个。</p>
+<p><img src="https://uploader.shimo.im/f/UejsVGxAkYEiBRaH.png!thumbnail" alt="图片"></p>
+<p>这是我们遇到的第一个线程的细节。对我们来说有趣的部分是：</p>
+<p><img src="https://uploader.shimo.im/f/oBHnRyDQWvU0RxZP.png!thumbnail" alt="图片"></p>
+<p>在这里，我们有一个代码调用，GameHub.OnDisconnected()该代码触发了有问题的操作，但是在此调用之前，我们有两个Dictionary调用，它们可以使您对发生的事情有所了解。让我们看一下.NET代码，看看该方法在做什么：</p>
+<p>public override Task OnDisconnected() {</p>
+<pre><code>try
+
+{
+
+    var userId = GetUserId();
+
+    string connId;
+
+    if (onlineSessions.TryGetValue(userId, out connId))
+
+        onlineSessions.Remove(userId);
+
+}
+
+catch (Exception)
+
+{
+
+    // ignored
+
+}
+
+return base.OnDisconnected();
+
+}</code></pre><p>我们显然在这里有问题。报告的调用堆栈说问题出在字典上，在这段代码中我们正在访问字典，特别是引起问题的那一行是：</p>
+<p>if (onlineSessions.TryGetValue(userId, out connId))</p>
+<p>这是字典声明：</p>
+<p>static Dictionary&lt;int, string&gt; onlineSessions = new Dictionary&lt;int, string&gt;();</p>
+<h2 id="NET代码有什么问题？"><a href="#NET代码有什么问题？" class="headerlink" title=".NET代码有什么问题？"></a>.NET代码有什么问题？</h2><p>具有面向对象编程经验的每个人都知道静态变量将由此类的所有实例共享。让我们更深入地了解.NET世界中静态的含义。</p>
+<p>根据.NET C＃规范：</p>
+<blockquote>
+<p>使用<a href="https://msdn.microsoft.com/en-us/library/98f28cdx.aspx" target="_blank" rel="noopener">static</a>修饰符声明一个静态成员，该成员属于类型本身而不是特定对象。</p>
+</blockquote>
+<p>这就是.NET C＃语言规范关于<a href="https://msdn.microsoft.com/en-us/library/79b3xss3.aspx" target="_blank" rel="noopener">静态类和成员的说明</a>：</p>
+<blockquote>
+<p>与所有类类型一样，当加载引用该类的程序时，.NET Framework公共语言运行库（CLR）将加载静态类的类型信息。程序无法确切指定何时加载类。但是，可以保证在程序中首次引用该类之前，将其加载并初始化其字段并调用其静态构造函数。静态构造函数仅被调用一次，并且静态类在程序所在的应用程序域的生存期内保留在内存中。<br>非静态类可以包含静态方法，字段，属性或事件。即使没有创建该类的实例，该静态成员也可以在该类上调用。始终通过类名称而不是实例名称访问静态成员。无论创建多少个类实例，静态成员只有一个副本。静态方法和属性无法访问其包含类型的非静态字段和事件，并且除非在方法参数中显式传递了实例变量，否则它们无法访问任何对象的实例变量。</p>
+</blockquote>
+<p>这意味着静态成员属于类型本身，而不是对象。它们也由CLR加载到应用程序域中，因此静态成员属于承载应用程序的进程，而不是特定线程。</p>
+<p>鉴于Web环境是多线程环境，因为每个请求都是由w3wp.exe进程产生的新线程；考虑到静态成员是该过程的一部分，我们可能会遇到以下情况：几个不同的线程尝试访问静态（由多个线程共享的）变量的数据，这最终可能会导致多线程问题。</p>
+<p>线程安全性下的Dictionary <a href="https://msdn.microsoft.com/en-us/library/xfhwa508%28v=vs.100%29.aspx" target="_blank" rel="noopener">文档</a>声明以下内容：</p>
+<blockquote>
+<p>Dictionary&lt;TKey, TValue&gt;只要不修改集合，A 就可以同时支持多个阅读器。即使这样，通过集合进行枚举本质上也不是线程安全的过程。在极少的枚举与写访问竞争的情况下，必须在整个枚举期间锁定集合。要允许多个线程访问该集合进行读写，您必须实现自己的同步。</p>
+</blockquote>
+<p>此声明解释了为什么我们可能会遇到此问题。根据转储信息，问题出在字典的FindEntry方法上：</p>
+<p><img src="https://uploader.shimo.im/f/RrbDyIKOrqQQ2qt0.png!thumbnail" alt="图片"></p>
+<p>如果查看字典的FindEntry <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,bcd13bb775d408f1" target="_blank" rel="noopener">实现，</a>我们可以看到该方法遍历内部结构（存储桶）以查找值。</p>
+<p>因此，以下.NET代码枚举了集合，这不是线程安全的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public override Task OnDisconnected() &#123;</span><br><span class="line">    	try</span><br><span class="line">    	&#123;</span><br><span class="line">        	var userId = GetUserId();</span><br><span class="line">        	string connId;</span><br><span class="line">        	if (onlineSessions.TryGetValue(userId, out connId))</span><br><span class="line">            	onlineSessions.Remove(userId);</span><br><span class="line">    	&#125;</span><br><span class="line">    	catch (Exception)</span><br><span class="line">    	&#123;</span><br><span class="line">        	// ignored</span><br><span class="line">    	&#125;</span><br><span class="line">    	return base.OnDisconnected();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>正如我们在转储中看到的那样，有多个线程试图同时迭代和修改共享资源（静态字典），最终导致迭代进入无限循环，从而导致线程消耗超过90％的CPU。 。</p>
+<p>有几种可能的解决方案。我们首先实现的方法是锁定和同步对字典的访问，但会损失性能。那时服务器每天都崩溃，因此我们需要尽快解决此问题。即使这不是最佳解决方案，它也解决了该问题。</p>
+<p>解决这个问题的下一步是分析代码并找到最优解决方案。重构代码是一个选项:新的ConcurrentDictionary类可以解决这个问题，因为它只锁定在一个桶级别，这将提高整体性能。尽管这是一大步，还需要进一步的分析。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/06/技术/memory-manage-in-c#/" rel="next" title=".NET中的内存管理">
+                <i class="fa fa-chevron-left"></i> .NET中的内存管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/10/随笔/how-to-find-millon-in-changsha-programmer/" rel="prev" title="长沙IT技术圈的百万大佬，何处寻觅？">
+                长沙IT技术圈的百万大佬，何处寻觅？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#最初症状和问题分析"><span class="nav-number">1.</span> <span class="nav-text">最初症状和问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据采集"><span class="nav-number">2.</span> <span class="nav-text">数据采集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NET代码有什么问题？"><span class="nav-number">3.</span> <span class="nav-text">.NET代码有什么问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

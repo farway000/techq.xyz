@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、微软走向开放与.NET Core的诞生当今时代，气象更新，技术飞速发展。 当今时代，开发者大概是最优秀的群体。每一位开发者，无不奋勇向前，努力追寻时代的步伐，以大无畏的精神迎接挑战，紧跟大时代成就企业发展的宏伟蓝图的同时，也在实现自己的个人梦想。 微软，无疑便是最善于应对时代变化的英雄，从比尔盖茨选择从哈佛大学创业开始，历经四十年时间，经过了三个变革的时期。每个时代都以其独特的方式深深地鼓舞人">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡">
+<meta property="og:url" content="http://techq.xyz/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一、微软走向开放与.NET Core的诞生当今时代，气象更新，技术飞速发展。 当今时代，开发者大概是最优秀的群体。每一位开发者，无不奋勇向前，努力追寻时代的步伐，以大无畏的精神迎接挑战，紧跟大时代成就企业发展的宏伟蓝图的同时，也在实现自己的个人梦想。 微软，无疑便是最善于应对时代变化的英雄，从比尔盖茨选择从哈佛大学创业开始，历经四十年时间，经过了三个变革的时期。每个时代都以其独特的方式深深地鼓舞人">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/dHeSY1m1vxU7M0xT.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/aKGIP2ffgY0sBy14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/c4p8aTPXKyUlWWP5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/FTy19dQR6V0gtjvx.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/KrzXe1O3egUWHHhN.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/fXT5Sm9hcmYlKN7X.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/xolfXf9N2Ngt0ZEw.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/kWU0c7E8ZgIetK76.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/lsRndjg1IV02vuRj.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/tVCggMaeuy4Otn49.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/U8orKf4948oFTT06.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/sCLVEiNw2fsVvXTC.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/jjRmo0c3OuEIBzIO.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/r8YuyEEQ2bQJengS.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/hlroKh2ssdEyvdyY.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/vsXjGb1qoVguk6Ik.png">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡">
+<meta name="twitter:description" content="一、微软走向开放与.NET Core的诞生当今时代，气象更新，技术飞速发展。 当今时代，开发者大概是最优秀的群体。每一位开发者，无不奋勇向前，努力追寻时代的步伐，以大无畏的精神迎接挑战，紧跟大时代成就企业发展的宏伟蓝图的同时，也在实现自己的个人梦想。 微软，无疑便是最善于应对时代变化的英雄，从比尔盖茨选择从哈佛大学创业开始，历经四十年时间，经过了三个变革的时期。每个时代都以其独特的方式深深地鼓舞人">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/dHeSY1m1vxU7M0xT.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-12 08:08:00" itemprop="dateCreated datePublished" datetime="2019-11-12T08:08:00+00:00">2019-11-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、微软走向开放与-NET-Core的诞生"><a href="#一、微软走向开放与-NET-Core的诞生" class="headerlink" title="一、微软走向开放与.NET Core的诞生"></a>一、微软走向开放与.NET Core的诞生</h1><p>当今时代，气象更新，技术飞速发展。</p>
+<p>当今时代，开发者大概是最优秀的群体。每一位开发者，无不奋勇向前，努力追寻时代的步伐，以大无畏的精神迎接挑战，紧跟大时代成就企业发展的宏伟蓝图的同时，也在实现自己的个人梦想。</p>
+<p>微软，无疑便是最善于应对时代变化的英雄，从比尔盖茨选择从哈佛大学创业开始，历经四十年时间，经过了三个变革的时期。每个时代都以其独特的方式深深地鼓舞人心，哪怕历经千辛万苦，哪怕一度前途充满阴霾，也能实现自我价值的刷新，并重回巅峰。</p>
+<p>当代的微软，已经从一家技术驱动型公司，变革为一家文化驱动型公司，在纳德拉的领导下，云战略，开放，分享，自我刷新的企业文化精神已经让人们深深的意识到，那个沉睡的巨象一旦觉醒，该有着多么大的魄力和影响力。</p>
+<p>大环境已经在悄然改变，在隔壁Java走下坡路时，这边的.NET，也迎来了新的发展机遇。微软不再靠自己一家企业来控制这种优秀的技术，而是成立了一个.NET基金会，他扮演着技术公司于开发者之间的窗口，旨在加强和扩大以.NET技术为核心的技术生态系统。并随着.NET技术交给了社区由基金会来管理，基于.NET的开源生态已经如星火燎然之势蓬勃开展起来。到目前为止该基金会的参与者已经包括谷歌，红帽等知名互联网公司，这么多优秀的企业都参与其中。众人拾柴火焰高，有了这么多企业的积极参与，.NET技术生态已经迎来了前所未有的战略机遇期。</p>
+<p>2019年的9月份，在2019年的.NET Conf上已经发布了.NET技术体系下、面向开源和跨平台的技术组件.NET Core3.0，该技术包含了一系列组件和新特性，能够让无论是Web开发者，还是ML.NET开发者，或者是游戏开发者都能直接感受到.NET Core跨平台技术的魅力和价值。</p>
+<h1 id="二、开发者峰会的诞生"><a href="#二、开发者峰会的诞生" class="headerlink" title="二、开发者峰会的诞生"></a>二、开发者峰会的诞生</h1><p>2019年对于广大.NET开发者来说算是不平凡的一年。在这一年里，在微软云技术社区的支持下、在.NET社区领袖张善友老师、衣明志老师、叶伟民老师、陈作老师、潘淳老师等行业翘楚的摇旗呐喊之下，各地的.NET技术社区（微软.NET俱乐部）如雨后春笋般蓬勃开展起来。</p>
+<p>首先是胶东开发者部落的诞生、广州微软.NET俱乐部的复活。</p>
+<p>接着是苏州微软.NET俱乐部的诞生。</p>
+<p>随后是长沙.NET技术社区、沈阳、东莞、厦门、北京等地区.NET社区的诞生 。</p>
+<p>以及随后各地都相继成立了主题为.NET技术或互联网技术的各类线上或线下的技术交流组织，可以说无论你目前身处祖国的哪一个角落，总是能在最近的地域找到一个活跃的技术社区，通过社区能够跟当地的技术大佬们进行充满高质量的技术交流，这对于每一位开发者来说都是非常难能可贵的体验。</p>
+<p>除了这些.NET技术社区外，还有数十位.NET开发者们自发运营起主打.NET方向的技术公众号来，通过这些公众号，能够让开发者从全方位多维度了解和学习面向互联网大时代的.NET技术，能够让爱学习的开发者们的技术每时每刻都做好积累。</p>
+<p>而且在.NET开发者的主阵地，博客园每天发表的新内容中，与.NET技术相关的话题也越来越多；而且越来越多的优秀的.NET技术书籍也已经付梓，并被出版社相继出版，成为畅销书，还有许多开发者们都相继把他们的写的新书交给了出版社，预计在明年年初将迎来一波.NET技术类书籍的小高潮。</p>
+<p>这些都是.NET开发者们迎来的良好机遇，借着行业互联网的逐渐深化、以及.NET技术的进一步推广、技术社区的繁荣昌盛、.NET学习资源的源源不绝，相信开发者们一定能借此良机成就个人的美好梦想。</p>
+<p>在这样的大背景之下，为了让.NET开发者们能够更加直观的感受到.NET技术的强大魅力，微软云（Azure)、.NET技术社区的行业翘楚、企业代表、活跃在.NET技术圈的优秀开发者们、以及各地.NET技术社区们，打算干一件大事，这就是本次2019年的.NET Conf，中国.NET 开发者峰会。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/dHeSY1m1vxU7M0xT.png" alt="图片"></p>
+<p>有别于一般都是由大型企业组织、或者甚至有微软包办的其他类型技术峰会，这次峰会完全来自.NET技术圈开发者们的无偿付出，我们可以看到，张善友老师经常在他的公众号里发布与Conf有关的资讯，而这些文章的撰写都是来源于社区；我们也可以看到许多精美的海报，这些也是来源于开发者，甚至也许就是我们身边的某位不知名的开发者。还有在活动现场的许多志愿者、主持人，这些都是对.NET 技术充满大爱的优秀开发者；尤其是那些为大家带来精彩内容的老师们，他们有时候为了PPT上的每一页内容，需要花费大量的业余时间；除了这些之外，我们还能看到许多细节，如那些设计精美的PPT、那些设计精良的文化衫、甚至还有那些小巧玲珑的贴纸图案、海报，无一不是来源于社区志愿者的精心奉献。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/aKGIP2ffgY0sBy14.png" alt="图片"></p>
+<p>这么多开发者、志愿者、老师们的专注认真、精心设计、严密组织， 从宣传、活动安排、布置、会场组织的每一个细节出发，我们看到的，正是一个充满生机和活力、专业的技术社区，这样的社区，让我们对.NET技术充满了激情，也让我们对未来充满了无限期待。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/c4p8aTPXKyUlWWP5.png" alt="图片"></p>
+<h1 id="三、精彩纷呈的内容"><a href="#三、精彩纷呈的内容" class="headerlink" title="三、精彩纷呈的内容"></a>三、精彩纷呈的内容</h1><p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/FTy19dQR6V0gtjvx.png" alt="图片"></p>
+<p>这次.NET Conf的主题是《开源，共享，创新》，既可以称为社区的主题，也可以拥抱新时代的.net开发者们的共同心声。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/KrzXe1O3egUWHHhN.png" alt="图片"></p>
+<p>开源：随着.Net技术推出的新版技术框架.net core已经发布3.0版本，开源社区建设正如同雨后春笋一般蓬勃发展。</p>
+<p>共享：.net开发者们，不再选择敝帚自珍，而是以更加开放的心态参与到社区建设之中，共享知识，也是在分享财富。</p>
+<p>创新：开发者们拥有的最优秀的品质，在时代的浪潮下，唯有不断刷新，创新，才能始终如一的创造价值。</p>
+<p>而围绕主题出发的各种主题也同样贴合了行业发展的大趋势，许多.NET开发者虽然目前从事的领域也许是某些行业应用的开发，但是都说想了解新兴技术是如何运用到其中的，那么这次盛会给了大家机会。在本次峰会上，不仅有开发者职业发展规划的内容，也有.NET Core新的特性介绍，更有许多新兴技术，例如人工智能、实时计算、混沌工程、服务网格、RPA等新潮技术，还有PowerBI、Unity Bot、 ABP等备受期待的传统技术，能够各个让对技术充满兴趣的开发者都能学到自己想学的东西。</p>
+<p>我们可以跟随.NET Core项目负责人Scott Hunter一起，看看在.NET Core3.0中，哪些新的特性能够获得怎样的好处。</p>
+<p>也可以跟着来自澳大利亚的微软MVPJustin Yoo一起，听听他讲的故事，看看他的职业发展；</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/fXT5Sm9hcmYlKN7X.png" alt="图片"></p>
+<p>还可以跟着来自校宝在线的肖伟宇老师一起，看看如何在.NET Core中将检测组件集成到高可用的.NET Core微服务中。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/xolfXf9N2Ngt0ZEw.png" alt="图片"></p>
+<p>我们还可以听卢建辉老师谈谈ML.NET 和SciSharp项目以及TensorFlow.NET项目，而这个TensorFlow.NET项目尤其值得大家关注，因为他的主要开发团队，许多成员都是我们身边的、来自中国内地的.NET开发者们，这个项目不仅仅是中国.NET开发者们的小圈子自嗨，更是成为微软人工智能框架ML.NET的基础平台框架，通过这款框架，能够让全世界范围内超过六百二十万.NET开发者们无需转语音，便可畅想人工智能的美妙。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/kWU0c7E8ZgIetK76.png" alt="图片"></p>
+<p>而刘腾飞Jesse这位英俊帅气不凡的开发者，也把他们公司踩坑K8s的全过程搬上讲台，用血和汗的教训告诉大家，其实.NET Core什么都能干好，而且不比隔壁家的技术差。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/lsRndjg1IV02vuRj.png" alt="图片"></p>
+<p>本次大会与某些大厂组织的自称科技未来的技术峰会、喜欢吹假大空技术不同，这次大会完全是面向开发者的毫无套路的技术大会，内容都是来源于身边那些热衷于技术的开发者们平时工作的点滴积累。</p>
+<p>例如，我们可以看到博客园常年排名第一的蒋金楠大大，从多个角度出发，向开发者介绍在过去、现在，如何使用.NET/.NET Core的技术实现跨平台应用的开发；</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/tVCggMaeuy4Otn49.png" alt="图片"></p>
+<p>以及来自特来电的周国庆老师，把特来电如何构建一个覆盖全国二十万个充电站的过程讲述给大家听，混沌工程，从未离大家如此贴近。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/U8orKf4948oFTT06.png" alt="图片"></p>
+<p>除此之外，还有目前在日本从事聚合支付的桂素伟老师也分享了他们使用.NET Core+K8s的开发实践过程，让开发者能够更加深入的了解.NET技术是如何更好的融入到云原生之中。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/sCLVEiNw2fsVvXTC.png" alt="图片"></p>
+<p>还有来自中通快递的黄国石老师，把中通基于.NET技术构建实时计算框架的过程也搬上舞台，让大家看到了这双十一一亿订单背后，.NET技术也做出了如此巨大的贡献。 </p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/jjRmo0c3OuEIBzIO.png" alt="图片"></p>
+<p>还有来自刘钰老师分享的PowerBI，如何无需编程就能掌握大数据分析的技能，只要使用PowerBI，谁都可以办到。<img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/r8YuyEEQ2bQJengS.png" alt="图片"></p>
+<p>除了一对多式的讲座，活动还提供了面对面的workshop讲座，在张善友老师、陈计节老师、刘腾飞老师等几位老师花了半天时间向参加工作坊的开发者们介绍如何在azure云中使用k8s的全过程，让大家在互动中学习，产生了非常不错的效果。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/hlroKh2ssdEyvdyY.png" alt="图片"></p>
+<h1 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h1><p>从11月8日的.NET 之夜，到11月9日，11月10日的.NET Conf，我在上海呆了不足三天，有幸作为观众参与到这场活动之中，让我获益匪浅。我不仅仅学到了许多在现有工作经历中无法获取的机会，认识了许多在原来圈子中无法认识的优秀开发者，更让我深刻明白，自身离他们的巨大差距，这将激励我进一步努力。</p>
+<p>时光流逝如白驹，短暂而稍纵即逝，如同黄浦江，时而平静流淌，时而泛起波澜，正如我们所亲历的这个时代。</p>
+<p>人类从未有过如此般壮阔的变革。无时无刻不在变革，是因为历史的车轮滚滚向，历史眷顾的是坚定者、奋斗者、搏击者。</p>
+<p>我相信，我们每个人都将迎来同样更加壮阔的明天，因为我们正赶上了行业互联网大发展的时代、以及.NET发展的大时代。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/netconf2019/vsXjGb1qoVguk6Ik.png" alt="图片"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/05/随笔/开发者的不断进取，源自对技术的点滴追求/" rel="next" title="开发者的不断进取，源自对技术的点滴追求">
+                <i class="fa fa-chevron-left"></i> 开发者的不断进取，源自对技术的点滴追求
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/01/随笔/网易事件背后众生相/" rel="prev" title="网易事件，芸芸众生，相煎何急">
+                网易事件，芸芸众生，相煎何急 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、微软走向开放与-NET-Core的诞生"><span class="nav-number">1.</span> <span class="nav-text">一、微软走向开放与.NET Core的诞生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、开发者峰会的诞生"><span class="nav-number">2.</span> <span class="nav-text">二、开发者峰会的诞生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、精彩纷呈的内容"><span class="nav-number">3.</span> <span class="nav-text">三、精彩纷呈的内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、结语"><span class="nav-number">4.</span> <span class="nav-text">四、结语</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

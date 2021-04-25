@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文来源于史蒂夫·戈登（Steve Gordon）是Microsoft MVP，Pluralsight的作者，布莱顿（英国西南部城市）的高级开发人员和社区负责人。他的个人博客为：www.stevejgordon.co.uk。 导读： .NET Core（从2.1开始）中的HttpClient执行连接池和这些连接的生命周期管理。这支持使用单个HttpClient实例，通过单例减少了套接字耗尽的机会，">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Core的HttpClient连接池管理">
+<meta property="og:url" content="http://techq.xyz/2020/03/12/技术/how-to-use-httpclient-in-netcore/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="本文来源于史蒂夫·戈登（Steve Gordon）是Microsoft MVP，Pluralsight的作者，布莱顿（英国西南部城市）的高级开发人员和社区负责人。他的个人博客为：www.stevejgordon.co.uk。 导读： .NET Core（从2.1开始）中的HttpClient执行连接池和这些连接的生命周期管理。这支持使用单个HttpClient实例，通过单例减少了套接字耗尽的机会，">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/oKgF6qKs4QYLHxcE.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/eQR5yORTYbAFS4Th.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/phP4JDje5EI92hn3.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/1Uacoirz6ok1CYur.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=".NET Core的HttpClient连接池管理">
+<meta name="twitter:description" content="本文来源于史蒂夫·戈登（Steve Gordon）是Microsoft MVP，Pluralsight的作者，布莱顿（英国西南部城市）的高级开发人员和社区负责人。他的个人博客为：www.stevejgordon.co.uk。 导读： .NET Core（从2.1开始）中的HttpClient执行连接池和这些连接的生命周期管理。这支持使用单个HttpClient实例，通过单例减少了套接字耗尽的机会，">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/oKgF6qKs4QYLHxcE.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/03/12/技术/how-to-use-httpclient-in-netcore/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>.NET Core的HttpClient连接池管理 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/03/12/技术/how-to-use-httpclient-in-netcore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">.NET Core的HttpClient连接池管理
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-03-12 08:28:00" itemprop="dateCreated datePublished" datetime="2020-03-12T08:28:00+00:00">2020-03-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.stevejgordon.co.uk/httpclient-connection-pooling-in-dotnet-core" target="_blank" rel="noopener">本文来源</a><em>于史蒂夫·戈登（Steve Gordon）是Microsoft MVP，Pluralsight的作者，布莱顿（英国西南部城市）的高级开发人员和社区负责人。他的个人博客为：</em><a href="http://www.stevejgordon.co.uk" target="_blank" rel="noopener">www.stevejgordon.co.uk</a>。</p>
+<p><strong><em>导读：</em></strong></p>
+<p><em>.NET Core（从2.1开始）中的HttpClient执行连接池和这些连接的生命周期管理。这支持使用单个HttpClient实例，通过单例减少了套接字耗尽的机会，同时确保连接定期重新连接以反映DNS更改。</em></p>
+<h2 id="回顾HttpClient的历史"><a href="#回顾HttpClient的历史" class="headerlink" title="回顾HttpClient的历史"></a>回顾HttpClient的历史</h2><p>HttpClient最初是作为NuGet包开始的，该包可以选择包含在.NET Framework 4.0项目中。在.NET Framework 4.5中，它作为BCL（基本类库）的一部分在框中提供。它建立在预先存在的HttpWebRequest实现之上。在.NET Framework中，ServicePoint API可用于控制和管理HTTP连接，包括通过为端点配置ConnectionLeaseTimeout来设置连接寿命。</p>
+<p><img src="https://uploader.shimo.im/f/oKgF6qKs4QYLHxcE.png!thumbnail" alt="图片"></p>
+<p>.NET Core 1.0最初于2016年6月发布。与.NET Framework中可用的版本相比，此第一个版本的API接口要小得多，主要用于构建ASP.NET Core Web应用程序。由于.NET Core 1.0是HttpClient，因此提供了API。但是，不包括用于HttpWebRequest和ServicePoint的API。.NET Core 1.0中的HttpClient直接建立在使用非托管代码的OS平台API之上，Windows API使用WinHTTP，Linux和Mac使用LibCurl。</p>
+<p><img src="https://uploader.shimo.im/f/eQR5yORTYbAFS4Th.png!thumbnail" alt="图片"></p>
+<p>到2016年8月，很快就注意到，重新使用HttpClient实例以防止套接字耗尽的建议有一个相当麻烦的副作用。Oren Novotny（译者注：.NET基金会执行董事，.NET团队的项目经理）揭开了一个长期存在的GitHub问题，题为“ <a href="https://github.com/dotnet/corefx/issues/11224" target="_blank" rel="noopener">Singleton HttpClient doesn’t respect DNS changes</a> ”(单例HttpClient不遵守DNS 更改）。在此问题中，人们认识到重新使用单个HttpClient实例将导致连接无限期保持打开状态，因此，DNS更改可能会导致请求失败或与过时的终结点通信。</p>
+<p>在.NET Core 2.0中，添加了HttpWebRequest以支持.NET Standard 2.0。它位于HttpClient实现的顶层，这与.NET Framework 4.5+中的工作原理相反。还添加了ServicePoint，尽管它的许多API接口要么要么会抛出未实现的异常，要么根本就没有实现。</p>
+<p><img src="https://uploader.shimo.im/f/phP4JDje5EI92hn3.png!thumbnail" alt="图片"></p>
+<h2 id="自-NET-CORE-2-1以来的变化"><a href="#自-NET-CORE-2-1以来的变化" class="headerlink" title="自.NET CORE 2.1以来的变化"></a>自.NET CORE 2.1以来的变化</h2><p>这种有问题的行为导致团队不同团队进行了两项工作。ASP.NET团队开始研究<strong>Microsoft.Extensions.Http</strong>包，该包的主要功能是<strong>IHttpClientFactory</strong>。这个针对HttpClient实例自用的工厂还包括基础HttpMessageHandler链的生命周期管理。如果您想了解有关此功能的更多信息，可以查看我的<a href="https://www.stevejgordon.co.uk/introduction-to-httpclientfactory-aspnetcore" target="_blank" rel="noopener">系列博客文章</a>，我将在此介绍。 </p>
+<p>IHttpClientFactory功能是作为ASP.NET Core 2.1的一部分发布的，对于许多人来说，这是一个很好的折衷方案，它解决了连接重用以及生命周期管理的问题。</p>
+<p>在同一时间范围内，.NET团队正在研究自己的解决方案。该团队也在.NET Core 2.1中发布，在HttpClient的处理程序链的核心引入了一个新的<strong>SocketsHttpHandler</strong>。该处理程序直接建立在Socket API之上，并在托管代码中实现HTTP。这项工作的一部分包括连接池系统以及为这些连接设置最大生存期的能力。此功能将是本文其余部分的重点。</p>
+<p><img src="https://uploader.shimo.im/f/1Uacoirz6ok1CYur.png!thumbnail" alt="图片"></p>
+<p>但是在开始之前，我想指出，虽然默认情况下从.NET Core 2.1启用了SocketsHttpHandler，但实现仅限于HTTP / 1.1通信。那些需要HTTP / 2的用户必须禁用该功能并使用较旧的处理程序链，该处理程序链像以前一样依赖非托管代码，并且不包括连接池。</p>
+<p>幸运的是，.NET Core 3.0中已消除了此限制，并且现在提供了HTTP/2支持。这应该使用基于适合所有对象的SocketsHttpHandler链的HttpClient。</p>
+<h2 id="什么是连接池？"><a href="#什么是连接池？" class="headerlink" title="什么是连接池？"></a>什么是连接池？</h2><p>SocketsHttpHandler为每个唯一端点建立连接池，您的应用程序通过HttpClient向该唯一端点发出出站HTTP请求。在对端点的第一个请求上，当不存在现有连接时，将建立一个新的HTTP连接并将其用于该请求。该请求完成后，连接将保持打开状态并返回到池中。</p>
+<p>对同一端点的后续请求将尝试从池中找到可用的连接。如果没有可用的连接，并且尚未达到该端点的连接限制，则将建立新的连接。达到连接限制后，请求将保留在队列中，直到连接可以自由发送它们为止。</p>
+<p>我一直在研究此实现的内部代码，并可能在以后的博客文章中对池的行为进行更深入的分析。</p>
+<h2 id="如何控制连接池"><a href="#如何控制连接池" class="headerlink" title="如何控制连接池"></a>如何控制连接池</h2><p>有三个主要设置可用于控制连接池的行为。</p>
+<p><strong>PooledConnectionLifetime</strong>，定义连接在池中保持活动状态的时间。此生存期到期后，将不再为将来的请求而合并或发出连接。</p>
+<p><strong>PooledConnectionIdleTimeout</strong>，定义闲置连接在未使用时在池中保留的时间。一旦此生存期到期，空闲连接将被清除并从池中删除。</p>
+<p><strong>MaxConnectionsPerServer</strong>，定义每个端点将建立的最大出站连接数。每个端点的连接分别池化。例如，如果最大连接数为2，则您的应用程序将请求发送到两个<a href="http://www.github.com/" target="_blank" rel="noopener">www.github.com</a>和<a href="http://www.google.com/" target="_blank" rel="noopener">www.google.com</a>，总共可能最多有4个打开的连接。</p>
+<p>默认情况下，从.NET Core 2.1开始，更高级别的HttpClientHandler将SocketsHttpHandler用作内部处理程序。没有任何自定义配置，将应用连接池的默认设置。</p>
+<p>该<strong>PooledConnectionLifetime</strong>默认是无限的，因此，虽然经常使用的请求，连接可能会无限期地保持打开状态。该<strong>PooledConnectionIdleTimeout</strong>默认为2分钟，如果在连接池中长时间未使用将被清理。<strong>MaxConnectionsPerServer</strong>默认为int.MaxValue，因此连接基本上不受限制。</p>
+<p>如果希望控制这些值中的任何一个，则可以手动创建SocketsHttpHandler实例，并根据需要进行配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var socketsHandler = new SocketsHttpHandler</span><br><span class="line">	&#123;</span><br><span class="line">	    PooledConnectionLifetime = TimeSpan.FromMinutes(10),</span><br><span class="line">	    PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),</span><br><span class="line">	    MaxConnectionsPerServer = 10</span><br><span class="line">	&#125;;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	var client = new HttpClient(socketsHandler);</span><br></pre></td></tr></table></figure>
+
+<p>在前面的示例中，对SocketsHttpHandler进行了配置，以使连接将最多在10分钟后停止重新发出并关闭。如果闲置5分钟，则连接将在池的清理过程中被更早地删除。我们还将最大连接数（每个端点）限制为十个。如果我们需要并行发出更多出站请求，则某些请求可能会排队等待，直到10个池中的连接可用为止。<br>要应用处理程序，它将被传递到HttpClient的构造函数中。</p>
+<h3 id="测试连接寿命"><a href="#测试连接寿命" class="headerlink" title="测试连接寿命"></a>测试连接寿命</h3><p>以这个示例程序为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">	using System.Net.Http;</span><br><span class="line">	using System.Threading.Tasks;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	namespace HttpConnectionPoolingSamples</span><br><span class="line">	&#123;</span><br><span class="line">	    class Program</span><br><span class="line">	    &#123;</span><br><span class="line">	        static async Task Main(string[] args)</span><br><span class="line">	        &#123;</span><br><span class="line">	            var ips = await Dns.GetHostAddressesAsync(&quot;www.google.com&quot;);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            foreach (var ipAddress in ips)</span><br><span class="line">	            &#123;</span><br><span class="line">	                Console.WriteLine(ipAddress.MapToIPv4().ToString());</span><br><span class="line">	            &#125;</span><br><span class="line">	            </span><br><span class="line">	            var socketsHandler = new SocketsHttpHandler</span><br><span class="line">	            &#123;</span><br><span class="line">	                PooledConnectionLifetime = TimeSpan.FromMinutes(10),</span><br><span class="line">	                PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),</span><br><span class="line">	                MaxConnectionsPerServer = 10</span><br><span class="line">	            &#125;;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var client = new HttpClient(socketsHandler);</span><br><span class="line">	            </span><br><span class="line">	            for (var i = 0; i &lt; 5; i++)</span><br><span class="line">	            &#123;</span><br><span class="line">	                _ = await client.GetAsync(&quot;https://www.google.com&quot;);</span><br><span class="line">	                await Task.Delay(TimeSpan.FromSeconds(2));</span><br><span class="line">	            &#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            Console.WriteLine(&quot;Press a key to exit...&quot;);</span><br><span class="line">	            Console.ReadKey();</span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用我们刚刚讨论的设置，此代码依次向同一端点发出5个请求。在每个请求之间，它会暂停两秒钟。该代码还输出从DNS检索到的Google服务器的IPv4地址。我们可以使用此IP地址来查看通过PowerShell中发出的netstat命令对其打开的连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano | findstr 216.58.211</span><br></pre></td></tr></table></figure>
+
+<p>在我的例子中，此命令的输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TCP   192.168.1.139:53040   216.58.211.164:443   ESTABLISHED   20372</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到，在这种情况下，到远程端点的连接只有1个。在每个请求之后，该连接将返回到池中，因此在发出下一个请求时可以重新使用。<br>如果我们更改连接的生存期，以使它们在1秒后过期，那么我们可以测试这对行为的影响：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">	using System.Net;</span><br><span class="line">	using System.Net.Http;</span><br><span class="line">	using System.Threading.Tasks;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	namespace HttpConnectionPoolingSamples</span><br><span class="line">	&#123;</span><br><span class="line">	    class Program</span><br><span class="line">	    &#123;</span><br><span class="line">	        static async Task Main(string[] args)</span><br><span class="line">	        &#123;</span><br><span class="line">	            var ips = await Dns.GetHostAddressesAsync(&quot;www.google.com&quot;);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            foreach (var ipAddress in ips)</span><br><span class="line">	            &#123;</span><br><span class="line">	                Console.WriteLine(ipAddress.MapToIPv4().ToString());</span><br><span class="line">	            &#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var socketsHandler = new SocketsHttpHandler</span><br><span class="line">	            &#123;</span><br><span class="line">	                PooledConnectionLifetime = TimeSpan.FromSeconds(1),</span><br><span class="line">	                PooledConnectionIdleTimeout = TimeSpan.FromSeconds(1),</span><br><span class="line">	                MaxConnectionsPerServer = 10</span><br><span class="line">	            &#125;;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var client = new HttpClient(socketsHandler);</span><br><span class="line">	            </span><br><span class="line">	            for (var i = 0; i &lt; 5; i++)</span><br><span class="line">	            &#123;</span><br><span class="line">	                _ = await client.GetAsync(&quot;https://www.google.com&quot;);</span><br><span class="line">	                await Task.Delay(TimeSpan.FromSeconds(2));</span><br><span class="line">	            &#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            Console.WriteLine(&quot;Press a key to exit...&quot;);</span><br><span class="line">	            Console.ReadKey();</span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TCP   192.168.1.139:53115   216.58.211.164:443   TIME_WAIT     0</span><br><span class="line">TCP   192.168.1.139:53116   216.58.211.164:443   TIME_WAIT     0</span><br><span class="line">TCP   192.168.1.139:53118   216.58.211.164:443   TIME_WAIT     0</span><br><span class="line">TCP   192.168.1.139:53120   216.58.211.164:443   TIME_WAIT     0</span><br><span class="line">TCP   192.168.1.139:53121   216.58.211.164:443   ESTABLISHED   25948</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，我们可以看到使用了五个连接。其中的前四个在1秒后从池中删除，因此无法在下一个请求中重复使用。结果，每个请求都打开了一个新连接。现在，原始连接处于TIME_WAIT状态，并且操作系统无法将其重新用于新的出站连接。最终连接显示为ESTABLISHED，因为我在它过期之前就抓住了它。</p>
+<h3 id="测试最大连接数"><a href="#测试最大连接数" class="headerlink" title="测试最大连接数"></a>测试最大连接数</h3><p>对于下一个测试用例，我们将使用以下程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">	using System.Diagnostics;</span><br><span class="line">	using System.Linq;</span><br><span class="line">	using System.Net;</span><br><span class="line">	using System.Net.Http;</span><br><span class="line">	using System.Threading.Tasks;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	namespace HttpConnectionPoolingSamples</span><br><span class="line">	&#123;</span><br><span class="line">	    class Program</span><br><span class="line">	    &#123;</span><br><span class="line">	        static async Task Main(string[] args)</span><br><span class="line">	        &#123;</span><br><span class="line">	            var ips = await Dns.GetHostAddressesAsync(&quot;www.google.com&quot;);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            foreach (var ipAddress in ips)</span><br><span class="line">	            &#123;</span><br><span class="line">	                Console.WriteLine(ipAddress.MapToIPv4().ToString());</span><br><span class="line">	            &#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var socketsHandler = new SocketsHttpHandler</span><br><span class="line">	            &#123;</span><br><span class="line">	                PooledConnectionLifetime = TimeSpan.FromSeconds(60),</span><br><span class="line">	                PooledConnectionIdleTimeout = TimeSpan.FromMinutes(20),</span><br><span class="line">	                MaxConnectionsPerServer = 2</span><br><span class="line">	            &#125;;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var client = new HttpClient(socketsHandler);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var sw = Stopwatch.StartNew();</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            var tasks = Enumerable.Range(0, 200).Select(i =&gt; client.GetAsync(&quot;https://www.google.com&quot;));</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            await Task.WhenAll(tasks);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            sw.Stop();</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            Console.WriteLine($&quot;&#123;sw.ElapsedMilliseconds&#125;ms taken for 200 requests&quot;);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	            Console.WriteLine(&quot;Press a key to exit...&quot;);</span><br><span class="line">	            Console.ReadKey();</span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该代码将MaxConnectionsPerServer限制为2。然后启动200个任务，每个任务都向同一端点发出HTTP请求。这些任务将同时运行。所有请求竞争所花费的时间将写入控制台。<br>在我的机器上运行此命令后，输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8013ms taken for 200 requests</span><br></pre></td></tr></table></figure>
+
+<p>如果使用netstat查看连接，则根据定义的限制，我们可以看到两个已建立的连接。<br>已建立</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TCP   192.168.1.139:52780   216.58.204.36:443   ESTABLISHED   16076</span><br><span class="line">TCP   192.168.1.139:52780   216.58.204.36:443   ESTABLISHED   16076</span><br></pre></td></tr></table></figure>
+
+<p>如果我们调整此代码以允许MaxConnectionsPerServer = 10，则可以重新运行该应用程序。这次所花费的时间减少了大约4倍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2123ms taken for 200 requests</span><br></pre></td></tr></table></figure>
+
+<p>当我们查看连接时，我们可以看到确实建立了十个连接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TCP   192.168.1.139:52798   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52799   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52800   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52801   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52802   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52803   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52804   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52805   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52806   216.58.204.36:443   ESTABLISHED   30856</span><br><span class="line">TCP   192.168.1.139:52807   216.58.204.36:443   ESTABLISHED   30856</span><br></pre></td></tr></table></figure>
+
+<p>结果，提高了吞吐量。我们允许更多的出站连接，因此可以更快地处理请求队列，并通过额外的连接并行发出更多请求。</p>
+<h2 id="我还需要IHttpClientFactory吗？"><a href="#我还需要IHttpClientFactory吗？" class="headerlink" title="我还需要IHttpClientFactory吗？"></a>我还需要IHttpClientFactory吗？</h2><p>这是一个非常合乎逻辑的问题，可能是该帖子的结果。IHttpClientFactory的功能之一是HttpMessageHandler链的生命周期管理，因此也是基础连接的生命周期管理。有了HttpClient和SocketsHttpHandler可以达到相同效果的知识，我们是否需要使用IHttpClientFactory？</p>
+<p>我的观点是，IHttpClientFactory除了帮助管理连接生存期外还有其他好处，并且在发出出站HTTP请求时仍然可以增加价值。它提供了一种很好的模式，可以使用<a href="https://www.stevejgordon.co.uk/httpclientfactory-named-typed-clients-aspnetcore" target="_blank" rel="noopener">命名或类型化的客户端方法</a>为HttpClient实例定义逻辑配置。后来有类型的客户是我个人的最爱。</p>
+<p>这些逻辑客户端的流畅配置方法还使<a href="https://www.stevejgordon.co.uk/httpclientfactory-aspnetcore-outgoing-request-middleware-pipeline-delegatinghandlers" target="_blank" rel="noopener">定制的DelegatingHandlers</a>与客户端的使用非常简单明了。这包括ASP.NET团队对该方法的扩展，以便<a href="https://www.stevejgordon.co.uk/httpclientfactory-using-polly-for-transient-fault-handling" target="_blank" rel="noopener">与Polly集成，</a>以便轻松地对出站请求应用弹性和瞬时故障处理。</p>
+<p>即使没有生命周期管理，我也希望在将来的一段时间内将工厂用于我的应用程序。根据我在网上看到的讨论，很有可能在将来的版本中，寿命管理功能将从IHttpClientFactory中弃用和/或删除，因为它解决的问题不再适用。</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>在本文中，我们看到自从.NET Core 2.1发布以来，使用默认的SocketsHttpHandler实现时，将维护连接池。使用池的设置，我们可以控制连接的生存期并限制每个端点可能创建的出站连接的数量。</p>
+<p>我们还讨论了IHttpClientFactory不仅具有连接生存期管理的优点和功能，因此仍然是一个有价值的工具。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/11/随笔/如何快速融入团队并成为团队核心（九）/" rel="next" title="如何快速融入团队并成为团队核心(九)">
+                <i class="fa fa-chevron-left"></i> 如何快速融入团队并成为团队核心(九)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/26/技术/ten-problems-view/" rel="prev" title="15个基本的C＃面试问题">
+                15个基本的C＃面试问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾HttpClient的历史"><span class="nav-number">1.</span> <span class="nav-text">回顾HttpClient的历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自-NET-CORE-2-1以来的变化"><span class="nav-number">2.</span> <span class="nav-text">自.NET CORE 2.1以来的变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是连接池？"><span class="nav-number">3.</span> <span class="nav-text">什么是连接池？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何控制连接池"><span class="nav-number">4.</span> <span class="nav-text">如何控制连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连接寿命"><span class="nav-number">4.1.</span> <span class="nav-text">测试连接寿命</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试最大连接数"><span class="nav-number">4.2.</span> <span class="nav-text">测试最大连接数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我还需要IHttpClientFactory吗？"><span class="nav-number">5.</span> <span class="nav-text">我还需要IHttpClientFactory吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">6.</span> <span class="nav-text">摘要</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

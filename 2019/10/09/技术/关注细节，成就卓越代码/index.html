@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="开篇 我们总是很容易就能写出满足某个特定功能的代码，却很难写出优雅代码。又最欣赏那些优雅的代码，因为优雅代码更能体现一个开发者的积累。 就像写一篇散文，有的就像初学者不得其门而入，遣词造句都非常困难，然后纠纠结结，最终不了了之。或者啰哩吧嗦，看起来说了一堆，其实就像是村妇闲聊，毫无重点，不过是口水文而已。 好代码应该是这样的，如涓涓细流、如同一首诗，一篇优美的故事，将作者编写代码时的情感慢慢铺垫开">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关注细节，成就卓越代码">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/技术/关注细节，成就卓越代码/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="开篇 我们总是很容易就能写出满足某个特定功能的代码，却很难写出优雅代码。又最欣赏那些优雅的代码，因为优雅代码更能体现一个开发者的积累。 就像写一篇散文，有的就像初学者不得其门而入，遣词造句都非常困难，然后纠纠结结，最终不了了之。或者啰哩吧嗦，看起来说了一堆，其实就像是村妇闲聊，毫无重点，不过是口水文而已。 好代码应该是这样的，如涓涓细流、如同一首诗，一篇优美的故事，将作者编写代码时的情感慢慢铺垫开">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/YMu9U5cRYngc1GUE.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/R3b6TAsMcoMPjUar.png!thumbnail">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关注细节，成就卓越代码">
+<meta name="twitter:description" content="开篇 我们总是很容易就能写出满足某个特定功能的代码，却很难写出优雅代码。又最欣赏那些优雅的代码，因为优雅代码更能体现一个开发者的积累。 就像写一篇散文，有的就像初学者不得其门而入，遣词造句都非常困难，然后纠纠结结，最终不了了之。或者啰哩吧嗦，看起来说了一堆，其实就像是村妇闲聊，毫无重点，不过是口水文而已。 好代码应该是这样的，如涓涓细流、如同一首诗，一篇优美的故事，将作者编写代码时的情感慢慢铺垫开">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/YMu9U5cRYngc1GUE.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/技术/关注细节，成就卓越代码/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>关注细节，成就卓越代码 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/技术/关注细节，成就卓越代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关注细节，成就卓越代码
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+00:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h1><ul>
+<li>我们总是很容易就能写出满足某个特定功能的代码，却很难写出优雅代码。又最欣赏那些优雅的代码，因为优雅代码更能体现一个开发者的积累。</li>
+<li>就像写一篇散文，有的就像初学者不得其门而入，遣词造句都非常困难，然后纠纠结结，最终不了了之。或者啰哩吧嗦，看起来说了一堆，其实就像是村妇闲聊，毫无重点，不过是口水文而已。</li>
+<li>好代码应该是这样的，如涓涓细流、如同一首诗，一篇优美的故事，将作者编写代码时的情感慢慢铺垫开来，或是高潮迭起，此起彼伏，或是平铺直述，却蕴含道理。我始终相信优秀的代码是有灵魂的，代码的灵魂就是作者的逻辑思维。</li>
+<li>编写整洁代码 or 非整洁代码，就像平时生活中是否注意爱护环境的一点点小习惯，一旦坏味道代码没有及时处理，就会成为破窗效应，然后逐渐的代码越写越烂，最终这些代码要么以重构收场，要么就被抛弃。</li>
+<li>我们见过太多没有毫无质量可言的代码，许多时候开发者们由于能力原因、或者时间有限，写了许多能够满足当前工作的代码，然后就弃置高阁，不再理会。于是，代码写之前的只有自己和上帝能理解代码的意思，而写完了之后，只有上帝能懂了；还有一些开发者说：我只会写代码，不会优化代码，他们仿佛特别勤奋，每天都会比其他人都热衷于熬工时，但是写出的代码，实际上是一个个难以维护的技术债。而且许多代码的作者总喜欢找各种借口来抵赖，例如喜欢说代码出了问题都是底层框架太垃圾了、或者别人的代码封装得太差。他们总是抱怨这抱怨那，但是即便有优秀的框架、技术，就一定能写出优秀的代码么？</li>
+<li>在这里笔者列举了平时看到过一些自认为不太整洁的代码，以及与《代码整洁之道》（Clean Code · A Handbook of Agile Software Craftsmanship）一书中相对应的范例，欢迎大家一起来拍砖。</li>
+<li>（经验有限，时间仓促，请轻喷。）<h1 id="一些栗子"><a href="#一些栗子" class="headerlink" title="一些栗子"></a>一些栗子</h1></li>
+<li>1、命名规则<ul>
+<li>1.1 变量命名和方法命名</li>
+</ul>
+</li>
+</ul>
+<p>在我们刚刚开始学习写代码的古老时代，或许会有下面这种习惯。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// author:zhangsan</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">class ZhangsanTest</span><br><span class="line">&#123;</span><br><span class="line">    private void TestGetData()</span><br><span class="line">    &#123;</span><br><span class="line">        int a, b, c;</span><br><span class="line">    &#125;</span><br><span class="line">    private int ZhangsanGet(int s1, int s2)</span><br><span class="line">    &#123;</span><br><span class="line">        int s3 = s1 + s2;</span><br><span class="line">        return s3;</span><br><span class="line">    &#125; </span><br><span class="line">    private List&lt;string&gt; GetData()</span><br><span class="line">    &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个喜欢用自己的姓名来命名类和方法的作者，在他的代码中，经常可以看到这样奇怪的对象定义，而且他还喜欢用a,b,c,d,e,f或者s1,s2这样的命名，仿佛他的代码自带混淆特效。这样的代码嗅起来会不会觉得充斥着奇怪的味道？<br>另外，有没有发现有许多开发者喜欢用 GetData() 来定义获取数据的方法？然后这个方法就成为一个万金油的方法，不管是爬虫采集、或者数据绑定，无论是 C# 写的后端或者 Java 写的后端代码，或者用 vue 写的前端代码，仿佛在任何场景、任何数据应用都可以看到这样的方法。<br>如果一个项目中，有十几个地方都出现了这个** GetData() **方法，那种感觉一定非常难受。</p>
+<ul>
+<li>1.2 Model、Dto 傻傻分不清楚</li>
+</ul>
+<p>随着技能的增长，或许我们会学到一些新的代码概念，例如，Model、DTO 是经常容易弄混淆的一种概念，但是在某些代码中，出现了下面的命名方式就有点令人窒息了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class XXXModelDto</span><br><span class="line">    &#123;</span><br><span class="line">        public int Id &#123; get; set; &#125;</span><br><span class="line">        public string Name &#123; get; set; &#125;</span><br><span class="line">        public string Alias &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是大概是一位对概念严重消化不良的资深开发者，居然同时把 Model 和 DTO 复用在一个对象上，<br>（当然，一个开发者定义变量的背后一定有他的动机）。<br>他到底是想要的是用来在 MVC 模式解决数据传输和对象绑定的模型对象？还是用于传输数据的 DTO 呢？<br>–其实他定义这个对象，是为了定义存储数据对象的实体（ Entity ）。</p>
+<ul>
+<li>1.3特殊情况术语和字段对照表非常重要</li>
+</ul>
+<p>近年来开发者素质越来越高，所以许多优秀开发者会倾向于使用翻译软件来翻译变量名，然后用英语来命名，但是即便如此，许多政务项目总是能嗅出一些奇怪的味道。<br>例如前不久看到一条这样的短信：（原图已经消失）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxx公积金中心提醒您：您于&#123;TQSJ&#125;日进行了&#123;TQCZ&#125;操作，账上剩余金额为&#123;SYJE&#125;元。</span><br></pre></td></tr></table></figure>
+
+<p>这是个bug将xxx公积金中心的某些秘密透露在大家面前。作为一个严谨的项目，居然使用中文首字母大写命名法，这让习惯于大驼峰、小驼峰的我看了之后尴尬癌犯了，很不舒服。但是这也是许多政务信息化项目的中字段命名的规范，而且在这种情况下，往往会输出一份非常规范的数据库字段对照表，确保中文和首字母的语义不让人产生歧义。<br>所以特定语境下，变量和方法本身没有严格的规定，但是一定要使用恰当的语境概念，对于这样的特定场景，尽量维护一份实时更新的术语表吧。</p>
+<ul>
+<li>2、状态码返回值<ul>
+<li>2.1业务逻辑状态码</li>
+</ul>
+</li>
+</ul>
+<p>似乎在对外提供接口时，使用下列接口状态码是一种比较常见的惯例。提供统一格式的 code 状态码以及返回的消息和成功返回结果时的填充数据，能够让开发者高效的完成接口对接，无需关心http状态码背后的含义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;code&quot;:&quot;100101&quot;,&quot;message&quot;:&quot;success&quot;,&quot;data&quot;:&#123;&#125;,&quot;count&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.2用 http 状态码为什么不够？</li>
+</ul>
+<p>上面这是一种经典的流派，还有一种流派则会使用http状态码来返回指定的数据，事实上 http 协议本身已经提供了许多状态码，例如下面的这些大家都非常熟悉的状态码。<br>但是这些状态码为啥不够？主要是为了减少前后端、服务上下游之间接口对接的难度，也是一种提高效率的方式。 但是 http 状态码是一种通用的格式，应尽量使用这种方式，而不应该通过解析正常响应后的 json 来判断是否正确操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">200 ：正常响应 标准成功代码和默认选项。	</span><br><span class="line">201 ：创建对象。 适用于存储行为。	</span><br><span class="line">204 ：没有内容。 当一个动作成功执行，但没有任何内容可以返回。	</span><br><span class="line">206 ：部分内容。 当您必须返回分页的资源列表时很有用。	</span><br><span class="line">400 ：请求不正确 无法通过验证的请求的标准选项。	</span><br><span class="line">401 ：未经授权 用户需要进行身份验证。	</span><br><span class="line">403 ：禁止 用户已通过身份验证，但没有执行操作的权限。	</span><br><span class="line">404 ：找不到资源自动返回。	</span><br><span class="line">500 ：内部服务器错误。 理想情况下，您不会明确地返回此消息，但是如果发生意外中断，这是您的用户将会收到的。	</span><br><span class="line">503 ：服务不可用 相当自我解释，还有一个不会被应用程序显式返回的代码。</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>3、switch 语句与判断语句<ul>
+<li>3.1 面向过程式或面向对象式</li>
+</ul>
+</li>
+</ul>
+<p>我曾经跟小组中一位大佬交流他的一段代码，他的这段代码大概是这样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 流程处理</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public void FlowProcess(int auditType)</span><br><span class="line">&#123;</span><br><span class="line">  switch (auditType)</span><br><span class="line">  &#123;                </span><br><span class="line">      case 1://通过</span><br><span class="line">          //此处省略通过场景下的50行代码</span><br><span class="line">          break;</span><br><span class="line">      case 2://不通过</span><br><span class="line">          //此处省略不通过场景下的50行代码</span><br><span class="line">          break;</span><br><span class="line">      case 3://再审通过</span><br><span class="line">          //此处省略再审通过场景下的50行代码</span><br><span class="line">          break;</span><br><span class="line">      case 4://再审不通过</span><br><span class="line">          //此处省略再审不通过场景下的50行代码</span><br><span class="line">          break;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（读者卒。）<br>且不说这位大佬的代码是写得好或者不好，仅仅就这200多行代码的4个大switch读起来大概会让人便秘难受吧。于是在我读完这段代码之后，我冒死向他请教这么写代码的原因，他说我这个流程处理就是一个简单的用例场景，哪里还有什么可以优化的余地？<br>我跟他介绍了20分钟代码封装的必要性，于是，他把代码写成了这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 流程处理</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public void FlowProcess(int auditType)</span><br><span class="line">&#123;</span><br><span class="line">    switch (auditType)</span><br><span class="line">    &#123;                </span><br><span class="line">        case 1://通过</span><br><span class="line">            AuditOK();</span><br><span class="line">            break;</span><br><span class="line">        case 2://不通过</span><br><span class="line">            AuditNotOK();</span><br><span class="line">            break;</span><br><span class="line">        case 3://再审通过</span><br><span class="line">            ReAuditOK();</span><br><span class="line">            break;</span><br><span class="line">        case 4://再审不通过</span><br><span class="line">            ReAuditNotOK();</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public void AuditOK()</span><br><span class="line">&#123;</span><br><span class="line">    //此处省略通过场景下的50行代码</span><br><span class="line">&#125;</span><br><span class="line">public void AuditNotOK()</span><br><span class="line">&#123;</span><br><span class="line">    //此处省略不通过场景下的50行代码</span><br><span class="line">&#125;</span><br><span class="line">public void ReAuditOK()</span><br><span class="line">&#123;</span><br><span class="line">    //此处省略再审通过场景下的50行代码</span><br><span class="line">&#125;</span><br><span class="line">public void ReAuditNotOK()</span><br><span class="line">&#123;</span><br><span class="line">    //此处省略再审不通过场景下的50行代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这酸爽令人简直难以置信。（事实上这个新鲜出炉的遗留应用，正是这样一点点堆积了许多总代码行超过千行的类文件）<br>《代码整洁之道》书上有一个类似的例子，大概与上文类似，Robert 大叔给出了这样的建议：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于switch 语句，我的规矩是如果只出现一次，用于创建多态对象，而且隐藏在某个集成关系中，在系统中其他部分看不到，就还能容忍。当然也要就事论事，有时我也会部分或全部违反这条规矩。</span><br></pre></td></tr></table></figure>
+
+<p>上文我给出的示例，有点像面向过程的代码风格，而 Robert 大叔在他的书中写下的示例是这样的（抽象工厂模式的示例）。<br><img src="https://uploader.shimo.im/f/YMu9U5cRYngc1GUE.png!thumbnail" alt="图片"><br>这清爽的感觉，让人很舒服啊。</p>
+<ul>
+<li>3.2 孰优孰劣？</li>
+</ul>
+<p>当然，原示例是一个流程处理的例子，似乎大家的流程处理代码都习惯于使用这种面向过程风格的写法，反正要加判定条件，就加一个 case 就可以了。<br>而在某些特定情况下，甚至用 if / else 来写逻辑判断更简单，于是我们经常在某些销量很好的快速开发平台中，看到这样的例子。<br><img src="https://uploader.shimo.im/f/R3b6TAsMcoMPjUar.png!thumbnail" alt="图片"><br>这些典型的面向过程风格的代码，确实读起来似乎更加简单、而且也易于实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Robert 大叔是这样说的：过程式代码（使用数据结构的代码）便于在不改动既有数据结构的前提下添加新函数，面向对象代码便于在不改动既有函数的前提下添加新类。</span><br><span class="line">反过来讲也说得通：过程式代码难以添加新数据结构，因为必须修改所有函数，面向对象代码难以添加新函数，因为必须修改所有类。</span><br></pre></td></tr></table></figure>
+
+<p>所以究竟是使用面向过程式代码，还是面向对象式代码？没有万试万灵的灵丹妙药。</p>
+<ul>
+<li>4、奥卡姆剃刀定律、得墨忒耳律<ul>
+<li>4.1“如非必要，勿增实体”</li>
+</ul>
+</li>
+</ul>
+<p>一旦开始初步掌握面向对象开发的基本原则，于是我们就会新建许多各种不同的模型对象。尤其是在webapi接口开发过程中，更是如此。</p>
+<blockquote>
+<p>   切勿浪费较多东西去做，用较少的东西，同样可以做好的事情。</p>
+</blockquote>
+<ul>
+<li>4.2 得墨忒耳律</li>
+</ul>
+<p>假设有一段代码是这样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public  class GrandParent</span><br><span class="line">&#123;</span><br><span class="line">    public Father Son &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public Father GetSon()</span><br><span class="line">    &#123;</span><br><span class="line">        return Son;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Father</span><br><span class="line">&#123;</span><br><span class="line">    public Me Son &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public Father GetSon()</span><br><span class="line">    &#123;</span><br><span class="line">        return Son;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Me</span><br><span class="line">&#123;</span><br><span class="line">    public Son Son &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public Son GetSon()</span><br><span class="line">    &#123;</span><br><span class="line">        return Son;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Son</span><br><span class="line">&#123;</span><br><span class="line">    public GrandSon GrandSon &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public GrandSon GetSon()</span><br><span class="line">    &#123;</span><br><span class="line">        return GrandSon;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class GrandSon</span><br><span class="line">&#123;</span><br><span class="line">   public string Name &#123; get; set; &#125;</span><br><span class="line">    public string GetSon()</span><br><span class="line">    &#123;</span><br><span class="line">        return Name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>会不会为了获得某些数据，而写出这样的代码呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new GrandParent().GetSon().GetSon().GetSon().Name;</span><br></pre></td></tr></table></figure>
+
+<p>这样就是典型的对得墨忒耳律的违背。这个原则指出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">模块不应了解它所操作对象的内部情形。</span><br><span class="line">更准确的说，得墨忒耳律认为，类C的方法f只应该调用以下对象的方法：</span><br><span class="line">C（本身）</span><br><span class="line">由方法f创建的对象。</span><br><span class="line">作为参数传递给f的对象；</span><br><span class="line">由C的实体变量持有的对象。</span><br><span class="line">对象不应调用由任何函数返回的对象的方法。换言之，只跟朋友说话，不与陌生人说话。</span><br></pre></td></tr></table></figure>
+
+<p>在上文中我举的例子，祖父只跟自己的亲儿子（Father）说话，而不跟孙子说话。</p>
+<ul>
+<li>5、圈复杂度</li>
+</ul>
+<p>在软件测试的概念里，圈复杂度用来衡量一个模块判定结构的复杂程度，数量上表现为线性无关的路径条数，即合理的预防错误所需测试的最少路径条数。圈复杂度大说明程序代码可能质量低且难于测试和维护，根据经验，程序的可能错误和高的圈复杂度有着很大关系。<br>据说在Oracle数据库中有一些屎山代码，是通过一堆标识量来判断某些特定逻辑的，大概是这样的。<br>（示例仅供参考，由于资源限制，未能考证，还请大佬指正一二。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 一个高复杂度的方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public string HighCCMethod()</span><br><span class="line">&#123;</span><br><span class="line">    int flag = 1;</span><br><span class="line">    int flag1 = 2;</span><br><span class="line">    int flag2 = 3;</span><br><span class="line">    int flag3 = 4;</span><br><span class="line">    int flag4 = 5;</span><br><span class="line">    if (flag == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        //do something</span><br><span class="line">        if (flag1 == 2)</span><br><span class="line">        &#123;</span><br><span class="line">            //dosomething</span><br><span class="line">            if (flag2 == 3)</span><br><span class="line">            &#123;</span><br><span class="line">                //dosomething</span><br><span class="line">                if (flag3 == 4 &amp;&amp; flag4 == 5)</span><br><span class="line">                &#123;</span><br><span class="line">                    return &quot;编译器 die&quot;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;...&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个圈复杂度非常复杂的方法，我想任何一个读到这样代码的开发者都会对自己的人生充满了积极而乐观的判断，那就是“活着比一切都好”。<br>对于这样的代码，我们应该尽可能的降低代码的圈复杂度，让程序满足基本可读的需求。</p>
+<ul>
+<li>6、注释<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void UploadImg()</span><br><span class="line">&#123;</span><br><span class="line">    int flag = 3;</span><br><span class="line">    //标识量为3标识什么意思我也不知道，我在网上看到的。</span><br><span class="line">    if (flag == 3)</span><br><span class="line">    &#123;</span><br><span class="line">        //dosomething</span><br><span class="line">    &#125;</span><br><span class="line">    //uploadfile();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>我曾经参加过一个使用objectc编写的应用的，其中有一段代码是这样的，这个flag大概是魔法值，作者未经考证直接就在代码中使用了。然后一直流传下来，成为一段佳（gui）话（hua）。<br>还有这样的注释。傻傻分不清楚。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 为true标识为真，为false标识为假</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public bool IsTrue &#123; get; set; &#125;</span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 是否可见，为true标识可见，为false标识不可见</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public bool IsVisible &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有这样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//do something</span><br><span class="line">Thread.Sleep(3000); //项目经理说此处要暂停3000毫秒，以便作为下次性能改进的需求点</span><br></pre></td></tr></table></figure>
+
+<p>Robert大叔如是说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">什么也比不上放置良好的注释来得有用。什么也比不会乱七八糟的注释更有本事搞乱一个模块。什么也不会比陈旧、提供错误信息的注释更有破坏性。</span><br></pre></td></tr></table></figure>
+
+<p>当然很多中国程序员自称其变量命名是自注释的，例如大概是这样的。万能的 Is 命名法，只要是判断状态皆可用。<br>（每个程序员能够成功的生存下来都不容易，他一定有异于常人的本事。)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public bool IsShow &#123; get; set; &#125;</span><br><span class="line">public bool IsGet &#123; get; set; &#125;</span><br><span class="line">public bool IsUsed &#123; get; set; &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>7、霰弹式修改</li>
+</ul>
+<p>CRUD开发者或许经常会看到这样的代码，例如，如果我要对某一个对象的状态（ Status）进行更改，可能会这么做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class ShotGun1</span><br><span class="line">&#123;</span><br><span class="line">    public void Method1()</span><br><span class="line">    &#123;</span><br><span class="line">        DataStatus dataStatus = new DataStatus();</span><br><span class="line">        dataStatus.Flag = 1 * 3;</span><br><span class="line">        dataStatus.Status = &quot;1234&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class ShotGun2</span><br><span class="line">&#123;</span><br><span class="line">    public void Method2(int i, int status)</span><br><span class="line">    &#123;</span><br><span class="line">        DataStatus dataStatus = new DataStatus();</span><br><span class="line">        dataStatus.Flag = 1 * 3;</span><br><span class="line">        dataStatus.Status = &quot;1234&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种霰弹式代码中，一处代码规则的变化，可能会需要对许多处代码进行同步修改，使得我们的代码异常的难以维护。</p>
+<ul>
+<li>8、异常</li>
+</ul>
+<p>有时候可能会遇到这样的代码，在方法中定义一些文本的状态码，然后调用方法时，再去判断这个状态码的内容，当返回错误码时，要求调用者立即处理错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class XXXApi</span><br><span class="line">&#123;</span><br><span class="line">    public CurrentUser CurrentUser &#123; get; &#125;</span><br><span class="line">    public string DoSomething()</span><br><span class="line">    &#123;</span><br><span class="line">        if (GetCurrentUid() == &quot;用户为空&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            //do something</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            //dosomething</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public string GetCurrentUid()</span><br><span class="line">    &#123;</span><br><span class="line">        if (CurrentUser == null)</span><br><span class="line">        &#123;</span><br><span class="line">            return &quot;用户为空&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class CurrentUser</span><br><span class="line">&#123;</span><br><span class="line">    public string Uid &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不如直接抛出异常，让异常处理机制进行处理吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public string GetCurrentUid()</span><br><span class="line">&#123;</span><br><span class="line">    if (CurrentUser == null)</span><br><span class="line">        throw new NoLoginExecption(&quot;&quot;);</span><br><span class="line">    return &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="9、边界"><a href="#9、边界" class="headerlink" title="9、边界"></a>9、边界</h1><h2 id="9-1-模块间的边界"><a href="#9-1-模块间的边界" class="headerlink" title="9.1 模块间的边界"></a>9.1 模块间的边界</h2><p>即便是简单的CRUD应用系统，优秀的开发者也能更好的处理应用程序模块间的边界。某种意义上讲，应用程序内部的边界看起来或许没有明确的界限之分，但是稍不留心就可能导致应用程序间关系过于紊乱，让其他开发者捉摸不透。<br>例如，假设有一段代码是这样的，在用户操作类中，加入了一个获取应用数据的方法，确实会让人很费解吧。（而应用领域驱动设计的思维，或许是一种不错的模式。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class UserService</span><br><span class="line">&#123;</span><br><span class="line">    public string GetAppData(string config)</span><br><span class="line">    &#123;</span><br><span class="line">        //do something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-2应用间的边界"><a href="#9-2应用间的边界" class="headerlink" title="9.2应用间的边界"></a>9.2应用间的边界</h2><p>相对而言，或许应用间的边界似乎能相对清晰的分析出来？并非如此。<br>在当今时代，我们很少开发完全与其他应用系统没有任何关联的独立软件，这意味着我们或许无时无刻都得与其他第三方应用进行接口行为或数据的交换。这让我们必须确保采取措施让外来代码干净利落地整合进自己的代码中。<br>假设有一段代码是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserService</span><br><span class="line">&#123; </span><br><span class="line">    public string GetAppData(string config)</span><br><span class="line">    &#123;</span><br><span class="line">        //do something</span><br><span class="line">    &#125;</span><br><span class="line">    public string UploadOssData(string file)</span><br><span class="line">    &#123;</span><br><span class="line">        OssConfig oss = new OssConfig();</span><br><span class="line">        OssSdk ossSdk = OssSdk.CreateInstance();</span><br><span class="line">        ossSdk.UploadFile(file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在《代码整洁之道》书中，Robert大叔推荐应该第三方接口进行隔离，通过Map那样包装或者使用适配器模式将我们的接口转换成第三方提供的接口。让代码更好地与我们沟通，在边界两边推动内部一致的用法，当第三方代码有改动时修改点也会更少。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>写代码是开发者的基础技能，无论你是.NET 开发者，或者 Java 开发者，你都在努力用代码实现自己的梦想。如同韩磊老师在译作《代码整理之道》封面上总结全书，写下的那句诗</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“细节之中自有天地，整洁成就卓越代码”。</span><br></pre></td></tr></table></figure>
+
+<p>卓越代码从来不仅仅只是功能完善、代码齐全，做好细节，每个细节就是一方小天地。优雅的代码，不仅仅只是开发者的个人能力的体现，更是开发者的立足之本。努力改善坏习惯，提高代码质量，时刻消除异味，时刻提高自己，更有助于个人技能的全面发展。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/管理/项目失控全记录/" rel="next" title="项目失控过程全纪录">
+                <i class="fa fa-chevron-left"></i> 项目失控过程全纪录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/读书/《实例化需求》读书笔记/" rel="prev" title="《实例化需求》读书笔记">
+                《实例化需求》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开篇"><span class="nav-number">1.</span> <span class="nav-text">开篇</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些栗子"><span class="nav-number">2.</span> <span class="nav-text">一些栗子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9、边界"><span class="nav-number">3.</span> <span class="nav-text">9、边界</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-模块间的边界"><span class="nav-number">3.1.</span> <span class="nav-text">9.1 模块间的边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2应用间的边界"><span class="nav-number">3.2.</span> <span class="nav-text">9.2应用间的边界</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

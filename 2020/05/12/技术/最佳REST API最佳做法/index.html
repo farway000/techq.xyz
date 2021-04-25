@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用REST API 最佳实践简述Facebook，Google，Github，Netflix，Amazon和Twitter等许多巨头都拥有自己的REST（ful）API，您可以访问它们来获取甚至写入数据。 但是，为什么所有都需要REST？ 那样好吗，为什么如此盛行？ 当然，这不是传达消息的唯一方法吗？ REST和HTTP有什么区别？ 好吧，事实证明REST非常灵活，并且与 Internet所基于">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用REST API 最佳实践简述">
+<meta property="og:url" content="http://techq.xyz/2020/05/12/技术/最佳REST API最佳做法/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="使用REST API 最佳实践简述Facebook，Google，Github，Netflix，Amazon和Twitter等许多巨头都拥有自己的REST（ful）API，您可以访问它们来获取甚至写入数据。 但是，为什么所有都需要REST？ 那样好吗，为什么如此盛行？ 当然，这不是传达消息的唯一方法吗？ REST和HTTP有什么区别？ 好吧，事实证明REST非常灵活，并且与 Internet所基于">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-04-25T11:04:00.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用REST API 最佳实践简述">
+<meta name="twitter:description" content="使用REST API 最佳实践简述Facebook，Google，Github，Netflix，Amazon和Twitter等许多巨头都拥有自己的REST（ful）API，您可以访问它们来获取甚至写入数据。 但是，为什么所有都需要REST？ 那样好吗，为什么如此盛行？ 当然，这不是传达消息的唯一方法吗？ REST和HTTP有什么区别？ 好吧，事实证明REST非常灵活，并且与 Internet所基于">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/12/技术/最佳REST API最佳做法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用REST API 最佳实践简述 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/12/技术/最佳REST API最佳做法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用REST API 最佳实践简述
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-12 19:07:00" itemprop="dateCreated datePublished" datetime="2020-05-12T19:07:00+00:00">2020-05-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2021-04-25 11:04:00" itemprop="dateModified" datetime="2021-04-25T11:04:00+00:00">2021-04-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用REST-API-最佳实践简述"><a href="#使用REST-API-最佳实践简述" class="headerlink" title="使用REST API 最佳实践简述"></a>使用REST API 最佳实践简述</h1><p>Facebook，Google，Github，Netflix，Amazon和Twitter等许多巨头都拥有自己的REST（ful）API，您可以访问它们来获取甚至写入数据。</p>
+<p>但是，为什么所有都需要REST？</p>
+<p>那样好吗，为什么如此盛行？</p>
+<p>当然，这不是传达消息的唯一方法吗？</p>
+<p>REST和HTTP有什么区别？</p>
+<p>好吧，事实证明<strong>REST非常灵活，并且与</strong> Internet所基于的主要协议<strong>HTTP兼容</strong>。由于它是一种架构风格而不是标准，因此它<strong>提供了实现各种设计最佳实践的大量自由</strong>。以及听说它与语言无关？你一定觉得它很棒吧。</p>
+<p>在此博客文章中，我们的目标是尽可能清楚地解释REST，以便您可以清楚地了解何时以及如何使用REST，以及它的本质。</p>
+<p>我们将介绍一些基础知识和定义，并展示一些<strong>REST API最佳实践</strong>。这应该为您提供了以您喜欢的任何编码语言实现REST API所需的全部知识。</p>
+<p>如果您对HTTP不太熟悉，建议您阅读我们的<a href="https://code-maze.com/http-series/" target="_blank" rel="noopener">HTTP系列文章</a>，或者至少阅读其中的<a href="https://code-maze.com/http-series-part-1/" target="_blank" rel="noopener">第1部分</a>，这样您可以更轻松地理解这些资料。</p>
+<p>因此，在这篇文章中，我们将讨论：</p>
+<p><strong>关于REST：</strong></p>
+<ul>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#whatisrest" target="_blank" rel="noopener">什么是REST？</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#restbound" target="_blank" rel="noopener">REST是否绑定到HTTP？</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#hateoas" target="_blank" rel="noopener">REST和HATEOAS支持</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#whatdoesitmean" target="_blank" rel="noopener">RESTful API是什么意思？</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#restafarian" target="_blank" rel="noopener">REST过多又称为RESTafarian综合征</a></li>
+</ul>
+<p><strong>REST API最佳做法：</strong></p>
+<ul>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#abstractvsconcrete" target="_blank" rel="noopener">抽象与具体API</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#urlformat" target="_blank" rel="noopener">URI格式（名词，不是动词）。正确网址与错误网址示例</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#errorhandling" target="_blank" rel="noopener">错误处理</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#statuscodes" target="_blank" rel="noopener">状态码</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#security" target="_blank" rel="noopener">安全</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#versioning" target="_blank" rel="noopener">REST API版本控制</a></li>
+<li><a href="https://code-maze.com/top-rest-api-best-practices/#documentation" target="_blank" rel="noopener">文件的重要性</a></li>
+</ul>
+<h2 id="那么REST本质上是什么？"><a href="#那么REST本质上是什么？" class="headerlink" title="那么REST本质上是什么？"></a>那么REST本质上是什么？</h2><p>REST（代表性状态转移）是<a href="https://en.wikipedia.org/wiki/Roy_Fielding" target="_blank" rel="noopener">Roy Fielding</a>在其博士学位中创立的一种建筑风格。UC Irvine的论文“ <a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" target="_blank" rel="noopener">体系结构样式和基于网络的软件体系结构设计</a> ”。 他与HTTP 1.1同步提出了这种观点。</p>
+<p>我们主要将REST用作<strong>在万维网上的计算机系统之间进行通信的</strong>一种方式。</p>
+<h2 id="REST是否绑定到HTTP？"><a href="#REST是否绑定到HTTP？" class="headerlink" title="REST是否绑定到HTTP？"></a>REST是否绑定到HTTP？</h2><p>根据定义，似乎与Http强制绑定？其实并非如此。尽管您可以将其他一些应用程序协议与REST一起使用，但是在实现REST时，<a href="https://code-maze.com/http-series/" target="_blank" rel="noopener">HTTP</a>仍然是应用程序协议中无可争议的冠军。</p>
+<h2 id="REST和HATEOAS支持"><a href="#REST和HATEOAS支持" class="headerlink" title="REST和HATEOAS支持"></a>REST和HATEOAS支持</h2><p><strong>作为应用程序状态引擎的</strong> HATEOAS或<strong>超媒体</strong> 是每个可扩展且灵活的REST API的重要功能。</p>
+<p>该<a href="https://en.wikipedia.org/wiki/HATEOAS" target="_blank" rel="noopener">HATEOAS</a>约束建议，客户端和服务器通信完全采用了<a href="https://en.wikipedia.org/wiki/Hypermedia" target="_blank" rel="noopener">超媒体</a>。</p>
+<p>使用超媒体有几个优点：</p>
+<ul>
+<li>使API设计人员能够在每个响应中包括他们所能提供的一切，以正确地提供一件事以及与相关端点的超媒体链接，从而使设计脱钩</li>
+<li>帮助API更优雅地发展和成熟</li>
+<li>为用户提供更深入地探索API的方法</li>
+</ul>
+<p>因此很明显，HATEOAS在<strong>设计时考虑了耐用性</strong>。</p>
+<p>GitHub的工作方式如下： </p>
+<p><code>GET https://api.github.com/users/codemazeblog</code></p>
+<p>响应：  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"login"</span>: <span class="string">"CodeMazeBlog"</span>,</span><br><span class="line">  <span class="string">"id"</span>: <span class="number">29179238</span>,</span><br><span class="line">  <span class="string">"avatar_url"</span>: <span class="string">"https://avatars0.githubusercontent.com/u/29179238?v=4"</span>,</span><br><span class="line">  <span class="string">"gravatar_id"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="string">"url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog"</span>,</span><br><span class="line">  <span class="string">"html_url"</span>: <span class="string">"https://github.com/CodeMazeBlog"</span>,</span><br><span class="line">  <span class="string">"followers_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/followers"</span>,</span><br><span class="line">  <span class="string">"following_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/following&#123;/other_user&#125;"</span>,</span><br><span class="line">  <span class="string">"gists_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/gists&#123;/gist_id&#125;"</span>,</span><br><span class="line">  <span class="string">"starred_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/starred&#123;/owner&#125;&#123;/repo&#125;"</span>,</span><br><span class="line">  <span class="string">"subscriptions_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/subscriptions"</span>,</span><br><span class="line">  <span class="string">"organizations_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/orgs"</span>,</span><br><span class="line">  <span class="string">"repos_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/repos"</span>,</span><br><span class="line">  <span class="string">"events_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/events&#123;/privacy&#125;"</span>,</span><br><span class="line">  <span class="string">"received_events_url"</span>: <span class="string">"https://api.github.com/users/CodeMazeBlog/received_events"</span>,</span><br><span class="line">  <span class="string">"type"</span>: <span class="string">"User"</span>,</span><br><span class="line">  <span class="string">"site_admin"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"Code Maze"</span>,</span><br><span class="line">  <span class="string">"company"</span>: <span class="string">"Code Maze"</span>,</span><br><span class="line">  <span class="string">"blog"</span>: <span class="string">"https://code-maze.com"</span>,</span><br><span class="line">  <span class="string">"bio"</span>: <span class="string">"A practical programmers' resource."</span>,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如您所见，除了客户端请求的关键信息之外，您还可以在响应中找到一堆相关的超媒体链接，这些链接将您带到您可以自由浏览的API的其他部分。</p>
+<h2 id="RESTful-API是什么意思？"><a href="#RESTful-API是什么意思？" class="headerlink" title="RESTful API是什么意思？"></a>RESTful API是什么意思？</h2><p>“ RESTful”意味着一些功能：</p>
+<ul>
+<li><strong><a href="https://code-maze.com/http-series-part-2" target="_blank" rel="noopener">客户端-服务器体系结构</a>：</strong>完整的服务由作为整个系统前端的“客户端”和作为后端的“服务器”组成</li>
+<li><strong>无状态：</strong>服务器不应在不同请求之间保存任何状态。会话状态完全由客户负责。按照REST定义： <strong><em>所有REST交互都是无状态的。也就是说，每个请求都包含连接器理解该请求所需的所有信息，而与之前的任何请求无关。（<a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm" target="_blank" rel="noopener">Roy的论文ch.5.2.2</a>）\</em></strong></li>
+<li><strong><a href="https://code-maze.com/http-series-part-2/#caching" target="_blank" rel="noopener">可缓存的</a>：</strong>客户端应该能够将响应存储在缓存中以提高性能</li>
+</ul>
+<p>因此，RESTful API是一项遵循这些规则的服务（希望如此），并使用<a href="https://code-maze.com/the-http-reference/#requestmethods" target="_blank" rel="noopener">HTTP方法</a>来操纵资源集。</p>
+<p>但是为什么我们需要或使用RESTful API？</p>
+<p>因为它们为我们提供了一种简单，灵活和可扩展的方式来制作可通过Internet进行通信的分布式应用程序。</p>
+<h2 id="我们可以拥有更多的REST方法吗？"><a href="#我们可以拥有更多的REST方法吗？" class="headerlink" title="我们可以拥有更多的REST方法吗？"></a>我们可以拥有更多的REST方法吗？</h2><p>是的，你猜对了。是的，我们可以🙂</p>
+<p>正如<a href="http://mikeschinkel.com/about/" target="_blank" rel="noopener">Mike Schinkel</a>定义的那样，对于狂热地遵循REST的人们来说甚至还有一个短语 <a href="http://mikeschinkel.com/about/" target="_blank" rel="noopener">。</a></p>
+<blockquote>
+<p>RESTifarian是Roy T. Fielding在他的博士论文第五章中定义的REST软件架构风格的狂热支持者。论文在UCIrvine。你可以在rest - discussion邮件列表中找到野外的RESTifarians。但是要小心，RESTifarians在讨论休息的细节时可能是极其细致的，正如我最近在参与列表时所了解到的。🙂</p>
+</blockquote>
+<p>太多的事情都是不好的。</p>
+<p>我们需要一点<strong>实用主义</strong>才能做出好的应用程序和服务。了解和理解一种理论很重要，但是该理论的实现是区分不良与良好与卓越应用的区别。所以要聪明，要牢记最终用户。</p>
+<p>因此，让我们走一些使API变得“光彩”的重要点，使用户的生活变得更加轻松。</p>
+<h2 id="抽象与具体API"><a href="#抽象与具体API" class="headerlink" title="抽象与具体API"></a>抽象与具体API</h2><p>在开发软件时，我们经常使用抽象和多态来获取大多数应用程序。我们想重用尽可能多的代码。</p>
+<p>那么我们也应该这样写我们的API吗？</p>
+<p>好吧，API并非完全如此。对于REST API，<strong>具体要比abstract好</strong>。你能猜出为什么吗？</p>
+<p>让我向您展示一些示例：</p>
+<p>让我们看两个API版本。它是最好有有一个的API <code>/entities</code>，或者有一个API <code>/owners</code>，<code>/blogs</code>并 <code>/blogposts</code> 分别？</p>
+<p>作为开发人员，哪一个对您更具描述性？您想使用哪个API？</p>
+<p>我总是会选择第二个。</p>
+<h2 id="URI格式（名词，不是动词）。正确网址与错误网址示例"><a href="#URI格式（名词，不是动词）。正确网址与错误网址示例" class="headerlink" title="URI格式（名词，不是动词）。正确网址与错误网址示例"></a><strong>URI格式（名词，不是动词）。正确网址与错误网址示例</strong></h2><p>这是另一种REST API最佳实践。您应该如何格式化端点？</p>
+<p>如果使用软件开发方法，您将得到如下所示的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/getAllBlogPosts</span><br><span class="line">/updateBlogPost/12</span><br><span class="line">/deleteBlogPost/12</span><br><span class="line">/getAuthorById/3</span><br><span class="line">/deleteAuthor/3</span><br><span class="line">/updateAuthor/3</span><br></pre></td></tr></table></figure>
+
+<p>您明白了……会有很多端点，每个端点都在做其他事情。有一个更好的系统可以解决这些问题。</p>
+<p>将资源视为名词，将HTTP方法视为动词。如果这样做，最终将得到如下结果：</p>
+<p><code>GET /blogposts</code> –获取所有博客文章</p>
+<p><code>GET /blogposts/12</code> –获取ID为12的博客文章</p>
+<p><code>POST /blogposts</code> –添加新的博客文章并返回详细信息</p>
+<p><code>DELETE /blogposts/12</code> –删除ID为12的博客文章</p>
+<p><code>GET /authors/3/blogposts</code> –获取ID为3的作者的所有博客文章</p>
+<p>这是创建API的更简洁，更精确的方法。对于最终用户而言，这是显而易见的，并且有一种解决方法。</p>
+<p>通过使用单数而不是复数来表示资源名称，可以使其更加简洁。那取决于你。</p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a><strong>错误处理</strong></h2><p>API构建的另一个重要方面。有几种处理错误的好方法。</p>
+<p>让我们看看顶级狗如何做到这一点：</p>
+<p><strong>推特：</strong></p>
+<ul>
+<li><p>请求： <code>GET https://api.twitter.com/1.1/account/settings.json</code></p>
+</li>
+<li><p>响应：状态码400</p>
+<p>Twitter response</p>
+</li>
+</ul>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;errors&quot;:[&#123;&quot;code&quot;:215,&quot;message&quot;:&quot;Bad Authentication data.&quot;&#125;]&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Twitter为您提供状态代码和错误代码，并简要描述了所发生错误的性质。他们让您在“ <a href="https://developer.twitter.com/en/docs/basics/response-codes" target="_blank" rel="noopener">响应代码”</a>页面上查找代码。</p>
+<p><strong>脸书：</strong></p>
+<ul>
+<li><p>请求： <code>GET https://graph.facebook.com/me/photos</code></p>
+</li>
+<li><p>响应：状态码400</p>
+<p>Facebook Response </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;  &quot;error&quot;: &#123;   &quot;message&quot;: &quot;An active access token must be used to query information about the current user.&quot;,   &quot;type&quot;: &quot;OAuthException&quot;,   &quot;code&quot;: 2500,   &quot;fbtrace_id&quot;: &quot;DzkTMkgIA7V&quot;  &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>Facebook为您提供了更具描述性的错误消息。</p>
+<p><strong>特威里奥：</strong></p>
+<ul>
+<li><p>请求： <code>GET https://api.twilio.com/2010-04-01/Accounts/1234/IncomingPhoneNumbers/1234</code></p>
+</li>
+<li><p>响应：状态码404 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;TwilioResponse&gt;  &lt;RestException&gt;    &lt;Code&gt;20404&lt;/Code&gt;    &lt;Message&gt;The requested resource /2010-04-01/Accounts/1234/IncomingPhoneNumbers/1234 was not found&lt;/Message&gt;    &lt;MoreInfo&gt;https://www.twilio.com/docs/errors/20404&lt;/MoreInfo&gt;    &lt;Status&gt;404&lt;/Status&gt;  &lt;/RestException&gt;&lt;/TwilioResponse&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>Twilio默认为您提供XML响应，并提供指向文档的链接，您可以在其中找到错误的详细信息。</p>
+<p>如您所见，错误处理的方法因实现而异。</p>
+<p>重要的是 <strong>不要让REST API的用户“挂断”</strong>，不知道发生了什么，或者漫无目的地在StackOverflow的浪费中徘徊，寻找解释。</p>
+<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a><strong>状态码</strong></h2><p>在设计REST API时，我们通过使用<a href="https://code-maze.com/the-http-reference/#statuscodes" target="_blank" rel="noopener">HTTP状态代码</a>与API用户进行通信 。状态代码很多，描述了多种可能的响应。</p>
+<p>但是，我们应该使用多少？ <strong>我们在每种情况下都应该有严格的状态码吗？</strong></p>
+<p>就像生活中的许多事情一样， <a href="https://en.wikipedia.org/wiki/KISS_principle" target="_blank" rel="noopener">KISS原则</a> 也适用于这里。那里有70多个状态代码。你内心了解他们吗？潜在的API用户会全部了解它们，还是会再次使用Google搜索？</p>
+<p>大多数开发人员都熟悉最常见的状态代码：</p>
+<ul>
+<li><code>**200 OK**</code></li>
+<li><code>**400 Bad Request**</code></li>
+<li><code>**500 Internal Server Error**</code></li>
+</ul>
+<p>从这三个开始，您可以涵盖REST API的大多数功能。</p>
+<p>其他常见的代码包括：</p>
+<ul>
+<li><code>**201 Created**</code></li>
+<li><code>**204 No Content**</code></li>
+<li><code>**401 Unauthorized**</code></li>
+<li><code>**403 Forbidden**</code></li>
+<li><code>**404 Not Found**</code></li>
+</ul>
+<p>我们可以使用它们来帮助用户快速找出结果。如果您感觉到状态代码的描述性不如我们在“错误处理”部分中讨论的那样，则可能应该包含某种消息。再一次，我们需要务实，通过使用 <strong>数量有限的代码</strong> 和描述性消息来帮助用户。</p>
+<p>您可以在<a href="https://code-maze.com/the-http-reference" target="_blank" rel="noopener">此处</a>找到完整的HTTP状态代码列表，以及<a href="https://code-maze.com/the-http-reference" target="_blank" rel="noopener">在CodeMaze上总结的</a>其他有用的HTTP内容 。</p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a><strong>安全</strong></h2><p>关于<a href="https://blog.restcase.com/top-5-rest-api-security-guidelines/" target="_blank" rel="noopener">REST API安全的</a>说法不多，因为 <strong>REST不处理安全问题</strong>。它依赖于诸如<a href="https://code-maze.com/http-series-part-4/" target="_blank" rel="noopener">基本身份验证或摘要身份验证之</a>类的标准HTTP机制 。</p>
+<p>每个请求都应 <strong>通过HTTPS进行</strong>。</p>
+<p>有很多技巧可以提高REST API的安全性，但是由于REST的无状态性，因此在实施它们时必须谨慎。记住最后一个请求的状态超出了窗口，<strong>应该</strong>在 <strong>客户端存储和验证状态。</strong></p>
+<p><strong>时间戳记和日志记录</strong> 请求也可以有所帮助。</p>
+<p>关于这个话题还有很多要说的，但这超出了本文的范围。我们有一个不错的职位<strong><a href="https://code-maze.com/http-series-part-5/" target="_blank" rel="noopener">HTTP安全</a></strong> 在这里CodeMaze如果您想了解更多关于这一点。 </p>
+<h2 id="REST-API版本控制"><a href="#REST-API版本控制" class="headerlink" title="REST API版本控制"></a><strong>REST API版本控制</strong></h2><p>您已经编写了REST API，它已经非常成功，许多人已经使用它并对此感到满意。但是，您拥有的多汁的新功能会破坏系统的其他部分。重大变化。</p>
+<p>不用担心，有解决方案！</p>
+<p>在开始制作您的API之前，我们可以通过在端点之前加上API版本来对其进行版本控制：<br><code>https://api.example.com/v1/authors/2/blogposts/13</code></p>
+<p>这样，只要API发生重大更改，我们就可以始终增加API版本号（例如v2，v3…）。这也向用户发出信号，表明已发生了翻天覆地的变化，在使用新版本时，请务必小心。</p>
+<h2 id="文件的重要性"><a href="#文件的重要性" class="headerlink" title="文件的重要性"></a><strong>文件的重要性</strong></h2><p>这是不言而喻的。您可能是世界上最好的API设计人员，但是 <strong>如果没有文档，您的API就像死了一样。</strong></p>
+<p><strong>正确的文档</strong> 对于每个软件产品和Web服务都是<strong>必不可少</strong>的。</p>
+<p>我们可以通过保持一致并使用清晰和描述性的语法来帮助用户。但是，好的文档页面并没有真正的替代品。</p>
+<p>一些很好的例子：</p>
+<p><a href="https://www.twilio.com/docs/api/rest/" target="_blank" rel="noopener">https://www.twilio.com/docs/api/rest/</a></p>
+<p><a href="https://developers.facebook.com/docs/" target="_blank" rel="noopener">https://developers.facebook.com/docs/</a></p>
+<p><a href="https://developers.google.com/maps/documentation/" target="_blank" rel="noopener">https://developers.google.com/maps/documentation/</a></p>
+<p>还有很多其他…</p>
+<p>有许多工具可以帮助您记录您的API，但是不要忘记让人参与其中，只有一个人可以正确地理解另一个人。至少现在是这样(看着你)。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我们讨论了REST API构建的许多概念，并介绍了一些顶级REST API最佳实践。在一次提供这些API时，您可能会觉得有些奇怪或难以接受，但是请尝试自己创建REST API。并尝试实现一些您在这里学到的REST API最佳实践。 </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/08/技术/甲方爸爸，大概你要的是代码生成器吧？/" rel="next" title="甲方爸爸，大概你要的是代码生成器吧？">
+                <i class="fa fa-chevron-left"></i> 甲方爸爸，大概你要的是代码生成器吧？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/15/技术/那些与EF有关的错误认知/" rel="prev" title="那些与EF有关的错误认知">
+                那些与EF有关的错误认知 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用REST-API-最佳实践简述"><span class="nav-number">1.</span> <span class="nav-text">使用REST API 最佳实践简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#那么REST本质上是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">那么REST本质上是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST是否绑定到HTTP？"><span class="nav-number">1.2.</span> <span class="nav-text">REST是否绑定到HTTP？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST和HATEOAS支持"><span class="nav-number">1.3.</span> <span class="nav-text">REST和HATEOAS支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RESTful-API是什么意思？"><span class="nav-number">1.4.</span> <span class="nav-text">RESTful API是什么意思？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们可以拥有更多的REST方法吗？"><span class="nav-number">1.5.</span> <span class="nav-text">我们可以拥有更多的REST方法吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象与具体API"><span class="nav-number">1.6.</span> <span class="nav-text">抽象与具体API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URI格式（名词，不是动词）。正确网址与错误网址示例"><span class="nav-number">1.7.</span> <span class="nav-text">URI格式（名词，不是动词）。正确网址与错误网址示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理"><span class="nav-number">1.8.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态码"><span class="nav-number">1.9.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">1.10.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-API版本控制"><span class="nav-number">1.11.</span> <span class="nav-text">REST API版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件的重要性"><span class="nav-number">1.12.</span> <span class="nav-text">文件的重要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.13.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
