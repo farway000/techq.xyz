@@ -1,3 +1,13 @@
+---
+title:  如何在我们的Asp.NET Core应用程序中使用ElasticSearch高级功能
+date: 2021-4-25 18:56
+tags: 技术
+author: 邹溪源
+categories:
+  - 技术
+---
+
+
 在上[一篇文章中](https://www.blexin.com/en-US/Article/Blog/How-to-integrate-ElasticSearch-in-ASPNET-Core-70)，我们讨论了将ElasticSearch用作简单的全文本搜索引擎，如何快速安装和配置它以及如何将其集成到我们的.NET Web应用程序中。
 
 今天，我们仍然要在电子商务网站中向您展示如何使用ElasticSearch的许多功能来改善搜索。

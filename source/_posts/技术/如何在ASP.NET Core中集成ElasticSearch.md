@@ -1,3 +1,12 @@
+---
+title:  如何在ASP.NET Core中集成ElasticSearch
+date: 2021-4-25 18:56
+tags: 技术
+author: 邹溪源
+categories:
+  - 技术
+---
+
 [查看原文](https://www.blexin.com/en-US/Article/Blog/How-to-integrate-ElasticSearch-in-ASPNET-Core-70)
 
 ![图片](https://uploader.shimo.im/f/mXys791UMG7cuOvS.png!thumbnail)

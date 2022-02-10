@@ -1,7 +1,14 @@
 ---
 typora-root-url: ..\..\images
 ---
-
+---
+title:    如何编写高质量的C#代码（一）
+date: 2020-6-20 21:05
+tags: 技术
+author: 邹溪源
+categories:
+  - 技术
+---
 # 如何编写高质量的C#代码（一）
 
 ### 从”整洁代码“谈起
