@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景一直以来我都是从事软件研发、兼顾项目管理工作，在项目开发中，总是会遇到一些各种各样的问题，我也曾试图在项目中推动过类似于敏捷这样的项目管理方法，但是最终却收效不大。随着我工作经验的逐渐累积，发现不同的项目、不管是敏捷还是非敏捷、不管是如何失败的，其中对于用户需求的把控都是一个非常关键的因素。  用户需求，就是笼子里的狮子，你不放出来，受伤的是狮子，你放出来，受伤的是你自己。  在项目过程中，我">
+<meta name="keywords" content="读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《实例化需求》读书笔记">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/读书/《实例化需求》读书笔记/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="背景一直以来我都是从事软件研发、兼顾项目管理工作，在项目开发中，总是会遇到一些各种各样的问题，我也曾试图在项目中推动过类似于敏捷这样的项目管理方法，但是最终却收效不大。随着我工作经验的逐渐累积，发现不同的项目、不管是敏捷还是非敏捷、不管是如何失败的，其中对于用户需求的把控都是一个非常关键的因素。  用户需求，就是笼子里的狮子，你不放出来，受伤的是狮子，你放出来，受伤的是你自己。  在项目过程中，我">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-09T11:08:01.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《实例化需求》读书笔记">
+<meta name="twitter:description" content="背景一直以来我都是从事软件研发、兼顾项目管理工作，在项目开发中，总是会遇到一些各种各样的问题，我也曾试图在项目中推动过类似于敏捷这样的项目管理方法，但是最终却收效不大。随着我工作经验的逐渐累积，发现不同的项目、不管是敏捷还是非敏捷、不管是如何失败的，其中对于用户需求的把控都是一个非常关键的因素。  用户需求，就是笼子里的狮子，你不放出来，受伤的是狮子，你放出来，受伤的是你自己。  在项目过程中，我">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/读书/《实例化需求》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《实例化需求》读书笔记 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/读书/《实例化需求》读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《实例化需求》读书笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00 / Modified: 19:08:01" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/读书/" itemprop="url" rel="index"><span itemprop="name">读书</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a><strong>背景</strong></h1><p>一直以来我都是从事软件研发、兼顾项目管理工作，在项目开发中，总是会遇到一些各种各样的问题，我也曾试图在项目中推动过类似于敏捷这样的项目管理方法，但是最终却收效不大。随着我工作经验的逐渐累积，发现不同的项目、不管是敏捷还是非敏捷、不管是如何失败的，其中对于用户需求的把控都是一个非常关键的因素。</p>
+<blockquote>
+<p><strong>用户需求，就是笼子里的狮子，你不放出来，受伤的是狮子，你放出来，受伤的是你自己。</strong></p>
+</blockquote>
+<p>在项目过程中，我们倾向于输出一份沉甸甸的需求文档，但是这份需求文档等项目做完了，往往会过时而用处不大。由于无穷次变更或开发者们对于需求的理解层次不同，设计业务领域的项目经理，显然不可能对软件的实现部分进行全方位的掌控，对于一些比较大的项目，掌握全局就已经很不错了，更不用说代码了，然而一切业务都凝聚在代码中，这些代码是如何实现用户需求的？<br>—-<strong>取决于开发者的经验，科学表明，一切靠经验来实现传承的知识体系，都是魔法。</strong></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>前段时间，我听张逸老师《领域驱动设计实践》课程中了解到《实例化需求》这本书，于是下单购买了，期待能获得一些启迪。<br>《实例化需求》是一本介绍软件工程方法论的书，这本书没有源代码、也没有特定工具的使用说明。在这本书中，他收集了来自现实世界、真实的团队以及切实的经验，同时也引入了一些建议，他希望通过这本书能够帮助大家使用这些组织过程或模式去建立活文档系统，从而提高软件项目的可控性。<br>在传统的项目开发中，尚且可以要求每个产品持续很长的时间，例如，一般都是以月为单位，甚至以年为单位。但是在互联网开发中，交付时间往往被压缩到一周为单位、甚至以天为单位，所以大量的前期软件设计和详细的需求分析环节将不复存在，而且传统的手工测试也耗时漫长，也被更加科学的自动化测试所替代。在这样的背景下，文档随时会过时，因此使用Axure原型软件设计高保真的UI交互原型是普遍的选择，如果有需求变更，就对原型进行修改，然后再通过原型推动功能的变更。<br>在作者的官方网站上，他认为《实例化需求》是一组过程模式，可以协助软件产品的变更，确保有效地交付正确的产品。 这里所说的正确产品，指的是该软件能满足客户或企业用户提出的商业需求，或者能达成预定的商业目标；同时它要具备一定的灵活性，未来能以相对平稳的投入接受后续改进。<br>作者认为，要有效的构建正确的产品，传统的软件开发实践首先需要满足一下几点：<br>1、保证所有项目干系人和交付团队的成员都对需要交付哪些东西有一致的理解。<br>2、有准确的需求说明，这样交付团队才避免有模棱两可和功能缺失造成的无谓返工。<br>3、有用来衡量某项工作是否完成的客观标准。<br>4、具有指导软件团队或团队结构变更的文档。<br>而基于Axure进行设计再推动职能团队完成功能开发的模式，看似满足了上述目标，避免了过度的需求文档造成的浪费、也能够很好的解释用户需求，但是却更关注于用户交互过程、无法涉及面子之下的里子、返工和功能维护让需求的验证过程变得越来越不可控，终输出的软件产品，顶多只能算一个花里胡哨的绣花枕头而已。<br>由于软件产品每周都要交付，作者认为，比较合理的解决方案应该带来如下好处：<br>1、避免过度说明需求从而产生浪费，避免花时间在开发前会发生改变的细节上。<br>2、有一种可靠的文档，可以解释系统的行为，据此我们可以很容易的修改系统行为。<br>3、可以有效地检查系统行为与需求说明的描述是否一致。<br>4、以最小的维护成本维护文档的相关性和可靠性。<br>5、适合短迭代和基于流的过程，这样能为即将开展的工作提供技术足够的信息。<br>这也是实例化说明渴望达到的目的，作者对许多企业进行了访谈，总结了实例化需求的应用案例，他认为通过引入实例化需求可以达到以下收益。。<br>1、更有效的实施变更。作者将其中的最重要的经验称为活文档（living documentation）的广泛应用是有长期受益的。这本书广泛涵盖了这一部分的内容。文中如是说</p>
+<blockquote>
+<p><strong>“活文档是系统功能的一个信息源，它与程序代码一样可靠，但易于使用和理解。它能帮助团队共同分析变更所带来的影响并讨论潜在的方案。团队还可以为新的需求扩展已有的文档，长此以往，可以使得需求说明和实施变更更有效。”</strong></p>
+</blockquote>
+<p>2、更高的产品质量。由于预期明确，验证变得更有效率。<br>3、更少的返工。由于需求写作更好，使团队确保对预期达成共识。<br>4、同一项目不同角色的活动协调得更好。改善写作形成定期的交付流程。</p>
+<h1 id="关键过程模式"><a href="#关键过程模式" class="headerlink" title="关键过程模式"></a>关键过程模式</h1><p>作者总结了在实施实例化需求中的一些关键过程模式：<br>1、从目标中获取范围。许多软件在开始之前，期望由客户、产品负责人、商业用户来确定工作的范围，而商业用户明确他们的需求之后，软件交付团队就依次实现，但是由于用户不是专业的软件设计师，因此他提出的需求，固然是他所要求的，但并非是他真正需要的。所以关键模式就是从目标中获取需求，用户专注于传达所需功能希望达到的目的和期望由此带来的价值，而交付团队则致力于提出解决方案。<br>2、协作需求。不依赖于个人去收集正确的需求，而是与商业用户一起协作指定解决方案，这可以让我们充分利用团队的知识和经验，还创造了需求的集体所有制，让每个人都能参与到交付过程中。<br>3、举例说明。在编程语言实现过程中，成功的团队不会等待需求被精准表述，而是举例说明需求。用一些额外的实例用于说明边界情况，或重点标识出系统中某些特别有问题的地方，这样可以清楚功能分歧和不一致的地方，避免由误解或解释不到位导致的返工。<br>4、提炼需求。关键实例必须精简才有用，通过移除多余信息并为开发和测试过程创建一个具体、精确的上下文。软件的目标是该做什么，而不是该怎么做。<br>5、自动化验证时，不改变需求说明。<br>6、频繁验证。通过频繁验证，团队可以快速发现系统与需求说明之间的任何差别。团队成员可以更好的与用户交流，并决定如何处理。他们可以不断地同步系统和可执行的需求说明。<br>7、演化成活文档系统。活文档系统告诉系统可以做什么，并与代码一起确切可靠，但具有更好的可读性。 </p>
+<h1 id="问题思考"><a href="#问题思考" class="headerlink" title="问题思考"></a>问题思考</h1><p>这本书与其他介绍软件理论的书籍一样，知识量比较稠密，阅读过程中花费了不少时间，如豆瓣上有网友说的：</p>
+<blockquote>
+<p><strong>读一本书，如果能给你带来一点感悟，那就赚回书钱了。如果带给你两三点感悟，花费的时间也就值了。如果带给你五六点，甚至七八点，那就可以为作者捐款以示感谢了。**</strong>。**</p>
+</blockquote>
+<p>这本书也是大概如此，书的重点其实是引入行为驱动开发（BDD），并让需求变得可执行的过程，让这套方法论实践起来大概需要花费更长的时间，但是也可以成为软件设计者们思考的一个方向。<br>个人认为，引入Cucumber这样的自动化测试工具，使用行为驱动设计的方法进行软件需求的描述编写活文档、然后再将其引入到测试过程中，或许有点难，但是也可以尝试使用这样的分析方法来设计我们的需求。<br>尤其是当需求不明确的时候，如果使用原型分析法或其他描述方法来定义需求，往往可能不够具体，则可以考虑使用图表或实际例子来描述，并创造性的给角色取一些花名，可以让需求的描述过程变得更加的生动。</p>
+<hr>
+<p>1、《<a href="https://www.infoq.cn/article/specification-by-example-book/" target="_blank" rel="noopener">https://www.infoq.cn/article/specification-by-example-book/</a>》《实例化需求》采访与书评。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/读书/" rel="tag"># 读书</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/随笔/一位996、CRUD开发者的一天/" rel="next" title="一位996\Crud开发者平凡的一天">
+                <i class="fa fa-chevron-left"></i> 一位996\Crud开发者平凡的一天
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/读书/《猎豹行动·硝烟中的敏捷转型之旅》有感/" rel="prev" title="《猎豹行动·硝烟中的敏捷转型之旅》读书笔记">
+                《猎豹行动·硝烟中的敏捷转型之旅》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键过程模式"><span class="nav-number">3.</span> <span class="nav-text">关键过程模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题思考"><span class="nav-number">4.</span> <span class="nav-text">问题思考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

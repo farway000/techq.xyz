@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="引子回顾虽然我很早以前就听说单元测试，也曾经多次在项目中引入单元测试框架和单元测试的实践为代码质量的提升带来了一丝助力。 但这种方式更多的是从软件调试的角度出发，即将单元测试作为一种测试方法可用性的入口，而非从TDD、极限编程、或从”Fail Fast,Fix Fast”这种获得快速反馈的方式来使用单元测试，使得实际过程中单元测试的效果并不明显。 直到去年8月下旬开始参加极客学院的TDD实战课才进">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".TDD学习笔记（一）单元测试">
+<meta property="og:url" content="http://techq.xyz/2020/04/30/技术/什么是TDD（一）/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="引子回顾虽然我很早以前就听说单元测试，也曾经多次在项目中引入单元测试框架和单元测试的实践为代码质量的提升带来了一丝助力。 但这种方式更多的是从软件调试的角度出发，即将单元测试作为一种测试方法可用性的入口，而非从TDD、极限编程、或从”Fail Fast,Fix Fast”这种获得快速反馈的方式来使用单元测试，使得实际过程中单元测试的效果并不明显。 直到去年8月下旬开始参加极客学院的TDD实战课才进">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/idWlhCM560UviNjE.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/k1eYNKHvgyQAHJL8.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/dRjAx1w2z20tzyt1.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/BKMKzoRcX7MbRVwk.png!thumbnail">
+<meta property="og:updated_time" content="2020-05-26T11:08:52.550Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=".TDD学习笔记（一）单元测试">
+<meta name="twitter:description" content="引子回顾虽然我很早以前就听说单元测试，也曾经多次在项目中引入单元测试框架和单元测试的实践为代码质量的提升带来了一丝助力。 但这种方式更多的是从软件调试的角度出发，即将单元测试作为一种测试方法可用性的入口，而非从TDD、极限编程、或从”Fail Fast,Fix Fast”这种获得快速反馈的方式来使用单元测试，使得实际过程中单元测试的效果并不明显。 直到去年8月下旬开始参加极客学院的TDD实战课才进">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/idWlhCM560UviNjE.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/30/技术/什么是TDD（一）/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>.TDD学习笔记（一）单元测试 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/30/技术/什么是TDD（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">.TDD学习笔记（一）单元测试
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-30 19:07:00" itemprop="dateCreated datePublished" datetime="2020-04-30T19:07:00+08:00">2020-04-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-05-26 19:08:52" itemprop="dateModified" datetime="2020-05-26T19:08:52+08:00">2020-05-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h1><h2 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h2><p>虽然我很早以前就听说单元测试，也曾经多次在项目中引入单元测试框架和单元测试的实践为代码质量的提升带来了一丝助力。</p>
+<p>但这种方式更多的是从软件调试的角度出发，即将单元测试作为一种测试方法可用性的入口，而非从TDD、极限编程、或从”Fail Fast,Fix Fast”这种获得快速反馈的方式来使用单元测试，使得实际过程中单元测试的效果并不明显。</p>
+<p>直到去年8月下旬开始参加极客学院的<a href="https://www.jiker.com/plus/2?_comefrom=jikexueyuan&_code_slot=6&_creative=190" target="_blank" rel="noopener">TDD实战课</a>才进一步深入了解基于TDD的单元测试的流程、方法和实践的全过程，当时也间歇性的练习了一点Args等Kata项目，才逐步体会到TDD的妙处。</p>
+<p>虽然到目前为止对于TDD的了解依然很浅，但在开发过程中，总是有意无意的“站在调用者的角度思考业务逻辑”，并尽可能的思考如何“编写可测试的代码”，总归是一种进步。</p>
+<h2 id="我的教训"><a href="#我的教训" class="headerlink" title="我的教训"></a>我的教训</h2><p>总结自己学习TDD的一些经验教训：</p>
+<ol>
+<li>需求的识别，总是按惯性一次性把整个需求全部提取了。</li>
+<li>总是习惯于拿着代码一把梭，没有按照“Arange,Assert,Art”的步骤来规划任务。</li>
+<li>步子迈得太大，方法拆得不够细，过程式代码的味道很浓，例如，在练习String Calculate过程中，就有非常明显的问题。当然，这也是许多初学TDD开发者的通病。</li>
+</ol>
+<p><img src="https://uploader.shimo.im/f/idWlhCM560UviNjE.png!thumbnail" alt="图片"></p>
+<p><img src="https://uploader.shimo.im/f/k1eYNKHvgyQAHJL8.png!thumbnail" alt="图片"></p>
+<ol start="4">
+<li>没有深刻理解“重构”的意义，只是把通过单元测试当做一个目的。</li>
+<li>Kata的练习频率依然不高，一周只有两到三次，每次不到一个小时。 </li>
+<li>单元测试和方法的命名不太规范，无法让人产生直接的理解。</li>
+<li>方法的代码行较多，不符合优质代码的标准。</li>
+<li>方法间适当的空行（分段）很重要。<h1 id="什么是TDD"><a href="#什么是TDD" class="headerlink" title="什么是TDD"></a>什么是TDD</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2>TDD的全称是“测试驱动开发”，也是一种旨在提升代码质量的开发实践。这种开发实践的主要步骤是在编写产品代码之前，先编写单元测试代码，然后再由测试代码来决定写什么产品代码，其目的是取得快速反馈，并使用“illustrate the main line”方法来构建程序。</li>
+</ol>
+<p>测试驱动开发是戴两顶帽子思考的开发方式：先戴上实现功能的帽子，在测试的辅助下，快速实现其功能；再戴上重构的帽子，在测试的保护下，通过去除冗余的代码，提高代码质量。测试驱动着整个开发过程：首先，驱动代码的设计和功能的实现；其后，驱动代码的再设计和重构。</p>
+<h2 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h2><p>在上述经验教训过程中，有些步骤其实与TDD的三原则相违背，让我们来回顾一下这三个原则：</p>
+<ul>
+<li><p>不允许编写任何产品代码，除非允许失败的测试通过。</p>
+</li>
+<li><p>不允许编写多余一个的失败测试，编译成功也是失败。</p>
+</li>
+<li><p>不允许编写多于恰好让测试通过的产品代码。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>TDD其实也有一系列完整的操作流程，包括如下五个步骤：</p>
+</li>
+<li><p>添加一个小的测试</p>
+</li>
+<li><p>运行所有测试并且失败</p>
+</li>
+<li><p>做一点修改</p>
+</li>
+<li><p>运行所有测试并且成功</p>
+</li>
+<li><p>重构以消除重复</p>
+</li>
+</ul>
+<p><img src="https://uploader.shimo.im/f/dRjAx1w2z20tzyt1.png!thumbnail" alt="图片"></p>
+<p><a href="https://xp123.com/articles/tdd-tcr-commits/" target="_blank" rel="noopener">图1（红绿重构）</a></p>
+<h2 id="可行性之争"><a href="#可行性之争" class="headerlink" title="可行性之争"></a>可行性之争</h2><p>TDD也是一种充满争议的开发实践，许多人都吐槽，这种方式在原本开发代码之余，还得额外花三分之一的时间来编写测试代码。不过，我还是推荐《<a href="https://item.jd.com/11977659.html" target="_blank" rel="noopener">代码整洁之道-程序员的自我修养</a>》这本书中，Robert Bob大叔在第5.1小节说的几句话：</p>
+<blockquote>
+<p>1、此事已有定论！<br>2、争论已经结束！<br>3、GOTO是有害的！<br>4、TDD确实可行。</p>
+</blockquote>
+<p>他明确指出：</p>
+<blockquote>
+<p>过去人们对TDD充满争议，就此发表了不少博客和文章，如今争议依旧来袭。所不同的是，以前人们是认真尝试着去批判和理解TDD，而现在只有夸夸奇谈而已。结论很清楚，TDD的确切实可行，而且每个开发人员都要适应和掌握TDD。</p>
+</blockquote>
+<h2 id="TCR"><a href="#TCR" class="headerlink" title="TCR"></a>TCR</h2><p>在《极限中国社区》曾经介绍了一种测试驱动开发过程中的实践模式，这种实践被称为“<a href="https://xp123.com/articles/tdd-tcr-commits/" target="_blank" rel="noopener">TCR</a>”。</p>
+<p>在实践过程中，开发者始终保持着测试，成功则提交，失败则回滚到上次的代码这样的循环。在并使用了插件来进行自动化回滚，确保每个方法的开发时间被控制在非常小的时间粒度上。这样保证了开发者能够以非常小的步子，非常快的频率，实现代码的开发过程。</p>
+<p><img src="https://uploader.shimo.im/f/BKMKzoRcX7MbRVwk.png!thumbnail" alt="图片"></p>
+<p><a href="https://xp123.com/articles/tdd-tcr-commits/" target="_blank" rel="noopener">TCR</a></p>
+<h1 id="Kata"><a href="#Kata" class="headerlink" title="Kata"></a>Kata</h1><p>优秀的代码从来不是天生的，而是通过后天不断的练习培养出来的，尤其是要想写出符合面向对象设计的的好代码，更是需要“刻意练习”。</p>
+<p>Kata被人称为是唯一的一种<a href="http://www.peterprovost.org/blog/2012/05/02/kata-the-only-way-to-learn-tdd/" target="_blank" rel="noopener">练习TDD</a>的形式。</p>
+<p>“Kata”是一种来自日语词汇“形式”的翻译，它描述了武术练习中，通过一种精心编排的动作模式，用来训练自己达到肌肉记忆的水平。</p>
+<p>Kata的练习例子是<a href="http://codingdojo.org/kata/" target="_blank" rel="noopener">如此之多</a>，只要你有心，总是能在海量的示例代码中找到最适合自己的一个例子。</p>
+<p>例如，我所使用的Roy Osherove设计的例子“String Calculate”就是一个非常不错的示例。（当然，我给出的是一段反例代码。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、An empty string returns zero</span><br><span class="line">2、A single number returns the value</span><br><span class="line">3、Two numbers, comma delimited, returns the sum</span><br><span class="line">4、Two numbers, newline delimited, returns the sum</span><br><span class="line">5、Three numbers, delimited either way, returns the sum</span><br><span class="line">6、Negative numbers throw an exception</span><br><span class="line">7、Numbers greater than 1000 are ignored</span><br><span class="line">8、A single char delimiter can be defined on the first line (e.g. //# for a ‘#’ as the delimiter)</span><br><span class="line">9、A multi char delimiter can be defined on the first line (e.g. //[###] for ‘###’ as the delimiter)</span><br><span class="line">10、Many single or multi-char delimiters can be defined (each wrapped in square brackets)</span><br></pre></td></tr></table></figure>
+
+<p>当然，<a href="http://codingkata.net/Katas/Beginner/FizzBuzz" target="_blank" rel="noopener">FizzBuzz</a>或<a href="http://www.butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata" target="_blank" rel="noopener">The Prime Factors Kata</a>，Args也是一个非常不错的示例。重要的并非例子本身，而是通过持续不断的练习，形成自己的肌肉记忆。<br>在<a href="http://www.peterprovost.org/blog/2012/05/02/kata-the-only-way-to-learn-tdd/" target="_blank" rel="noopener">引文</a>中，作者Peter Provost认为，最好的办法：</p>
+<blockquote>
+<p>我对人们的建议是连续两周每天早上做一个30分钟的练习。然后再选一个，每天做一次，坚持两周<br>我不建议大家在工作中练习Kata，除非他们已经准备好了。你应该通过练习一周或六次，直到你已经决定对TDD的循环非常适应为止。否则，就像参加了一场没有技术水平的比赛。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/30/技术/使用自定义DelegatingHandler编写更清洁的Typed HttpClient/" rel="next" title="使用自定义DelegatingHandler编写更整洁的Typed HttpClient">
+                <i class="fa fa-chevron-left"></i> 使用自定义DelegatingHandler编写更整洁的Typed HttpClient
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/30/技术/TDD学习笔记（二）单元测试/" rel="prev" title=".TDD学习笔记（二）单元测试">
+                .TDD学习笔记（二）单元测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引子"><span class="nav-number">1.</span> <span class="nav-text">引子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾"><span class="nav-number">1.1.</span> <span class="nav-text">回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的教训"><span class="nav-number">1.2.</span> <span class="nav-text">我的教训</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是TDD"><span class="nav-number">2.</span> <span class="nav-text">什么是TDD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原则"><span class="nav-number">2.2.</span> <span class="nav-text">原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-number">2.3.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可行性之争"><span class="nav-number">2.4.</span> <span class="nav-text">可行性之争</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCR"><span class="nav-number">2.5.</span> <span class="nav-text">TCR</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kata"><span class="nav-number">3.</span> <span class="nav-text">Kata</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

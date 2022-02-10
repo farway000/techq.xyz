@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一  回顾我的职场体会我的职场生涯开始于十年前，一直在中小企业发展，未曾有幸到沿海那些高速发展的互联网公司工作，也就错过了互联网的大时代。 但这不影响我的正常工作生活，事实上无论你身在何处，或在哪家公司，以各种title生存，我们都是在属于自己的职场道路上奋力拼搏，为了实现自己的人生梦想，我们需要付出的代价和努力，或许并不亚于我们的父辈。 我们的父辈大部分都生于50后，60后，70后，成长于七零年">
+<meta name="keywords" content="读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《程序员的三门课》读书随想">
+<meta property="og:url" content="http://techq.xyz/2019/12/15/读书/《程序员的三门课》读书笔记/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一  回顾我的职场体会我的职场生涯开始于十年前，一直在中小企业发展，未曾有幸到沿海那些高速发展的互联网公司工作，也就错过了互联网的大时代。 但这不影响我的正常工作生活，事实上无论你身在何处，或在哪家公司，以各种title生存，我们都是在属于自己的职场道路上奋力拼搏，为了实现自己的人生梦想，我们需要付出的代价和努力，或许并不亚于我们的父辈。 我们的父辈大部分都生于50后，60后，70后，成长于七零年">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-18T00:33:40.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《程序员的三门课》读书随想">
+<meta name="twitter:description" content="一  回顾我的职场体会我的职场生涯开始于十年前，一直在中小企业发展，未曾有幸到沿海那些高速发展的互联网公司工作，也就错过了互联网的大时代。 但这不影响我的正常工作生活，事实上无论你身在何处，或在哪家公司，以各种title生存，我们都是在属于自己的职场道路上奋力拼搏，为了实现自己的人生梦想，我们需要付出的代价和努力，或许并不亚于我们的父辈。 我们的父辈大部分都生于50后，60后，70后，成长于七零年">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/12/15/读书/《程序员的三门课》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《程序员的三门课》读书随想 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/12/15/读书/《程序员的三门课》读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《程序员的三门课》读书随想
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-15 21:28:00" itemprop="dateCreated datePublished" datetime="2019-12-15T21:28:00+08:00">2019-12-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-18 08:33:40" itemprop="dateModified" datetime="2019-12-18T08:33:40+08:00">2019-12-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/读书/" itemprop="url" rel="index"><span itemprop="name">读书</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一-回顾我的职场体会"><a href="#一-回顾我的职场体会" class="headerlink" title="一  回顾我的职场体会"></a>一  回顾我的职场体会</h1><p>我的职场生涯开始于十年前，一直在中小企业发展，未曾有幸到沿海那些高速发展的互联网公司工作，也就错过了互联网的大时代。</p>
+<p>但这不影响我的正常工作生活，事实上无论你身在何处，或在哪家公司，以各种title生存，我们都是在属于自己的职场道路上奋力拼搏，为了实现自己的人生梦想，我们需要付出的代价和努力，或许并不亚于我们的父辈。</p>
+<p>我们的父辈大部分都生于50后，60后，70后，成长于七零年代，八零年代，九零年代。他们的时代，是举国体制逐渐退潮，市场经济开始唱主角的时代，他们往往没那么多的学问，有时候得靠自己的勇气和双手才能改变自己的命运。而我们的时代，更多的得依靠自己的学问和知识领域来直面社会发展。互联网的大时代，汹涌澎湃如斯，浪花卷卷，看似卑微的小人物，同样也能在时代扮演不平凡的角色。</p>
+<p>事实上过去十年正是中国互联网产业飞速发展最为波澜壮阔的十年，哪怕从世界层面来说，也同样如此。中国的互联网本身就比美国晚了将近十年，但是凭借过去的十年，我们取得的飞速发展让我们得以跟美国看起来不相上下。</p>
+<p>当然，大时代的发展看似与我们大多数人关系不大，我们只是时代的见证者和受益人，而还有一些人，他们都积极的参与到其中，并为这个时代的发展起到了看似简单但也至关重要的作用。</p>
+<h1 id="二-价值或没价值，其实不用争执"><a href="#二-价值或没价值，其实不用争执" class="headerlink" title="二 价值或没价值，其实不用争执"></a>二 价值或没价值，其实不用争执</h1><p>我一贯认为围绕价值的争执毫无意义，毕竟每个人的评判标准截然不同，但不同的人大概目标是一致的，追求创造属于自己的价值，实现自己的梦想。当然，在时代的裹挟之下，大多数人都难以真正拥有自己的梦想。往往都是在本能的驱使下，选择工作，家庭，按部就班的工作，陪伴家庭逐渐的向未来前进。</p>
+<p>但这不影响我们可以设想一下我们应该拥有的一些共识，例如使命，价值观和文化。我觉得这三者是非常重要的东西，使命驱使我们前进，价值观促使我们拥有自己的原则，而文化是我们过去受到的家庭教育，学校教育和社会教育在灵魂上的投影。这些东西某种意义来说决定了我们的货币价值。</p>
+<p>为了提高货币价值，我们往往都得超越自我，去做一些在现在知识层面下难以实现的东西。</p>
+<p>一个人的知识领域，往往是知道得越多，越会感觉到自己的欠缺，在刚开始的时候或许是一个小圆圈，但是随着逐渐的学习，这个圆圈也越来越大。</p>
+<p>未知越多，潜力越大。每个人都是独一无二的个体，并在自己的舞台上努力表演，我们虽然难免需要妥协于生活，但是我们其实并不必莫名其妙的取悦于任何人。</p>
+<p>而社会中的每个个体都看似不一样，但往往也能够互相协作，互相支撑，每个人都有自己的职业分工，但总有工作交集的存在。这就意味着看似不一样的生活或工作，总能找到一些值得复用和思考的知识领域，这就需要我们放开心胸与其他人交流，从而使自己的精神更加饱满。</p>
+<h1 id="三-写书和读书，是一种灵魂对话"><a href="#三-写书和读书，是一种灵魂对话" class="headerlink" title="三 写书和读书，是一种灵魂对话"></a>三 写书和读书，是一种灵魂对话</h1><p>而写博客，写书或读书大概是最好的一种方式，作者把自己的成长故事和所思所感记下来，再借助书这种载体输出，既实现了自己知识的沉淀，又能将自己的知识领域向外播撒；</p>
+<p>读者可以花并不高的代价购买到来自于作者一手的知识分享，又能在书中寻找自己的存在，达到与作者的共鸣，这样的学习一定会让人获益非浅。</p>
+<p>在软件研发领域的许多知识，不像我们受到的教育一般，有些东西是有明显的对错之分的，像程序员成长，架构思维或管理模式，无论是哪种方式，总能实现我们的目标。</p>
+<p>我们中的大部分人的成长都大体一样，来源于某份工作或多份工作的自我学习，而不是靠真正的书本或教育，在社会中学习，大概如此。但是这样的东西难免有失节奏，不够系统，甚至要走特别多的弯路，吃很多亏。</p>
+<p>有时候我们会想知道，哪里可以获得系统的学习方法呢？</p>
+<h1 id="四-这本书值得读的点"><a href="#四-这本书值得读的点" class="headerlink" title="四 这本书值得读的点"></a>四 这本书值得读的点</h1><p>一本《程序员的三门课》，或许能够给你带来思考。</p>
+<p>这本书没有试图像那些能够给我们带来直接收入的【21天学会xx技术】的书一样，能够迅速让我们迅速的学会新技术，他甚至有点像啰嗦的前辈一样，说了一些让人摸不着边际的东西。</p>
+<p>事实上书的作者恰好是亲历了互联网大时代的一波人，有阿里巴巴的技术大佬右军老师，李伟山老师，还有彭首长老师和刘朋老师，也有年轻如张洪亮的青年才俊，他们都致力于学习和为企业创造价值，他们事实上也颇有成就。他们都经历了职场的历练，无论是996甚至007，他们都是第一批冲杀在前线的斗士。他们不仅做事雷厉风行，他们更是喜欢思考人生的意义。</p>
+<p>他们都并非像这篇文章一样喜欢说啰嗦的话，他们把自己过去若干年的思考汇集在这本书中，目标是渴望给读者带来真正的收获。</p>
+<p>当你刚参加工作时，需要快速入门的书给你带来顿悟，但一旦稍微稳定下来，一定得站在更高的视角来规划一下自己的未来。编程技术，你可以快速的提升，而掌握这本书中的某些部分，你将有希望看破迷雾，不至于在职场面前过于迷茫。这些从工作中出发，提取自技术、思维模式和管理方法不同层面的知识，每一种都很有思考的意义。</p>
+<p>当然，看完这本书你甚至需要看更多的书，因为这本书他虽然凝淬了许多书的精华，但也是来源于本书作者对于知识的提炼，或许与原作者的原意稍有差别。在读完这本书之后，你或许将拥有一把去开启更多知识领域的钥匙。</p>
+<p>一本经典，往往能让你产生无尽思考；而一本好书，则会让你看破一些道理，甚至会觉得，原来这些其实就是这么回事啊。</p>
+<p>越是看起来简单的道理，越是需要花心思去揣摩才能体会。就像许多看似简单的技术实现，没有亲身经历的，都是“二手知识”。网上有许多的学习资料，尤其是当我们打开某些信息流app时，其实那是你的“信息茧房”，每天阅读这些内容，你会以为技术的获得是多么的轻易，但只有手把手写过一波，才能真正获得价值。而阿里巴巴和众多互联网公司们，花了十年时间做了那么多东西，一定是走了弯路，踩了许多坑才最终获得了最佳实践，而这些在这本书里都有所介绍。</p>
+<p>例如，如果你想在组织中建设一套质量管理体系，书中花了不少章节介绍了代码审查的方式和工具，以及代码审查清单的五个大方向和十六个小方向，这些能够从代码层面建立第一道防线；接着可以从架构体系做好第二层防线，例如分析架构质量的问题来源和解决策略，以及实现流程。这些几乎都是拿来就能应用的良好策略。</p>
+<p>对于程序员的快速成长，作者们都深有体会，例如积极主动的应对困难，以空杯的形态去看待学习，以及别怕犯错，这些都是良好的习惯，尤其要掌握学习方法，打破舒适区和终身成长，能够让我们更快的成长。</p>
+<p>如果初涉管理，作者们也介绍了他们的许多感受，包括做好准备，抓住机会，构建领导力，和高效的时间管理。尤其是时间管理，为什么同样都是996，作者们却不仅把代码写得很完美，还能有时间写那么多博客呢。团队培养，看起来简单却不简单，书里面也提到了许多措施。</p>
+<h1 id="五-总结"><a href="#五-总结" class="headerlink" title="五 总结"></a>五 总结</h1><p>一本好书，能够给你带来一点思考，就已经足够了，如果让你获得了超过一点思考，那就是赚大了。</p>
+<p>冷静的阅读一下，你会有不一样的收获。这些都是你自己的收获，更是属于你自己的无穷财富。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/读书/" rel="tag"># 读书</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/15/随笔/我在外包公司做增删改查有前途么？/" rel="next" title="我在外包公司做增删改查有前途么？">
+                <i class="fa fa-chevron-left"></i> 我在外包公司做增删改查有前途么？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/03/随笔/2019年年终总结，静候时光与一步一个脚印/" rel="prev" title="2019年年终总结，静候时光与一步一个脚印">
+                2019年年终总结，静候时光与一步一个脚印 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-回顾我的职场体会"><span class="nav-number">1.</span> <span class="nav-text">一  回顾我的职场体会</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-价值或没价值，其实不用争执"><span class="nav-number">2.</span> <span class="nav-text">二 价值或没价值，其实不用争执</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-写书和读书，是一种灵魂对话"><span class="nav-number">3.</span> <span class="nav-text">三 写书和读书，是一种灵魂对话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-这本书值得读的点"><span class="nav-number">4.</span> <span class="nav-text">四 这本书值得读的点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-总结"><span class="nav-number">5.</span> <span class="nav-text">五 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

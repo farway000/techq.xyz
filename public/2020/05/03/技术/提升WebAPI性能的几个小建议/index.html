@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="typora-root-url: ........\image.techq.xyz\images\improve-webapi提升WebAPI性能的几个小建议本文作者：德本德拉·达什（Debendra Dash） 原文来自： https://www.c-sharpcorner.com/article/Tips-And-Tricks-To-Improve-WEB-API-Performance/">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提升WebAPI性能的几个小建议">
+<meta property="og:url" content="http://techq.xyz/2020/05/03/技术/提升WebAPI性能的几个小建议/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="typora-root-url: ........\image.techq.xyz\images\improve-webapi提升WebAPI性能的几个小建议本文作者：德本德拉·达什（Debendra Dash） 原文来自： https://www.c-sharpcorner.com/article/Tips-And-Tricks-To-Improve-WEB-API-Performance/">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://techq.xyz/1.png">
+<meta property="og:image" content="http://techq.xyz/parallel.png">
+<meta property="og:image" content="http://techq.xyz/as1.png">
+<meta property="og:image" content="http://techq.xyz/final.png">
+<meta property="og:image" content="http://techq.xyz/iis1.png">
+<meta property="og:image" content="http://techq.xyz/ser.png">
+<meta property="og:image" content="http://techq.xyz/valida.jpg">
+<meta property="og:updated_time" content="2020-06-25T14:03:27.923Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="提升WebAPI性能的几个小建议">
+<meta name="twitter:description" content="typora-root-url: ........\image.techq.xyz\images\improve-webapi提升WebAPI性能的几个小建议本文作者：德本德拉·达什（Debendra Dash） 原文来自： https://www.c-sharpcorner.com/article/Tips-And-Tricks-To-Improve-WEB-API-Performance/">
+<meta name="twitter:image" content="http://techq.xyz/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/05/03/技术/提升WebAPI性能的几个小建议/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>提升WebAPI性能的几个小建议 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/05/03/技术/提升WebAPI性能的几个小建议/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">提升WebAPI性能的几个小建议
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-05-03 19:07:00" itemprop="dateCreated datePublished" datetime="2020-05-03T19:07:00+08:00">2020-05-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-06-25 22:03:27" itemprop="dateModified" datetime="2020-06-25T22:03:27+08:00">2020-06-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="typora-root-url-image-techq-xyz-images-improve-webapi"><a href="#typora-root-url-image-techq-xyz-images-improve-webapi" class="headerlink" title="typora-root-url: ........\image.techq.xyz\images\improve-webapi"></a>typora-root-url: ........\image.techq.xyz\images\improve-webapi</h2><h1 id="提升WebAPI性能的几个小建议"><a href="#提升WebAPI性能的几个小建议" class="headerlink" title="提升WebAPI性能的几个小建议"></a>提升WebAPI性能的几个小建议</h1><p>本文作者：德本德拉·达什（Debendra Dash）</p>
+<p>原文来自： <a href="https://www.c-sharpcorner.com/article/Tips-And-Tricks-To-Improve-WEB-API-Performance/" target="_blank" rel="noopener">https://www.c-sharpcorner.com/article/Tips-And-Tricks-To-Improve-WEB-API-Performance/</a> </p>
+<p>Web API是Microsoft作为.NET框架的一部分而开发的一项技术，它使用户能够与异构平台进行通信，包括网站，移动设备和桌面应用程序等。在编写Web API时，我们应该关注其性能和响应时间。在这里，我列出了在提高Web API性能时需要考虑的几点。</p>
+<p> <img src="/1.png" alt="1"></p>
+<h2 id="在Web-API中使用并行编程"><a href="#在Web-API中使用并行编程" class="headerlink" title="在Web API中使用并行编程"></a>在Web API中使用并行编程</h2><p>Web API逻辑主要处理2个重要功能-将数据发布到服务器以进行插入或更新，以及从服务器获取数据。当我们有成千上万的记录要从服务器获取时，响应时间非常高。这是因为有时我们将不得不遍历数据源，进行几次更改，然后将数据发送到客户端。而且，一个简单的foreach循环是一个单线程循环，该循环逐个顺序处理数据以给出结果集。</p>
+<p> 因此，在这种情况下，建议在从服务器获取数据时使用并行foreach循环。由于并行的foreach循环在多线程环境中工作，因此执行速度将比foreach循环更快。 </p>
+<h3 id="并行Foreach循环的执行过程"><a href="#并行Foreach循环的执行过程" class="headerlink" title="并行Foreach循环的执行过程"></a>并行Foreach循环的执行过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">```c#</span><br><span class="line">List&lt;Employee&gt; li = new List&lt;Employee&gt;();  </span><br><span class="line">li.Add(new Employee &#123; Id = 1001, Name = &quot;Sambid&quot;, Company = &quot;DELL&quot;, Location = &quot;Bangalore&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1002, Name = &quot;Sumit&quot;, Company = &quot;DELL&quot;, Location = &quot;Bangalore&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1003, Name = &quot;Koushal&quot;, Company = &quot;Infosys&quot;, Location = &quot;New Delhi&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1004, Name = &quot;Kumar&quot;, Company = &quot;TCS&quot;, Location = &quot;Bangalore&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1005, Name = &quot;Mohan&quot;, Company = &quot;Microsoft&quot;, Location = &quot;Hyderabad&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1006, Name = &quot;Tushar&quot;, Company = &quot;Samsung&quot;, Location = &quot;Hyderabad&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1007, Name = &quot;Jia&quot;, Company = &quot;TCS&quot;, Location = &quot;Pune&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1008, Name = &quot;KIRAN&quot;, Company = &quot;CTS&quot;, Location = &quot;Bangalore&quot; &#125;);  </span><br><span class="line">li.Add(new Employee &#123; Id = 1009, Name = &quot;Rinku&quot;, Company = &quot;CGI&quot;, Location = &quot;Bangalore&quot; &#125;);  </span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+
+<p> 这是Employee类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Employee  </span><br><span class="line">&#123;  </span><br><span class="line">    public int Id &#123; get; set; &#125;  </span><br><span class="line">    public string Name &#123; get; set; &#125;  </span><br><span class="line">    public string Company &#123; get; set; &#125;  </span><br><span class="line">    public string Designation &#123; get; set; &#125;  </span><br><span class="line">    public string Location &#123; get; set; &#125;  </span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这就是我们可以使用Parallel Foreach循环的方式。 </p>
+<p><img src="/parallel.png" alt></p>
+<p>该循环将立即执行并给出结果。在Foreach循环的情况下，它一一给出结果。假设结果集中有1000条记录，则循环将执行一次1000次以得到结果。</p>
+<p><strong>注意：</strong> 当您要获取的记录数量很少时，请不要使用Parallel foreach循环。</p>
+<h2 id="使用异步编程来处理并发的HTTP请求"><a href="#使用异步编程来处理并发的HTTP请求" class="headerlink" title="使用异步编程来处理并发的HTTP请求"></a>使用异步编程来处理并发的HTTP请求</h2><p>同步编程中发生的事情是，每当有请求执行Web API时，就会将线程池中的线程分配给要执行的请求。该线程被阻塞，直到执行该过程并返回结果为止。</p>
+<p><img src="/as1.png" alt></p>
+<p>在这里，T2 线程一直处于阻塞状态，直到它处理请求并返回结果为止；如果遇到长的执行循环，则它将花费大量时间并一直等待到结束。</p>
+<p>假设我们只有3个线程，并且所有线程都已分配给队列中正在等待的三个请求。在这种情况下，如果第四个请求在我们同步实现时出现，它将发出错误，因为现在它没有任何线程可以处理该请求。</p>
+<p>因此，要处理更多数量的并发HTTP请求，我们必须使用异步编程。</p>
+<p>异步请求处理程序的操作有所不同。当请求到达Web API控制器时，它将获取其线程池线程之一，并将其分配给该请求。</p>
+<p>在进程开始执行的同时，线程将返回到线程池。执行完成后，为该请求分配了另一个线程来带来该请求，因此，该线程将不会等到进程执行完成后才返回到线程池以处理另一个请求。</p>
+<p><img src="/final.png" alt></p>
+<p> 因此，在这里我给出了一个小的注册示例，以及如何在Web API中使用异步编程。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[AllowAnonymous]  </span><br><span class="line">[Route(&quot;Register&quot;)]  </span><br><span class="line">public async Task&lt;IHttpActionResult&gt; Register(RegisterBindingModel model)  </span><br><span class="line">&#123;  </span><br><span class="line">    Dictionary&lt;object, object&gt; dict = new Dictionary&lt;object, object&gt;();  </span><br><span class="line">    if (!ModelState.IsValid)  </span><br><span class="line">    &#123;  </span><br><span class="line">        return BadRequest(ModelState);  </span><br><span class="line">    &#125;  </span><br><span class="line">    var user = new ApplicationUser() &#123; UserName = model.Email, Email = model.Email &#125;;  </span><br><span class="line">    IdentityResult result = await UserManager.CreateAsync(user, model.Password);  </span><br><span class="line">    if (result.Succeeded)  </span><br><span class="line">    &#123;  </span><br><span class="line">        tbl_Users obj = new tbl_Users();  </span><br><span class="line">        obj.Active = false;  </span><br><span class="line">        obj.FirstName = model.FirstName;  </span><br><span class="line">        obj.LastName = model.LastName;  </span><br><span class="line">        obj.Email = model.Email;  </span><br><span class="line">        obj.UserId = user.Id;  </span><br><span class="line">        DefEntity.tbl_Users.Add(obj);  </span><br><span class="line">        if (DefEntity.SaveChanges() == 1)  </span><br><span class="line">        &#123;  </span><br><span class="line">            dict.Add(&quot;Success&quot;, &quot;Data Saved Successfully.&quot;);  </span><br><span class="line">            return Ok(dict);  </span><br><span class="line">        &#125;  </span><br><span class="line">        else  </span><br><span class="line">        &#123;  </span><br><span class="line">            return Content(HttpStatusCode.BadRequest, &quot;User Details not Saved.&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    else  </span><br><span class="line">    &#123;  </span><br><span class="line">        return GetErrorResult(result);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="压缩Web-API的结果"><a href="#压缩Web-API的结果" class="headerlink" title="压缩Web API的结果"></a>压缩Web API的结果</h2><p>Web API压缩对于提高ASP.NET Web API性能非常重要。在Web中，数据以包（数据包）的形式通过网络传输，从而增加了数据包的大小，这将增加大小并增加Web API的响应时间。因此，减小数据包大小可提高Web API的加载性能。</p>
+<p>通过压缩API响应，我们具有以下两个优点。</p>
+<ul>
+<li><p>数据大小将减小</p>
+</li>
+<li><p>响应时间将增加（增加客户端和服务器之间的通信速度。）</p>
+<p>我们可以通过编码和IIS中的某些设置来压缩Web API。我已经在以下链接中介绍了使用编码对Web API进行压缩的方法。</p>
+</li>
+</ul>
+<ol>
+<li><ul>
+<li><a href="http://www.c-sharpcorner.com/article/compressing-web-api-response-to-using-dotnetzip/" target="_blank" rel="noopener">使用DotNetZip压缩Web API响应</a></li>
+<li><a href="http://www.c-sharpcorner.com/article/compressing-web-api-response-part-two/" target="_blank" rel="noopener">压缩Web API响应</a></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>同样，我们可以通过检查动态内容压缩模块来启用IIS压缩 。</p>
+<p><img src="/iis1.png" alt></p>
+</li>
+<li><p>因此，通过这种方式，我们可以压缩Web API响应以实现性能。</p>
+</li>
+</ul>
+<h2 id="使用缓存提高性能"><a href="#使用缓存提高性能" class="headerlink" title="使用缓存提高性能"></a>使用缓存提高性能</h2><p>缓存是一种在一定时间段内将常用数据或信息存储在本地存储器中的技术。因此，下一次，当客户端请求相同的信息时，它将从本地内存中提供信息，而不是从数据库中检索信息。缓存的主要优点是它通过减少处理负担来提高性能。我们有几种方法可以在Web api中实现缓存。在下面的链接中，我描述了一种实现缓存的方法。</p>
+<ul>
+<li><p><a href="http://www.c-sharpcorner.com/article/implementing-caching-in-web-api/" target="_blank" rel="noopener">在Web API中实现缓存</a></p>
+<p>因此，在这里您将找到我们如何在Web API中实现缓存以及它将如何帮助提高性能。</p>
+</li>
+</ul>
+<h2 id="使用高速JSON序列化器"><a href="#使用高速JSON序列化器" class="headerlink" title="使用高速JSON序列化器"></a>使用高速JSON序列化器</h2><p>我们经常使用JSON而不是XML来在服务提供者和服务客户端之间交换数据。首先，我们使用它是因为JSON是轻量级的。</p>
+<p>在.NET中，有很多序列化器。最受欢迎的是Json.NET，Microsoft选择它作为Web API的默认JSON序列化器。Json.NET之所以出色，是因为它快速，健壮且可配置。</p>
+<p>有几种序列化器比Json.Net更快。下面提到其中一些。</p>
+<p><img src="/ser.png" alt></p>
+<p>我们可以看到Protobuf-Net和JIL是非常快速的序列化程序，因此，如果可以代替Json.net来实现它们，则显然可以提高性能。协议缓冲区或Protobuf是Google的官方序列化程序。要在.Net中使用JIL序列化程序，我已经写了一篇文章，您可以在下面的链接中进行检查。</p>
+<ul>
+<li><a href="http://www.c-sharpcorner.com/article/working-with-jil-serializer-and-deserializer-library-in-c-sharp/" target="_blank" rel="noopener">在C＃中使用Jil序列化器和反序列化器库</a></li>
+</ul>
+<h2 id="创建适当的数据库结构"><a href="#创建适当的数据库结构" class="headerlink" title="创建适当的数据库结构"></a>创建适当的数据库结构</h2><p>为了提高任何应用程序的性能，我们应该将重点放在数据库结构上。我可以说数据库结构在提高性能方面起着重要作用。这些是我们在处理数据库时应检查的一些注意事项。</p>
+<ul>
+<li><p>尝试使规范化表结构。</p>
+</li>
+<li><p>为所有表提供适当的索引，以便从表中轻松搜索结果。</p>
+</li>
+<li><p>将所有相互关联的表与外键和主键相关联。</p>
+<p>我认为在创建数据库结构以提高性能时，我们必须至少遵循这三个规则。</p>
+</li>
+</ul>
+<p><strong>尝试从客户端验证某些属性</strong></p>
+<p>从客户端而不是服务器端验证某些模型属性非常好。一旦我们在未经客户端验证的情况下放置了无效数据，则它将进入服务器并检查其是否为有效数据。如果它是无效的数据，它将从服务器给出错误。因此，在这里我们可以使用客户端验证检查往返行程。因此，如果我们可以通过客户端（移动设备，网站等）进行任何可能的验证，那将是很好的。</p>
+<p><img src="/valida.jpg" alt></p>
+<p> 因此，我认为，如果我们专注于以上讨论的要点，则可以以某种方式提高Web API的性能。 </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/30/技术/TDD学习笔记（二）单元测试/" rel="next" title=".TDD学习笔记（二）单元测试">
+                <i class="fa fa-chevron-left"></i> .TDD学习笔记（二）单元测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/08/技术/甲方爸爸，大概你要的是代码生成器吧？/" rel="prev" title="甲方爸爸，大概你要的是代码生成器吧？">
+                甲方爸爸，大概你要的是代码生成器吧？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#typora-root-url-image-techq-xyz-images-improve-webapi"><span class="nav-number">1.</span> <span class="nav-text">typora-root-url: ........\image.techq.xyz\images\improve-webapi</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#提升WebAPI性能的几个小建议"><span class="nav-number"></span> <span class="nav-text">提升WebAPI性能的几个小建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在Web-API中使用并行编程"><span class="nav-number">1.</span> <span class="nav-text">在Web API中使用并行编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#并行Foreach循环的执行过程"><span class="nav-number">1.1.</span> <span class="nav-text">并行Foreach循环的执行过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用异步编程来处理并发的HTTP请求"><span class="nav-number">2.</span> <span class="nav-text">使用异步编程来处理并发的HTTP请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩Web-API的结果"><span class="nav-number">3.</span> <span class="nav-text">压缩Web API的结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用缓存提高性能"><span class="nav-number">4.</span> <span class="nav-text">使用缓存提高性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用高速JSON序列化器"><span class="nav-number">5.</span> <span class="nav-text">使用高速JSON序列化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建适当的数据库结构"><span class="nav-number">6.</span> <span class="nav-text">创建适当的数据库结构</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

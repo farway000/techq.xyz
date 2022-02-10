@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在C＃中使用RESTful API的几种好方法 Vladimir Pecanac  通过Web开发的路径，您发现自己迟早需要处理外部API（应用程序编程接口）。在本文中，我的目标是列出在C＃项目中使用RESTful API的方法的最全面列表，并通过一些简单示例向您展示如何做到这一点。 阅读该文章后，您将更深入地了解可以使用哪些选项，以及下次需要使用RESTful API时如何选择正确的选项。 什么">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在C＃中使用RESTful API的几种好方法">
+<meta property="og:url" content="http://techq.xyz/2020/04/28/技术/在C＃中使用RESTful API的几种好方法/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="在C＃中使用RESTful API的几种好方法 Vladimir Pecanac  通过Web开发的路径，您发现自己迟早需要处理外部API（应用程序编程接口）。在本文中，我的目标是列出在C＃项目中使用RESTful API的方法的最全面列表，并通过一些简单示例向您展示如何做到这一点。 阅读该文章后，您将更深入地了解可以使用哪些选项，以及下次需要使用RESTful API时如何选择正确的选项。 什么">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://code-maze.com/wp-content/uploads/2017/06/RestSharp-releases.png">
+<meta property="og:updated_time" content="2020-05-26T11:10:12.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在C＃中使用RESTful API的几种好方法">
+<meta name="twitter:description" content="在C＃中使用RESTful API的几种好方法 Vladimir Pecanac  通过Web开发的路径，您发现自己迟早需要处理外部API（应用程序编程接口）。在本文中，我的目标是列出在C＃项目中使用RESTful API的方法的最全面列表，并通过一些简单示例向您展示如何做到这一点。 阅读该文章后，您将更深入地了解可以使用哪些选项，以及下次需要使用RESTful API时如何选择正确的选项。 什么">
+<meta name="twitter:image" content="https://code-maze.com/wp-content/uploads/2017/06/RestSharp-releases.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/28/技术/在C＃中使用RESTful API的几种好方法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在C＃中使用RESTful API的几种好方法 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/28/技术/在C＃中使用RESTful API的几种好方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在C＃中使用RESTful API的几种好方法
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-28 23:28:00" itemprop="dateCreated datePublished" datetime="2020-04-28T23:28:00+08:00">2020-04-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-05-26 19:10:12" itemprop="dateModified" datetime="2020-05-26T19:10:12+08:00">2020-05-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在C＃中使用RESTful-API的几种好方法"><a href="#在C＃中使用RESTful-API的几种好方法" class="headerlink" title="在C＃中使用RESTful API的几种好方法"></a>在C＃中使用RESTful API的几种好方法</h1><p> <a href="https://code-maze.com/author/codemaze_blog/" target="_blank" rel="noopener">Vladimir Pecanac</a> </p>
+<p>通过Web开发的路径，您发现自己迟早需要处理外部API（应用程序编程接口）。在本文中，我的目标是列出在C＃项目中使用RESTful API的方法的最全面列表，并通过一些简单示例向您展示如何做到这一点。</p>
+<p>阅读该文章后，您将更深入地了解可以使用哪些选项，以及下次需要使用<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">RESTful API</a>时如何选择正确的选项。</p>
+<h2 id="什么是RESTful-API？"><a href="#什么是RESTful-API？" class="headerlink" title="什么是RESTful API？"></a>什么是RESTful API？</h2><p>因此，在开始之前，您可能想知道<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">API</a>代表什么，以及RESTful的全部含义是什么？</p>
+<p>简而言之，API是软件应用程序之间的层。您可以将请求发送到<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">API</a>，并从中获得响应。API隐藏了软件应用程序具体实现的所有细节，并公开了您用于与该应用程序通信的接口。</p>
+<p>整个互联网是由API组成的大型蜘蛛网。我们使用API在应用程序之间通信和关联信息。我们有一个<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">API</a>，可以处理几乎所有内容。您每天使用的大多数服务都有自己的API（GoogleMaps，Facebook，Twitter，Instagram，天气门户…）</p>
+<p>RESTful部分意味着API是根据REST（表示状态传输）的原理和规则来实现的，REST是网络的基础架构原理。RESTful API在大多数情况下会返回纯文本，JSON或XML响应。更详细地解释REST不在本文的讨论范围之内，但是您可以在我们的文章<a href="https://code-maze.com/top-rest-api-best-practices/" target="_blank" rel="noopener">REST API最佳实践中</a>阅读有关REST的更多信息。</p>
+<h2 id="如何使用RESTful-API"><a href="#如何使用RESTful-API" class="headerlink" title="如何使用RESTful API"></a>如何使用RESTful API</h2><p>好吧，让我们进入整个故事中最重要的部分。</p>
+<p>有几种方法可以在C＃中使用RESTful API：</p>
+<ul>
+<li><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#HttpWebRequest" target="_blank" rel="noopener"><strong>HttpWebRequest/Response Class</strong></a></li>
+<li><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#webclient" target="_blank" rel="noopener"><strong>WebClient Class</strong></a></li>
+<li><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#HttpClient" target="_blank" rel="noopener"><strong>HttpClient Class</strong></a></li>
+<li><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#RestSharp" target="_blank" rel="noopener"><strong>RestSharp NuGet Package</strong></a></li>
+<li><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#ServiceStack" target="_blank" rel="noopener"><strong>ServiceStack Http Utils</strong></a></li>
+<li><strong><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#flurl" target="_blank" rel="noopener">Flurl</a></strong></li>
+<li><strong><a href="https://code-maze.com/different-ways-consume-restful-api-csharp/#dalsoft" target="_blank" rel="noopener">DalSoft.RestClient</a></strong></li>
+</ul>
+<p>这些中的每一个都有优点和缺点，因此让我们仔细研究它们，看看它们提供了什么。</p>
+<p>例如，我们将通过GitHub API收集有关RestSharp回购版本及其发布日期的信息。此信息是公开可用的，您可以在此处查看原始JSON响应的外观： <a href="https://api.github.com/repos/restsharp/restsharp/releases" target="_blank" rel="noopener">RestSharp版本</a></p>
+<p>我们将利用Json.NET库的帮助来反序列化获得的响应。同样，对于某些示例，我们将使用库的内置反序列化机制。选择哪种方式取决于您，因为没有正确的方法。（您可以在<a href="https://github.com/CodeMazeBlog/ConsumeRestfulApisExamples" target="_blank" rel="noopener">源代码中</a>看到这两种机制的实现）。</p>
+<p>我期望通过接下来的几个示例得到一个反序列化<code>JArray</code>（为简单起见），其中包含RestSharp发布信息。之后，我们可以遍历它以获得以下结果。</p>
+<p> <img src="https://code-maze.com/wp-content/uploads/2017/06/RestSharp-releases.png" alt="img"> </p>
+<h2 id="HttpWebRequest-Response类"><a href="#HttpWebRequest-Response类" class="headerlink" title="HttpWebRequest / Response类"></a>HttpWebRequest / Response类</h2><p>这是<code>WebRequest</code> 类的特定于HTTP的实现，该实现最初用于处理HTTP请求，但已过时并由<code>WebClient</code>该类代替 。</p>
+<p>该<code>HttpWebRequest</code> 提供细粒度控制的要求制定过程的每一个环节。您可以想象，这可能是一把双刃剑，您很容易浪费大量时间来微调您的请求。另一方面，这可能正是您针对特定案例所需要的。</p>
+<p><code>HttpWebRequest</code> 类不会阻止用户界面，也就是说，我相信您会同意这一点，这一点非常重要。</p>
+<p><code>HttpWebResponse</code> 类为传入的响应提供了一个容器。</p>
+<p>这是有关如何使用这些类使用API的简单示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class HttpWebRequestHandler : IRequestHandler</span><br><span class="line">&#123;</span><br><span class="line">    public string GetReleases(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        var request = (HttpWebRequest)WebRequest.Create(url);</span><br><span class="line"></span><br><span class="line">        request.Method = &quot;GET&quot;;</span><br><span class="line">        request.UserAgent = RequestConstants.UserAgentValue;</span><br><span class="line">        request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;</span><br><span class="line"></span><br><span class="line">        var content = string.Empty;</span><br><span class="line"></span><br><span class="line">        using (var response = (HttpWebResponse)request.GetResponse())</span><br><span class="line">        &#123;</span><br><span class="line">            using (var stream = response.GetResponseStream())</span><br><span class="line">            &#123;</span><br><span class="line">                using (var sr = new StreamReader(stream))</span><br><span class="line">                &#123;</span><br><span class="line">                    content = sr.ReadToEnd();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return content;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 尽管是一个简单的示例，但是当您需要处理更复杂的方案（例如，发布表单信息，授权等）时，它会变得更加复杂。 </p>
+<h2 id="WebClient类别"><a href="#WebClient类别" class="headerlink" title="WebClient类别"></a>WebClient类别</h2><p>这个类对<code>HttpWebRequest</code>的包装。它通过<code>HttpWebRequest</code>从开发人员中提取的细节来简化流程。该代码更容易编写，并且您通过这种方式犯错误的可能性较小。如果您想编写更少的代码，而不用担心所有细节，并且执行速度是不重要的，请考虑使用<code>WebClient</code>class。</p>
+<p>这个示例应该使您大致了解<code>WebClient</code>与<code>HttpWebRequest</code>/ <code>HttpWebResponse</code>方法相比使用起来要容易得多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new WebClient();</span><br><span class="line">    client.Headers.Add(RequestConstants.UserAgent, RequestConstants.UserAgentValue);</span><br><span class="line"></span><br><span class="line">    var response = client.DownloadString(url);</span><br><span class="line"></span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>容易得多，对吗？</p>
+<p>除了其他<code>DownloadString</code>方法，<code>WebClient</code>类还提供了许多其他有用的方法，使我们的生活更轻松。我们可以轻松地使用它来操作字符串，文件或字节数组，并且价格比<code>HttpWebRequest</code>/ <code>HttpWebResponse</code>方法要慢几毫秒。</p>
+<p>无论是<code>HttpWebRequest</code>/ <code>HttpWebResponse</code>和<code>WebClient</code>类在旧版本的.NET可供选择。如果您对其他产品感兴趣，请务必查看<a href="https://msdn.microsoft.com/en-us/library/system.net.webclient(v=vs.110).aspx" target="_blank" rel="noopener">MSDN</a><code>WebClient</code>。</p>
+<h2 id="HttpClient类"><a href="#HttpClient类" class="headerlink" title="HttpClient类"></a>HttpClient类</h2><p><code>HttpClient</code> 是“新人”，它提供了旧库所缺乏的一些现代.NET功能。例如，您可以使用的单个实例发送多个请求<code>HttpClient</code>，它不绑定到特定的HTTP服务器或主机，而是使用async / await机制。</p>
+<p>您可以<a href="https://channel9.msdn.com/Events/Build/2013/4-092" target="_blank" rel="noopener">在此视频中</a>找到<a href="https://channel9.msdn.com/Events/Build/2013/4-092" target="_blank" rel="noopener">使用HttpClient</a>的<a href="https://channel9.msdn.com/Events/Build/2013/4-092" target="_blank" rel="noopener">五个很好的理由</a>：</p>
+<ul>
+<li>强类型标题。</li>
+<li>共享缓存，cookie和凭据</li>
+<li>访问cookie和共享cookie</li>
+<li>控制缓存和共享缓存。</li>
+<li>将您的代码模块注入ASP.NET管道。清洁和模块化的代码。</li>
+</ul>
+<p><code>HttpClient</code>在我们的示例中，这是实际的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    using (var httpClient = new HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        httpClient.DefaultRequestHeaders.Add(RequestConstants.UserAgent, RequestConstants.UserAgentValue);</span><br><span class="line"></span><br><span class="line">        var response = httpClient.GetStringAsync(new Uri(url)).Result;</span><br><span class="line"></span><br><span class="line">        return response;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了简单起见，我同步实现了它。每个<code>HttpClient</code>方法都应异步使用，应该以这种方式使用。</p>
+<p>另外，我还要提到一件事。<strong>是否<code>HttpClient</code>应该包装在using块中还是在应用程序级别上进行静态讨论。尽管它实现了<code>IDisposable</code>，但似乎通过将它包装在using块中，<a href="https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/" target="_blank" rel="noopener">会使应用程序出现故障并获得SocketException</a>。</strong>而在ANKIT博客中，提供了基于<a href="https://ankitvijay.net/2016/09/25/dispose-httpclient-or-have-a-static-instance/" target="_blank" rel="noopener">很多有利于静态初始化的</a>的<code>HttpClient</code>性能测试结果是。<strong>请务必阅读这些博客文章，</strong>因为它们可以帮助您更了解该<code>HttpClient</code> 库的正确用法。（原文编写时间比较旧，在新版的.NET Core3.1中，相关问题已经解决）</p>
+<p>并且不要忘记，由于是新的，<code>HttpClient</code>是.NET 4.5以上版本才有，因此在某些旧项目中使用它可能会遇到麻烦。</p>
+<h2 id="RestSharp"><a href="#RestSharp" class="headerlink" title="RestSharp"></a>RestSharp</h2><p>RestSharp是标准.NET库的OpenSource替代品，也是目前最酷的.NET库之一。它以NuGet软件包的形式提供，出于某些原因，您应该考虑尝试一下。</p>
+<p>就像<code>HttpClient</code>RestSharp 一样，它是一个现代而全面的库，易于使用且令人愉悦，同时仍支持旧版本的.NET Framework。它具有内置的<a href="https://github.com/restsharp/RestSharp/wiki/Authenticators" target="_blank" rel="noopener">身份验证</a>和<a href="https://github.com/restsharp/RestSharp/wiki/Deserialization" target="_blank" rel="noopener">序列化/反序列化机制，</a>但允许您使用自定义<a href="https://github.com/restsharp/RestSharp/wiki/Deserialization" target="_blank" rel="noopener">机制</a>覆盖它们。它<a href="https://github.com/restsharp/RestSharp/wiki/Cross-Platform-Support" target="_blank" rel="noopener">可跨平台使用，</a>并支持OAuth1，OAuth2，基本，NTLM和基于参数的身份验证。您可以选择同步或异步工作。该库还有很多其他功能，而这些只是它提供的众多好处中的一部分。有关RestSharp的用法和功能的详细信息，您可以访问<a href="https://github.com/restsharp/RestSharp/wiki/Getting-Started" target="_blank" rel="noopener">GitHub上</a>的RestSharp <a href="https://github.com/restsharp/RestSharp/wiki/Getting-Started" target="_blank" rel="noopener">页面</a>。</p>
+<p>现在，让我们尝试使用RestSharp get获取RestSharp版本的列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new RestClient(url);</span><br><span class="line"></span><br><span class="line">    var response = client.Execute(new RestRequest());</span><br><span class="line"></span><br><span class="line">    return response.Content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很简单。RestSharp非常灵活，拥有使用RESTful API时几乎可以实现所有功能所需的所有工具。</p>
+<p>在此示例中要注意的一件事是，由于示例的一致性，我没有使用RestSharp的反序列化机制，这有点浪费，但是我鼓励您使用它，因为它确实非常容易和方便。因此，您可以轻松地制作一个这样的容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class GitHubRelease</span><br><span class="line">&#123;</span><br><span class="line">    [JsonProperty(PropertyName = &quot;name&quot;)]</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    [JsonProperty(PropertyName = &quot;published_at&quot;)]</span><br><span class="line">    public string PublishedAt &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 然后使用该<code>Execute</code>方法直接反序列化对该容器的响应。您可以仅添加所需的属性，并使用属性<code>JsonProperty</code>将它们映射到C＃属性（很好的触摸）。由于我们在响应中获得了发布列表，因此我们将<code>List</code> 用作包含类型。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;GitHubRelease&gt; GetDeserializedReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new RestClient(url);</span><br><span class="line"></span><br><span class="line">    var response = client.Execute&lt;List&lt;GitHubRelease&gt;&gt;(new RestRequest());</span><br><span class="line"></span><br><span class="line">    return response.Data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一种非常直接而优雅的方式来获取我们的数据。</p>
+<p>RestSharp不仅具有发送<code>GET</code>请求的功能，还可以自己探索并观察它的酷炫之处。</p>
+<p>在RestSharp案例中要补充的最后一点是，其存储库需要维护者。如果您想了解更多有关这个很棒的库的信息，我敦促您前往<a href="https://github.com/restsharp/RestSharp" target="_blank" rel="noopener">RestSharp存储库</a>，帮助该项目继续发展并变得更好。</p>
+<h2 id="ServiceStack-Http实用程序"><a href="#ServiceStack-Http实用程序" class="headerlink" title="ServiceStack Http实用程序"></a>ServiceStack Http实用程序</h2><p>另一个库，但与RestSharp不同，ServiceStack似乎得到了适当维护，并与现代<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">API</a>趋势保持同步。ServiceStack功能列表令人印象深刻，并且肯定具有各种应用程序。</p>
+<p>在这里对我们最有用的是演示如何使用外部RESTful API。ServiceStack具有一种专门的方式来处理称为<a href="http://docs.servicestack.net/http-utils" target="_blank" rel="noopener">Http Utils的</a>第三方HTTP API 。</p>
+<p>让我们看看如何首先使用Json.NET解析器来获取RestSharp版本是如何使用ServiceStack Http Utils。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var response = url.GetJsonFromUrl(webReq =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        webReq.UserAgent = RequestConstants.UserAgentValue;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 您还可以选择将其留给ServiceStack解析器。我们可以重用本文前面定义的<code>Release</code>类 。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;GitHubRelease&gt; GetDeserializedReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var releases = url.GetJsonFromUrl(webReq =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        webReq.UserAgent = RequestConstants.UserAgentValue;</span><br><span class="line">    &#125;).FromJson&lt;List&lt;GitHubRelease&gt;&gt;();</span><br><span class="line"></span><br><span class="line">    return releases;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如您所见，无论哪种方式都可以正常工作，并且您可以选择是获取字符串响应还是立即反序列化它。</p>
+<p>尽管ServiceStack是我们偶然发现的最后一个库，但令我感到惊讶的是，它使用起来如此容易，而且我认为它将来可能成为我处理API和服务的首选工具。</p>
+<h2 id="Flurl"><a href="#Flurl" class="headerlink" title="Flurl"></a>Flurl</h2><p>评论库中许多人要求的图书馆之一，并在Internet上受到许多人的喜爱，但仍吸引着人们。</p>
+<p>Flurl代表Fluent Url Builder，这是库构建其查询的方式。对于不熟悉flurl的做事方式的人来说，flurl只是意味着库的构建方式是将方法链接在一起以实现更高的可读性，类似于人类语言。</p>
+<p>为了使事情更容易理解，让我们举一些例子（这个例子来自官方文档）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Flurl will use 1 HttpClient instance per host</span><br><span class="line">var person = await &quot;https://api.com&quot;</span><br><span class="line">    .AppendPathSegment(&quot;person&quot;)</span><br><span class="line">    .SetQueryParams(new &#123; a = 1, b = 2 &#125;)</span><br><span class="line">    .WithOAuthBearerToken(&quot;my_oauth_token&quot;)</span><br><span class="line">    .PostJsonAsync(new</span><br><span class="line">    &#123;</span><br><span class="line">        first_name = &quot;Claire&quot;,</span><br><span class="line">        last_name = &quot;Underwood&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">    .ReceiveJson&lt;Person&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>您可以看到方法如何链接在一起以完成“句子”。</p>
+<p>在后台，Flurl使用HttpClient或通过自己的语法糖增强HttpClient库。因此，这意味着Flurl是一个异步库，因此请牢记这一点。</p>
+<p>与其他高级库一样，我们可以通过两种不同的方式来做到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var result = url</span><br><span class="line">        .WithHeader(RequestConstants.UserAgent, RequestConstants.UserAgentValue)</span><br><span class="line">        .GetJsonAsync&lt;List&lt;GitHubRelease&gt;&gt;()</span><br><span class="line">        .Result;</span><br><span class="line"></span><br><span class="line">    return JsonConvert.SerializeObject(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式相当糟糕，因为我们只是序列化结果，以便稍后对其进行反序列化。如果您使用的是Flurl之类的库，则不应以这种方式进行操作。</p>
+<p>更好的做事方式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;GitHubRelease&gt; GetDeserializedReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var result = url</span><br><span class="line">        .WithHeader(RequestConstants.UserAgent, RequestConstants.UserAgentValue)</span><br><span class="line">        .GetJsonAsync&lt;List&lt;GitHubRelease&gt;&gt;()</span><br><span class="line">        .Result;</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 随着<code>.Result</code>我们强迫代码的同步行为。使用Flurl的实际和预期方式如下所示： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public async Task&lt;List&lt;GitHubRelease&gt;&gt; GetDeserializedReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    var result = await url</span><br><span class="line">        .WithHeader(RequestConstants.UserAgent, RequestConstants.UserAgentValue)</span><br><span class="line">        .GetJsonAsync&lt;List&lt;GitHubRelease&gt;&gt;();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这展示了Flurl库的全部潜力。</p>
+<p>如果您想了解更多有关如何在不同的现实生活场景使用Flurl，看看我们的 <a href="https://code-maze.com/consuming-github-api-rest-with-flurl/" target="_blank" rel="noopener">消费GitHub的API（REST）随着</a><a href="https://code-maze.com/wp-admin/post.php?post=4822&action=edit" target="_blank" rel="noopener">Flurl</a> 文章</p>
+<p>总而言之，它就像广告一样：易于使用，现代，可读性和可测试性。您对这个库还有什么期望？要开源？<a href="https://github.com/tmenier/Flurl" target="_blank" rel="noopener">签</a>出： <a href="https://github.com/tmenier/Flurl" target="_blank" rel="noopener">Flurl存储库</a>，如果您愿意，可以贡献自己的力量！</p>
+<h2 id="DalSoft-RestClient"><a href="#DalSoft-RestClient" class="headerlink" title="DalSoft.RestClient"></a>DalSoft.RestClient</h2><p>现在，此列表与该列表中的任何内容都有些不同。但这一点有所不同。</p>
+<p>让我们看看如何使用DalSoft.RestClient来使用GitHub API，然后谈论我们已完成的工作。</p>
+<p>首先，您可以通过输入以下内容，通过NuGet软件包管理器下载DalSoft.RestClient： <code>Install-Package DalSoft.RestClient</code></p>
+<p>或通过.NET Core CLI： <code>dotnet add package DalSoft.RestClient</code></p>
+<p>两种方法都可以。</p>
+<p>拥有图书馆后，我们可以执行以下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public string GetReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    dynamic client = new RestClient(RequestConstants.BaseUrl,</span><br><span class="line">        new Headers &#123; &#123; RequestConstants.UserAgent, RequestConstants.UserAgentValue &#125; &#125;);</span><br><span class="line"></span><br><span class="line">    var response = client.repos.restsharp.restsharp.releases.Get().Result.ToString();</span><br><span class="line"></span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 或最好使用DalSoft.RestClient在充分利用其功能的同时立即反序列化响应： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public async Task&lt;List&lt;GitHubRelease&gt;&gt; GetDeserializedReleases(string url)</span><br><span class="line">&#123;</span><br><span class="line">    dynamic client = new RestClient(RequestConstants.BaseUrl,</span><br><span class="line">        new Headers &#123; &#123; RequestConstants.UserAgent, RequestConstants.UserAgentValue &#125; &#125;);</span><br><span class="line"></span><br><span class="line">    var response = await client.repos.restsharp.restsharp.releases.Get();</span><br><span class="line"></span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此，让我们稍微讨论一下这些例子。</p>
+<p>乍一看，它似乎并不比我们使用的其他一些现代库简单得多。</p>
+<p>但这归结为形成请求的方式，那就是利用RestClient的动态特性。例如，我们的BaseUrl是<code>https://api.github.com</code> ，我们需要进入<code>https://api.github.com/repos/restsharp/restsharp/releases</code>。我们可以通过动态创建客户端，然后通过链接Url的“部分”来形成Url来做到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">await client.repos.restsharp.restsharp.releases.Get();</span><br></pre></td></tr></table></figure>
+
+<p>形成请求的一种非常独特的方法。还有一个非常灵活的！</p>
+<p>因此，一旦我们设置了基本的网址，就可以轻松地使用不同的端点。</p>
+<p>还值得一提的是，我们得到的JSON响应会自动进行类型转换。如您在第二个示例中看到的那样，我们方法的返回值是<code>Task&gt;.</code> So，该库足够聪明，可以将响应转换为我们的类型（依赖于Json.NET）。这使我们的生活更加轻松。</p>
+<p>除了易于理解和使用之外，DalSoft.RestClient还具有现代库应具备的所有功能。它是可<strong>配置的，异步的，可扩展的，可测试的，并且支持多个平台</strong>。</p>
+<p>我们仅演示了DalSoft.RestClient功能的一小部分。如果您对使用DalSoft.RestClient感兴趣，请转至<a href="https://code-maze.com/dalsoft-restclient-consume-any-rest-api/" target="_blank" rel="noopener">我们的文章，</a>以学习如何在不同情况下使用它，或参阅 <a href="https://github.com/DalSoft/DalSoft.RestClient" target="_blank" rel="noopener">GitHub官方仓库</a>和<a href="https://restclient.dalsoft.io/" target="_blank" rel="noopener">文档</a>。</p>
+<h2 id="其他选择"><a href="#其他选择" class="headerlink" title="其他选择"></a>其他选择</h2><p>对于您的特定问题，还有许多其他选项可用。您可以使用任何这些库来使用特定的RESTful API。例如，<a href="https://github.com/octokit/octokit.net" target="_blank" rel="noopener">octokit.net专门 </a>用于GitHub API，<a href="https://github.com/facebook-csharp-sdk/facebook-csharp-sdk" target="_blank" rel="noopener">Facebook SDK</a> 用于使用Facebook API，并且还有许多其他功能可用于任何用途。</p>
+<p>虽然这些库是专门为这些API而设计的，并且可能擅长于它们的用途，但它们的用途是有限的，因为您经常需要在应用程序中连接多个<a href="https://code-maze.com/ultimate-aspnet-core-3-web-api/" target="_blank" rel="noopener">API</a>。这可能会导致每个实现都有不同的实现方式，以及更多的依赖关系，这可能导致重复并且容易出错。库越具体，其灵活性就越差。</p>
+<h2 id="GitHub上的源代码"><a href="#GitHub上的源代码" class="headerlink" title="GitHub上的源代码"></a>GitHub上的源代码</h2><p><a href="https://github.com/CodeMazeBlog/ConsumeRestfulApisExamples" target="_blank" rel="noopener">GitHub上的源代码</a></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>因此，总而言之，我们已经讨论了可用于使用RESTful API的不同工具。我们已经提到了一些.NET库，可以这样做<code>HttpWebRequest</code>，<code>WebClient</code>和<code>HttpClient</code>，以及一些惊人的第三方工具，如RestSharp和ServiceStack。您还对这些工具进行了简短的介绍，并给出了一些非常简单的示例来向您展示如何开始使用它们。</p>
+<p>我认为您现在至少有95％准备使用一些REST。继续展开翅膀，探索并找到更多有趣且有趣的方式来使用和连接不同的API。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/22/技术/您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术/" rel="next" title="您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术">
+                <i class="fa fa-chevron-left"></i> 您应该知道的5种避免C＃.NET中事件造成的内存泄漏的技术
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/30/技术/使用自定义DelegatingHandler编写更清洁的Typed HttpClient/" rel="prev" title="使用自定义DelegatingHandler编写更整洁的Typed HttpClient">
+                使用自定义DelegatingHandler编写更整洁的Typed HttpClient <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在C＃中使用RESTful-API的几种好方法"><span class="nav-number">1.</span> <span class="nav-text">在C＃中使用RESTful API的几种好方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是RESTful-API？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是RESTful API？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用RESTful-API"><span class="nav-number">1.2.</span> <span class="nav-text">如何使用RESTful API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpWebRequest-Response类"><span class="nav-number">1.3.</span> <span class="nav-text">HttpWebRequest / Response类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebClient类别"><span class="nav-number">1.4.</span> <span class="nav-text">WebClient类别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpClient类"><span class="nav-number">1.5.</span> <span class="nav-text">HttpClient类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RestSharp"><span class="nav-number">1.6.</span> <span class="nav-text">RestSharp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ServiceStack-Http实用程序"><span class="nav-number">1.7.</span> <span class="nav-text">ServiceStack Http实用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flurl"><span class="nav-number">1.8.</span> <span class="nav-text">Flurl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DalSoft-RestClient"><span class="nav-number">1.9.</span> <span class="nav-text">DalSoft.RestClient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他选择"><span class="nav-number">1.10.</span> <span class="nav-text">其他选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub上的源代码"><span class="nav-number">1.11.</span> <span class="nav-text">GitHub上的源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.12.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

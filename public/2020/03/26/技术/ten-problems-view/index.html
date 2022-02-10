@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1、给定一个int数组，编写方法以统计所有偶数的值。 有很多方法可以做到这一点，但是最直接的两种方法是： 123static long TotalAllEvenNumbers(int[] intArray) &amp;#123;  return intArray.Where(i =&amp;gt; i % 2 == 0).Sum(i =&amp;gt; (long)i);&amp;#125;  还有就是 123static lo">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15个基本的C＃面试问题">
+<meta property="og:url" content="http://techq.xyz/2020/03/26/技术/ten-problems-view/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="1、给定一个int数组，编写方法以统计所有偶数的值。 有很多方法可以做到这一点，但是最直接的两种方法是： 123static long TotalAllEvenNumbers(int[] intArray) &amp;#123;  return intArray.Where(i =&amp;gt; i % 2 == 0).Sum(i =&amp;gt; (long)i);&amp;#125;  还有就是 123static lo">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-03-26T00:56:02.474Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="15个基本的C＃面试问题">
+<meta name="twitter:description" content="1、给定一个int数组，编写方法以统计所有偶数的值。 有很多方法可以做到这一点，但是最直接的两种方法是： 123static long TotalAllEvenNumbers(int[] intArray) &amp;#123;  return intArray.Where(i =&amp;gt; i % 2 == 0).Sum(i =&amp;gt; (long)i);&amp;#125;  还有就是 123static lo">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/03/26/技术/ten-problems-view/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>15个基本的C＃面试问题 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/03/26/技术/ten-problems-view/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">15个基本的C＃面试问题
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-03-26 08:54:00 / Modified: 08:56:02" itemprop="dateCreated datePublished" datetime="2020-03-26T08:54:00+08:00">2020-03-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1、给定一个int数组，编写方法以统计所有偶数的值。</p>
+<p>有很多方法可以做到这一点，但是最直接的两种方法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static long TotalAllEvenNumbers(int[] intArray) &#123;</span><br><span class="line">  return intArray.Where(i =&gt; i % 2 == 0).Sum(i =&gt; (long)i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static long TotalAllEvenNumbers(int[] intArray) &#123;</span><br><span class="line">  return (from i in intArray where i % 2 == 0 select (long)i).Sum();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，你还需要注意以下关键：</p>
+<ol>
+<li><p>你是否利用 C＃语言特性 一行就解决问题。（即，不是使用包含循环，条件语句和累加器的更长篇幅的解决方案）</p>
+</li>
+<li><p>你是否考虑过溢出的可能性。例如，诸如 </p>
+<p>  return intArray.Where(i =&gt; i % 2 == 0).Sum()（与函数的返回类型无关）</p>
+</li>
+</ol>
+<p>这可能一个很”明显”的单行，但这样溢出的可能性很高。虽然上面的答案中使用的转换为long的方法并没有消除这种可能性，但是它使得发生溢出异常的可能性非常小。但请注意，如果你写答案的时候询问数组的预期大小及其成员的大小，则显然你在做这道题目的时候在考虑此溢出问题，这很棒。</p>
+<h1 id="2、下面的代码的输出是什么？解释你的答案。"><a href="#2、下面的代码的输出是什么？解释你的答案。" class="headerlink" title="2、下面的代码的输出是什么？解释你的答案。"></a>2、下面的代码的输出是什么？解释你的答案。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Program &#123;</span><br><span class="line">  static String location;</span><br><span class="line">  static DateTime time;</span><br><span class="line"> </span><br><span class="line">  static void Main() &#123;</span><br><span class="line">    Console.WriteLine(location == null ? &quot;location is null&quot; : location);</span><br><span class="line">    Console.WriteLine(time == null ? &quot;time is null&quot; : time.ToString());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出将是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">location is null</span><br><span class="line">1/1/0001 12:00:00 AM</span><br></pre></td></tr></table></figure>
+
+<p>下面的简短程序的输出是什么？解释你的答案。简短程序的输出是什么？解释你的答案。<br>尽管两个变量都未初始化，但是String是引用类型 、DateTime 是值类型。作为值类型，单位化DateTime变量设置为默认值  公元1年晚上12点，<em>而不是</em> null </p>
+<h1 id="3、下面语句中-time-和null-的比较是有效还是无效的"><a href="#3、下面语句中-time-和null-的比较是有效还是无效的" class="headerlink" title="3、下面语句中 time 和null 的比较是有效还是无效的?"></a>3、下面语句中 time 和null 的比较是有效还是无效的?</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static DateTime time;</span><br><span class="line">/* ... */</span><br><span class="line">if (time == null)</span><br><span class="line">&#123;</span><br><span class="line">	/* do something */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有人可能会认为，由于变量永远不可能为null (它被自动初始化为1月1日的值)，所以编译器在比较某个变量时就会报错。具体来说，操作符将其操作数强制转换为不同的允许类型，以便在两边都得到一个通用类型，然后可以对其进行比较。这就是为什么像这样的东西会给你期望的结果(而不是失败或意外的行为，因为操作数是不同的类型):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">double x = 5.0;</span><br><span class="line">int y = 5;</span><br><span class="line">Console.WriteLine(x == y);  // outputs true</span><br></pre></td></tr></table></figure>
+
+<p>然而，这有时会导致意外的行为，例如DateTime变量和null的比较。在这种情况下，DateTime变量和null文字都可以转换为可空的。因此，比较这两个值是合法的，即使结果总是假的。</p>
+<h1 id="4、给定circle以下类的实例："><a href="#4、给定circle以下类的实例：" class="headerlink" title="4、给定circle以下类的实例："></a>4、给定circle以下类的实例：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public sealed class Circle &#123;</span><br><span class="line">  private double radius;</span><br><span class="line">  </span><br><span class="line">  public double Calculate(Func&lt;double, double&gt; op) &#123;</span><br><span class="line">    return op(radius);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 简编写代码以计算圆的周长，而无需修改Circle类本身。<br>首选的答案如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">circle.Calculate(r =&gt; 2 * Math.PI * r);</span><br></pre></td></tr></table></figure>
+
+<p>由于我们不能访问对象的私有半径字段，所以我们通过内联传递计算函数，让对象本身计算周长。</p>
+<p>许多c#程序员回避(或不理解)函数值参数。虽然在这种情况下，这个例子有点做作，但其目的是看看申请人是否了解如何制定一个调用来计算哪个与方法的定义相匹配。</p>
+<p>另外，一个有效的(虽然不那么优雅的)解决方案是从对象中检索半径值本身，然后执行计算结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var radius = circle.Calculate(r =&gt; r);</span><br><span class="line">var circumference = 2 * Math.PI * radius;</span><br></pre></td></tr></table></figure>
+
+<p>无论哪种方式。我们在这里主要寻找的是面试者是否熟悉并理解如何调用Calculate方法。</p>
+<h1 id="5、下面程序的输出是什么-解释你的答案。"><a href="#5、下面程序的输出是什么-解释你的答案。" class="headerlink" title="5、下面程序的输出是什么?解释你的答案。"></a>5、下面程序的输出是什么?解释你的答案。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Program &#123;</span><br><span class="line">  private static string result;</span><br><span class="line"> </span><br><span class="line">  static void Main() &#123;</span><br><span class="line">    SaySomething();</span><br><span class="line">    Console.WriteLine(result);</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  static async Task&lt;string&gt; SaySomething() &#123;</span><br><span class="line">    await Task.Delay(5);</span><br><span class="line">    result = &quot;Hello world!&quot;;</span><br><span class="line">    return “Something”;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面<br>此外，如果我们替换wait task，答案会改变吗? 比如 thread . sleep (5) ? 为什么?的简短</p>
+<p>程序的输出是什么？解释你的答案。序的输出是什么？解释你的答案。</p>
+<p>回答：</p>
+<p>问题第一部分（即带有的代码版本await Task.Delay(5);）的答案是该程序将仅输出一个空行（而不是 “ Hello world！”）。这是因为调用result时仍将未初始化Console.WriteLine。</p>
+<p>大多数程序和面向对象的程序员都希望函数return在返回调用函数之前从头到尾执行，或者从语句执行。C＃async函数不是这种情况。它们只执行到第一个await语句，然后返回到调用方。由await（在此例中为Task.Delay）调用的函数是异步执行的，并且该await语句之后的行直到Task.Delay完成（在5毫秒内）之前都不会发出信号。但是，在这段时间内，控制权已经返回给调用者，该调用者Console.WriteLine对尚未初始化的字符串执行该语句。</p>
+<p>调用await Task.Delay(5) 可让当前线程继续其正在执行的操作，如果已完成（等待任何等待），则将其返回到线程池。这是异步/等待机制的主要好处。它允许CLR使用线程池中的更少线程来服务更多请求。</p>
+<p>异步编程已经变得越来越普遍，因为执行许多活动的网络服务请求或数据库请求的设备越来越普遍。C＃具有一些出色的编程结构，可以极大地简化异步方法的编程任务，并且意识到它们的程序员将产生更好的程序。</p>
+<p>关于问题的第二部分，如果将await Task.Delay(5);其替换为Thread.Sleep(5)，则程序将输出Hello world!。一种没有至少一个语句的async方法，其操作就像同步方法一样。也就是说，它将从头到尾执行，或者直到遇到一条语句为止。调用只是阻塞了当前正在运行的线程，因此调用仅将方法的执行时间增加了5毫秒。awaitreturnThread.Sleep()Thread.Sleep(5)SaySomething()</p>
+<h1 id="6、下面的程序输出是什么？解释你的答案。"><a href="#6、下面的程序输出是什么？解释你的答案。" class="headerlink" title="6、下面的程序输出是什么？解释你的答案。"></a>6、下面的程序输出是什么？解释你的答案。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">delegate void Printer();</span><br><span class="line"></span><br><span class="line">static void Main()</span><br><span class="line">&#123;</span><br><span class="line">        List&lt;Printer&gt; printers = new List&lt;Printer&gt;();</span><br><span class="line">        int i=0;</span><br><span class="line">        for(; i &lt; 10; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            printers.Add(delegate &#123; Console.WriteLine(i); &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        foreach (var printer in printers)</span><br><span class="line">        &#123;</span><br><span class="line">            printer();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个程序将把数字10输出十次。</p>
+<p>原因如下: 委托被添加到 for循环中l了，而 “引用” (或者“指针”)被存储到i中，而不是值本身。因此，在我们退出循环之后，变量i被设置为10，所以到调用每个委托时，传递给它们的值都是10。</p>
+<h1 id="7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？"><a href="#7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？" class="headerlink" title="7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？"></a>7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？</h1><p>是! 之所以可以这样做，是因为数组的类型object不仅可以存储任何数据类型，还可以存储类的对象，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line"></span><br><span class="line">namespace ConsoleApplication8</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        class Customer</span><br><span class="line">        &#123;</span><br><span class="line">            public int ID &#123; get; set; &#125;</span><br><span class="line">            public string Name &#123; get; set; &#125;</span><br><span class="line">            public override string ToString()</span><br><span class="line">            &#123;</span><br><span class="line">                return this.Name;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            object[] array = new object[3];</span><br><span class="line">            array[0] = 101;</span><br><span class="line">            array[1] = &quot;C#&quot;;</span><br><span class="line">            Customer c = new Customer();</span><br><span class="line">            c.ID = 55;</span><br><span class="line">            c.Name = &quot;Manish&quot;;</span><br><span class="line">            array[2] = c;</span><br><span class="line">            foreach (object obj in array)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(obj);</span><br><span class="line">            &#125;</span><br><span class="line">            Console.ReadLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？"><a href="#8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？" class="headerlink" title="8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？"></a>8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？</h1><p>C＃中的类和结构确实有一些共同点，即：</p>
+<p>他们都是</p>
+<p>是复合数据类型</p>
+<p>可以包含方法和事件</p>
+<p>可以支持接口</p>
+<p>但是有许多差异。比较一下：</p>
+<p><strong>类：</strong></p>
+<p>支持继承</p>
+<p>是引用（指针）类型</p>
+<p>引用可以为空</p>
+<p>每个新实例都有内存开销</p>
+<p><strong>结构：</strong></p>
+<p>不支持继承</p>
+<p>是值类型</p>
+<p>按值传递（如整数）</p>
+<p>不能有空引用（除非使用了Nullable）</p>
+<p>每个新实例没有内存开销（除非“装箱”）</p>
+<h1 id="9、这里有一个包含一个或多个-符号的字串，例如"><a href="#9、这里有一个包含一个或多个-符号的字串，例如" class="headerlink" title="9、这里有一个包含一个或多个$符号的字串，例如:"></a>9、这里有一个包含一个或多个$符号的字串，例如:</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;foo bar foo $ bar $ foo bar $ &quot;</span><br></pre></td></tr></table></figure>
+
+<p>问题：如何$从给定的字符串中删除第二和第三次出现的？<br>答案：</p>
+<p>使用如下正则表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string s = &quot;like for example $  you don&apos;t have $  network $  access&quot;;       </span><br><span class="line">Regex rgx = new Regex(&quot;\\$\\s+&quot;);</span><br><span class="line">s = Regex.Replace(s, @&quot;(\$\s+.*?)\$\s+&quot;, &quot;$1$$&quot;);</span><br><span class="line">Console.WriteLine(&quot;string is: &#123;0&#125;&quot;,s);</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>($\s+.*?)-第1组，捕获一个文字$，一个或多个空格字符，然后捕获除换行符以外的任意数量的字符，并尽可能少地捕获到下一个最接近的匹配项</li>
+<li>$\s+—单个$符号和一个或多个空格字符</li>
+<li>$1引用组1的值，它只是将其插入被替换的字符串中，$$代表替换模式中的$符号。<h1 id="10、下面的程序输出是什么？"><a href="#10、下面的程序输出是什么？" class="headerlink" title="10、下面的程序输出是什么？"></a>10、下面的程序输出是什么？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class TestStatic</span><br><span class="line">    &#123;</span><br><span class="line">        public static int TestValue;</span><br><span class="line"></span><br><span class="line">        public TestStatic()</span><br><span class="line">        &#123;</span><br><span class="line">            if (TestValue == 0)</span><br><span class="line">            &#123;</span><br><span class="line">                TestValue = 5;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        static TestStatic()</span><br><span class="line">        &#123;</span><br><span class="line">            if (TestValue == 0)</span><br><span class="line">            &#123;</span><br><span class="line">                TestValue = 10;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void Print()</span><br><span class="line">        &#123;</span><br><span class="line">            if (TestValue == 5)</span><br><span class="line">            &#123;</span><br><span class="line">                TestValue = 6;                </span><br><span class="line">            &#125;</span><br><span class="line">            Console.WriteLine(&quot;TestValue : &quot; + TestValue);</span><br><span class="line"></span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> public void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            TestStatic t = new TestStatic();</span><br><span class="line">            t.Print();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>TestValue : 10</p>
+<p>在创建该类的任何实例之前，将调用该类的静态构造函数。此处调用的静态构造函数TestValue首先将变量初始化。</p>
+<h1 id="11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？"><a href="#11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？" class="headerlink" title="11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？"></a>11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class ClassA</span><br><span class="line">&#123;</span><br><span class="line">  public ClassA() &#123; &#125;</span><br><span class="line"></span><br><span class="line">  public ClassA(int pValue) &#123;  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">  static void Main(string[] args)</span><br><span class="line">  &#123;</span><br><span class="line">    ClassA refA = new ClassA();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回答：</p>
+<p>所述this关键字被用于调用其他构造，初始化该类对象。下面是实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class ClassA</span><br><span class="line">&#123;</span><br><span class="line">  public ClassA() : this(10)</span><br><span class="line">  &#123; &#125;</span><br><span class="line"></span><br><span class="line">  public ClassA(int pValue)</span><br><span class="line">  &#123;  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="12、以下代码输出什么？"><a href="#12、以下代码输出什么？" class="headerlink" title="12、以下代码输出什么？"></a>12、以下代码输出什么？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line"></span><br><span class="line">namespace main1</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;Hello&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (ArgumentNullException)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;A&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;B&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            finally</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;C&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            Console.ReadKey();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello</span><br><span class="line">C</span><br></pre></td></tr></table></figure>
+
+<h1 id="13、描述依赖注入。"><a href="#13、描述依赖注入。" class="headerlink" title="13、描述依赖注入。"></a>13、描述依赖注入。</h1><p>依赖注入是一种使紧密链接的类分离的方式，从而减少了类之间的直接依赖。有多种方法可以实现依赖项注入：</p>
+<ol>
+<li>构造函数依赖</li>
+<li>属性依赖</li>
+<li>方法依赖<h1 id="14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。"><a href="#14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。" class="headerlink" title="14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。"></a>14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">using system; </span><br><span class="line"></span><br><span class="line">class abc   </span><br><span class="line"></span><br><span class="line">&#123;   </span><br><span class="line">    public static Void Main()   </span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">      </span><br><span class="line">            int ndistance, nresult;  </span><br><span class="line">            </span><br><span class="line">        Console.WriteLine(&quot;Enter the distance in kilometers&quot;);  </span><br><span class="line">        </span><br><span class="line">        ndistance = convert.ToInt32(Console.ReadLine());  </span><br><span class="line">        </span><br><span class="line">        nresult = ndistance * 1000;</span><br><span class="line">          </span><br><span class="line">        Console.WriteLine(&quot;Distance in meters: &quot; + nresult);  </span><br><span class="line">        </span><br><span class="line">        Console.ReadLine();  </span><br><span class="line">        </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="15、描述装箱和拆箱。并写一个例子。"><a href="#15、描述装箱和拆箱。并写一个例子。" class="headerlink" title="15、描述装箱和拆箱。并写一个例子。"></a>15、描述装箱和拆箱。并写一个例子。</h1><p>装箱是将值类型隐式转换为该类型object或该值类型实现的任何接口类型。将值类型装箱会创建一个包含该值的对象实例，并将其存储在堆中。</p>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int x = 101;</span><br><span class="line">object o = x;  // boxing value of x into object o</span><br><span class="line"></span><br><span class="line">o = 999;</span><br><span class="line">x = (int)o;    // unboxing value of o into integer x</span><br></pre></td></tr></table></figure>
+
+<h1 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h1><p>面试不仅要基础扎实，更重要的是能解决棘手的技术问题，所以以上这些内容仅供参考。并非每个值得招聘的优秀候选人都能够回答所有问题，也不能确定能够全部回答，就能保证他是一个优秀候选人。归根结底，招聘仍然是一门艺术，一门科学以及许多工作。</p>
+<p>如果你有招聘的要求，也欢迎和我们公众号联系，我们有12万的粉丝，相信能在其中找到适合您公司的 .net 候选人。</p>
+<p>恭喜你！全部看完，看来您高手只有一步之遥，赶紧转发朋友圈吧！让其他.net 新手也来瞻仰瞻仰。 </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/12/技术/how-to-use-httpclient-in-netcore/" rel="next" title=".NET Core的HttpClient连接池管理">
+                <i class="fa fa-chevron-left"></i> .NET Core的HttpClient连接池管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/26/技术/the-typical-ten-problems-in-c-sharp/" rel="prev" title="C＃编程中最常见的10个错误">
+                C＃编程中最常见的10个错误 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2、下面的代码的输出是什么？解释你的答案。"><span class="nav-number">1.</span> <span class="nav-text">2、下面的代码的输出是什么？解释你的答案。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、下面语句中-time-和null-的比较是有效还是无效的"><span class="nav-number">2.</span> <span class="nav-text">3、下面语句中 time 和null 的比较是有效还是无效的?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、给定circle以下类的实例："><span class="nav-number">3.</span> <span class="nav-text">4、给定circle以下类的实例：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、下面程序的输出是什么-解释你的答案。"><span class="nav-number">4.</span> <span class="nav-text">5、下面程序的输出是什么?解释你的答案。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、下面的程序输出是什么？解释你的答案。"><span class="nav-number">5.</span> <span class="nav-text">6、下面的程序输出是什么？解释你的答案。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？"><span class="nav-number">6.</span> <span class="nav-text">7、是否可以将混合数据类型（例如int，string，float，char）全部存储在一个数组中？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？"><span class="nav-number">7.</span> <span class="nav-text">8、比较C＃中的结构和类。他们有什么共同点？它们有何不同？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9、这里有一个包含一个或多个-符号的字串，例如"><span class="nav-number">8.</span> <span class="nav-text">9、这里有一个包含一个或多个$符号的字串，例如:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10、下面的程序输出是什么？"><span class="nav-number">9.</span> <span class="nav-text">10、下面的程序输出是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？"><span class="nav-number">10.</span> <span class="nav-text">11、有没有一种方法可以修改ClassA、以便您可以在调用Main方法时使用参数调用构造函数，而无需创建任何其他新实例ClassA？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12、以下代码输出什么？"><span class="nav-number">11.</span> <span class="nav-text">12、以下代码输出什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13、描述依赖注入。"><span class="nav-number">12.</span> <span class="nav-text">13、描述依赖注入。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。"><span class="nav-number">13.</span> <span class="nav-text">14、编写一个C＃程序，该程序接受以千米为单位的距离，将其转换为米，然后显示结果。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15、描述装箱和拆箱。并写一个例子。"><span class="nav-number">14.</span> <span class="nav-text">15、描述装箱和拆箱。并写一个例子。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后："><span class="nav-number">15.</span> <span class="nav-text">最后：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

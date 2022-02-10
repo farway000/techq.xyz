@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="不知不觉，一晃年关将近，即将翻开2019，进入新的一页。 这周已经在朋友圈看到了来自公众号《恰同学少年》《Edi.Wang》和《吃草的罗汉》几位老师写下的年终总结，他们的年终总结让我感想颇多，对自己的2019年也感想颇深，对2020年也充满期待，是时候对过去一年的一些感悟做一个简单的总结了。 关于“云程序员”在2018年的年终总结中，与其说是一个总结，不如说是写了一堆漂亮话，其实真正落地的flag">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019年年终总结，静候时光与一步一个脚印">
+<meta property="og:url" content="http://techq.xyz/2020/01/03/随笔/2019年年终总结，静候时光与一步一个脚印/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="不知不觉，一晃年关将近，即将翻开2019，进入新的一页。 这周已经在朋友圈看到了来自公众号《恰同学少年》《Edi.Wang》和《吃草的罗汉》几位老师写下的年终总结，他们的年终总结让我感想颇多，对自己的2019年也感想颇深，对2020年也充满期待，是时候对过去一年的一些感悟做一个简单的总结了。 关于“云程序员”在2018年的年终总结中，与其说是一个总结，不如说是写了一堆漂亮话，其实真正落地的flag">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-03T00:54:07.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019年年终总结，静候时光与一步一个脚印">
+<meta name="twitter:description" content="不知不觉，一晃年关将近，即将翻开2019，进入新的一页。 这周已经在朋友圈看到了来自公众号《恰同学少年》《Edi.Wang》和《吃草的罗汉》几位老师写下的年终总结，他们的年终总结让我感想颇多，对自己的2019年也感想颇深，对2020年也充满期待，是时候对过去一年的一些感悟做一个简单的总结了。 关于“云程序员”在2018年的年终总结中，与其说是一个总结，不如说是写了一堆漂亮话，其实真正落地的flag">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/01/03/随笔/2019年年终总结，静候时光与一步一个脚印/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>2019年年终总结，静候时光与一步一个脚印 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/01/03/随笔/2019年年终总结，静候时光与一步一个脚印/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2019年年终总结，静候时光与一步一个脚印
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-03 09:10:00 / Modified: 08:54:07" itemprop="dateCreated datePublished" datetime="2020-01-03T09:10:00+08:00">2020-01-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>不知不觉，一晃年关将近，即将翻开2019，进入新的一页。</p>
+<p>这周已经在朋友圈看到了来自公众号《恰同学少年》《Edi.Wang》和《吃草的罗汉》几位老师写下的年终总结，他们的年终总结让我感想颇多，对自己的2019年也感想颇深，对2020年也充满期待，是时候对过去一年的一些感悟做一个简单的总结了。</p>
+<h1 id="关于“云程序员”"><a href="#关于“云程序员”" class="headerlink" title="关于“云程序员”"></a>关于“云程序员”</h1><p>在2<a href="https://www.cnblogs.com/xiyuanMore/p/10171587.html" target="_blank" rel="noopener">018年的年终总结</a>中，与其说是一个总结，不如说是写了一堆漂亮话，其实真正落地的flag太少，而且总结不够彻底，没有起到总结经验，反思教训的意义。</p>
+<p>总体上来说，我应该做个对技术充满热情和追求的开发者，而在去年的年终总结大概也只表达了一个意思，不要做云程序员，不要做云程序员，不要做云程序员。</p>
+<p>而2019年，我的目标就是回归本质，不做云程序员，从现在来看，至少从思维模式上，已经发生了很大的变化，至少“我觉得xxx技术也不过如此”“我以为xxx技术不过是xxx”这样的主观评判的口气已经不会在说了。</p>
+<p>之所以成为“云程序员”，大概是来源于过去若干年有意无意的习惯使然。</p>
+<p>有时候得承认，越是中小公司，越容易培养所谓通才，因为公司的发展尚处于摸石头过河的阶段，往往需要在纷繁复杂的混沌乱局中寻找一切可以生存的机会，这也意味着中小企业对开发者的要求几乎都是招之能来，来之能战，战之能胜的通才。中小企业也并没有太多职业生涯规划或培训指导的工作安排，所以工程师的成长往往需要靠自己的方式。</p>
+<p>大部分所谓成长，其实是在憋工龄，在一个又一个圈子中绕来绕去。你会用到许多东西，实际上你无法学到真正属于自己的技能。有时候会贪图掌握更多知识，尤其是新技术，于是就开始走在了云程序员的路上。似乎许多中小企业出来的开发者更喜欢自称为全栈工程师，并自称自己什么都会，有的甚至会因此而对那些真正从事技术领域的专业开发者带有偏见，以为他们是死脑筋，其实往往是井底之蛙的个人之见。</p>
+<p>专业公司的培养形式是以提高效率为目标的工业化培养形式，对专才的要求也越来越高。IT是一个复杂程度丝毫不亚于其他产业的系统工程，它涉及的领域和技术非常多，几乎每一个方面都值得人花一辈子去认真探究。事实上只有优秀的公司才有可能培养出专才，而且才有这样的土壤，能够让一些开发者能够把时间花在某些专业领域持续学习和研究，然后让知识产生价值。</p>
+<p>规模越大、越优秀的公司越容易对开发者产生吸引力，除了其待遇问题外，往往是因为这些公司专业化程度更高，也意味着你更容易快速成长，因为专注于一个领域显然比无法专注于一个领域更能带来更快的成长。从软件研发岗位来说，当你在某些技术方向上的深度上到一定程度，再来扩充广度时，也更容易吸收到有用的东西。当然，现在互联网公司也逐渐开始往通才发展，因为掌握全局思维的开发者更容易做出产品，但是互联网公司和中小企业的通才区别依然比较大。互联网公司需要的是具备互联网思维，能够把自己一块小天地处理完美，还能兼顾其他人工作的可复用型T字型人才，而小企业要的大概是一字型人才。</p>
+<p>尤其对于长沙这座小城市而言，更难以发现专注于某些领域的开发者，或许与企业规模和职业定位有一定的关系，其实哪怕优秀如BAT或华为，也或许无法找到太多某些领域的专业开发者，除了公司的客观因素，与开发者们的主观选择也有关系。当然，不管在大公司或小公司，这不能妨碍我们成为专业开发者，只是意味着如果我们要成为某些领域的大牛，得花更多的时间和精力来经营自己的领域。</p>
+<p> 当然，专业/不专业，云程序员/非云程序员或许本身不重要，毕竟对于大部分开发者来说，选择IT知识混口饭吃。而对于有追求的开发者来说，更应该长期的职业发展全局均衡，而不要仅仅关注眼前的利益。尤其在目前这个时代，你的每一段职场，其实不仅仅在为金钱工作，而是为你的简历工作。如何从你的职场中积累对未来发展有价值的东西，才是核心关键的因素。不论你在哪家公司，总会有许多让你收获颇多的东西。常怀感恩之心，用心去发现价值，总能让你成为正能量的传播者。这样的你，既是公司最宝贵的财富，也同时会让你成为人群中的闪光点。 </p>
+<h1 id="关于软件研发技能"><a href="#关于软件研发技能" class="headerlink" title="关于软件研发技能"></a>关于软件研发技能</h1><p>如前文所说，软件领域是一个非常复杂的系统工程，每一个专业领域都值得人花一辈子去努力钻研，但是对于大部分开发者来说其实无需如此，往往只需花几年时间，就能快速吸取到IT软件发展的精髓，并成长为公司的核心人员。</p>
+<p>当你成长起来之后，或许会以为框架就是技术的王道；也会以为软件就是工具+框架的结合，而忽略了更具有普遍意义的基础技能和算法能力；在抽象化思维上，在过程式思维这条路上越走越远，也极大的局限了开发者的成长；你会以为只有底层代码才是代码，业务代码或增删改查就不是代码；你会以为写文档、写PPT的人都是吹牛逼的。这些都是开发者的怪毛病</p>
+<p>软件研发技能确实是一个值得仔细探究的核心领域，哪怕简单到一句需求的描述，也需要用系统性思维来思考这个问题。</p>
+<p>回顾过去，我总是在想，我真的懂得做项目么，真的懂得如何做好一个软件么？我做的项目是否还有进一步可以提高的空间？如何优雅的收集客户需求，如何优雅的打造完美的产品？如何优雅的做好一个项目？如何让每一个项目都成为标杆项目？如何从失败中吸取经验教训。好吧，我有点啰嗦。</p>
+<p>做一个软件真的并非想象中那么简单，需要将行业思维与IT思维更加完美的融合，既要从更高的战略层面思考问题，又要从代码的微观层面思考问题，有思考有设计、有碰撞有火花，这恰好是软件工程最大的魅力所在。</p>
+<h1 id="关于读书"><a href="#关于读书" class="headerlink" title="关于读书"></a>关于读书</h1><p>2019年看了大概20-30本书，并写了超过15篇书评。包括以下书籍，我认为这些书籍给我带来的无穷收获，远超这些书本身的货币价值。</p>
+<p>《领域驱动设计-软件系统核心复杂性应对之道》：这本书来自埃文斯-埃里克的书，是一本经典的领域驱动设计的书，在2018年8月我开始认真阅读其中的每个文字，并让我对领域驱动有了更深层次的理解；今年我还通过GitChat购买了张逸老师的领域驱动设计的课程，张逸老师不愧为领域驱动设计方面的专家，他用自己的经验解释了领域驱动设计，让我对这本书、以及相关知识都有了系统而全面的了解，同时还通过这一个课程了解了更多的知识领域，对健全我的知识体系产生了巨大的作用。</p>
+<p>《中台》：来自阿里巴巴钟春老师的中台，这本书介绍了阿里巴巴中台建设的历程，这本书造出了一个独特的中国概念，也刷新了我的知识观，虽然短期来看我所经历的企业都没有中台的打算，但能够让我具备全局性思维来思考IT体系建设的问题。</p>
+<p>《小团队、大架构》：来自张清辉老师，这本书介绍了携程的.NET技术架构转型过程，让我对.NET架构的演进方向有了明确的认识。当然这本书过多的介绍轮子，许多读者或许不喜欢，如果跟《微服务架构模式》一起交替的看，一定会产生不错的效果。</p>
+<p> 《构建之法》：来自邹欣老师，这本书介绍了软件工程师的成长和微软的IT管理模式，让我能够静下来思考当下自己的发展方向。作为一个拥有十年工作经验的开发者，已经陷入了一个以自我为中心的乖蹇，而周筠老师对我的悉心教导，也让我非常感动，我也要持续努力，坚定自己的发展方向，努力做一个脚踏实地的开发者。</p>
+<p>《浪潮之巅》共两卷：这是吴军老师的作品，吴军老师的质朴清新，不刻意使用过多的辞藻铺垫的写作风格让我获益匪浅，同时讲述的一个个故事又是如此的引人入胜。从故事中，我们看到了一群充满梦想的年轻人们，他们在互联网的浪潮之下做出的选择，是如何一点一点的改变了世界。</p>
+<p>《实例化需求》：这是一本介绍BDD模式的书，介绍了行为驱动开发这种模式，让我获得了新的知识。当然短期内用不起来，但多学一点总不会吃亏。 </p>
+<p>除此之外还有：《代码整洁之道》、《重构-改善既有代码的艺术2》、《持续交付2.0》、《PMBook》（好吧，考了12月的pmp，把pmbook看了四遍）、《程序员的三门课》、《Http/2基础教程》、《混乱：如何成为失控时代的掌控者》、《我的世界观》、《算法图解》、《未来简史》、《刷新》、《修炼之道》、《猎豹行动》、《单元测试的艺术》和刚刚读完的《华为方法论》。</p>
+<p>这20几本书都是不同方向的书，与能够读完50本书或更多的优秀前辈们相比确实还存在一点差距，当然这些书有精读有略读，甚至有的其实是牛嚼牡丹，值得以后细细品味。</p>
+<p>有的书着实发人深省带来了许多启迪，有的书则让我的知识体系进一步全面，不过从书到知识到技能，还需要进一步实践、修炼和理解，不然依然是走在云程序员的路上。 </p>
+<h1 id="关于社区"><a href="#关于社区" class="headerlink" title="关于社区"></a>关于社区</h1><p> 2019年比较大的成绩，拉了一个技术社区应该算是一个；从2月的酝酿，到4月的落地，花了不少的精力，而且这些都是利用业余时间完成的，连筹款都是靠社区大佬、微软、腾讯运加以及社区朋友们的大力支持。也把公众号从80开始，做到了目前的5000+，这些也算是小收获吧，不过没什么骄傲的，毕竟那么多人都是从零开始，做到万粉大号。</p>
+<p>从某种意义上来说，社区似乎离大家都比较远。有时候会感觉试图打造社区来凝聚开发者，其实是一厢情愿。技术社区，或许只会给那些拥有开放性基因的企业和开发者带来好处，并有望助力企业的进一步腾飞。尤其在长沙，究竟有几家企业拥有开放的技术心态？这是个问题。长沙的技术氛围着实令人窒息。</p>
+<p>我们总是渴望打造一个优秀开发者社区。其实优秀开发者本身是一个不好衡量的问题，毕竟成为前百分之二十已经是优秀者，而张一鸣口中的那百分之一的精英，本身就并非一朝一夕所能炼成。</p>
+<p>最终还是落在产出上，你助力企业腾飞、或者你做出了优秀的产品、或者你能够具备自己的系统性思维，并能写出一辆本书；优秀有太多种了，每一种都来之不易。</p>
+<p>一个所谓社区，如果没有形成长期有价值的积累，没能打造优秀的平台，最终走向消亡反而会是“众望所归”。如何让社区避免成为水群、如何发掘更多优秀开发者，形成精英小圈子，我想说每个人都得继续努力，最起码不能成为一个菜市场，否则这样的圈子，其实毫无价值。</p>
+<p>有时候会发现，每个群都是那么几个固定的人，沉迷于群其实根本不能带来个人成长，真正的成长还是得静下来自己认真学习。</p>
+<p>要成为优秀开发者，有时候三天打鱼，两天晒网的刻意憋一点大招，表面上看能带来一点好气象，但是过了那个热度就被客观条件或主观条件抛弃。技术这东西真得坚持个三五年，才真的能够成长起来。有的人，看到这个火，就追逐这个，看到那个热门就赶潮流搞那个，一边写着代码，一边想着明年是不是该转行，这样的学习方式如何能够提高自己？</p>
+<p>从这一点上来看，我只想说我已经在努力朝着好的方向进步，但是还远远不够，与那些已经坚持优秀习惯五年、十年之久的开发者相比，我需要做的远远不止眼前这一点点。</p>
+<h1 id="关于2020年的计划"><a href="#关于2020年的计划" class="headerlink" title="关于2020年的计划"></a>关于2020年的计划</h1><p>有时候不太想列过于宏大的计划，因为往往计划会变成插红旗，然后在自己的背上插满了红旗，变成了一个京剧里面的大英雄。这样的计划或许毫无意义。</p>
+<p>所以还是得认真思考，踏踏实实的做几个能够落地的计划：</p>
+<ul>
+<li>1、勿忘初衷，踏实前进：不吹水，不装逼。做一位优秀的专业开发者，在专业方向上持续形成系统性思维。</li>
+<li>2、减法和加法：<ul>
+<li>有感于今年随着参与了社区活动，加的群也越来越多了，2020年得在这一点上多做减法。</li>
+<li>有时候追逐于信息的热度，其实大部分都与我毫无关系。为何关注这些东西？还是八卦性思维的束缚，这一点也有做减法。</li>
+<li>而知识体系的厚度上则需要做加法，多看书，多思考。朋友圈做加法，并非多交更多的朋友，而是都跟优秀的朋友交流沟通，吸取他们的优点，转化成自己的优点。</li>
+</ul>
+</li>
+<li>3、写满一百篇博客，看五十本书。</li>
+<li>4、也得学Edsion周同学锻炼身体了。</li>
+<li>5、努力践行积极乐观向上的团队文化、努力培养一支有战斗力的学习型团队。</li>
+</ul>
+<p>超过30岁的开发者总是会焦虑于自己的职业发展，不知道自己的未来该如何选择，那大概是由于想得太多，做得太少。</p>
+<p>行走在IT这条路，成长太快反而不是好事，只有脚踏实地，一步一个脚印，才能真正无所畏惧。 “易定者无感，易感者无定。”，谋划好未来，并经营自己的当下，才有美好未来。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/15/读书/《程序员的三门课》读书笔记/" rel="next" title="《程序员的三门课》读书随想">
+                <i class="fa fa-chevron-left"></i> 《程序员的三门课》读书随想
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/03/随笔/如何快速融入团队并成为团队核心（一）/" rel="prev" title="如何快速融入团队并成为团队核心（一）">
+                如何快速融入团队并成为团队核心（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于“云程序员”"><span class="nav-number">1.</span> <span class="nav-text">关于“云程序员”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于软件研发技能"><span class="nav-number">2.</span> <span class="nav-text">关于软件研发技能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于读书"><span class="nav-number">3.</span> <span class="nav-text">关于读书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于社区"><span class="nav-number">4.</span> <span class="nav-text">关于社区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于2020年的计划"><span class="nav-number">5.</span> <span class="nav-text">关于2020年的计划</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

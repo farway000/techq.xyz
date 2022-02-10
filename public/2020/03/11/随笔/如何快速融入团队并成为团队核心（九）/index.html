@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="不知从何时起，这个系列的文章已经偏离标题越来越远了~ 大概，如果要融入团队，其实或许只需做好跟周围同事的关系，几乎已经能够很好的融入了，但是如果要成为团队精英呢？我们难免得多做一些额外的努力，例如，了解价值观、试图融入企业文化，试图提高自己的工作效率，合理的支配自己的时间，尤其还有一点，就是做好目标管理。 一、画饼吃不下某种意义上讲，决定我们能否成为高效开发者的核心关键是我们对于目标的管理能力，某">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何快速融入团队并成为团队核心(九)">
+<meta property="og:url" content="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（九）/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="不知从何时起，这个系列的文章已经偏离标题越来越远了~ 大概，如果要融入团队，其实或许只需做好跟周围同事的关系，几乎已经能够很好的融入了，但是如果要成为团队精英呢？我们难免得多做一些额外的努力，例如，了解价值观、试图融入企业文化，试图提高自己的工作效率，合理的支配自己的时间，尤其还有一点，就是做好目标管理。 一、画饼吃不下某种意义上讲，决定我们能否成为高效开发者的核心关键是我们对于目标的管理能力，某">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-3.png">
+<meta property="og:updated_time" content="2020-03-12T00:43:53.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何快速融入团队并成为团队核心(九)">
+<meta name="twitter:description" content="不知从何时起，这个系列的文章已经偏离标题越来越远了~ 大概，如果要融入团队，其实或许只需做好跟周围同事的关系，几乎已经能够很好的融入了，但是如果要成为团队精英呢？我们难免得多做一些额外的努力，例如，了解价值观、试图融入企业文化，试图提高自己的工作效率，合理的支配自己的时间，尤其还有一点，就是做好目标管理。 一、画饼吃不下某种意义上讲，决定我们能否成为高效开发者的核心关键是我们对于目标的管理能力，某">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（九）/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何快速融入团队并成为团队核心(九) | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（九）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何快速融入团队并成为团队核心(九)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-03-11 21:22:00" itemprop="dateCreated datePublished" datetime="2020-03-11T21:22:00+08:00">2020-03-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-03-12 08:43:53" itemprop="dateModified" datetime="2020-03-12T08:43:53+08:00">2020-03-12</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>不知从何时起，这个系列的文章已经偏离标题越来越远了~</p>
+<p>大概，如果要融入团队，其实或许只需做好跟周围同事的关系，几乎已经能够很好的融入了，但是如果要成为团队精英呢？我们难免得多做一些额外的努力，例如，了解价值观、试图融入企业文化，试图提高自己的工作效率，合理的支配自己的时间，尤其还有一点，就是做好目标管理。</p>
+<h1 id="一、画饼吃不下"><a href="#一、画饼吃不下" class="headerlink" title="一、画饼吃不下"></a>一、画饼吃不下</h1><p>某种意义上讲，决定我们能否成为高效开发者的核心关键是我们对于目标的管理能力，某种意义上讲，一个企业是否能够在群狼环伺的商界混得如鱼得水，中高层管理者是否能够理解和传达老板的意图和目标，基层能否理解老板的目标，并高效的执行，毋庸置疑都是至关重要的环节。</p>
+<p>当然，大部分情况我们不用直接理解老板的目标，他们只需按照领导的指示，在自己的职责范围内把事情干好，就足够优秀了。但是事实上有时候我们会更加重视流程本身，往往忽略了对于目标的理解。甚至有时候公司老板喜欢站在更高的层面，画一个很大的饼，结果到具体执行时，给执行工作的人带来的巨大困扰。</p>
+<p>“饼太大，吃不下”。一旦老板习惯于画饼，或许他自己也会陷入一个奇怪的状态，他会想，这件事情究竟是干呢，还是不干呢，嗯，我先吹出去，说不定有人会干，而且还能干出什么东西来着。但是作为中高层管理者显然更尴尬，我干了会不会犯错，犯错了会不会打板子，那我还是不干吧？一个长期画饼的老板，底下一定有一群听惯了“狼来了”谎话的中高层，他们已经习惯于对老板夸的海口无动于衷，最终导致了中高层管理者和老板之间的隔阂。</p>
+<h1 id="二、信息的层层递减"><a href="#二、信息的层层递减" class="headerlink" title="二、信息的层层递减"></a>二、信息的层层递减</h1><p>当然，大部分情况下，中高层管理者都经历离时间和战火的历练，总是能够从老板的一言一行中理解领导的需求，但是即便如此，也容易产生返工的现象。</p>
+<p>事实上，我们在工作过程中总是会遇到返工，这种情况发生的根源也同样来源于我们对于目标的误读，甚至曲解了领导对于工作的原意。返工不仅仅会浪费我们的时间，也同样会极大的打击我们对于工作的信心，甚至会让我们对于职场发展的前途产生迷茫。</p>
+<p>造成目标识别错误的原因往往是沟通因素，如信息传递漏斗所描述的：</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-1.png" alt="图片"></p>
+<p>在这个环节中，信息是层层递减的，我们能表达出我们想表达的内容的百分之八十，听众能听到我们想表达信息的百分之六十，而观众所能理解的，只有我们想表达信息的百分之四十。</p>
+<p> 除此之外，假设我们的任务来源于其他人的二手信息，那么这种层层递减的边际效应或许也将更加明显。尤其是有时候领导喜欢说话只说一半，并指望下属能够从他的几句话中揣摩出他的全部心意，那这种效果或许自然而然就会更差了。</p>
+<h1 id="三、目标识别和执行"><a href="#三、目标识别和执行" class="headerlink" title="三、目标识别和执行"></a>三、目标识别和执行</h1><p>所以我们显然不能把期望完全寄托在理解对方的沟通上，而是需要辅以其他手段使得我们能够更好的将领导的需求落实下来。</p>
+<p>1、记录：我们需要记录从领导下达的指令的内容，确保在信息传输过程中尽可能的减少误误解。</p>
+<p>2、适当的过滤和提取：从信息中，要提取与目标相关的内容，去掉与目标无关的噪声干扰，以便减轻对于目标识别的复杂程度。</p>
+<p>3、重聚：从信息中按照任务的相关性，建立必要的链接，并使得目标得以形成体系。</p>
+<p>4、反馈：尽早与领导反馈，以便确保自己的目标符合对方的意图，并根据领导的指示对目标进行修正，例如对时间节点进行细化，或者领导是不是已经有了下一步工作安排等等。</p>
+<p>我们就识别到了可以执行的具体目标，这样在进行任务执行时，也便于我们对于目标的解读。</p>
+<p>基于识别到的目标，我们可以辅以一些管理学的手段，例如运用计划、执行、检查、纠偏的PDCA工具，让我们在执行过程中不断的进行修正，以便使我们能够在任务的每个执行过程中都能建立起反馈的机制，同时有能让领导能够及时的参与其中，使得任务更加完整的符合领导的预期。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-2.png" alt="图片"></p>
+<h1 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h1><p>随着互联网企业开始实施基于OKR的管理方法，对大家来说或多或少造成了一些影响，不过显然，建立一个更加完整的目标管理机制，对我们确实会带来一些好处，最起码的少返工就已经是一个不错的进步了。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/9-3.png" alt="图片"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/11/随笔/如何快速融入团队并成为团队核心（八）/" rel="next" title="如何快速融入团队并成为团队核心(八)">
+                <i class="fa fa-chevron-left"></i> 如何快速融入团队并成为团队核心(八)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/技术/how-to-use-httpclient-in-netcore/" rel="prev" title=".NET Core的HttpClient连接池管理">
+                .NET Core的HttpClient连接池管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、画饼吃不下"><span class="nav-number">1.</span> <span class="nav-text">一、画饼吃不下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、信息的层层递减"><span class="nav-number">2.</span> <span class="nav-text">二、信息的层层递减</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、目标识别和执行"><span class="nav-number">3.</span> <span class="nav-text">三、目标识别和执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、结语"><span class="nav-number">4.</span> <span class="nav-text">四、结语</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

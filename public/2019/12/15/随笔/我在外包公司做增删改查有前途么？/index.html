@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="起因这是我无意中在筛选简历时，看到一位朋友发布的求职说明中，明确指出，外包勿扰，并给出了他做出这个决定的理由： 过去若干年间，他一直在中软国际从事.NET方向的软件研发，虽然工作了很多年，但是做的项目类型特别多，总感觉没什么积累，而且工作很累，经常要加班，压力很大。不仅如此，由于外包类型的项目，往往需要驻场开发，一旦在客户现场进行开发，其实都会成为封闭式开发，每天投入工作的工时往往会超过十几个小时">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我在外包公司做增删改查有前途么？">
+<meta property="og:url" content="http://techq.xyz/2019/12/15/随笔/我在外包公司做增删改查有前途么？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="起因这是我无意中在筛选简历时，看到一位朋友发布的求职说明中，明确指出，外包勿扰，并给出了他做出这个决定的理由： 过去若干年间，他一直在中软国际从事.NET方向的软件研发，虽然工作了很多年，但是做的项目类型特别多，总感觉没什么积累，而且工作很累，经常要加班，压力很大。不仅如此，由于外包类型的项目，往往需要驻场开发，一旦在客户现场进行开发，其实都会成为封闭式开发，每天投入工作的工时往往会超过十几个小时">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/5.png">
+<meta property="og:updated_time" content="2019-12-15T13:30:47.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我在外包公司做增删改查有前途么？">
+<meta name="twitter:description" content="起因这是我无意中在筛选简历时，看到一位朋友发布的求职说明中，明确指出，外包勿扰，并给出了他做出这个决定的理由： 过去若干年间，他一直在中软国际从事.NET方向的软件研发，虽然工作了很多年，但是做的项目类型特别多，总感觉没什么积累，而且工作很累，经常要加班，压力很大。不仅如此，由于外包类型的项目，往往需要驻场开发，一旦在客户现场进行开发，其实都会成为封闭式开发，每天投入工作的工时往往会超过十几个小时">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/12/15/随笔/我在外包公司做增删改查有前途么？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>我在外包公司做增删改查有前途么？ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/12/15/随笔/我在外包公司做增删改查有前途么？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我在外包公司做增删改查有前途么？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-15 21:28:00 / Modified: 21:30:47" itemprop="dateCreated datePublished" datetime="2019-12-15T21:28:00+08:00">2019-12-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>这是我无意中在筛选简历时，看到一位朋友发布的求职说明中，明确指出，外包勿扰，并给出了他做出这个决定的理由：</p>
+<p>过去若干年间，他一直在中软国际从事.NET方向的软件研发，虽然工作了很多年，但是做的项目类型特别多，总感觉没什么积累，而且工作很累，经常要加班，压力很大。不仅如此，由于外包类型的项目，往往需要驻场开发，一旦在客户现场进行开发，其实都会成为封闭式开发，每天投入工作的工时往往会超过十几个小时。而且在客户现场的开发时，有时候就是低等公民，得承受来自各方的压力。</p>
+<p>前不久也刚刚看到一位来自西安软通动力的资深Java工程师，由于长时间加班后引发身体疾病，并最终猝死，还得不到工伤补偿的新闻也触动了我们的心。</p>
+<p>这边的互联网公司从业人员还可以吐槽每天996，让自己成为被公司圈养的小绵羊，更是让自己的家庭生活都受到了无穷影响；那边的外包公司从业人员们显然没有互联网公司这么多的露脸机会，哪里有时间运营自己的公众号啊，每天都被客户压榨得死死的，还得跪下来对客户说：爸爸，再爱我一次！</p>
+<p>当然，坦率而言，现在国内的IT行业现状其实压力都很大，无论是外包公司、还是互联网公司，如果是几年前大环境还好的时候，或许大家压力大点，至少不会饿肚子，现在冬天来了，不仅压力大，而且还吃不饱穿不暖，一旦遇到公司困境，还得面临被裁员的后果。</p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/1.png" alt="image-20191130140814321"></li>
+</ul>
+<p>好吧，在这篇文章中，我还是不输出焦虑了，只单纯的讨论一下这个问题。</p>
+<h1 id="在外包公司做增删改查有前途么？"><a href="#在外包公司做增删改查有前途么？" class="headerlink" title="在外包公司做增删改查有前途么？"></a>在外包公司做增删改查有前途么？</h1><p>有没有感觉，这是一个通用的句式：干xxx有前途么？</p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/2.png" alt="image-20191130140814321"></li>
+</ul>
+<p>例如，在百度里面输入，“干程序”，首先会自动提示的就是“干程序员有没有前景”？好吧，有没有前途我也说不准，我就单纯的探讨几个问题，什么叫有前途；在外包公司有前途么；做增删改查有前途么？</p>
+<h1 id="什么叫做有前途？"><a href="#什么叫做有前途？" class="headerlink" title="什么叫做有前途？"></a>什么叫做有前途？</h1><p>世俗的说，金钱、名誉和地位大概就是许多人在追求的前途。而在IT领域，由于无法与从事公务员和经商的其他同龄人相比，往往会用待遇和岗位来形容。例如有时候总会以为技术总监一定是值得追求的前途；或者为了更高的收入，会选择一些特定的行业。例如这几年相继爆雷的P2P行业，在这些行业中的开发者的工资往往都非常高。</p>
+<p>然而，当公司的套路被人揭穿之后，无数投资人的巨额投资化作一堆废纸，这些P2P企业公司的开发者们在这段时间从公司获得的所有收入都会被列入非法所得，必须上缴给公安机关，以便清偿债务。</p>
+<p>不仅如此，有时候还不能过度的宣传自己在这些行业的职场工作经验，不然可能会被下家认为心术不正。 </p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/3.png" alt="image-20191130140814321"></li>
+</ul>
+<blockquote>
+<p>爱因斯坦说：我坚信，世界上的财富无法促进人类发展，即使它掌握在哪些仍想达到此目标的人手中也无济于事。金钱只能滋生人们的自私自利，并使其不能自持地加以滥用。</p>
+</blockquote>
+<p>当然，当今时代终究是个世俗的世界。但追求金钱和Title所谓的看似有前途的工作，还是得建立道德和法律的基础上。</p>
+<h1 id="在外包公司有前途么？"><a href="#在外包公司有前途么？" class="headerlink" title="在外包公司有前途么？"></a>在外包公司有前途么？</h1><p>外包公司的主要盈利点，其实是软件研发过程管理或者软件项目管理能力，一套优秀的软件项目管理流程体系，往往能够实现软件开发过程中的生产力最大化，进而为企业的发展带来巨大的利润。</p>
+<p>在外包公司，主要的收入其实是来源于项目参与人员的人工费用，一般会采用“工料合同”的形式。这种合同又称为单价合同，一般会根据产品在研发过程中的实际投入或服务来计算合同总价。</p>
+<p>当然，其实许多外包公司会采用这种方式来进行工作量的评估，然后再用总价合同的形式来签订合同，毕竟“工料合同”其实浮动空间很大，容易造成甲方的成本超支严重，而使用总价合同就可以将风险转嫁给乙方，对于甲方来说自然而然就实现了利益最大化了。</p>
+<p>而总价合同的特点是应该明确设定需求、对功能的工作量评估都应该尽可能的科学，问题是，客户明白他想要什么么？大概率客户并不懂他想要什么，或者他以为他懂他想要什么，而且你以为你也懂他想要什么。于是陷入双方需求的拉锯战，软件的风险急剧提高，让苦逼的乙方程序员们成为砧板上的肉，被迫每天牺牲自己的时间，拿有限的生命投入到无穷无尽的需求大坑中。</p>
+<p>而且有时候由于行业不同，还会陷入需求陷阱中，各行如隔山，客户想要的，往往与你能提供的，存在很大的差异。例如，连微软都会被武汉上诉，要求赔偿其在智慧城市项目中造成的大几千万损失，一般般的外包公司就更不用说了。</p>
+<p>如果遇到这种情况，请勇敢的选择拒绝，或者使自己成为更专业的人。努力花更多的时间学习行业知识，然后用数据或阶段性成果让客户尽可能的无话可说吧。</p>
+<p>当然并非所有的外包公司都是这种情况，例如像SAP或者Thoughtworks，其实也可以被世俗的理解为外包公司，他们也是为客户提供外包服务，但是由于他们是行业内的领先者，能够为客户需求提供更加专业的建议，所以他们有资格找客户签署“工料合同”。</p>
+<p>例如一个SAP的服务工程师，从上飞机起就开始计算工时费用，每天动辄万元的服务费，服务工程师的工资自然而然也低不到哪里去了。我一位同事他哥哥就是从事SAP的外包服务，他说他哥哥每年只上半年班，工资超过3万一个月。。。嗯,好吧，这种外包就等同于有前途。</p>
+<p>依然有许多公司会走在签署总价合同的外包公司的道路上，毕竟企业生存是第一要务，万一哪天接到一个合适的项目，让公司能够顺利的摆脱外包公司的这块皮，进入细分市场，获得进一步的生机呢？</p>
+<p>不过大部分外包公司或许其实并没有那么好的命，而且还会由于内卷化（指优秀员工逐渐流失，而新人难以加入，最后被中庸的老员工主宰企业的命运）最终越来越丧失竞争力，并最终只能凉凉。而且缺乏核心主业的外包公司确实很难获得技能上的积累，这需要开发者能够提高自己的技术学习能力，努力使自己成为最专业的工程师。</p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/4.png" alt="image-20191130140814321"></li>
+</ul>
+<h1 id="做增删改查有前途么？"><a href="#做增删改查有前途么？" class="headerlink" title="做增删改查有前途么？"></a>做增删改查有前途么？</h1><p>许多开发者都吐槽，每天的工作都是CRUD，也有许多开发者经常吐槽身边的那些开发者没前途，只会增删改查。</p>
+<p>怎么觉得这个问题为啥这么魔性呢？难道你和他们不是同一拨人么？</p>
+<p>有时候还会看到有人吐槽，说每天都在做CRUD的业务开发，感觉自己人都要玩废了。还问我怎么想。</p>
+<p>我个人认为CRUD才是公司业务的常态，只有能够把CRUD玩得非常好，公司业务才能获得更快的发展。从表面上看，CRUD工程师的主要职责就是建表、封装接口、然后让接口输出数据符合客户端需求。实际上这里面依然牵涉到许多充满技术含量的东西。</p>
+<p>例如，该如何建表呢？从海量的用户需求中，分析出与系统息息相关的核心部分，并分析出符合用户需求的核心领域，这种业务分析与设计能力是一位软件工程师非常重要的核心技能。</p>
+<p>例如，以前都是撸sql，现在都用orm了，是不是觉得很香？增删改查一样也充满了期待啊。</p>
+<p>该怎么建表，也并非想象中那么简单。例如主键是用自增序列，还是用UUID，该怎么设计索引，如何设计缓存，如何运用分表分库策略？这些看起来很简单的东西，往往并不简单。</p>
+<p>除此之外，代码的质量本身，也是一件值得深入钻研的方面，例如《代码整洁之道》和《重构改善既有代码的艺术》这两本书就专门介绍了如何写代码和如何把代码写好。这也是一件看起来简单，却并不简单的事情。</p>
+<p>除此之外，沟通技能、架构能力、风险意识，也都会在这些CRUD的开发过程中得以体现。</p>
+<p>为什么总是会认为CRUD毫无挑战呢。如果你已经成为软件开发领域的大牛，请收下我的膝盖，否则大概率是因为你已经走在了云程序员的路上，把一切问题都想象得太简单了吧。</p>
+<p>突然想起之前看的的一张段子，说火箭其实没什么技术含量，因为中国古时候早就有了。还有之前看的郭德纲的段子，他说：如果我跟一位火箭工程师讨论火箭的燃料不应该用氢氧，应该烧煤，对方正眼看了我一眼，那就是我输。</p>
+<p>嗯，云程序员们，咱们离专业开发者还有不少差距啊！</p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/waibao/5.png" alt="image-20191130140814321"></li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="# 总结"></a># 总结</h1><p>回到主题：在外包公司做增删改查有前途么？</p>
+<ol>
+<li>在外包公司也好，非外包公司也好，努力使自己成为专业的人，都会有前途。</li>
+<li>不管在哪家公司，如果你觉得不开心可以离去；但是如果留下来了，请珍惜每一段时光，上帝既会给你关门，也往往会给你开一扇窗户，只要用心去发现，你总会有所收获。</li>
+<li>其实认真干好每一件事情，都会充满前途。如果过于敏感，总觉得干这个没前途，干那个没前途，那大概你应该去选择创业。那里你可以找到属于你的好归宿。</li>
+<li>IT的职场的时光说漫长也漫长，说短暂也短暂。干得好就是四十年，干得不好，就是五年。</li>
+<li>或许每个人都有机会花五年时间成为技术总监，但是却只有少数人，能够成为真正合格的工程师。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/11/随笔/容器-推荐序/" rel="next" title="李文强先生的《容器入门教程》推荐序">
+                <i class="fa fa-chevron-left"></i> 李文强先生的《容器入门教程》推荐序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/15/读书/《程序员的三门课》读书笔记/" rel="prev" title="《程序员的三门课》读书随想">
+                《程序员的三门课》读书随想 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在外包公司做增删改查有前途么？"><span class="nav-number">2.</span> <span class="nav-text">在外包公司做增删改查有前途么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么叫做有前途？"><span class="nav-number">3.</span> <span class="nav-text">什么叫做有前途？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在外包公司有前途么？"><span class="nav-number">4.</span> <span class="nav-text">在外包公司有前途么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#做增删改查有前途么？"><span class="nav-number">5.</span> <span class="nav-text">做增删改查有前途么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"># 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

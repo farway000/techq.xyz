@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一感慨时间流逝，韶华易老似乎是我们与生俱来的焦虑，仿佛每当过年的时候总会感觉，呀，我这一年似乎什么都没干呀。 你看，连孔子都说：逝者如斯夫，不舍昼夜。所以他老人家是不是也很焦虑。。 然而我们的时间都去哪里了？  尤其是作为互联网开发者的我们，其实更加明显，有时候上午9点到公司，然后随便写几行代码，就到中午了，然后再下午又调几个昨天写的bug，于是，这一天就似乎这么结束了。 我也曾经列过一个清单，汇">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何快速融入团队并成为团队核心(八)">
+<meta property="og:url" content="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（八）/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一感慨时间流逝，韶华易老似乎是我们与生俱来的焦虑，仿佛每当过年的时候总会感觉，呀，我这一年似乎什么都没干呀。 你看，连孔子都说：逝者如斯夫，不舍昼夜。所以他老人家是不是也很焦虑。。 然而我们的时间都去哪里了？  尤其是作为互联网开发者的我们，其实更加明显，有时候上午9点到公司，然后随便写几行代码，就到中午了，然后再下午又调几个昨天写的bug，于是，这一天就似乎这么结束了。 我也曾经列过一个清单，汇">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-3.png">
+<meta property="og:updated_time" content="2020-03-11T13:30:51.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何快速融入团队并成为团队核心(八)">
+<meta name="twitter:description" content="一感慨时间流逝，韶华易老似乎是我们与生俱来的焦虑，仿佛每当过年的时候总会感觉，呀，我这一年似乎什么都没干呀。 你看，连孔子都说：逝者如斯夫，不舍昼夜。所以他老人家是不是也很焦虑。。 然而我们的时间都去哪里了？  尤其是作为互联网开发者的我们，其实更加明显，有时候上午9点到公司，然后随便写几行代码，就到中午了，然后再下午又调几个昨天写的bug，于是，这一天就似乎这么结束了。 我也曾经列过一个清单，汇">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-1.jpeg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（八）/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何快速融入团队并成为团队核心(八) | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/03/11/随笔/如何快速融入团队并成为团队核心（八）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何快速融入团队并成为团队核心(八)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-03-11 21:22:00 / Modified: 21:30:51" itemprop="dateCreated datePublished" datetime="2020-03-11T21:22:00+08:00">2020-03-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><p>感慨时间流逝，韶华易老似乎是我们与生俱来的焦虑，仿佛每当过年的时候总会感觉，呀，我这一年似乎什么都没干呀。</p>
+<p>你看，连孔子都说：逝者如斯夫，不舍昼夜。所以他老人家是不是也很焦虑。。</p>
+<p>然而我们的时间都去哪里了？</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-1.jpeg" alt="图片"></p>
+<p>尤其是作为互联网开发者的我们，其实更加明显，有时候上午9点到公司，然后随便写几行代码，就到中午了，然后再下午又调几个昨天写的bug，于是，这一天就似乎这么结束了。</p>
+<p>我也曾经列过一个清单，汇总了当天的工作分配情况，其中，修复bug占比和沟通所占的比重最多，大概表明作为开发者的我代码质量确实是个问题。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-2.png" alt="图片">      </p>
+<p>不过撇开代码质量这个因素不说，其实也反应了主观上在进行时间管控方面确实存在一些问题，这些问题也许平时看起来不明显，但是一旦我们开始进行记录，就会觉得比较明显。</p>
+<p>例如，层出不穷的产品需求沟通、缺陷跟进、日常的会议和其他工作安排，这些看起来其实是非常常见的具体的事件，原本属于开发过程中正常的沟通，但是如果缺乏有效的节制，依然会造成效率的降低。毕竟我们的大脑进行任务的切换本身也是需要时间的，有时候如果正在进行某些需要消耗脑力的工作时，一旦被打断了，或许需要花更长的时间才能弥补过来。</p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>当然有时候我们可能会习惯于白天被人打断，而把工作拖到晚上再花时间来弥补，或许这也是程序员们不得不辛苦的选择996这种不太合理的作息制度的一个客观原因。</p>
+<p>坦率而言，时间对每个人来说都是公平的，每天24个小时分配得其实已经够合理了，但是同样的时间，不同的人却能做出不同的成绩；例如，我最近在阅读《程序员的三门课》，就深深的感觉同样是在阿里巴巴集团工作的张洪亮，从2015年加入阿里巴巴，到目前短短五年时间，我们都可以看到他的博客，几年时间写了几百篇博客，显然这些博客都来源于他日常工作中的实际场景，这也说明他不仅仅能够把代码写得很完美，也同样能够把自己的业余时间安排得非常饱满、同样的选择职场奋斗，为何他能够把时间安排得如此妥当呢。</p>
+<p>这确实是一个值得大家深思的问题。</p>
+<p>我最近开始有意识的管理自己的时间，例如我发现我的iphone中显示了一组数据：</p>
+<p>1、每天抬起手机61次。</p>
+<p>2、使用微信一小时。</p>
+<p>3、屏幕使用时长1个半小时。</p>
+<p>我观察了我一周中，最少的屏幕使用时间差不多也是一小时多一点，多的一天大概是将近两小时，这实际上是在工作时间记录的时间，当然，撇开每天在地铁上上下班（约一个半小时）的日常的手机使用情况，依然每天有将近一个小时的时间看起来似乎是不合理的支配了。</p>
+<p>我来粗略估算一下自己的时间粒度，大概是这样的：</p>
+<p>1、休息时间，每天8个小时。这个时间包含晚上休息和中午休息的时间。</p>
+<p>2、工作通勤路上的时间：1个半小时。</p>
+<p>3、每天的用餐时间：30分钟。</p>
+<p>4、每天的如厕时间，20分钟。</p>
+<p>5、工作时间：8-9小时。</p>
+<p>6、每天的阅读学习和其他时间：约两小时。</p>
+<p>没错，以上数据之和不等于24小时，说明还有一些时间损耗看起来不明显，但累积起来也同样惊人。当然实际上工作时间看起来有8-9小时，实际上真的能实现满打满算的工作这么长的时间么，这大概是个自欺欺人的问题，很惭愧的说大概在这个工作时段，有那么一段时间，或者说不短于一个半小时，或许是在各种聊天工具间来回切换。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/image.techq.xyz/master/images/how-to-become-a-super-star/8-3.png" alt="图片"></p>
+<p>（以上数据过于真实，请大家尽管批评吧。）</p>
+<p>所以，我曾经看过，越是成功的人士，越善于合理的利用时间，例如，像王健林同志，据说已经把时间安排在15分钟这个粒度。而目前的我，大概离一个小时这个粒度都还有一点困难，所以离成功还差十万八千里也不是没有理由的。</p>
+<h1 id="三"><a href="#三" class="headerlink" title="三"></a>三</h1><p>作为一位技术从业者，是否能够合理的支配自己的时间确实是非常重要的事情，从某种意义上来说，能够每天花10个小时，或者8个小时全付身心的投入到工作中，其实已经足够完成许多任务了。</p>
+<p>个人认为，我们大概可以做以下这些工作来更好的实现自己对时间的支配：</p>
+<p>1、对自己每天的实际时间支配情况进行总结，分析时间的主要分布情况，并以清单的形式列入，以便自己有目的性的进行改善。</p>
+<p>2、难免需要一些断舍离，比如关闭某些app的推送通知，将非工作用的聊天工具，从windows桌面右下角的图标中隐藏，避免对工作造成的干扰，然后每天花一段特定的时间来处理非工作场景下的消息。</p>
+<p>3、每天早上简单的概述自己今天需要完成的工作，并预估工作所需要的时间，适当的给自己一些相对较长的时间，在这个时间段内，尽量避免外界因素的干扰。每天早上和下午工作开始一小时后的是能够利用的长块时间，而且效率也比较高，尽量将重要性工作安排在这样的时间段进行，尽量避免在这样的时间段开会，以免降低工作效率。（例如，微软有一个go dark的机制，允许在某些特殊的情况下与外界因素隔离开，踏踏实实的沉浸到写代码中）。</p>
+<p>4、合理的利用等待期。在同时需要处理多个任务时，有的任务往往由于各种条件或资源尚不具备，这会需要花不少时间来等待，如果我们将置于等待期的任务提前规划、也是一种不错的方法。</p>
+<p>在《卓有成效的管理者》这本书中，将会管理自己的时间作为一个优秀管理者开始其管理工作的第一步，只有开始学会梳理自己的时间和管理自己的时间，才能成为合适的管理者，这一点我觉得非常有道理。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/23/技术/how-to-use-restfulapi-in-netcore/" rel="next" title="一步一步的构建整洁、可维护的RESTful APIs">
+                <i class="fa fa-chevron-left"></i> 一步一步的构建整洁、可维护的RESTful APIs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/11/随笔/如何快速融入团队并成为团队核心（九）/" rel="prev" title="如何快速融入团队并成为团队核心(九)">
+                如何快速融入团队并成为团队核心(九) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一"><span class="nav-number">1.</span> <span class="nav-text">一</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二"><span class="nav-number">2.</span> <span class="nav-text">二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三"><span class="nav-number">3.</span> <span class="nav-text">三</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

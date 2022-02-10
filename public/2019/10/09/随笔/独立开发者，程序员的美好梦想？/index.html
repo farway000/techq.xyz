@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在IT行业或任何行业，总有一群特别优秀的人，他们游走在公司体系之外，不靠工资为生，靠自己的能力从雇主手中承接项目来生存，这种“自由职业者”，在开发者体系中，被称为“独立开发者”。 一不久前，某路人甲找我内推。甲：溪源，之前看到你分享过一些求职信息，恰好我最近私活没那么忙，你可以把我的简历代投一下么？溪源：我这边主要是帮别人发了点招聘，我没办法帮你代投的。不过你可以告诉我你想找怎样的工作，我帮你留意">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="独立开发者，程序员们的美好梦想？">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/随笔/独立开发者，程序员的美好梦想？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="在IT行业或任何行业，总有一群特别优秀的人，他们游走在公司体系之外，不靠工资为生，靠自己的能力从雇主手中承接项目来生存，这种“自由职业者”，在开发者体系中，被称为“独立开发者”。 一不久前，某路人甲找我内推。甲：溪源，之前看到你分享过一些求职信息，恰好我最近私活没那么忙，你可以把我的简历代投一下么？溪源：我这边主要是帮别人发了点招聘，我没办法帮你代投的。不过你可以告诉我你想找怎样的工作，我帮你留意">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-09T10:46:59.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="独立开发者，程序员们的美好梦想？">
+<meta name="twitter:description" content="在IT行业或任何行业，总有一群特别优秀的人，他们游走在公司体系之外，不靠工资为生，靠自己的能力从雇主手中承接项目来生存，这种“自由职业者”，在开发者体系中，被称为“独立开发者”。 一不久前，某路人甲找我内推。甲：溪源，之前看到你分享过一些求职信息，恰好我最近私活没那么忙，你可以把我的简历代投一下么？溪源：我这边主要是帮别人发了点招聘，我没办法帮你代投的。不过你可以告诉我你想找怎样的工作，我帮你留意">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/随笔/独立开发者，程序员的美好梦想？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>独立开发者，程序员们的美好梦想？ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/随笔/独立开发者，程序员的美好梦想？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">独立开发者，程序员们的美好梦想？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00 / Modified: 18:46:59" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在IT行业或任何行业，总有一群特别优秀的人，他们游走在公司体系之外，不靠工资为生，靠自己的能力从雇主手中承接项目来生存，这种“自由职业者”，在开发者体系中，被称为“独立开发者”。</p>
+<h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><p>不久前，某路人甲找我内推。<br>甲：溪源，之前看到你分享过一些求职信息，恰好我最近私活没那么忙，你可以把我的简历代投一下么？<br>溪源：我这边主要是帮别人发了点招聘，我没办法帮你代投的。不过你可以告诉我你想找怎样的工作，我帮你留意一下。<br>甲：我靠私活每个月有万把块钱收入，就想找一个没什么压力，做一些简单增删改查的工作。我觉得我做企业信息系统挺厉害的，你可以帮我推一些这样的工作。<br>甲：待遇要求嘛，应该像我这样八年经验的，一万多还是拿的到的。<br>溪源：互联网公司有兴趣么？<br>甲：没什么兴趣，经常要加班，压力比较大。我觉得可以找找那些外包公司之类的，做企业内部系统的就算了，业务流程太复杂，纠缠不清。<br>溪源：你会什么技能呢？<br>甲：.net三层架构和ado.net我玩得很溜了，ef了解一点点，其他技术就不太会了，项目不需要。<br>然后我找了一位猎头小仙女，介绍了他说的情况。<br>小仙女回答说，我也想找这样月薪过万，没有什么压力的工作。而且他的技术栈会不会有点太。。我担心我的雇主看不上。<br>然后没有然后了。<br>……  </p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>在七月左右，我有幸组织了一次读书会，后来拉了一个读书群，里面有一位开发者同样也是独立开发者，目前主要使用go语言进行开发，对vue等技术尤其擅长，关键是这些技术都是他自己这两年学会的。他不仅学得快，能够很快的获得收益，还经常去朋友的公司，以讲师的身份给他们公司的同事做培训。每年的收入挺可观的，基本上都两万+每月。他说自从成为独立开发者以后，比以前更拼了，压力更大了。<br>如松原来在上海从事金融科技产业链的软件研发，前几年回到长沙，找了一圈工作，都找不到特别满意的工作，毕竟国内只有北上广深杭才有金融科技应用场景的公司，于是跌跌撞撞之下，由于经常有人找他开发独立应用或企业软件，这也是一个不错的选择，于是，他也成为了独立开发者。经历了一年多，也拉了三五条枪，撸了一个小团队，业内口碑也颇为不错，勉强能维持住团队的运营。问及他创业的心得，他说，以前上班是为老板赚钱，现在是为自己赚钱，虽然不见得能发大财，但能更加灵活的选择自己想做的方向，能够获得长期积累。<br>当然，也有做出不同选择的，例如【ASP.NET MVC 企业级实战】的作者邹琼俊老师曾经说过，出版了第一本书之后，就经常能接到各种不同的项目，但是他都拒绝了，主要还是这些项目都看起来简单，但要花很多时间，如果全职还能勉强做下去，但是如果业余时间来做，看起来能获得收入，但是就没时间学习了，所以他宁可花时间多看看书，写写书。于是他又出版了一本新书【H5+跨平台移动应用实战开发】。（他把业余时间全花在看书写书上了，哪里还有时间做私活）<br>历史是如此的相似，微信公众号【吃草的罗汉】作者王晔倞老师曾经在他的公众号中分享过十多年前他做私活的经历，靠给别人做私活，他曾经获得了不亚于职场的收入，零几年初在上海买车买房，这份收入助力颇多，而且这份工作激励他钻研技能，并为他的职业发展带来了许多帮助。后来他停下了这个过程，专注于职场主业，并获得了今天的成绩。</p>
+<h1 id="三"><a href="#三" class="headerlink" title="三"></a>三</h1><p>似乎在每个程序员的心中，都有一颗成为独立开发者的美好梦想，在这个梦想里面，可以脱离公司规则的束缚，选择自己想过的生活，想学习时，随时随地拿起书，靠着窗户边就可以看书，偶尔接一些私活，辛苦一下很快就能获得收入，岂不美哉。也确实有许多人靠这个能足不出户就赚到不亚于职场的收入，于是又激励了他们把这份收入当作长期收入，最终或许可以借此脱离企业管理的桎梏，获得心灵上的自由。<br>我们来总结一下独立开发者的优点：<br>1、更加灵活自由的安排自己的时间，能够实现收入的最大化。在职场中，往往需要牺牲自己的时间来加班完成领导的指标，并可能看起来导致利益受损【毕竟上班会影响你赚钱】，而独立开发者则可以根据自己的时间选择适合自己的任务，并有时候能够更好的谈好工钱和工期，能够小赚一笔。<br>2、有机会塑造自己的个人品牌价值。市场竞争如此激烈，能够接到稳定的私活，往往需要更好的口碑，这其实就是在打造自己的个人品牌。<br>3、按需提高和学习，在技能的广度上有更好的优势。也许你能适当的选择一些看起来没那么难的挑战，来学习其他在职场上学不到的技能。<br>4、有可能打破圈子，获得不同的人脉关系。脱离职场人脉圈子的单一化，你有可能认识更多的朋友。<br>当然，也存在许多缺点：<br>1、最合理有效的工作时间依然是每天白天的八小时工作制，但是由于为了所谓自由可能会习惯于晚上完成工作，甚至有可能习惯于昼伏夜出，让生物钟紊乱，进而导致身体的长期损害。<br>2、长期脱离职场发展，看似不被束缚，但是职场的管理制度，其实是一种规则，虽然企业不同，规则不一定相同，但是其核心目标都是为了实现对企业参与者更好的管理，更好的实现企业劳动生产力的提升，而脱离了职场，再回归职场时，会主观上对规则形成抗拒心理，进而难以适应。<br>3、 虽然在职场容易造成人脉结构的单一化，但是脱离职场却不利于自身领导力和管理能力的积累，这些都是非常有价值的软实力。事实上在当今时代，单兵作战已经越来越困难了，独立开发者则往往不太可能培养管理能力。<br>4、技术上可能会更趋于保守闭塞。虽然可以看似根据业务需求灵活的调整自己的技能发展方向，但是往往雇主只会选择对自己利益最大化的承包商，不大可能给资源或时间让乙方来学习，这客观上也容易让开发者陷入内卷化的境地。</p>
+<h1 id="四"><a href="#四" class="headerlink" title="四"></a>四</h1><p>仿佛有两种截然不同的情况，一种是自律能力和学习能力特别强的开发者，从他们选择成为独立开发者开始，他们的职业生涯才算真正的开始，在这个以自我价值实现为最大价值的新平台，他们自我刷新，像创业者一般走在了新职场的康庄大道上；另外一些人则恰好相反，也许短期内有项目，并能让他们短期收益颇多，但是很容易就内卷化了，失去了核心竞争力，成为廉价劳动力的输送者，甚至还会导致他们很难再回到职场。<br>无论如何，独立开发者其实是一个特别需要自控能力的就业方向，如果一旦过于放纵，反而更容易被边缘化。<br>当然，哪怕你在职场又如何？也同样需要提高自控能力。等着别人来给自己机会，等别人来让你实现价值的观念？往往都是有机会时，缺乏能力，有能力时，机会又会离你远去。<br>不等不靠，才是王道。<br><em>这不是在输出焦虑，只是在探讨职场发展。欢迎拍砖。</em></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/随笔/坚持一个好习惯该有多难_/" rel="prev" title="坚持一个好习惯，从现在开始">
+                坚持一个好习惯，从现在开始 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一"><span class="nav-number">1.</span> <span class="nav-text">一</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二"><span class="nav-number">2.</span> <span class="nav-text">二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三"><span class="nav-number">3.</span> <span class="nav-text">三</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四"><span class="nav-number">4.</span> <span class="nav-text">四</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

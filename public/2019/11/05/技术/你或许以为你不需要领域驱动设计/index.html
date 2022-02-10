@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、易于腐化的软件设计犹记得刚刚参加工作时，是地图厂商四维图新集团旗下的一家子公司，主要从事规划测绘相关软件研发的公司。当时我的项目是为勘测设计院提供相对应的应用软件，对地理信息和规划相关的图纸信息，几乎已经专业水平。事实上，规划设计大概和软件设计类似，有规划的设计、或无规划的设计，造成的结果几乎是天壤之别。   我们或许很容易就能设想到一个毫无规划设计的城市，纵横交错的路网、杂乱无章式的建筑布局">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你或许以为你不需要领域驱动设计">
+<meta property="og:url" content="http://techq.xyz/2019/11/05/技术/你或许以为你不需要领域驱动设计/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="一、易于腐化的软件设计犹记得刚刚参加工作时，是地图厂商四维图新集团旗下的一家子公司，主要从事规划测绘相关软件研发的公司。当时我的项目是为勘测设计院提供相对应的应用软件，对地理信息和规划相关的图纸信息，几乎已经专业水平。事实上，规划设计大概和软件设计类似，有规划的设计、或无规划的设计，造成的结果几乎是天壤之别。   我们或许很容易就能设想到一个毫无规划设计的城市，纵横交错的路网、杂乱无章式的建筑布局">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/22240044.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/struct.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/ddd.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/ddd-complex.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/drawhorse.png">
+<meta property="og:updated_time" content="2019-11-05T08:52:38.486Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你或许以为你不需要领域驱动设计">
+<meta name="twitter:description" content="一、易于腐化的软件设计犹记得刚刚参加工作时，是地图厂商四维图新集团旗下的一家子公司，主要从事规划测绘相关软件研发的公司。当时我的项目是为勘测设计院提供相对应的应用软件，对地理信息和规划相关的图纸信息，几乎已经专业水平。事实上，规划设计大概和软件设计类似，有规划的设计、或无规划的设计，造成的结果几乎是天壤之别。   我们或许很容易就能设想到一个毫无规划设计的城市，纵横交错的路网、杂乱无章式的建筑布局">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/22240044.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/11/05/技术/你或许以为你不需要领域驱动设计/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>你或许以为你不需要领域驱动设计 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/11/05/技术/你或许以为你不需要领域驱动设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你或许以为你不需要领域驱动设计
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-05 16:28:00 / Modified: 16:52:38" itemprop="dateCreated datePublished" datetime="2019-11-05T16:28:00+08:00">2019-11-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、易于腐化的软件设计"><a href="#一、易于腐化的软件设计" class="headerlink" title="一、易于腐化的软件设计"></a>一、易于腐化的软件设计</h1><p>犹记得刚刚参加工作时，是地图厂商四维图新集团旗下的一家子公司，主要从事规划测绘相关软件研发的公司。当时我的项目是为勘测设计院提供相对应的应用软件，对地理信息和规划相关的图纸信息，几乎已经专业水平。事实上，规划设计大概和软件设计类似，有规划的设计、或无规划的设计，造成的结果几乎是天壤之别。  </p>
+<p>我们或许很容易就能设想到一个毫无规划设计的城市，纵横交错的路网、杂乱无章式的建筑布局、各种凌乱的棚户区设计，恰好象征着软件设计的无序性，也恰好体现了软件企业在经费不足、组织缺乏管理、开发者能力不足、软件随时随地想改就改时的行业现状，只能说这样的软件是最能符合当时实际劳动生产力水平的产品。  </p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/22240044.jpg" alt="巴西棚户区"> </p>
+<p>如图一所示，巴西棚户区，层层叠叠、风格迥异、密密麻麻，如果作为一个外人贸然来到这样的地方，大概很容易迷失期间、更不用说充斥在棚户区的各类毒品和黑社会。杂乱无章的建筑和街区，就像代码中错综复杂的调用链；而借助贫民区搞事的黑社会就像是代码中的异味或者bug，表面上看起来如此平静、与世无争、但是你永远也不知道啥时候会来一冷枪。 </p>
+<p>不要以为离我们很远，我们其实轻易就能写出这样的软件工程项目。不一定是“大泥球”系统，也有可能只是一些看似简单的业务系统，但内部代码逻辑，可能会复杂到令人窒息的程度。也许那个时候有个别开发者也许会试图靠自己的能力来改变局面，但是往往也会碍于屎山太大，难以下咽。</p>
+<p>大概只有最顶级的规划设计师、耗费足够多的资源，才能将这样的软件系统进行整改。然而，即便如此，如果以后没有持续维护的手段、更好的设计、仅靠老程序员或个别架构师、盲目相信将单体服务拆分成微服务，几乎不太可能实现软件未来的可持续发展。  </p>
+<p>一个良好的软件产品的一生、或许其实是一家企业一生的真实写照。</p>
+<p>在特定组织架构下，缺乏技术基因的组织有时候期待技术变革，却会开启新的泥坑。而那些渴望靠技术改变一切的技术专家，虽然拥有某些大厂微服务式架构、以及架构改造的经验，他们也试图通过自己的努力，为企业业务腾飞助力。而在他们过去的经验中，往往相信组织遇到的问题，用微服务一定能解决问题。然后大肆扩招，一年内从几个人的规模、扩招到数百人的规模，将原来的系统从单体服务、改良成为微服务。但是靠单枪匹马根本无力拯救大势，没有更好的业务拆分策略，就只能按照数据库的表名关系实现了最简单的拆分。架构改造并非每次都会百试百灵，有时甚至连原来的需求都包不住，毕竟只能看到用户界面层外观上的表面逻辑，而隐藏在业务中的那数十万行代码，哪怕包含了企业最有价值的经验财富，也由于代码过于混乱，最终抛弃在源代码管理器中，堪称化神奇为腐朽。  </p>
+<h1 id="二、易于腐化的面向过程开发"><a href="#二、易于腐化的面向过程开发" class="headerlink" title="# 二、易于腐化的面向过程开发"></a># 二、易于腐化的面向过程开发</h1><p>老系统改造也好、新系统开发也好，毫无疑问，我们最容易相信的其实是老程序员经验，而程序员们掌控系统的方式，就是靠数据库建模来驱动软件开发的古老模式，而且几乎都是面向过程式的代码，这些代码的流程几乎一模一样，只需简单的按照步骤，一步步套模式，轻易就能学会。</p>
+<p>1、查看用户界面，定义需要绑定到界面的模型和层级结构。 </p>
+<p>2、设计数据库，不管什么类型的项目，先根据客户提供的业务表单、将其转化成实体关系（ER图）、然后建立对应的代码模型。有可能使用专业软件设计ER图，也有可能会使用Navicat软件设计ER图。</p>
+<p>3、设计接口，然后把数据拼凑成用户界面层所需的对象。  </p>
+<p>4、代码层次结构为传统的三层架构，严格按照用户界面层、业务逻辑层、数据访问层进行设计，有时候会引入依赖注入框架，实现不同层次间的解耦。</p>
+<p>但是有时候程序员不会严格区分需要编写的代码，究竟是属于哪个层次应该囊括的内容。于是毫无疑问，如果代码是为了实现用户界面上某些数据绑定操作，代码就往用户界面层写；或者代码是为了实现从数据库中抽取某些复杂数据、并构造成满足用户表现层逻辑的查询对象，那么就可以看到数据访问层代码中那些臃肿的SQL语句或查询方法。 </p>
+<p>正如“罗马不是一天建成的”，屎山也同样如此。这样的写法在代码刚刚编写之初并没有问题，只是随着业务变化、时间的积累、程序员的水平、方法重构、新技术新组件的引入，代码将成为屎山。</p>
+<p>这时，高级程序员们的价值，就在于他如何能够在屎山中快速找到bug、并解决问题的能力，这大概是一种不能复用、不可再生的能力，因为永远有让人看不懂的垃圾代码，而且每家企业都有自己的特点，不同企业间往往不能循环利用。我一位朋友经常吐槽，他感觉自己的价值就是守住公司那份拥有8年历史的古老代码，以便其他程序员在进行代码修改时，不会引发莫名其妙的bug让系统无法运转。</p>
+<h1 id="三、过程式开发和事务脚本模式"><a href="#三、过程式开发和事务脚本模式" class="headerlink" title="三、过程式开发和事务脚本模式"></a>三、过程式开发和事务脚本模式</h1><p>在现代软件工程学的教科书中，都会指出面向对象是解决软件复杂性的方法，但实际上掌握这种方法的开发者并不多。由于开发者普遍缺乏抽象化思维，所以面向数据库、面向过程式的编程习惯能够成为业界主流，并非时代的倒退，而仅仅只是在短期效率和长期维护性上，被迫做出的艰难选择。</p>
+<p>假设我们设计出的符合三层架构的系统结构图简化后，如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/struct.png" alt="简单结构"></p>
+<p>我们来看看这种数据库建模的开发流程中的输出成果：</p>
+<p>1、会定义两种对象，分别是是面向UI层的模型（DTO)和数据实体（Entity）。在领域驱动设计中，将这两种称为所谓贫血模型，贫血模型，只有赋值器Set和取值器Get，（在Java里面会使用POJO 这个名词来定义）。贫血模型是为了作为保存状态或传递对象而存在，他并非按照实际用例场景对某类具体事务的抽象、也没有与对象相关的行为。</p>
+<p>2、定义数据访问层来实现数据的持久化、或者从持久层实现数据的创建过程。数据访问层存在的目的是为了构建上述贫血模型对象，这种访问机制被成为“事务脚本”。事务脚本与对象行为割裂，而且容易导致异味产生。</p>
+<p>3、与用户行为相关的操作割裂的存放在不同层。有的可能放在用户界面层、有的可能放在数据访问层、有的可能放在业务逻辑层，造成了领域知识的丢失。</p>
+<p>4、用户界面层使用接口作为外观或者一种行为、开发者会使用自己独立的风格习惯来定义这种行为，就容易造成术语和规则不统一，也会为后期产品的维护迭代造成问题。</p>
+<p>5、现在的软件设计，往往要求输出一份高保真的原型图、也会按照敏捷项目管理的流程对这份原型图建立持续更新的机制，确保原型图是需求的具体表达，但是产品语言并非统一语言，也许产品语言具有业务含义，但是由于不能指导开发者进行接口、类、持久层的设计，造成了代码与需求的割裂。在张逸老师的《领域驱动战术实践》提到他曾经使用dimension和metric两种不同的对象来定义一个维度对象，为代码造成了不必要的麻烦。我也曾经在一个项目，遇到过产品术语未能澄清，导致开发中使用style和theme两种截然不同的定义来定义与“风格”相关术语，为代码引入了不必要的纠结。</p>
+<h1 id="四、领域驱动设计是什么？"><a href="#四、领域驱动设计是什么？" class="headerlink" title="四、领域驱动设计是什么？"></a>四、领域驱动设计是什么？</h1><p>领域驱动设计引入了以下概念，但是我们无需在这篇文章中深刻理解这些概念的具体含义，我们只需知道，有这个东西。当我们开始按照领域驱动设计的方法设计一个系统时，按照前人整理的领域驱动的sample，往往就会将概念融汇贯通，达到更好的理解效果。</p>
+<p>1、统一语言：定义好产品原型，需要建立统一语言。这是一种在内部和外部都能使用的规范化用语，包括UML、适当的图、一致性的描述、以及专业术语和术语对应的英文描述。</p>
+<p>2、实体：在领域中可以通过标识进行唯一值定位的对象。</p>
+<p>3、值对象：在领域中，从其他领域或某个实体中分离出只包含某些特定属性的对象。由于不具备唯一性特征，往往无需用于数据持久化。</p>
+<p>4、聚合、聚合根：将具有相关性的对象聚合在一起，并以聚合根的形式统一对外提供访问方法和属性字段成员。</p>
+<p>5、限界上下文：领域包含核心领域、子域和通用子域，而限界上下文则是一个具体业务的流程。每个限界上下文独立于其他限界上下文而存在，独立演进、功能完备。限界上下文的识别充满技术含量。</p>
+<p>6、领域服务：包括仓储服务和工厂服务，前者负责实现对象与数据库的操作过程、封装了一系列数据库操作的方法；后者则侧重于对象的创建过程。个人认为从三层架构演进到领域驱动架构过程中，仓储服务是最接近于数据访问层的逻辑，也是让大部分领域驱动架构最终又回归到三层架构的一种通病。从对数据访问层中抽出对象、行为、数据访问，是战术设计的关键步骤。</p>
+<p>领域驱动设计引入了一堆新的架构形式，包括经典的四层架构、EDA（事件驱动架构）、CQRS架构（命令查询职责分离）。而由于Evans的原书没有过分讨论如何识别领域，后来又有许多大佬在他的基础上进行了完善，提出了许多方法，包括名词、形容词、动词建模法、事件风暴、四色建模等方法，限于篇幅，且听下回分解。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/ddd.png" alt="领域驱动的结构"></p>
+<h1 id="五、思维的转变，才是最大的困难"><a href="#五、思维的转变，才是最大的困难" class="headerlink" title="五、思维的转变，才是最大的困难"></a>五、思维的转变，才是最大的困难</h1><p>领域驱动设计，或许是解决这些问题的一剂良方，但也或许是开启了暗黑世界的大门。</p>
+<p>概念晦涩难懂、程序员们不愿意开始思维变革、技术上可能存在不预期的坑、都可能让新方法的实践陷入一滩烂泥。还有许多人以为自己看懂了领域驱动设计（包括笔者），在往项目中运用时，总是有意无意的会被过程式代码的思维定式控制，让架构回退到三层架构。</p>
+<p>由于微服务架构的兴起，让复杂系统的开发维护成为大家普遍关心的问题，使得Eric Evans于十五年前提出的这套理论，在今天绽放出了新的光芒。当然领域驱动设计仅仅只是众多面向对象编程的一种实践，通过领域驱动设计将UML等方法灵活的运用其中，通过打破原有数据库关系建模给代码造成的桎梏，让开发者能够真正的实现面向对象编程。</p>
+<p>然而思维模式的转换并非易事，从过程式代码中，抽离出与对象有关的行为，远比理解这几个概念要复杂，这需要大量经验的积累。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/ddd-complex.png" alt="领域的复杂性"></p>
+<p>毋庸置疑，数据库建模驱动软件开发具有速度快、学习成本低的显著特点，在许多项目中，能在短期内可以给开发者带来许多便利；而应用领域驱动设计，则可以在更长的维护周期内，给软件维护带来实质性好处。</p>
+<p>两种不同类型的开发模式，根据企业实际出发进行选择，还只是开始，但能真正运用好领域驱动设计或者UML、面向对象设计这种软件工程的美学思维来改造我们的系统，让系统绽放出更加璀璨的光芒，这才是软件设计的乐趣所在。</p>
+<p><img src="https://raw.githubusercontent.com/farway000/techq.xyz/master/images/ddd-9/drawhorse.png" alt="如何画马"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/05/随笔/开发者的不断进取，源自对技术的点滴追求/" rel="next" title="开发者的不断进取，源自对技术的点滴追求">
+                <i class="fa fa-chevron-left"></i> 开发者的不断进取，源自对技术的点滴追求
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/12/随笔/2019.NET Conf，.NET技术之崛起，已势不可挡/" rel="prev" title="2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡">
+                2019.NET Conf China（中国.NET开发者峰会），.NET技术之崛起，已势不可挡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、易于腐化的软件设计"><span class="nav-number">1.</span> <span class="nav-text">一、易于腐化的软件设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、易于腐化的面向过程开发"><span class="nav-number">2.</span> <span class="nav-text"># 二、易于腐化的面向过程开发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、过程式开发和事务脚本模式"><span class="nav-number">3.</span> <span class="nav-text">三、过程式开发和事务脚本模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、领域驱动设计是什么？"><span class="nav-number">4.</span> <span class="nav-text">四、领域驱动设计是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、思维的转变，才是最大的困难"><span class="nav-number">5.</span> <span class="nav-text">五、思维的转变，才是最大的困难</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

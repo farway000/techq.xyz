@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="记一笔流水账今天我打算记一笔流水账，主要记录我的一天中干的事情，并思考效率低下的原因，同时分析一些可用的解决方案。 清早·开始做计划早上六点四十，被梦想唤醒，然后看一会书，吃早餐，送娃上学。九点来到公司，开始一天的工作。在工作开始之前，我会花五分钟先做一个当天的计划，大概是这样的。   （讲道理应该有每日站会，事实上我是xx项目的负责人，但是。。我把站会给省了，把站会取消对项目的危害非常大。后期再">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一位996\Crud开发者平凡的一天">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/随笔/一位996、CRUD开发者的一天/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="记一笔流水账今天我打算记一笔流水账，主要记录我的一天中干的事情，并思考效率低下的原因，同时分析一些可用的解决方案。 清早·开始做计划早上六点四十，被梦想唤醒，然后看一会书，吃早餐，送娃上学。九点来到公司，开始一天的工作。在工作开始之前，我会花五分钟先做一个当天的计划，大概是这样的。   （讲道理应该有每日站会，事实上我是xx项目的负责人，但是。。我把站会给省了，把站会取消对项目的危害非常大。后期再">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://uploader.shimo.im/f/RunvG8elYn0zjxaO.png!thumbnail">
+<meta property="og:updated_time" content="2019-10-09T10:52:29.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一位996\Crud开发者平凡的一天">
+<meta name="twitter:description" content="记一笔流水账今天我打算记一笔流水账，主要记录我的一天中干的事情，并思考效率低下的原因，同时分析一些可用的解决方案。 清早·开始做计划早上六点四十，被梦想唤醒，然后看一会书，吃早餐，送娃上学。九点来到公司，开始一天的工作。在工作开始之前，我会花五分钟先做一个当天的计划，大概是这样的。   （讲道理应该有每日站会，事实上我是xx项目的负责人，但是。。我把站会给省了，把站会取消对项目的危害非常大。后期再">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/RunvG8elYn0zjxaO.png!thumbnail">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/随笔/一位996、CRUD开发者的一天/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一位996\Crud开发者平凡的一天 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/随笔/一位996、CRUD开发者的一天/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一位996\Crud开发者平凡的一天
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00 / Modified: 18:52:29" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="记一笔流水账"><a href="#记一笔流水账" class="headerlink" title="记一笔流水账"></a>记一笔流水账</h1><p>今天我打算记一笔流水账，主要记录我的一天中干的事情，并思考效率低下的原因，同时分析一些可用的解决方案。</p>
+<h1 id="清早·开始做计划"><a href="#清早·开始做计划" class="headerlink" title="清早·开始做计划"></a>清早·开始做计划</h1><p>早上六点四十，被梦想唤醒，然后看一会书，吃早餐，送娃上学。<br>九点来到公司，开始一天的工作。在工作开始之前，我会花五分钟先做一个当天的计划，大概是这样的。 </p>
+<ol>
+<li><em><del>（讲道理应该有每日站会，事实上我是xx项目的负责人，但是。。我把站会给省了，把站会取消对项目的危害非常大。后期再讨论）</del></em></li>
+<li>对xx项目的周计划进行跟进和修订。</li>
+<li>检查昨天完成的功能，并记录和指派bug。</li>
+<li>整理文档，对昨天完成新功能的特性进行说明。</li>
+<li>解决属于自己名下的bug。</li>
+<li>开始两个下一阶段需要交付的新功能，比较简单的业务接口，代码行预计不超过80行。</li>
+</ol>
+<p>这些任务中，除了第五项和第六项相对来说可能会耗时比较长外，其他每个单项任务基本上可以在25分钟内完成，而且也确实是按任务优先级和重要性顺序来安排的，看起来还挺合理的，总体上属于在8小时内可以完成的工作量，而且其实或许还略微有点不饱和。。。</p>
+<h1 id="执行任务（下面是流水账，可以略过）"><a href="#执行任务（下面是流水账，可以略过）" class="headerlink" title="执行任务（下面是流水账，可以略过）"></a>执行任务（下面是流水账，可以略过）</h1><p>于是我喝了一口水，开始完成第一项任务：对xxx项目的周计划进行跟进和修订。<br>（如果是周一，以前我还会根据上周完成情况对月计划和总体计划进行适度的总结，但是。。自从来到互联网公司后，我把这个好习惯也丢掉了，好吧，是因为假装要敏捷要拥抱变化，所以把总体计划和月计划省掉了）。<br>但是，当我开始处理这项事务时，计划外的第一件事情发生了。在测试环境下，客户端反映某接口出现了不该出现的问题，于是我被迫打断这项任务，花了一分钟时间，跟他对接口问题进行了检查，发现是对方参数传错了。<br>嗯。问题解决。继续开始刚刚的任务。<br>到哪里了？哦。。还在做计划，接着我迅速调整状态，花了几分钟就把任务完成了。<br>然后开始第二项任务。<br>这时，刚刚客户端又找我了，他说接口还是有问题。<br>我以为又只要花一分钟，事实上这次我花了30分钟，因为确实是原来的代码逻辑中存在缺陷，需要进行代码修改、然后发布、再测试代码。<br>确认这个问题已经得到解决后，还是处理之前搁置的任务。花了20分钟处理任务3。<br>开始处理任务4，这项任务也相对来说比较简单，所以不到五分钟解决了。<br>开始处理任务5。。。在我名下共有20个bug。。。以每个bug5分钟来衡量，我大概需要花100分钟才能解决。但是当我开始解决第一个bug时。<br>又有其他人开始找我了，运营开始找我，说xxx场景下似乎出现了xxx逻辑不对。<br>线上问题必须优先解决，赶紧的，仔细思考问题发生的条件、对链路服务进行跟踪和分析、查看半年前编写的代码逻辑，最终花了15分钟分析出问题，并花了10分钟将问题妥善解决。<br>继续开始修复bug。在bug修复的过程中，发现是产品逻辑存在缺陷，于是跟产品对任务进行进一步明确、梳理业务、设计更加具体细化的流程。花了1小时。<br>到中午12点，我上午共完成任务3项，修复了一个bug。<br>下午不属于问题的高峰期，但是又发现了产品逻辑之外的一些其他问题，最终解决了15个bug。<br>积压了5个bug，留到晚上来解决吧。<br>当夜幕降临，我需要花2个小时来解决我剩余的bug和2个未完成的新功能开发任务。<br>事实上等到晚上八点半时，我完成了剩余bug，新功能完成了一个，但此时效率已经差的不行了，没办法，硬着头皮也得完成今天的任务。<br>（会不会欠下新债，显然毋庸置疑）<br>晚上9点，所有任务已基本上圆满完成。</p>
+<h1 id="总结完成情况"><a href="#总结完成情况" class="headerlink" title="总结完成情况"></a>总结完成情况</h1><p>总结今天完成的任务，共完成任务五项，其中修复bug20个，写了60行新代码，共耗时10小时。<br>显然我的工作效率是很差的，尤其是晚上效率更差，我最佩服那些自称晚上效率很高的人，尤其还有一些人特别喜欢深夜撸码，倒上一杯小酒，借着凌晨的寂静，写着爱写的代码，他们很厉害，因为他们很会自欺欺人。<br>来统计当天完成工作的工时占比：<br>| 工作内容   | 时间（分钟）   |<br>|:—-|:—-|<br>| 梳理日计划   | 5   |<br>| 修订周计划   | 10   |<br>| 接口联调   | 31   |<br>| 运营对接   | 25   |<br>| 修复20个bug   | 250   |<br>| 编写新功能   | 120   |<br>| 日常项目沟通   | 120   |<br>| 其他   | 40   |<br>| 总计   | 601   | </p>
+<h1 id><a href="#" class="headerlink" title></a><img src="https://uploader.shimo.im/f/RunvG8elYn0zjxaO.png!thumbnail" alt="图片"></h1><h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>以上流水账实际上是我们这样一家普通互联网公司的日常，当然，对我个人而言，实际上投入到运营对接中的时间相对来说是不算多的，我了解我们公司有的开发者每天需要花至少3小时与运营人员进行问题的对接，这显然会直接影响了开发者的工作效率。<br>（我相信一流互联网公司一定不是这样的）<br>从上图可以看出我们的日常工作安排存在以下问题：</p>
+<ul>
+<li>修复bug这种还技术债的任务，耗时接近47%，占了将近一半的时间。嗯，能力确实不行，能不能采取措施让债不欠这么多，这是人才三角（专业技能、行业知识、软实力）需要达到的目标。我曾经打算在功能开发中引入TDD来减少返工率，但是最终决定还是先搁置这个想法。</li>
+<li>我司项目管理的形式是虚拟团队，产品经理和测试工程师主要在深圳，而研发团队在长沙，因此，每天投入到团队沟通中的时间占比达到20%。事实上虚拟团队这种开发模式，作为目前比较新兴的项目沟通形式，已经被互联网公司广泛采用。但是虚拟团队成员间分处异地、无法面对面沟通，由于文化、工作节奏、技术等原因，容易造成比较大的沟通成本。可以采取以下措施进行优化：<ul>
+<li>1、打造高保真原型图，进一步拆解任务目标，让任务目标细分。</li>
+<li>2、需求讨论时间前置，需求的特点是渐进明细的，应尽量将对需求的沟通在研发阶段开始前进行落实，减少对于研发阶段过程中的额外时间浪费。</li>
+<li>3、快速冲刺阶段尽可能面对面沟通。</li>
+<li>4、功能交付缺乏Desktop Check，意味着产品经理和测试工程师无法及时了解功能的实际开发情况，也意味着团队间对于成果的交付进度、实现方式，本身是存在疑问的，这将提高沟通成本。</li>
+</ul>
+</li>
+<li>如果按每天工作十小时，为3小时为与运营沟通问题的解决来算，占比达30%。说明对于项目成果的交付上，依然存在不少可以优化和提升的空间。或许可以采取以下措施。<ul>
+<li>FAQ文档的进一步细化。</li>
+<li>知识共享。</li>
+<li>项目成果移交本身需要有更加规范化的管理措施。</li>
+</ul>
+</li>
+</ul>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>以上是一位CRUD互联网996开发者的一天，看起来似乎过得很充实， 却依然需要通过加班来完成当天的任务，而且甚至长期工作时间大于10个小时，与体力劳动者本身没有太大区别。也许总是像机器一样活着，思考都成为一种负担。总以为靠蛮力可以解决，实际上输出的或许是一种无用的解决方案。这样的付出，大概会觉得毫无价值。<br>然而我们必须停驻脚步，认真思考当下的价值，思考效率和意义的平衡，让我们的生活更加有意义。<br>牢记准则：<em>“做正确的事，正确的做事”。</em></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/随笔/坚持一个好习惯该有多难_/" rel="next" title="坚持一个好习惯，从现在开始">
+                <i class="fa fa-chevron-left"></i> 坚持一个好习惯，从现在开始
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/读书/《实例化需求》读书笔记/" rel="prev" title="《实例化需求》读书笔记">
+                《实例化需求》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一笔流水账"><span class="nav-number">1.</span> <span class="nav-text">记一笔流水账</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清早·开始做计划"><span class="nav-number">2.</span> <span class="nav-text">清早·开始做计划</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行任务（下面是流水账，可以略过）"><span class="nav-number">3.</span> <span class="nav-text">执行任务（下面是流水账，可以略过）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结完成情况"><span class="nav-number">4.</span> <span class="nav-text">总结完成情况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题分析"><span class="nav-number">6.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">7.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

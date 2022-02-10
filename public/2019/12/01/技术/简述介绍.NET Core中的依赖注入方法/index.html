@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在.NET  Core/Framework中使用依赖注入框架综述在传统的.NET Framework中通常会使用 new 关键词和静态对象或静态方法作为对象创建的形式，但是由于这两种方式存在以下缺陷： 使用New的方式创建对象的缺陷：1、使用New的方式创建的对象，需要在由GC在不同的位置分别管理生命周期。2、如果在不同的方法中需要创建相同的对象，往往需要用很多个new来进行管理。3、当一个对象有">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在.NET  Core&#x2F;Framework中使用依赖注入框架">
+<meta property="og:url" content="http://techq.xyz/2019/12/01/技术/简述介绍.NET Core中的依赖注入方法/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="在.NET  Core/Framework中使用依赖注入框架综述在传统的.NET Framework中通常会使用 new 关键词和静态对象或静态方法作为对象创建的形式，但是由于这两种方式存在以下缺陷： 使用New的方式创建对象的缺陷：1、使用New的方式创建的对象，需要在由GC在不同的位置分别管理生命周期。2、如果在不同的方法中需要创建相同的对象，往往需要用很多个new来进行管理。3、当一个对象有">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-09T15:06:32.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在.NET  Core&#x2F;Framework中使用依赖注入框架">
+<meta name="twitter:description" content="在.NET  Core/Framework中使用依赖注入框架综述在传统的.NET Framework中通常会使用 new 关键词和静态对象或静态方法作为对象创建的形式，但是由于这两种方式存在以下缺陷： 使用New的方式创建对象的缺陷：1、使用New的方式创建的对象，需要在由GC在不同的位置分别管理生命周期。2、如果在不同的方法中需要创建相同的对象，往往需要用很多个new来进行管理。3、当一个对象有">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/12/01/技术/简述介绍.NET Core中的依赖注入方法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在.NET  Core/Framework中使用依赖注入框架 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/12/01/技术/简述介绍.NET Core中的依赖注入方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在.NET  Core/Framework中使用依赖注入框架
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-01 16:28:00" itemprop="dateCreated datePublished" datetime="2019-12-01T16:28:00+08:00">2019-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-09 23:06:32" itemprop="dateModified" datetime="2019-12-09T23:06:32+08:00">2019-12-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在-NET-Core-Framework中使用依赖注入框架"><a href="#在-NET-Core-Framework中使用依赖注入框架" class="headerlink" title="在.NET  Core/Framework中使用依赖注入框架"></a>在.NET  Core/Framework中使用依赖注入框架</h1><h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p>在传统的.NET Framework中通常会使用 new 关键词和静态对象或静态方法作为对象创建的形式，但是由于这两种方式存在以下缺陷：</p>
+<h5 id="使用New的方式创建对象的缺陷："><a href="#使用New的方式创建对象的缺陷：" class="headerlink" title="使用New的方式创建对象的缺陷："></a>使用New的方式创建对象的缺陷：</h5><p>1、使用New的方式创建的对象，需要在由GC在不同的位置分别管理生命周期。<br>2、如果在不同的方法中需要创建相同的对象，往往需要用很多个new来进行管理。<br>3、当一个对象有多个子类时，创建的过程更加麻烦。</p>
+<h4 id="使用静态变量的缺陷。"><a href="#使用静态变量的缺陷。" class="headerlink" title="使用静态变量的缺陷。"></a>使用静态变量的缺陷。</h4><p>1、静态变量的内存空间是应用程序启动时创建、并在程序消亡时统一释放。<br>2、在高并发场景下，静态变量容易被不同的线程频繁读写，从而成为系统的主要性能瓶颈。</p>
+<h2 id="为啥要使用依赖注入"><a href="#为啥要使用依赖注入" class="headerlink" title="为啥要使用依赖注入"></a>为啥要使用依赖注入</h2><p>在.NET Core或.NET FX中目前已经倾向于使用依赖注入框架来对对象的创建过程进行统一管理，这样的好处：<br>1、封装了对象的创建过程，可以实现对象创建过程和内存管理过程的一致性，<br>2、如果一个对象有多个实现，也容易使用依赖注入对象对其进行拆分。<br>3、提供统一的对象生命周期管理。</p>
+<h2 id="依赖注入的生命周期"><a href="#依赖注入的生命周期" class="headerlink" title="依赖注入的生命周期"></a>依赖注入的生命周期</h2><p>目前在.NET Core（.NET FX也有）中提供了3种依赖注入的生命周期，分别是：<br>1、单例的生命周期SingleTon。每次从同根容器中（同根 IServiceProvider）获取的时候都是同一个实例，类似于静态变量。主要用来存储系统中需要保持唯一一份的对象<br>2、瞬时的生命周期Transient。每次从容器 （IServiceProvider）中获取的时候都是一个新的实例，可以用于 控制台程序。<br>3、作用域的生命周期Scoped。每次从同一个容器中获取的实例是相同的。往往用于ASP.NET Core 网站。<br>使用依赖注入的方式实现对象的创建虽然会给程序带来一点不便利，但是容易实现程序的耦合度降低，更有利于程序未来的横向扩展，也逐渐成为ASP.NET开发（不仅仅是.NET Core）的的一种最佳实践。</p>
+<h2 id="依赖注入的使用"><a href="#依赖注入的使用" class="headerlink" title="依赖注入的使用"></a>依赖注入的使用</h2><p>目前.NET中的依赖注入组件是基于.NET Strandard（标准库）进行开发的无其他依赖项的组件，能够被基于标准库的各种.NET技术方案所实现。<br>主要分为两个步骤，<br>1：初始化时，将对象注册到依赖注入组件中；例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceCollection.AddScoped&lt;DBContext&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>2：对象使用时，从依赖注入组件中取出对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var dbContext = MyServiceProvider.GetService&lt;DBContext&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>从依赖注入组件中取出对象的过程，往往会伴随着对象创建的过程，即在依赖注入框架内部，封装了原来与 New 一致的流程。</p>
+<p>如果一个对象如果需要引用的对象已经被注册到依赖注入组件中，则无需使用 GetService 方法从依赖注入组件中取出对象，依赖注入框架在创建对象时，也会连带着将其他与之相关的对象一起创建。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>例如：<br>1、在示例代码中，设置 DBContext 为 Scoped </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceCollection.AddScoped&lt;DBContext&gt;();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">static ServiceProvider MyServiceProvider;</span><br><span class="line">       static void Main(string[] args)</span><br><span class="line">       &#123;</span><br><span class="line">           IServiceCollection serviceCollection = new ServiceCollection();</span><br><span class="line">           serviceCollection.UseDBContext();</span><br><span class="line">           serviceCollection.UseDBService();</span><br><span class="line">           serviceCollection.UseAppService();</span><br><span class="line">           MyServiceProvider = serviceCollection.BuildServiceProvider();</span><br><span class="line">           var dbContext = MyServiceProvider.GetService&lt;DBContext&gt;();</span><br><span class="line">           dbContext.DBConfig = &quot;127.0.0.1&quot;;</span><br><span class="line">           TestSingleTon();</span><br><span class="line">           TestTransient();</span><br><span class="line">           Console.ReadKey();</span><br><span class="line">       &#125;</span><br><span class="line">       static void TestSingleTon()</span><br><span class="line">       &#123;</span><br><span class="line">           for (int i = 0; i &lt; 5; i++)</span><br><span class="line">           &#123;</span><br><span class="line">               var task = new Task(() =&gt;</span><br><span class="line">               &#123; </span><br><span class="line">                   var dbService = MyServiceProvider.GetService&lt;UserDbService&gt;();</span><br><span class="line">                   Console.WriteLine(dbService.GetDBConfig());</span><br><span class="line">                   Console.WriteLine(&quot;设置用户名为张三&quot;);</span><br><span class="line">                   dbService.UserName = &quot;张三&quot; + i;</span><br><span class="line">               &#125;);</span><br><span class="line">               task.Wait(100);</span><br><span class="line">               task.Start();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       static void TestTransient()</span><br><span class="line">       &#123;</span><br><span class="line"></span><br><span class="line">           for (int i = 0; i &lt; 5; i++)</span><br><span class="line">           &#123;</span><br><span class="line">               var task = new Task(() =&gt;</span><br><span class="line">               &#123;</span><br><span class="line">                   var userAppService = MyServiceProvider.GetService&lt;UserAppService&gt;();</span><br><span class="line">                   Console.WriteLine($&quot;获取数据库中的用户名:&#123;userAppService.GetDBUserName()&#125;&quot;);</span><br><span class="line">               &#125;);</span><br><span class="line">               task.Wait(200);</span><br><span class="line">               task.Start();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么在创建 UserDbService 对象时，依赖注入框架会自动创建dbContext对象，并将其注入到 UserDbService中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public UserDbService(DBContext dBContext)</span><br></pre></td></tr></table></figure>
+
+<p>这样就封装了原来的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IUserDBService dbService=new UserDBService(new DBContext());</span><br></pre></td></tr></table></figure>
+
+<p>的代码过程，弥补了调用者需要与UserDBService 高度耦合的缺陷。</p>
+<h2 id="值得注意的是："><a href="#值得注意的是：" class="headerlink" title="值得注意的是："></a>值得注意的是：</h2><p>1、在.NET Core（.NET Framework) 控制台中，需要手动创建对象IServiceCollection，并创建一个静态的 ServiceProvider 对象，由这个对象来实现对象的加载。<br>2、在.NET Core 网站项目中，由WebHost管理的生命周期，会创建一个统一的 IServiceCollection和 ServiceProvider 对象，无需再单独创建这个ServiceProvider. </p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>在示例代码中，提供了一个DIExtension的静态类，并定义了三个注册对象的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static IServiceCollection UseDBContext(this IServiceCollection serviceCollection)</span><br><span class="line">        &#123;</span><br><span class="line">            serviceCollection.AddScoped&lt;DBContext&gt;();</span><br><span class="line">            return serviceCollection;</span><br><span class="line">        &#125;</span><br><span class="line">        public static IServiceCollection UseDBService(this IServiceCollection serviceCollection)</span><br><span class="line">        &#123;</span><br><span class="line">            serviceCollection.AddSingleton&lt;UserDbService&gt;();</span><br><span class="line">            return serviceCollection;</span><br><span class="line">        &#125;</span><br><span class="line">        public static IServiceCollection UseAppService(this IServiceCollection serviceCollection)</span><br><span class="line">        &#123;</span><br><span class="line">            serviceCollection.AddTransient&lt;UserAppService&gt;();</span><br><span class="line">            return serviceCollection;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/01/随笔/网易事件背后众生相/" rel="next" title="网易事件，芸芸众生，相煎何急">
+                <i class="fa fa-chevron-left"></i> 网易事件，芸芸众生，相煎何急
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/01/技术/浅议Grpc的双向流和WCF中的回调机制/" rel="prev" title="浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC">
+                浅议gRPC的数据传输机制和WCF中的回调如何迁移到gRPC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在-NET-Core-Framework中使用依赖注入框架"><span class="nav-number">1.</span> <span class="nav-text">在.NET  Core/Framework中使用依赖注入框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#综述"><span class="nav-number">1.1.</span> <span class="nav-text">综述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用New的方式创建对象的缺陷："><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">使用New的方式创建对象的缺陷：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用静态变量的缺陷。"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">使用静态变量的缺陷。</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#为啥要使用依赖注入"><span class="nav-number">1.2.</span> <span class="nav-text">为啥要使用依赖注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖注入的生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">依赖注入的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖注入的使用"><span class="nav-number">1.4.</span> <span class="nav-text">依赖注入的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.4.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值得注意的是："><span class="nav-number">1.5.</span> <span class="nav-text">值得注意的是：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">1.6.</span> <span class="nav-text">示例代码</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

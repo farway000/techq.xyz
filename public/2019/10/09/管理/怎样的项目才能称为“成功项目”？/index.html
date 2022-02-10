@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="引子  这个故事讲的是一家拥有百年历史的制造业大厂的信息化转型过程中的波折。这家企业拥有超过三万名员工，它是某行业的领先品牌，但是在信息化程度上却非常古老。有许多人说，国企的项目都是坑，相当一部分项目都是为了骗经费而忽悠人的，换一拨管理层，基本上就得换一拨项目，油水全被领导捞走了。我很遗憾，没能经历这些事情。这个项目实打实都是做出来给基层用的项目，也确实获得了各方较高的满意度。以中台为政治正确的">
+<meta name="keywords" content="管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎样的项目，才能称为“成功项目”？">
+<meta property="og:url" content="http://techq.xyz/2019/10/09/管理/怎样的项目才能称为“成功项目”？/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="引子  这个故事讲的是一家拥有百年历史的制造业大厂的信息化转型过程中的波折。这家企业拥有超过三万名员工，它是某行业的领先品牌，但是在信息化程度上却非常古老。有许多人说，国企的项目都是坑，相当一部分项目都是为了骗经费而忽悠人的，换一拨管理层，基本上就得换一拨项目，油水全被领导捞走了。我很遗憾，没能经历这些事情。这个项目实打实都是做出来给基层用的项目，也确实获得了各方较高的满意度。以中台为政治正确的">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-09T10:57:20.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怎样的项目，才能称为“成功项目”？">
+<meta name="twitter:description" content="引子  这个故事讲的是一家拥有百年历史的制造业大厂的信息化转型过程中的波折。这家企业拥有超过三万名员工，它是某行业的领先品牌，但是在信息化程度上却非常古老。有许多人说，国企的项目都是坑，相当一部分项目都是为了骗经费而忽悠人的，换一拨管理层，基本上就得换一拨项目，油水全被领导捞走了。我很遗憾，没能经历这些事情。这个项目实打实都是做出来给基层用的项目，也确实获得了各方较高的满意度。以中台为政治正确的">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2019/10/09/管理/怎样的项目才能称为“成功项目”？/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>怎样的项目，才能称为“成功项目”？ | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2019/10/09/管理/怎样的项目才能称为“成功项目”？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">怎样的项目，才能称为“成功项目”？
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-09 16:28:00 / Modified: 18:57:20" itemprop="dateCreated datePublished" datetime="2019-10-09T16:28:00+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/管理/" itemprop="url" rel="index"><span itemprop="name">管理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>引子</li>
+</ul>
+<p>这个故事讲的是一家拥有百年历史的制造业大厂的信息化转型过程中的波折。这家企业拥有超过三万名员工，它是某行业的领先品牌，但是在信息化程度上却非常古老。<br>有许多人说，国企的项目都是坑，相当一部分项目都是为了骗经费而忽悠人的，换一拨管理层，基本上就得换一拨项目，油水全被领导捞走了。我很遗憾，没能经历这些事情。这个项目实打实都是做出来给基层用的项目，也确实获得了各方较高的满意度。<br>以中台为政治正确的互联网开发者们会说，这个项目从商业层面和技术上来说似乎毫无价值，首先它不是互联网产品，其次它没什么技术含量，什么大数据，云计算，容器，微服务，无服务，它都不需要，这甚至有点像我们身边许多人十年前就做过的项目，技术上平淡无奇，看起来毫无挑战。<br>显然并非如此，每个项目存在都有价值。作为过程中的亲历者，我希望通过总结这个项目过程中存在的不足，引起思考和引发讨论。尤其是随着时代的进步，像这样信息化转型的传统制造业企业，或许越来越罕见，这样的项目看起来非常独特，但也是软件项目中的一个典型，对于未来从事行业互联网开发的软件从业人员来说，也许能带来一些思考。</p>
+<ul>
+<li>背景</li>
+</ul>
+<p>2015年开始，制造业企业开始流行起一种新的趋势：工业4.0，在这个大背景下，国内则提出了中国制造2025的计划，旨在通过几年努力，实现中国制造业的智能化水平在上一个台阶。<br>该大型国企作为该某领域的领先品牌，其生产的产品远销国内外，也是军民融合的典型代表，但是在过去的发展过程中，由于产品本身比较特殊，许多关键步骤仍然是采用手工完成，无法完全实现自动化替代，包括检验管理体系也同样建立在一大堆纸质表单的基础上完成。集团管理层看到了中国制造2025带来的巨大机遇，也想奋斗一波，但要做的事情实在是太多了。<br>康威定律说，一个组织的软件架构设计，实际上是组织管理形式的体现。在9012年的今天，为了维持这样一套以纸质表单为核心的检验管理体系，需要维持庞大的管理体系，带来了巨大的管理成本，对于组织来说本身成为了一种巨大的负担。更何况这种管理形式，问题实在是太多了。<br>1，需要花费大量的时间和精力来维持现有组织，哪怕是非关键岗位的离职，都可能影响一些流程的开展。（纸质资料的交接，其实跟口口相传没什么区别）。<br>2，过程资料存储困难，为了存储资料，更是需要专门安排档案室和档案保管员，一旦出现产品质量问题，需要进行问题追溯时，要从档案中检索问题要花许多时间。<br>3，一旦发生灾害或事故，例如火灾洪灾，就意味着过程资料将成为废纸，产品的关键过程信息将无法寻觅。<br>在互联网技术飞速发展、实体经济受到巨大冲击的今天，原有管理模式，过于臃肿，已经无法适应组织发展的需要。行业越来越不景气，企业的管理成本居高不下，负担越来越重，每年裁员裁了许多人，却没能从管理效能上带来多大的提高，因此提升企业的信息化管理水平其实势在必行。<br>但是如果要实现一步到位，直接构建基于工业4.0的智能制造新体系，在这个行业都不太现实，毕竟许多产品都是属于定制生产、小批次制造，部署全套自动化制造生产线成本非常高，事实上新生产线也在建设，但是一直没有投产，老的生产线也得维持好，这样才能持续创造价值。做好眼前能做的，实现检验管理的信息化（无纸化），然后再逐步实现制造业的智能化，只有实现了这一小步，才有未来的无限可能。</p>
+<ul>
+<li>立项</li>
+</ul>
+<p>之前提到中国制造2025的大背景，还有一个小背景。企业内部企业的中高层普遍都是八十年代末毕业拥有更高学历的管理层，不乏清北的高才生。他们那些大学同学正是这一波大时代的受益者之一，有许多同学都借助于企业的腾飞实现了个人价值，但是留在这家国企的高管们，却看着企业越来越差，也想有所作为，却感觉一个拳头打在了棉花上，他们的压力很大。<br>然而，大家都清楚，传统国企的体质僵化，很多时候看起来两个字所谓“变革”，实际上却有点像个美梦而已，就拿“信息化”系统建设来说吧，信息化对于国企来说并非第一次提起，许多国企的老员工，乃至管理层其实已经经历了过去十年信息化失败之苦，许多信息化系统在领导们的支持下，看似搞得轰轰烈烈，热热闹闹，但是最终都难逃被抛弃的下场，而每个信息化项目的失败，都会让好几位负责对应信息管理工作的牵头人背锅，并最终从公司离开。<br>在IT从业人员看来或许很简单的信息化建设，从来没那么顺顺利利，极有可能会由于基层的抗拒最终失败，并给信息化建设的参与者带来职业生涯上的污点。<br>于是在国企把信息化提上议程之后，获得了两种不同的声音。很戏剧性的，不懂信息化的业务部门是信息化的支持者，他们说这个事情一定要搞，砸锅卖铁都要上，再难也要上。另外一种负责信息化工作的信息中心的负责人对信息化的态度很明显，要我支持，没问题，我可以把网络做好，但是要我参与软件的研发过程，恕我无能为力。<br>因此最终牵头组织这个过程资料信息化的，是平时对这一块需求最大的检验管理部门。在他们的推动下，项目正式提上了议程。<br>这是个涉及面非常广泛的项目集，包括了三个项目，分别是面向民用领域单一事业部的A项目，面向融合领域的B项目，以及面向整个集团全方向的C项目。事实上集团曾经购买过现成的产品，但是都没能用起来，所以这个项目集最终是以定制开发的形式承包出来。</p>
+<ul>
+<li>A项目</li>
+</ul>
+<p>A项目作为最先立项的项目，万事开头难，承受了巨大的压力，许多人在等着看一出好戏。<br>A项目的负责人W部长今年三十八岁，在此之前他一直是从事检验管理出身，对产品检验有自己明确的要求，他奠定了整个项目的基调。没有设定特别宏大的目标，不是做一个通用的大系统，就做一个简单实用的系统，能够给基层带来方便，为管理层带来便利就够了。<br>项目的早期，承建单位曾经试图引入新技术和更加友好的用户体验，但是w部长却不这么认为，他说在这样的老国企，没必要用新技术，一切以满足可用性为目标，操作越简单越好。于是最终承建方设计了一个基于cs的数据采集系统和基于bs的管理系统。不仅功能尽可能的简单，而且连流程都能省就省，尽量让参与者减少学习成本。<br>这个设计简单实用的系统，恰好满足了敏捷项目所要达到的构建简单项目、实现快速迭代小步快走的管理目标。驻场开发期间，及时发现问题和解决问题，让软件得到了非常充分应用，获得了甲方的高度评价。<br>而且如果说早期项目的应用的推进需要靠组织的强势推动，到了后期就令人欣慰了，由于这个系统无需特别复杂的操作流程就能完成资料的录入，提交和汇总，基层岗位的工作人员只要会用计算机、简单培训就能迅速上手，无形中为项目的快速铺开奠定了良好的基础。而且承建方与甲方的基层人员之间沟通融洽，有问题及时反馈，及时处理，为项目推进带来了非常不错的效果。<br>在项目运转正常一年之后，主导项目工作的部长调任了，新接手的负责人是曾经不太看好这个系统的车间主任，他也被基层工作人员带动，成为了这个项目的拥趸。 </p>
+<ul>
+<li>B项目</li>
+</ul>
+<p>借着A项目成功的东风，马上启动了B项目。<br>前面提到了，B项目是面向融合产业的，因此对这个项目的要求也相对而言更高。<br>当这个项目完成立项后，B项目建设方的组织架构也发生了比较大的变更，首先是之前推动A项目的集团公司大领导由于工龄届满，已经退休，而集团的整个管理层都相继发生了变化，包括推动项目立项的一位高级工程师也从公司离职，意味着项目早期干系人已经完全换了。<br>组织架构调整其实是为了给年轻人机会。调整后，B项目负责整个项目的，都是87后的年轻人。<br>这群年轻人们，相对于A项目的负责人来说，对信息化有了更加深入的认识。事实上而言，A项目建设，其实不过是一个类似于协同办公的一个模块，他们认为这个项目没什么技术含量，甚至有点low。他们经常出去考察学习，对用户体验和功能应用都有很多想法，他们渴望真正打造一个能够真正打造一个符合企业未来发展目标的信息化一体化平台。<br>这些想法再跟现有政策、以及组织架构混合在一起发酵，最终变成了一个无比巨大的项目，用专业术语来说，就是一个“大泥球”系统。<br>在项目立项之初，合同上原始需求其实只有19个条目，而且为了让这些内容容易落地，前期的推动者甚至尽可能的减少流程的复杂度，但是等合同签订后、组织结构调整完，新的干系人们在原合同的基础上，对范围进行了大幅修改。最终等需求调研落地，变成的是一个基本上涵盖了公司大部分审批事项、涉及几十个流程，涉及全公司数百人、超过十几个小系统的大项目。<br>为了完成这个项目，双方投入了最少20个人，超过十人的研发团队驻场开发了超过半年时间，也没折腾出几个让甲方满意的东西。建设单位现场条件恶劣、涉及流程复杂、涉及特殊的管理机制，要开发的功能点特别多，不断的完善，不断的修改，整个项目研发前前后后折腾了至少一年时间之后，才通过直接负责人的认可，但是给领导汇报时，却根本不可用，得推翻重做。<br>项目到今年项目依然没有上线，这离合同交付日期已经超过两年了，显然可以称之为“失败项目”了。<br>承建方虽然早期意识到了项目风险，但是建设方过于强势，无法拒绝；建设方贪多求快，忽略了组织本身的复杂性、低估了软件研发的工作量以及软件实施的难度，最终双方都竹篮打水一场空。</p>
+<ul>
+<li>C项目</li>
+</ul>
+<p>C项目是在B项目完成了到一半时启动的新项目，其目标是将A项目成功的经验，推广到全集团。（不包括B项目的事业部）。<br>C项目的实施异常顺利，合同期一年，实际上只花了8个月就把项目做完了。</p>
+<ul>
+<li>总结</li>
+</ul>
+<p>当我年轻时曾经向其他拥有丰富经验的项目经理请教什么样的项目才是成功项目时，他们说：</p>
+<blockquote>
+<p>“刚刚好”：刚刚好满足客户的需求，就是一个不错的项目。</p>
+</blockquote>
+<p>一个充满智慧的回答。不过“刚刚好”其实很难把握这个度，我觉得一定是功能简单、实用即可。<br>在这个故事中，那个最简单实用，几乎没有什么技术含量的项目在组织中获得了很大的成功，而一开始就打算做成全流程信息化的系统，最终却一败涂地。<br>这恰好就像我们经常见到的项目，简单纯粹的产品才能最先站稳脚跟、获得不错的用户反响，那些一味画饼的PPT项目，都是忽悠人，几乎没几个成功了。<br>除此之外，每一个软件行业从业者，越爱钻研技术，越容易陷入技术的迷思，总以为靠技术能改变世界，仿佛一个项目没用上什么新技术就容易就无法体现出自己的价值来。然而一个组织的技术体系，必须依托组织的实际组织架构而存在。再优秀超前的技术，脱离了土壤都是空中楼阁，永远没有最优秀的技术，能真正为组织带来价值的技术，才是最合适的技术。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/管理/" rel="tag"># 管理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/管理/项目失控全记录/" rel="next" title="项目失控过程全纪录">
+                <i class="fa fa-chevron-left"></i> 项目失控过程全纪录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/技术/关注细节，成就卓越代码/" rel="prev" title="关注细节，成就卓越代码">
+                关注细节，成就卓越代码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="了解.NET中的垃圾回收  一旦了解了.NET的垃圾收集器是如何工作的，那么可能会触及.NET应用程序的一些更为神秘的问题的原因就会变得更加清楚。NET可能已承诺要结束显式内存管理，但在开发.NET应用程序时，仍然有必要分析内存的使用情况，以便避免与内存相关的错误和某些性能问题。   .NET的垃圾收集器已在Windows应用程序中作为显式内存管理和内存泄漏的结束而出售给我们：这个想法是，在后台运">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解.NET中的垃圾回收">
+<meta property="og:url" content="http://techq.xyz/2020/04/05/技术/understanding-garbage-collection-in-.net/index.html">
+<meta property="og:site_name" content="xiyuan技术圈">
+<meta property="og:description" content="了解.NET中的垃圾回收  一旦了解了.NET的垃圾收集器是如何工作的，那么可能会触及.NET应用程序的一些更为神秘的问题的原因就会变得更加清楚。NET可能已承诺要结束显式内存管理，但在开发.NET应用程序时，仍然有必要分析内存的使用情况，以便避免与内存相关的错误和某些性能问题。   .NET的垃圾收集器已在Windows应用程序中作为显式内存管理和内存泄漏的结束而出售给我们：这个想法是，在后台运">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image001.jpg">
+<meta property="og:image" content="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image002.jpg">
+<meta property="og:image" content="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image003.jpg">
+<meta property="og:image" content="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image004.jpg">
+<meta property="og:updated_time" content="2020-04-22T15:00:35.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="了解.NET中的垃圾回收">
+<meta name="twitter:description" content="了解.NET中的垃圾回收  一旦了解了.NET的垃圾收集器是如何工作的，那么可能会触及.NET应用程序的一些更为神秘的问题的原因就会变得更加清楚。NET可能已承诺要结束显式内存管理，但在开发.NET应用程序时，仍然有必要分析内存的使用情况，以便避免与内存相关的错误和某些性能问题。   .NET的垃圾收集器已在Windows应用程序中作为显式内存管理和内存泄漏的结束而出售给我们：这个想法是，在后台运">
+<meta name="twitter:image" content="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image001.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://techq.xyz/2020/04/05/技术/understanding-garbage-collection-in-.net/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>了解.NET中的垃圾回收 | xiyuan技术圈</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiyuan技术圈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">溪源的技术博客，技术的不断进取之路</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-技术">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/技术/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>技术</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-随笔">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/随笔/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>随笔</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/读书/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-管理">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/管理/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>管理</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archives"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techq.xyz/2020/04/05/技术/understanding-garbage-collection-in-.net/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="溪源">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiyuan技术圈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">了解.NET中的垃圾回收
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-05 16:28:00" itemprop="dateCreated datePublished" datetime="2020-04-05T16:28:00+08:00">2020-04-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-04-22 23:00:35" itemprop="dateModified" datetime="2020-04-22T23:00:35+08:00">2020-04-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="了解-NET中的垃圾回收"><a href="#了解-NET中的垃圾回收" class="headerlink" title="了解.NET中的垃圾回收"></a>了解.NET中的垃圾回收</h1><blockquote>
+<p> 一旦了解了.NET的垃圾收集器是如何工作的，那么可能会触及.NET应用程序的一些更为神秘的问题的原因就会变得更加清楚。NET可能已承诺要结束显式内存管理，但在开发.NET应用程序时，仍然有必要分析内存的使用情况，以便避免与内存相关的错误和某些性能问题。 </p>
+</blockquote>
+<p>.NET的垃圾收集器已在Windows应用程序中作为显式内存管理和内存泄漏的结束而出售给我们：这个想法是，在后台运行垃圾收集器的情况下，开发人员不再需要担心管理它们创建的对象的生命周期–应用程序完成处理后，垃圾收集器将对其进行处理。</p>
+<p>但是，实际情况要复杂得多。垃圾收集器无疑解决了非托管程序中最常见的泄漏-由开发人员在完成使用后忘记释放内存而引起的泄漏。它还解决了内存释放过早的相关问题，但是当垃圾收集器对开发人员对对象是否仍然处于“活动状态”并且能够进行开发时有不同的看法时，解决该问题的方式可能导致内存泄漏。要使用的。解决这些问题之前，您需要对收集器的工作方式有所了解。</p>
+<h1 id="垃圾收集器如何工作"><a href="#垃圾收集器如何工作" class="headerlink" title="垃圾收集器如何工作"></a>垃圾收集器如何工作</h1><p>那么，垃圾收集器如何实现其魔力？基本思想非常简单：它检查对象在内存中的布局方式，并通过遵循一系列引用来标识正在运行的程序可以“访问”的所有那些对象。</p>
+<p>当垃圾回收开始时，它将查看一组称为“ GC根”的引用。这些是由于某种原因总是可以访问的内存位置，并且包含对程序创建的对象的引用。它将这些对象标记为“活动”，然后查看它们引用的所有对象。它也将这些标记为“实时”。它以这种方式继续，遍历它知道是“活动”的所有对象。它将它们引用的所有内容都标记为也被使用，直到找不到其他对象为止。</p>
+<p>如果某个对象或其超类之一的字段包含另一个对象，则该对象由垃圾收集器标识为引用另一个对象。</p>
+<p>一旦知道了所有这些活动对象，就可以丢弃所有剩余的对象，并将空间重新用于新对象。.NET压缩内存，以确保没有间隙（有效地压缩丢弃的对象不存在）–这意味着空闲内存始终位于堆的末尾，并可以非常快速地分配新对象。</p>
+<p>GC根本身不是对象，而是对对象的引用。GC根引用的任何对象将自动在下一个垃圾回收中保留下来。.NET中有四种主要的根：</p>
+<p>当前正在运行的方法中的局部变量被视为GC根。这些变量引用的对象始终可以通过声明它们的方法立即访问，因此必须保留它们。这些根的生命周期可以取决于程序的构建方式。在调试版本中，局部变量的持续时间与方法在堆栈上的时间一样长。在发行版本中，JIT能够查看程序结构以找出执行过程中该方法可以使用变量的最后一点，并在不再需要该变量时将其丢弃。这种策略并不总是使用，可以通过例如在调试器中运行程序来关闭。</p>
+<p>静态变量也始终被视为GC根。声明它们的类可以随时访问它们引用的对象（如果是公共的，则可以访问程序的其余部分），因此.NET将始终保持它们不变。声明为“线程静态”的变量仅会在该线程运行时持续存在。</p>
+<p>如果通过互操作将托管对象传递给非托管COM +库，则该对象也将成为具有引用计数的GC根。这是因为COM +不进行垃圾收集：它使用引用计数系统；通过将引用计数设置为0，一旦COM +库完成了该对象，它将不再是GC根目录，并且可以再次收集。</p>
+<p>如果对象具有终结器，则在垃圾回收器确定该对象不再“处于活动状态”时，不会立即将其删除。相反，它成为一种特殊的根，直到.NET调用了finalizer方法。这意味着这些对象通常需要从内存中删除一个以上的垃圾回收，因为它们在第一次发现未使用时仍将生存。</p>
+<h2 id="对象图"><a href="#对象图" class="headerlink" title="对象图"></a>对象图</h2><p>总体而言，.NET中的内存形成了一个复杂的，打结的引用和交叉引用图。这可能使得很难确定特定对象使用的内存量。例如，List <x>对象使用的内存非常小，因为List <x>类只有几个字段。但是，其中之一是列表中的对象数组：如果列表中有许多条目，则这可能会很大。这几乎总是由列表“独占”，因此关系非常简单：列表的总大小是小的初始对象和它引用的大数组的大小。但是，数组中的对象可能完全是另一回事：很可能存在通过内存的其他路径来访问它们。在这种情况下，</x></x></p>
+<p>当循环引用开始起作用时，事情变得更加混乱。</p>
+<p><img src="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image001.jpg" alt="737-image001.jpg"></p>
+<p>在开发代码时，通常将内存视为组织为更容易理解的结构：从各个根开始的树：</p>
+<p><img src="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image002.jpg" alt="737-image002.jpg"></p>
+<p>确实，以这种方式进行思考确实使（更确实可能）思考对象在内存中的布局方式。这也是编写程序或使用调试器时表示数据的方式，但这很容易忘记一个对象可以附加到多个根。这通常是.NET中内存泄漏的来源：开发人员忘记或从未意识到，一个对象锚定到多个根。考虑一下此处所示的情况：将GC root 2设置为null实际上不会允许垃圾收集器删除任何对象，这可以从查看完整图形中看到，而不能从树中看到。</p>
+<p>内存剖析器可以从另一个角度查看图形，就像树根植于单个对象并向后跟随引用以将GC根放在叶子上一样。对于根2引用的ClassC对象，我们可以向后跟随引用以获取下图：</p>
+<p><img src="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image003.jpg" alt="737-image003.jpg"></p>
+<p>通过这种方式的思考表明，ClassC对象具有两个最终的“所有者”，在垃圾收集器将其删除之前，这两个对象都必须放弃它。一旦将GC根目录2设置为null，就可以断开GC根目录3与该对象之间的任何链接，以便将其删除。</p>
+<p>在实际的.NET应用程序中，这种情况很容易出现。最常见的是，数据对象被用户界面中的元素引用，但在数据处理完毕后不会被删除。这种情况并不是很泄漏：当用新数据更新UI控件时，将回收内存，但是这可能意味着应用程序使用的内存比预期的要多得多。事件处理程序是另一个常见原因：很容易忘记一个对象的寿命至少与它从中接收事件的对象一样长，对于某些全局事件处理程序（如Application类中的事件），这种情况永远存在。</p>
+<p>实际的应用程序，尤其是那些具有用户界面组件的应用程序，具有比这复杂得多的图形。甚至可以从大量不同的地方引用对话框中的标签之类的简单内容…</p>
+<p><img src="https://www.red-gate.com/simple-talk/wp-content/uploads/imported/737-image004.jpg" alt="737-image004.jpg"></p>
+<p>很容易看到偶然的物体如何在迷宫中丢失。</p>
+<h1 id="垃圾收集器的局限性"><a href="#垃圾收集器的局限性" class="headerlink" title="垃圾收集器的局限性"></a>垃圾收集器的局限性</h1><h2 id="仍在引用的未使用对象"><a href="#仍在引用的未使用对象" class="headerlink" title="仍在引用的未使用对象"></a>仍在引用的未使用对象</h2><p>.NET中垃圾收集器的最大局限性是一个细微的限制：虽然它可以检测和删除未使用的对象，但实际上它会找到<em>未引用的</em>对象。这是一个重要的区别：程序可能永远不会再引用对象。但是，尽管有一些路径导致它可能仍被使用，但它永远不会从内存中释放出来。这导致内存泄漏；在.NET中，当将不再使用的对象保持引用状态时，会发生这些情况。</p>
+<p>尽管内存使用率上升的症状很明显，但这些泄漏的来源可能很难发现。有必要确定哪些未使用的对象保留在内存中，然后跟踪引用以找出为什么不收集它们。内存分析器对于此任务至关重要：通过比较发生泄漏时的内存状态，可以找到麻烦的未使用对象，但是没有调试器可以向后跟踪对象引用。</p>
+<p>垃圾收集器旨在处理大量资源，也就是说，释放对象的位置无关紧要。在现代系统上，内存属于这一类（何时回收内存无关紧要，只要及时完成以防止新分配失败）。仍然有一些资源不属于此类：例如，需要快速关闭文件句柄以避免引起应用程序之间的共享冲突。这些资源不能由垃圾收集器完全管理，因此.NET为管理这些资源的对象提供<code>Dispose</code>（）方法以及<code>using</code>（）构造。在这些情况下，对象的稀缺资源可通过实施<code>Dispose</code> 方法，但是紧要的内存要少得多，然后由垃圾回收器释放。</p>
+<p><code>Dispose</code>意味着.NET没有什么特别的，因此仍必须取消引用已处置的对象。这使已处置但尚未回收的对象成为内存泄漏源的良好候选对象。</p>
+<h2 id="堆的碎片"><a href="#堆的碎片" class="headerlink" title="堆的碎片"></a>堆的碎片</h2><p>.NET中一个鲜为人知的限制是大对象堆的限制。成为该堆一部分的对象不会在运行时移动，这可能导致程序过早地耗尽内存。当某些对象的寿命比其他对象长时，这将导致堆在对象过去所在的位置形成孔-这称为碎片。当程序要求一个大的内存块，但堆变得非常分散，以至于没有单个内存区域足以容纳它时，就会发生问题。内存分析器可以估计程序可以分配的最大对象：如果该对象正在下降，则很可能是原因。一个<code>OutOfMemoryException</code>当程序显然具有大量可用内存时，通常会发生由碎片引起的错误–在32位系统上，进程应至少能够使用1.5Gb，但是由于碎片导致的故障通常会在使用该碎片之前开始发生很多内存。</p>
+<p>碎片化的另一个征兆是.NET通常必须保留分配给应用程序的空洞所使用的内存。这显然导致它使用比在任务管理器中查看所需的内存更多的内存。这种效果通常相对来说是无害的：Windows非常擅长于意识到未被占用的孔所占用的内存并将其分页，并且如果碎片没有恶化，则程序将不会耗尽内存。但是，对于用户而言，这看起来并不好，他们可能会认为该应用程序浪费且“ blo肿”。当探查器显示程序分配的对象仅使用少量内存，而任务管理器显示该进程占用大量空间时，通常会发生这种情况。</p>
+<h1 id="垃圾收集器的性能"><a href="#垃圾收集器的性能" class="headerlink" title="垃圾收集器的性能"></a>垃圾收集器的性能</h1><p>在性能方面，垃圾收集系统的最重要特征是垃圾收集器可以随时开始执行。这使它们不适用于定时至关重要的情况，因为任何操作的定时都可能被收集器的操作所抛弃。</p>
+<p>.NET收集器有两种主要的操作模式：并发和同步（有时称为工作站和服务器）。默认情况下，并发垃圾收集用于桌面应用程序，同步用于服务器应用程序（例如ASP.NET）。</p>
+<p>在并发模式下，.NET将尝试避免在进行收集时停止正在运行的程序。这意味着在给定的时间内应用程序可以完成的总次数较少，但应用程序不会暂停。这对交互式应用程序很有用，在交互应用程序中，给用户留下印象，即应用程序应立即做出响应，这一点很重要。</p>
+<p>在同步模式下，.NET将在垃圾收集器运行时挂起正在运行的应用程序。实际上，这总体上比并发模式更有效–垃圾回收花费相同的时间，但是不必与程序继续运行进行竞争–但是，这意味着必须执行完整的回收时会有明显的暂停。 。</p>
+<p>如果默认设置不合适，则可以在应用程序的配置文件中设置垃圾收集器的类型。当更重要的是应用程序具有高吞吐量而不是显示响应时，选择同步收集器可能很有用。</p>
+<p>在大型应用程序中，垃圾收集器需要处理的对象数量会变得非常大，这意味着访问和重新排列所有对象都将花费很长时间。为了解决这个问题，.NET使用了“分代”垃圾收集器，该垃圾收集器试图将优先级赋予较小的一组对象。这个想法是，最近创建的对象更有可能被快速释放，因此，当试图释放内存时，分代垃圾收集器会优先处理它们，因此.NET首先查看自上一次垃圾收集以来已分配的对象，并且只会开始如果无法通过这种方式释放足够的空间，请考虑使用较旧的对象。</p>
+<p>如果.NET可以自行选择收集时间，则此系统效果最佳，并且如果<code>GC.Collect</code>调用（）会中断该系统，因为这通常会导致新对象过早地变旧，这增加了在不久的将来再次进行昂贵的完整收集的可能性。</p>
+<p>具有终结器的类也会破坏垃圾收集器的平稳运行。这些类的对象不能立即删除：相反，它们进入终结器队列，并在运行终结器后从内存中删除。这意味着它们所引用的任何对象（以及那些对象所引用的任何对象，依此类推）至少也必须在此之前保留在内存中，并且在内存再次可用之前需要两次垃圾回收。如果该图包含带有终结器的许多对象，则这可能意味着垃圾收集器需要多次通过才能完全释放所有未引用的对象。</p>
+<p>有一个避免此问题的简单方法：<code>IDisposable</code>在可终结类上实现，将完成对象所需的操作移到<code>Dispose()</code>方法中并<code>GC.SuppressFinalize()</code>在最后调用。然后可以修改终结器以调用该<code>Dispose()</code>方法。<code>GC.SuppressFinalize()</code>告诉垃圾回收器，该对象不再需要终结，可以立即被垃圾回收，这可以导致更快地回收内存。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>如果您花一些时间了解垃圾收集器的工作方式，则更容易理解应用程序中的内存和性能问题。它表明，尽管.NET减轻了内存管理的负担，但并不能完全消除跟踪和管理资源的需求。但是，使用内存分析器来诊断和修复.NET中的问题更加容易。考虑到.NET在开发中尽早管理内存的方式可以帮助减少问题，但是即使那样，由于框架或第三方库的复杂性，此类问题仍然可能出现。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/26/技术/the-typical-ten-problems-in-c-sharp/" rel="next" title="C＃编程中最常见的10个错误">
+                <i class="fa fa-chevron-left"></i> C＃编程中最常见的10个错误
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/06/技术/memory-manage-in-c#/" rel="prev" title=".NET中的内存管理">
+                .NET中的内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">溪源</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/xiyuanmore" title="博客园 &rarr; https://www.cnblogs.com/xiyuanmore" rel="noopener" target="_blank"><i class="fa fa-fw fa-博客园"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/farway000" title="CSDN &rarr; https://blog.csdn.net/farway000" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#了解-NET中的垃圾回收"><span class="nav-number">1.</span> <span class="nav-text">了解.NET中的垃圾回收</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#垃圾收集器如何工作"><span class="nav-number">2.</span> <span class="nav-text">垃圾收集器如何工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象图"><span class="nav-number">2.1.</span> <span class="nav-text">对象图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#垃圾收集器的局限性"><span class="nav-number">3.</span> <span class="nav-text">垃圾收集器的局限性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#仍在引用的未使用对象"><span class="nav-number">3.1.</span> <span class="nav-text">仍在引用的未使用对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆的碎片"><span class="nav-number">3.2.</span> <span class="nav-text">堆的碎片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#垃圾收集器的性能"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器的性能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">溪源</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+#<div><a href="http://www.beian.miit.gov.cn/">ICP备案号:湘ICP备19001531号-2</a></div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
